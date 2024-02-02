@@ -1,19 +1,29 @@
 import {
   AppShell,
   Burger,
+  Button,
   Container,
   Flex,
   Group,
+  NavLink,
   Paper,
+  SimpleGrid,
   Skeleton,
   Text,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconBrandKbin, IconWallet } from "@tabler/icons-react";
-
+import { IconBrandKbin, IconHome, IconHome2, IconLogout2, IconWallet } from "@tabler/icons-react";
+import {NavLink as Nl} from 'react-router-dom'
 export function Layouts() {
   const [opened, { toggle }] = useDisclosure();
-
+  const menu = [
+    {
+      title: "หน้าหลัก",
+      path: "/main-page",
+      icon: <IconHome/>,
+      sub: [],
+    },
+  ];
   return (
     <AppShell
       header={{ height: { base: 50, sm: 0 } }}
@@ -35,7 +45,7 @@ export function Layouts() {
         </Flex>
       </AppShell.Header>
       <AppShell.Navbar>
-        <Flex direction={"column"} >
+        <Flex direction={"column"}>
           <Flex visibleFrom="sm" direction={"column"}>
             <Flex
               pb={0}
@@ -55,7 +65,19 @@ export function Layouts() {
 
             <Flex></Flex>
           </Flex>
-          Menuuuuu
+          <Flex direction={"column"} pt={20} gap={10} px={10}>
+           {menu.map((menu,keymenu)=>(
+          <NavLink active={keymenu===0} component={Nl} key={keymenu} label={menu.title} />
+           ))}
+            <Button
+              fw={500}
+              leftSection={<IconLogout2 />}
+              color="red"
+              variant="light"
+            >
+              ออกจากระบบ
+            </Button>
+          </Flex>
         </Flex>
       </AppShell.Navbar>
       <AppShell.Main>หกฟหกasdfhgsajdhg</AppShell.Main>
