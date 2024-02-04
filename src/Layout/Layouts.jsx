@@ -1,41 +1,34 @@
-import {
-  AppShell,
-  Avatar,
-  Badge,
-  Burger,
-  Button,
-  Flex,
-  NavLink,
-  ScrollArea,
-  Text,
-} from "@mantine/core";
+import { AppShell, Avatar, Badge, Burger, Button, Flex, NavLink, ScrollArea, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconLogout2, IconWallet } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import { NavLink as Nl, Outlet } from "react-router-dom";
-import { menu } from "./MenuData";
+import { NavLink as Nl, Outlet, useNavigate } from "react-router-dom";
+import { menus } from "./MenuData";
 export function Layouts() {
   const [opened, { toggle }] = useDisclosure();
-
   const [IndexMenu, setIndexMenu] = useState(0);
   const [INdexSub, setINdexSub] = useState(0);
+  const [menu, setmenu] = useState([]);
+  const nav = useNavigate();
   useEffect(() => {
-    const indexmenu = menu.findIndex(
-      (menu) => menu.path === window.location.pathname
-    );
+    const menu2 = menus.findIndex((menu) => menu.type === localStorage.getItem("bee"));
+    const menu = menus[menu2].data;
+    const indexmenu = menu.findIndex((menu) => menu.path === window.location.pathname);
+    console.log(indexmenu);
     if (indexmenu === -1) {
-      const indexmenus = menu.findIndex(
-        (menu) => menu.path === "/" + window.location.pathname.split("/")[1]
-      );
-      const indexsub = menu[indexmenus].sub.findIndex(
-        (sub) => sub.path === window.location.pathname
-      );
-      console.log(indexmenus);
-      setIndexMenu(indexmenus);
-      setINdexSub(indexsub);
+      const indexmenus = menu.findIndex((menu) => menu.path === "/" + window.location.pathname.split("/")[1]);
+      if (indexmenus === -1) {
+        console.log("ไม่ใช่");
+        nav("/login");
+      } else {
+        const indexsub = menu[indexmenus].sub.findIndex((sub) => sub.path === window.location.pathname);
+        setIndexMenu(indexmenus);
+        setINdexSub(indexsub);
+      }
     } else {
       setIndexMenu(indexmenu);
     }
+    setmenu(menu);
   }, []);
   return (
     <AppShell
@@ -48,13 +41,7 @@ export function Layouts() {
           <Flex justify={"center"} w={"95%"}>
             <IconWallet color="white" /> <Text c="white">PAY-SLIP KPRU</Text>
           </Flex>
-          <Burger
-            color="white"
-            opened={opened}
-            onClick={toggle}
-            hiddenFrom="sm"
-            size="md"
-          />
+          <Burger color="white" opened={opened} onClick={toggle} hiddenFrom="sm" size="md" />
         </Flex>
       </AppShell.Header>
       <AppShell.Navbar>
@@ -78,76 +65,60 @@ export function Layouts() {
             <Flex direction={"column"} pt={20} gap={10} px={10}>
               {" "}
               <Flex justify={"flex-start"} gap={5} align={"center"}>
-                <Avatar color="var(--primary)" size={"md"} >จิ</Avatar>
-                <Badge variant="white"
-                 color="var(--primary)" size="lg" radius={8}>
+                <Avatar color="var(--primary)" size={"md"}>
+                  จิ
+                </Avatar>
+                <Badge variant="white" color="var(--primary)" size="lg" radius={8}>
                   จิรศักดิ์ สิงหบุตร
                 </Badge>
               </Flex>
-              {menu.map((menu, keymenu) =>
-                menu.sub.length === 0 ? (
-                  <NavLink
-                    variant="filled"
-                    color="var(--primary)"
-                    leftSection={menu.icon}
-                    active={keymenu === IndexMenu}
-                    component={Nl}
-                    key={keymenu}
-                    label={menu.title}
-                    to={menu.path}
-                    onClick={() => {
-                      setIndexMenu(keymenu);
-                    }}
-                  />
-                ) : (
-                  <>
+              {Array.isArray(menu) &&
+                menu.map((menu, keymenu) =>
+                  menu.sub.length === 0 ? (
                     <NavLink
-                      color="var(--primary)"
                       variant="filled"
-                      active={
-                        "/" + window.location.pathname.split("/")[1] ===
-                        menu.path
-                          ? true
-                          : false
-                      }
-                      defaultOpened={
-                        "/" + window.location.pathname.split("/")[1] ===
-                        menu.path
-                          ? true
-                          : false
-                      }
-                      label={menu.title}
+                      color="var(--primary)"
                       leftSection={menu.icon}
-                    >
-                      {menu.sub.map((sub, keysub) => (
-                        <NavLink
-                          color="var(--primary)"
-                          key={keysub}
-                          component={Nl}
-                          label={sub.title}
-                          leftSection={sub.icon}
-                          to={sub.path}
-                          onClick={() => {
-                            setIndexMenu(keymenu);
-                            setINdexSub(keysub);
-                          }}
-                          active={
-                            keymenu === IndexMenu && keysub === INdexSub
-                              ? true
-                              : false
-                          }
-                        />
-                      ))}
-                    </NavLink>
-                  </>
-                )
-              )}
-              <Button
-                fw={500}
-                leftSection={<IconLogout2 />}
-                color="red"
-                variant="light"
-              >
+                      active={keymenu === IndexMenu}
+                      component={Nl}
+                      key={keymenu}
+                      label={menu.title}
+                      to={menu.path}
+                      onClick={() => {
+                        setIndexMenu(keymenu);
+                      }}
+                    />
+                  ) : (
+                    <>
+                      <NavLink
+                        color="var(--primary)"
+                        variant="filled"
+                        active={"/" + window.location.pathname.split("/")[1] === menu.path ? true : false}
+                        defaultOpened={"/" + window.location.pathname.split("/")[1] === menu.path ? true : false}
+                        label={menu.title}
+                        leftSection={menu.icon}
+                      >
+                        {Array.isArray(menu.sub) &&
+                          menu.sub.map((sub, keysub) => (
+                            <NavLink
+                              color="var(--primary)"
+                              key={keysub}
+                              component={Nl}
+                              label={sub.title}
+                              leftSection={sub.icon}
+                              to={sub.path}
+                              onClick={() => {
+                                setIndexMenu(keymenu);
+                                setINdexSub(keysub);
+                              }}
+                              active={keymenu === IndexMenu && keysub === INdexSub ? true : false}
+                            />
+                          ))}
+                      </NavLink>
+                    </>
+                  )
+                )}
+              <Button fw={500} leftSection={<IconLogout2 />} color="red" variant="light">
                 ออกจากระบบ
               </Button>
             </Flex>{" "}
