@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { Layouts } from "./Layout/Layouts";
 import Home from "./Components/Home";
+import Budget from "./Components/Budget";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
           <Route path="/main-page" element={<Home />} />
           {/* /////////////////////////////////////////////////// */}
           <Route path="/manage-salary/salary" element={<Home />} />
-          <Route path="/manage-salary/budget" element={<Home />} />
+          <Route path="/manage-salary/budget" element={<Budget />} />
           <Route path="/manage-salary/revenue" element={<Home />} />
           <Route path="/manage-salary/expenses" element={<Home />} />
           <Route path="/manage-salary/add-revenue-fromtype" element={<Home />} />
