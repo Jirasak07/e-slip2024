@@ -1,7 +1,5 @@
-import { Badge, Container, Paper, Text } from "@mantine/core";
+import { Badge, Container, Paper, Select, SimpleGrid, Text } from "@mantine/core";
 import { MDBDataTableV5 } from "mdbreact";
-import React from "react";
-
 function Officer() {
   return (
     <>
@@ -13,7 +11,12 @@ function Officer() {
           <Text>รายการบุคลากร </Text>{" "}
         </Paper>
         <Paper>
-            <MDBDataTableV5/>
+          <SimpleGrid>
+            <Select />
+          </SimpleGrid>
+        </Paper>
+        <Paper>
+          <MDBDataTableV5 />
         </Paper>
       </Container>
     </>

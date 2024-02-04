@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { Layouts } from "./Layout/Layouts";
-import Home from "./Components/Home";
-import Budget from "./Components/Budget";
-import Officer from "./Components/Officer";
+import Home from "./Components/Publicc/Home";
+import Budget from "./Components/Salary/Budget";
+import Officer from "./Components/ManageUser/Officer";
 
 function App() {
   return (
