@@ -14,27 +14,27 @@ function KtbCorporate() {
     {
       label: "เลขบัตรประชาชน",
       field: "citizen",
-      minimal:'lg'
+      minimal: "lg",
     },
     {
       label: "ชื่อ-นามสกุล",
       field: "name",
-      minimal:'lg'
+      minimal: "lg",
     },
     {
       label: "ธนาคาร",
       field: "bank",
-      minimal:'lg'
+      minimal: "lg",
     },
     {
       label: "สาขา",
       field: "branch",
-      minimal:'lg'
+      minimal: "lg",
     },
     {
       label: "เลขบัญชี",
       field: "banknumber",
-      minimal:'lg'
+      minimal: "lg",
     },
     {
       label: "ส่งแล้ว",
@@ -57,8 +57,8 @@ function KtbCorporate() {
   }, []);
   return (
     <>
-      <Container p={0}  bg={"white"} fluid>
-        <Badge  color="var(--primary)" variant="light" size="md" radius={8}>
+      <Container p={0} bg={"white"} fluid>
+        <Badge color="var(--primary)" variant="light" size="md" radius={8}>
           จัดการข้อมูลการรับเงินผ่านระบบ KTB Corporate Online
         </Badge>
         <Paper mt={15}>
@@ -98,13 +98,18 @@ function KtbCorporate() {
       <Modal
         title="แบบแจ้งข้อมูลการรับเงินผ่านระบบ KTB Corporate Online"
         opened={OpenFormKbt}
+        // opened={true}
         onClose={() => {
           setOpenFormKbt(false);
         }}
         size={"xxl"}
         closeOnClickOutside={false}
       >
-        <FormKTB />
+        <FormKTB
+          close={() => {
+            setOpenFormKbt(false);
+          }}
+        />
       </Modal>
     </>
   );
