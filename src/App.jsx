@@ -3,6 +3,7 @@ import "./App.css";
 import { Layouts } from "./Layout/Layouts";
 import Home from "./Components/Home";
 import Budget from "./Components/Budget";
+import Officer from "./Components/Officer";
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
           <Route path="/manage-salary/update-expenses" element={<Home />} />
           <Route path="/manage-salary/update-salary" element={<Home />} />
           {/* /////////////////////////////////////////////////////////////////// */}
-          <Route path="/manage-user/user" element={<Home />} />
+          <Route path="/manage-user/user" element={<Officer />} />
           <Route path="/manage-user/ktb" element={<Home />} />
           {/* ////////////////////////////////////////////////////////////////// */}
           <Route path="/report/revenue-type" element={<Home />} />
@@ -33,7 +34,6 @@ function App() {
           <Route path="/report/notifications" element={<Home />} />
           <Route path="/report/tax" element={<Home />} />
           <Route path="/report/pdf" element={<Home />} />
-
           {/* /////////////////////////////////////////////////////////////////////////////// */}
           <Route path="/user-salary" element={<Home />} />
           <Route path="/form-receive-money" element={<Home />} />
