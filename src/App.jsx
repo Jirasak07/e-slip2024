@@ -4,6 +4,7 @@ import { Layouts } from "./Layout/Layouts";
 import Home from "./Components/Publicc/Home";
 import Budget from "./Components/Salary/Budget";
 import Officer from "./Components/ManageUser/Officer";
+import KtbCorporate from "./Components/ManageUser/KtbCorporate";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
           <Route path="/manage-salary/update-salary" element={<Home />} />
           {/* /////////////////////////////////////////////////////////////////// */}
           <Route path="/manage-user/user" element={<Officer />} />
-          <Route path="/manage-user/ktb" element={<Home />} />
+          <Route path="/manage-user/ktb" element={<KtbCorporate />} />
           {/* ////////////////////////////////////////////////////////////////// */}
           <Route path="/report/revenue-type" element={<Home />} />
           <Route path="/report/ipay" element={<Home />} />
