@@ -47,10 +47,10 @@ function Officer() {
   };
 
   const FetchData = (params) => {
-    setOverLayLoad(true)
-    setTimeout(()=>{
-      setOverLayLoad(false)
-    },1200)
+    setOverLayLoad(true);
+    setTimeout(() => {
+      setOverLayLoad(false);
+    }, 1200);
   };
   const formSearch = useForm({
     initialValues: {
@@ -114,19 +114,21 @@ function Officer() {
         ข้อมูลบุคลากร
       </Badge>
       <Container bg={"white"} fluid>
-        <Paper mt={10}>
-          <Text>รายการบุคลากร </Text>
-        </Paper>
-        <Paper>
+        <Paper mt={15}>
           <form
             onSubmit={formSearch.onSubmit((v) => {
               FetchData(v);
             })}
           >
             <SimpleGrid cols={{ base: 1, sm: 2 }}>
-              <Select {...formSearch.getInputProps("customer_type_id")} searchable data={DataSelectTypeCustomer} />
-              <Box>
-                <Button type="submit" leftSection={<IconSearch />}>
+              <Select
+                label="ประเภทบุคลากร"
+                {...formSearch.getInputProps("customer_type_id")}
+                searchable
+                data={DataSelectTypeCustomer}
+              />
+              <Box mt={{ base: 0, sm: 33 }}>
+                <Button color="var(--info)" type="submit" leftSection={<IconSearch />}>
                   ค้นหา
                 </Button>
               </Box>
@@ -153,8 +155,13 @@ function Officer() {
             </Button>
           </Flex>
         </Paper>
+        <Paper mt={10}>
+          <Text>รายการบุคลากร</Text>
+        </Paper>
         <Paper shadow="md" p={10} mt={10}>
           <MDBDataTableV5
+            responsive
+            striped
             searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ"
             barReverse
             searchTop
