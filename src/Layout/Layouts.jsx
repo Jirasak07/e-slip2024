@@ -31,6 +31,7 @@ export function Layouts() {
     }
     setmenu(menu);
   }, []);
+  const [LoadLogout, setLoadLogout] = useState(false);
   return (
     <AppShell
       header={{ height: { base: 50, sm: 0 } }}
@@ -86,7 +87,7 @@ export function Layouts() {
                       label={menu.title}
                       to={menu.path}
                       onClick={() => {
-                        toggle()
+                        toggle();
                         setIndexMenu(keymenu);
                       }}
                     />
@@ -110,7 +111,7 @@ export function Layouts() {
                               leftSection={sub.icon}
                               to={sub.path}
                               onClick={() => {
-                                toggle()
+                                toggle();
                                 setIndexMenu(keymenu);
                                 setINdexSub(keysub);
                               }}
@@ -121,7 +122,21 @@ export function Layouts() {
                     </>
                   )
                 )}
-              <Button fw={500} leftSection={<IconLogout2 />} color="red" variant="light">
+              <Button
+                loading={LoadLogout}
+                loaderProps={{ type: "bars" }}
+                onClick={() => {
+                  setLoadLogout(true);
+                  setTimeout(() => {
+                    setLoadLogout(false);
+                    nav("/login");
+                  }, 1200);
+                }}
+                fw={500}
+                leftSection={<IconLogout2 />}
+                color="red"
+                variant="light"
+              >
                 ออกจากระบบ
               </Button>
             </Flex>{" "}
