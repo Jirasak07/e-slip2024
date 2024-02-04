@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Badge } from '@mantine/core';
 import { MDBDataTableV5 } from 'mdbreact';
+import { Button } from '@mantine/core';
+import ModaladdBudget from './ModaladdBudget';
+
 
 export default class Budget extends Component {
     
@@ -147,6 +150,8 @@ export default class Budget extends Component {
     return (
       <div>
         <Badge color="var(--primary)" size='lg'  variant='light'>จัดการงบประมาณ</Badge>
+       
+        <p className='text-right'> <ModaladdBudget/></p>
         <MDBDataTableV5 hover entriesOptions={[5, 20, 25]} entries={5} pagesAmount={4} data={ddd} searchTop searchBottom={false} className='mt-2' />
       
       </div>

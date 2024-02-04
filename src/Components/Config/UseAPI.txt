@@ -5,3 +5,15 @@ method = get
 method = post
 data = {}
 /////////////////////
+แสดงข้อมูลธนาคาร
+path =  index/showbank
+method = get
+/////////////////////
+แสดงข้อมูลปี
+path =  index/showyear
+method = get
+/////////////////////
+แสดงข้อมูลรายการรายรับ
+path =  index/showrevenue/idประเภทพนักงาน
+method = get
+
