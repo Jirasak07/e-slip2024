@@ -11,7 +11,8 @@ export function Layouts() {
   const [menu, setmenu] = useState([]);
   const nav = useNavigate();
   useEffect(() => {
-    const menu2 = menus.findIndex((menu) => menu.type === localStorage.getItem("bee"));
+    // const menu2 = menus.findIndex((menu) => menu.type === localStorage.getItem("bee"));
+    const menu2 = menus.findIndex((menu) => menu.type === "1");
     const menu = menus[menu2].data;
     const indexmenu = menu.findIndex((menu) => menu.path === window.location.pathname);
     console.log(indexmenu);
