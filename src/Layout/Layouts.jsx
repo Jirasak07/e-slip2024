@@ -86,6 +86,7 @@ export function Layouts() {
                       label={menu.title}
                       to={menu.path}
                       onClick={() => {
+                        toggle()
                         setIndexMenu(keymenu);
                       }}
                     />
@@ -109,6 +110,7 @@ export function Layouts() {
                               leftSection={sub.icon}
                               to={sub.path}
                               onClick={() => {
+                                toggle()
                                 setIndexMenu(keymenu);
                                 setINdexSub(keysub);
                               }}

@@ -1,9 +1,11 @@
-import { Badge, Box, Button, Container, Flex, Paper, Select, SimpleGrid, Text } from "@mantine/core";
-import { IconSearch } from "@tabler/icons-react";
+import { Badge, Box, Button, Container, Flex, LoadingOverlay, Paper, Select, SimpleGrid, Text } from "@mantine/core";
+import { IconRefresh, IconSearch, IconUserCancel } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 function Officer() {
   const [TableUser, setTableUser] = useState([]);
+  const [OverLayLoad, setOverLayLoad] = useState(false);
   const columns = [
     {
       label: "ลำดับ",
@@ -36,9 +38,43 @@ function Officer() {
   useEffect(() => {
     FetchData();
   }, []);
+  const UpdateUserAdd = (params) => {
+    Swal.fire({
+      icon: "info",
+      title: "ยืนยันอัพเดทบุคลากรใหม่",
+      confirmButtonText: "ยืนยัน",
+      confirmButtonColor: "var(--success)",
+      showCancelButton: true,
+      cancelButtonText: "ยกเลิก",
+      cancelButtonColor: "var(--danger)",
+    }).then((res) => {
+      if (res.isConfirmed === true) {
+        setOverLayLoad(true);
+        setTimeout(() => {
+          setOverLayLoad(false);
+        }, 1200);
+      }
+    });
+  };
+  const UpdateStatusUserOut = (params) => {
+    Swal.fire({
+      icon: "warning",
+      title: "ยืนยันอัพเดทสถานะบุคลากรลาออก",
+      confirmButtonText: "ยืนยัน",
+      confirmButtonColor: "var(--success)",
+      showCancelButton: true,
+      cancelButtonText: "ยกเลิก",
+      cancelButtonColor: "var(--danger)",
+    });
+  };
 
   return (
     <>
+      <LoadingOverlay
+        visible={OverLayLoad}
+        loaderProps={{ type: "dots", color: "var(--primary)" }}
+        overlayProps={{ radius: "sm", blur: 1 }}
+      />
       <Badge color="var(--primary)" variant="light" size="lg" radius={8}>
         ข้อมูลบุคลากร
       </Badge>
@@ -55,11 +91,21 @@ function Officer() {
           </SimpleGrid>
         </Paper>
         <Paper shadow="xs" p={10} my={10}>
-          <Flex justify={"flex-end"} gap={10}>
-            <Button variant="light" color="var(--success)">
+          <Flex justify={"flex-end"} direction={{base:'column',md:'row'}}  gap={10}>
+            <Button
+              onClick={() => UpdateUserAdd()}
+              leftSection={<IconRefresh />}
+              variant="light"
+              color="var(--success)"
+            >
               อัพเดทบุคลากรเพิ่มใหม่
             </Button>
-            <Button variant="light" color="var(--danger)">
+            <Button
+              onClick={() => UpdateStatusUserOut()}
+              leftSection={<IconUserCancel />}
+              variant="light"
+              color="var(--danger)"
+            >
               อัพเดทสถานะบุคลากรลาออก
             </Button>
           </Flex>
