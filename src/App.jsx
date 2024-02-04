@@ -5,12 +5,13 @@ import Home from "./Components/Publicc/Home";
 import Budget from "./Components/Salary/Budget";
 import Officer from "./Components/ManageUser/Officer";
 import KtbCorporate from "./Components/ManageUser/KtbCorporate";
+import Login from "./Components/Publicc/Login";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/login" element={<Home />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/" element={<Layouts />}>
           <Route path="/main-page" element={<Home />} />
           {/* /////////////////////////////////////////////////// */}
