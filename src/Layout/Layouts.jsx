@@ -67,7 +67,7 @@ export function Layouts() {
           </Flex>
           <Flex direction={"column"} pt={20} gap={10} px={10}>
            {menu.map((menu,keymenu)=>(
-          <NavLink active={keymenu===0} component={Nl} key={keymenu} label={menu.title} />
+          <NavLink leftSection={menu.icon} active={keymenu===0} component={Nl} key={keymenu} label={menu.title} />
            ))}
             <Button
               fw={500}
