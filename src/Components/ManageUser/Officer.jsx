@@ -29,6 +29,7 @@ function Officer() {
     },
   ];
   const FetchData = (params) => {
+  
     setTableUser({
       columns: columns,
       rows: [],
