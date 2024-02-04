@@ -21,3 +21,10 @@ a:hover {
   color: var(--_nav-link-color) !important;
   text-decoration: none !important;
 }
+/* @media screen and (max-width: 400px) {
+  .d-flex.w-100.justify-content-end > .d-flex.align-items-center.justify-content-end {
+    flex-direction: column !important;
+    display: flex;
+    width: 100%;
+  }
+} */

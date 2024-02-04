@@ -110,10 +110,11 @@ function Officer() {
         loaderProps={{ type: "dots", color: "var(--primary)" }}
         overlayProps={{ radius: "sm", blur: 1 }}
       />
-      <Badge color="var(--primary)" variant="light" size="lg" radius={8}>
-        ข้อมูลบุคลากร
-      </Badge>
-      <Container bg={"white"} fluid>
+
+      <Container p={0} bg={"white"} fluid>
+        <Badge color="var(--primary)" variant="light" size="md" radius={8}>
+          ข้อมูลบุคลากร
+        </Badge>
         <Paper mt={15}>
           <form
             onSubmit={formSearch.onSubmit((v) => {
