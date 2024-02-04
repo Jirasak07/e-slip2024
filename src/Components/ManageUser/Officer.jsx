@@ -1,11 +1,15 @@
 import { Badge, Box, Button, Container, Flex, LoadingOverlay, Paper, Select, SimpleGrid, Text } from "@mantine/core";
 import { IconRefresh, IconSearch, IconUserCancel } from "@tabler/icons-react";
+import axios from "axios";
 import { MDBDataTableV5 } from "mdbreact";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { API } from "../Config/ConfigApi";
+import { useForm } from "@mantine/form";
 function Officer() {
   const [TableUser, setTableUser] = useState([]);
   const [OverLayLoad, setOverLayLoad] = useState(false);
+  const [DataSelectTypeCustomer, setDataSelectTypeCustomer] = useState([]);
   const columns = [
     {
       label: "ลำดับ",
@@ -28,16 +32,40 @@ function Officer() {
       field: "manage",
     },
   ];
+  const FetchTypeCustomer = (params) => {
+    axios.get(API + "/index/showcustomertype").then((res) => {
+      console.log(res.data);
+      const data = res.data;
+      if (data.length !== 0) {
+        const menu = data.map((i) => ({
+          value: i.customer_type_id,
+          label: i.customer_type_name,
+        }));
+        setDataSelectTypeCustomer(menu);
+      }
+    });
+  };
+
   const FetchData = (params) => {
-  
+    setOverLayLoad(true)
+    setTimeout(()=>{
+      setOverLayLoad(false)
+    },1200)
+  };
+  const formSearch = useForm({
+    initialValues: {
+      customer_type_id: "",
+    },
+    validate: {
+      customer_type_id: (v) => (v === "" ? "กรุณาเลือกประเภทบุคลากร" : null),
+    },
+  });
+  useEffect(() => {
+    FetchTypeCustomer();
     setTableUser({
       columns: columns,
       rows: [],
     });
-  };
-
-  useEffect(() => {
-    FetchData();
   }, []);
   const UpdateUserAdd = (params) => {
     Swal.fire({
@@ -75,7 +103,6 @@ function Officer() {
       }
     });
   };
-
   return (
     <>
       <LoadingOverlay
@@ -91,15 +118,23 @@ function Officer() {
           <Text>รายการบุคลากร </Text>
         </Paper>
         <Paper>
-          <SimpleGrid cols={{ base: 1, sm: 2 }}>
-            <Select />
-            <Box>
-              <Button leftSection={<IconSearch />}>ค้นหา</Button>
-            </Box>
-          </SimpleGrid>
+          <form
+            onSubmit={formSearch.onSubmit((v) => {
+              FetchData(v);
+            })}
+          >
+            <SimpleGrid cols={{ base: 1, sm: 2 }}>
+              <Select {...formSearch.getInputProps("customer_type_id")} searchable data={DataSelectTypeCustomer} />
+              <Box>
+                <Button type="submit" leftSection={<IconSearch />}>
+                  ค้นหา
+                </Button>
+              </Box>
+            </SimpleGrid>
+          </form>
         </Paper>
         <Paper shadow="xs" p={10} my={10}>
-          <Flex justify={"flex-end"} direction={{base:'column',md:'row'}}  gap={10}>
+          <Flex justify={"flex-end"} direction={{ base: "column", md: "row" }} gap={10}>
             <Button
               onClick={() => UpdateUserAdd()}
               leftSection={<IconRefresh />}
