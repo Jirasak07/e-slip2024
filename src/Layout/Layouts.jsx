@@ -1,4 +1,15 @@
-import { AppShell, Avatar, Badge, Burger, Button, Flex, NavLink, ScrollArea, Text } from "@mantine/core";
+import {
+  AppShell,
+  Avatar,
+  Badge,
+  Burger,
+  Button,
+  Flex,
+  LoadingOverlay,
+  NavLink,
+  ScrollArea,
+  Text,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconLogout2, IconWallet } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
@@ -32,6 +43,7 @@ export function Layouts() {
     setmenu(menu);
   }, []);
   const [LoadLogout, setLoadLogout] = useState(false);
+  const [OverLay, setOverLay] = useState(false);
   return (
     <AppShell
       header={{ height: { base: 50, sm: 0 } }}
@@ -124,13 +136,17 @@ export function Layouts() {
                 )}
               <Button
                 loading={LoadLogout}
-                loaderProps={{ type: "bars" }}
+                loaderProps={{ type: "dots" }}
                 onClick={() => {
                   setLoadLogout(true);
                   setTimeout(() => {
                     setLoadLogout(false);
-                    nav("/login");
-                  }, 1200);
+                    setOverLay(true);
+                    setTimeout(() => {
+                      setOverLay(false);
+                      nav("/login");
+                    }, 800);
+                  }, 800);
                 }}
                 fw={500}
                 leftSection={<IconLogout2 />}
@@ -144,6 +160,7 @@ export function Layouts() {
         </ScrollArea>
       </AppShell.Navbar>
       <AppShell.Main>
+        <LoadingOverlay loaderProps={{ type: "oval", color: "var(--primary)" }} visible={OverLay} />
         <Outlet />
       </AppShell.Main>
     </AppShell>

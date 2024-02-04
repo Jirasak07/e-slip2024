@@ -1,13 +1,27 @@
-import { Badge, Box, Button, Container, Divider, Flex, Image, Paper, SimpleGrid, Text, TextInput } from "@mantine/core";
+import {
+  Badge,
+  Box,
+  Button,
+  Container,
+  Divider,
+  Flex,
+  Image,
+  LoadingOverlay,
+  Paper,
+  SimpleGrid,
+  Text,
+  TextInput,
+} from "@mantine/core";
 import React, { useState } from "react";
 import Logo from "../../assets/image/kpru.png";
 import browser from "../../assets/image/browser.png";
 import { IconKey } from "@tabler/icons-react";
 import { useForm } from "@mantine/form";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 function Login() {
   const [LoadingButton, setLoadingButton] = useState(false);
-  const nav = useNavigate()
+  const nav = useNavigate();
   const formlogin = useForm({
     initialValues: {
       username: "",
@@ -18,17 +32,35 @@ function Login() {
       password: (v) => (v === "" ? "กรุณากรอกข้อมูล" : null),
     },
   });
+  const [OverLay, setOverLay] = useState(false);
   const onLogin = (v) => {
     setLoadingButton(true);
     setTimeout(() => {
       setLoadingButton(false);
-      formlogin.reset()
-      nav('/main-page')
+      formlogin.reset();
+      Swal.fire({
+        icon: "success",
+        title: "ยินดีต้อนรับ",
+        showConfirmButton: false,
+        timer: 1200,
+        timerProgressBar: true,
+      }).then((res) => {
+        setOverLay(true);
+        setTimeout(() => {
+          setOverLay(false);
+          nav("/main-page");
+        }, 900);
+      });
     }, 1200);
   };
 
   return (
     <Container fluid w={"100dvw"} h={"100dvh"} bg={"#e5e5e5"}>
+      <LoadingOverlay
+        visible={OverLay}
+        loaderProps={{ color: "var(--primary)", type: "dots" }}
+        overlayProps={{ blur: 1 }}
+      />
       <Flex align={"center"} direction={"column"} h={"100%"} justify={"center"}>
         <Paper shadow="xl" h={550} w={"clamp(350px,95vw,600px)"}>
           <Flex pt={15} align={"center"} direction={"column"} justify={"center"}>
