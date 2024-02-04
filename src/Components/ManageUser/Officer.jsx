@@ -65,6 +65,13 @@ function Officer() {
       showCancelButton: true,
       cancelButtonText: "ยกเลิก",
       cancelButtonColor: "var(--danger)",
+    }).then((res) => {
+      if (res.isConfirmed === true) {
+        setOverLayLoad(true);
+        setTimeout(() => {
+          setOverLayLoad(false);
+        }, 1200);
+      }
     });
   };
 
