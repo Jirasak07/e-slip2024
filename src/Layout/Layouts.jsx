@@ -79,7 +79,8 @@ export function Layouts() {
               {" "}
               <Flex justify={"flex-start"} gap={5} align={"center"}>
                 <Avatar color="var(--primary)" size={"md"} >จิ</Avatar>
-                <Badge variant="white" color="var(--primary)" size="lg" radius={8}>
+                <Badge variant="white"
+                 color="var(--primary)" size="lg" radius={8}>
                   จิรศักดิ์ สิงหบุตร
                 </Badge>
               </Flex>
