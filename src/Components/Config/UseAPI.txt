@@ -1,0 +1,7 @@
+แสดงประเภทพนักงาน
+path =  index/showcustomertype
+method = get
+/////////////////////
+method = post
+data = {}
+/////////////////////
