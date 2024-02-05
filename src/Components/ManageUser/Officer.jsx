@@ -34,7 +34,7 @@ function Officer() {
   ];
   const FetchTypeCustomer = (params) => {
     axios.get(API + "/index/showcustomertype").then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       const data = res.data;
       if (data.length !== 0) {
         const menu = data.map((i) => ({
@@ -46,18 +46,19 @@ function Officer() {
     });
   };
 
-  const FetchData = (params) => {
-    setOverLayLoad(true);
-    setTimeout(() => {
-      setOverLayLoad(false);
-    }, 1200);
+  const FetchData = (v) => {
+    console.log(v)
+    // setOverLayLoad(true);
+    // setTimeout(() => {
+    //   setOverLayLoad(false);
+    // }, 1200);
   };
   const formSearch = useForm({
     initialValues: {
       customer_type_id: "",
     },
     validate: {
-      customer_type_id: (v) => (v === "" ? "กรุณาเลือกประเภทบุคลากร" : null),
+      customer_type_id: (v) => (v === "" || v === null ? "กรุณาเลือกประเภทบุคลากร" : null),
     },
   });
   useEffect(() => {
