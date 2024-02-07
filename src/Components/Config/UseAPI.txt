@@ -17,3 +17,45 @@ method = get
 path =  index/showrevenue/idประเภทพนักงาน
 method = get
 
+/////////////////////
+เพิ่มข้อมูลรายการรายรับ
+path =  index/Insertrevenue
+method = post
+   body : {
+    revenue_name : ชื่อรายการ,
+    customer_type_id : 4,
+    use_tax :0
+   }
+
+ /////////////////////
+เพิ่มข้อมูลรายการรายจ่าย
+path =  index/Insertexpenditure
+method = post
+   body : {
+    expenditure_name : ชื่อรายการ,
+    customer_type_id : 4,
+    use_tax :0
+   }  
+
+ /////////////////////
+อัพเดทข้อมูลรายการรายรับ
+path =  index/updaterevenue
+method = post
+   body : {
+    revenue_id : 1
+    revenue_name : ชื่อรายการ,
+    customer_type_id : 4,
+    use_tax :0
+   }  
+
+    /////////////////////
+อัพเดทข้อมูลรายการรายจ่าย
+path =  index/updaterevenue
+method = post
+   body : {
+    expenditure_id : 1
+    expenditure_name : ชื่อรายการ,
+    customer_type_id : 4,
+    use_tax :0
+   }  
+
