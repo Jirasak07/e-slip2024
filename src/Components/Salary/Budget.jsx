@@ -5,6 +5,7 @@ import { Button } from '@mantine/core';
 import ModaladdBudget from './ModaladdBudget';
 import { API } from '../Config/ConfigApi';
 import axios from "axios";
+import ModaleditBudget from './ModaleditBudget';
 
 export default class Budget extends Component {
     
@@ -14,12 +15,11 @@ export default class Budget extends Component {
       data:[],
     
     };
-  
+    this.getshowBudget = this.getshowBudget.bind(this);
   
 }
 
-
-componentDidMount() { 
+getshowBudget() { 
   axios.get(API+"/index/showBudget")
   .then(res => {
       console.log(res);
@@ -27,6 +27,10 @@ componentDidMount() {
     
 
   })
+}
+
+componentDidMount() { 
+  this.getshowBudget()
 }
 
       
@@ -50,13 +54,19 @@ componentDidMount() {
             field: 'levelbudget',
             width: 200,
           },
+          {
+            label: 'จัดการ',
+            field: 'levelbudget1',
+            width: 200,
+          },
         ],
        
         rows: [...this.state.data.map((data, i) => (
           {
              name: <>{i+1}</>,
-             namebudget: <>{data.namebudget}</>,
-             levelbudget: <>{data.levelbudget}</>,
+             namebudget: data.namebudget,
+             levelbudget: data.levelbudget,
+             levelbudget1: <><ModaleditBudget idbudget={data.idbudget} namebudget={data.namebudget} levelbudget={data.levelbudget} getshowBudget={this.getshowBudget} /></>,
           }
          )
          )]
@@ -70,7 +80,7 @@ componentDidMount() {
        
         <p className='text-right'> <ModaladdBudget/></p>
         <MDBDataTableV5 hover entriesOptions={[5, 20, 25]} entries={5} pagesAmount={4} data={ddd} searchTop searchBottom={false}  className='mt-2' />
-      
+        
       </div>
     )
   }
