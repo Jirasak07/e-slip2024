@@ -18,6 +18,11 @@ path =  index/showrevenue/idประเภทพนักงาน
 method = get
 
 /////////////////////
+แสดงข้อมูลงบประมาณ
+path =  index/showBudget
+method = get
+
+/////////////////////
 เพิ่มข้อมูลรายการรายรับ
 path =  index/Insertrevenue
 method = post
