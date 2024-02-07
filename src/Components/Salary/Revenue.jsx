@@ -7,7 +7,10 @@ import { API } from "../Config/ConfigApi";
 import { MDBDataTableV5 } from "mdbreact";
 function Revenue() {
     const [DataRevenue, setDataRevenue] = useState([]);
-    const column= []
+    const column= [{
+        label:'',
+        field
+    }]
   const formSearchRevenueCustomers = useForm({
     initialValues: {
       customer_type_id: "",
