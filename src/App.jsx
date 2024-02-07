@@ -7,6 +7,7 @@ import Officer from "./Components/ManageUser/Officer";
 import KtbCorporate from "./Components/ManageUser/KtbCorporate";
 import Login from "./Components/Publicc/Login";
 import Salary from "./Components/Salary/Salary";
+import Revenue from "./Components/Salary/Revenue";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
           {/* /////////////////////////////////////////////////// */}
           <Route path="/manage-salary/salary" element={<Salary />} />
           <Route path="/manage-salary/budget" element={<Budget />} />
-          <Route path="/manage-salary/revenue" element={<Home />} />
+          <Route path="/manage-salary/revenue" element={<Revenue />} />
           <Route path="/manage-salary/expenses" element={<Home />} />
           <Route path="/manage-salary/add-revenue-fromtype" element={<Home />} />
           <Route path="/manage-salary/add-expenses-fromtype" element={<Home />} />
