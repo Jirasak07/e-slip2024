@@ -1,4 +1,5 @@
 import {
+    ActionIcon,
   Badge,
   Button,
   Container,
@@ -9,9 +10,10 @@ import {
   Select,
   SimpleGrid,
   TextInput,
+  Tooltip,
 } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
-import { IconAdFilled, IconDeviceFloppy, IconPlus, IconSearch } from "@tabler/icons-react";
+import { IconAdFilled, IconDeviceFloppy, IconEdit, IconPlus, IconSearch } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { API } from "../Config/ConfigApi";
@@ -83,7 +85,14 @@ function Revenue() {
               ...data.map((i, key) => ({
                 no: key + 1,
                 label: i.revenue_name,
-                manage: <></>,
+                manage: <>
+                <Tooltip label="แก้ไขชื่อรายรับ" >
+                       <ActionIcon color="yellow" size={"md"} >
+                <IconEdit size={18} />
+                </ActionIcon>  
+                </Tooltip>
+           
+                </>,
               })),
             ],
           });
@@ -128,7 +137,6 @@ function Revenue() {
       });
     }, 540);
   };
-
   return (
     <>
       <LoadingOverlay
