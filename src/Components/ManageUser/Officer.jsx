@@ -58,7 +58,7 @@ function Officer() {
       customer_type_id: "",
     },
     validate: {
-      customer_type_id:isNotEmpty("กรุณาเลือกประเภทบุคลากร"),
+      customer_type_id: isNotEmpty("กรุณาเลือกประเภทบุคลากร"),
     },
   });
   useEffect(() => {
