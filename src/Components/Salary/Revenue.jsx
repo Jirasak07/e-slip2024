@@ -1,11 +1,23 @@
-import { Badge, Button, Container, Flex, Paper, Select, SimpleGrid } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { IconAdFilled, IconPlus, IconSearch } from "@tabler/icons-react";
+import {
+  Badge,
+  Button,
+  Container,
+  Flex,
+  LoadingOverlay,
+  Modal,
+  Paper,
+  Select,
+  SimpleGrid,
+  TextInput,
+} from "@mantine/core";
+import { isNotEmpty, useForm } from "@mantine/form";
+import { IconAdFilled, IconDeviceFloppy, IconPlus, IconSearch } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { API } from "../Config/ConfigApi";
 import { MDBDataTableV5 } from "mdbreact";
 import SkeletonTable from "../Publicc/SkeletonTable";
+import Swal from "sweetalert2";
 function Revenue() {
   const column = [
     {
@@ -54,10 +66,14 @@ function Revenue() {
       });
     }, 400);
   };
+  const [TypeCustomer, setTypeCustomer] = useState("");
   const FetchRevenue = (data) => {
     setLoadTable(true);
     setTimeout(() => {
-      axios.get(API + "/index/showrevenue/" + data.customer_type_id).then((res) => {
+      formAddRevenue.setValues({
+        customer_type_id: data,
+      });
+      axios.get(API + "/index/showrevenue/" + data).then((res) => {
         console.log(res.data);
         const data = res.data;
         if (data.lenth !== 0) {
@@ -81,12 +97,45 @@ function Revenue() {
     FetchTypeEmploy();
   }, []);
   const formAddRevenue = useForm({
-    initialValues:{
-        
-    }
-  })
+    initialValues: {
+      revenue_name: "",
+      customer_type_id: "",
+    },
+    validate: {
+      revenue_name: isNotEmpty("กรุณากรอกข้อมูล"),
+      customer_type_id: isNotEmpty("กรุณาเลือกประเภทพนักงาน"),
+    },
+  });
+  const [OverLayLoad, setOverLayLoad] = useState(false);
+  const [OpenForm, setOpenForm] = useState(false);
+  const AddRevenue = (data) => {
+    formSearchRevenueCustomers.setValues({
+        customer_type_id:data.customer_type_id
+    })
+    setOverLayLoad(true);
+    setTimeout(() => {
+      setOverLayLoad(false);
+      Swal.fire({
+        icon: "success",
+        title: "เพิ่มรายรับใหม่สำเร็จ",
+        timer: 1000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      }).then((res) => {
+        setOpenForm(false);
+        FetchRevenue(data.customer_type_id); 
+        formAddRevenue.reset();
+      });
+    }, 540);
+  };
+
   return (
     <>
+      <LoadingOverlay
+        visible={OverLayLoad}
+        loaderProps={{ type: "dots", color: "var(--primary)" }}
+        overlayProps={{ blur: 2 }}
+      />
       <Container p={0} bg={"white"} fluid>
         <Badge color="var(--primary)" variant="light" size="md" radius={8}>
           จัดการข้อมูลรายรับ
@@ -94,11 +143,12 @@ function Revenue() {
         <Paper mt={20}>
           <form
             onSubmit={formSearchRevenueCustomers.onSubmit((v) => {
-              FetchRevenue(v);
+              FetchRevenue(v.customer_type_id);
             })}
           >
             <SimpleGrid cols={{ base: 1, sm: 2 }}>
               <Select
+              searchable
                 data={DataTypeEmploy}
                 {...formSearchRevenueCustomers.getInputProps("customer_type_id")}
                 label="ประเภทพนักงาน"
@@ -118,8 +168,14 @@ function Revenue() {
         </Paper>
         <Paper pt={20}>
           <Flex justify={"flex-end"} pr={{ base: 0, sm: 20 }}>
-            <Button leftSection={<IconPlus />} color="teal">
-              เพิ่มรายการรายจ่าย
+            <Button
+              onClick={() => {
+                setOpenForm(true);
+              }}
+              leftSection={<IconPlus />}
+              color="teal"
+            >
+              เพิ่มรายรับใหม่
             </Button>
           </Flex>
         </Paper>
@@ -131,7 +187,7 @@ function Revenue() {
               data={DataRevenue}
               responsive
               striped
-              searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ"
+              searchLabel="ค้นหาจากชื่อรายการ"
               searchTop
               searchBottom={false}
               noRecordsFoundLabel="ไม่พบรายการ"
@@ -139,6 +195,46 @@ function Revenue() {
           )}
         </Paper>
       </Container>
+      <Modal
+        closeOnClickOutside={false}
+        opened={OpenForm}
+        onClose={() => {
+          formAddRevenue.reset();
+          setOpenForm(false);
+        }}
+        title="เพิ่มรายรับใหม่"
+      >
+        <form
+          onSubmit={formAddRevenue.onSubmit((val) => {
+            AddRevenue(val);
+          })}
+        >
+          <SimpleGrid>
+            <TextInput label="ชื่อรายรับใหม่" withAsterisk {...formAddRevenue.getInputProps("revenue_name")} />
+            <Select
+              withAsterisk
+              data={DataTypeEmploy}
+              label="ประเภทพนักงาน"
+              {...formAddRevenue.getInputProps("customer_type_id")}
+            />
+          </SimpleGrid>
+          <Flex justify={"flex-end"} gap={10} pt={10}>
+            <Button type="submit" color="teal" variant="filled" leftSection={<IconDeviceFloppy />}>
+              บันทึกข้อมูล
+            </Button>
+            <Button
+              onClick={() => {
+                formAddRevenue.reset();
+                setOpenForm(false);
+              }}
+              color="red"
+              variant="transparent"
+            >
+              ยกเลิก
+            </Button>
+          </Flex>
+        </form>
+      </Modal>
     </>
   );
 }
