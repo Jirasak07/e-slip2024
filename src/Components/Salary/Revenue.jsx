@@ -94,11 +94,16 @@ function Revenue() {
                 manage: (
                   <>
                     <Tooltip label="แก้ไขข้อมูลรายรับ">
-                      <ActionIcon  onClick={()=>{
-             OnOpenEdit()
-                      }} color="yellow" size={"md"}>
-                        <IconEdit size={18} />
-                      </ActionIcon>
+                      <Button
+                        onClick={() => {
+                          OnOpenEdit();
+                        }}
+                        color="var(--warning)"
+                        size={"xs"}
+                      >
+                        {/* <IconEdit size={18} /> */}
+                        แก้ไขข้อมูลรายรับ
+                      </Button>
                     </Tooltip>
                   </>
                 ),
@@ -173,10 +178,8 @@ function Revenue() {
       });
     }, 540);
   };
-  const OnOpenEdit = (id) => {
-    
-  }
-  
+  const OnOpenEdit = (id) => {};
+
   return (
     <>
       <LoadingOverlay
