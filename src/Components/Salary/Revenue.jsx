@@ -1,5 +1,5 @@
 import {
-    ActionIcon,
+  ActionIcon,
   Badge,
   Button,
   Container,
@@ -42,6 +42,12 @@ function Revenue() {
     columns: column,
     rows: [],
   });
+  const [LoadTable, setLoadTable] = useState(false);
+  const [DataTypeEmploy, setDataTypeEmploy] = useState([]);
+  const [OverLayLoad, setOverLayLoad] = useState(false);
+  const [OpenForm, setOpenForm] = useState(false);
+  const [OpenFormEdit, setOpenFormEdit] = useState(false);
+  //   const [TypeCustomer, setTypeCustomer] = useState("");
   const formSearchRevenueCustomers = useForm({
     initialValues: {
       customer_type_id: "",
@@ -50,7 +56,7 @@ function Revenue() {
       customer_type_id: (v) => (v === "" || v === null ? "กรุณาเลือกประเภทพนักงาน" : null),
     },
   });
-  const [DataTypeEmploy, setDataTypeEmploy] = useState([]);
+
   const FetchTypeEmploy = () => {
     setLoadTable(true);
     setTimeout(() => {
@@ -68,7 +74,7 @@ function Revenue() {
       });
     }, 400);
   };
-  const [TypeCustomer, setTypeCustomer] = useState("");
+
   const FetchRevenue = (data) => {
     setLoadTable(true);
     setTimeout(() => {
@@ -85,14 +91,17 @@ function Revenue() {
               ...data.map((i, key) => ({
                 no: key + 1,
                 label: i.revenue_name,
-                manage: <>
-                <Tooltip label="แก้ไขชื่อรายรับ" >
-                       <ActionIcon color="yellow" size={"md"} >
-                <IconEdit size={18} />
-                </ActionIcon>  
-                </Tooltip>
-           
-                </>,
+                manage: (
+                  <>
+                    <Tooltip label="แก้ไขข้อมูลรายรับ">
+                      <ActionIcon  onClick={()=>{
+             OnOpenEdit()
+                      }} color="yellow" size={"md"}>
+                        <IconEdit size={18} />
+                      </ActionIcon>
+                    </Tooltip>
+                  </>
+                ),
               })),
             ],
           });
@@ -101,7 +110,6 @@ function Revenue() {
       });
     }, 440);
   };
-  const [LoadTable, setLoadTable] = useState(false);
   useEffect(() => {
     FetchTypeEmploy();
   }, []);
@@ -115,12 +123,20 @@ function Revenue() {
       customer_type_id: isNotEmpty("กรุณาเลือกประเภทพนักงาน"),
     },
   });
-  const [OverLayLoad, setOverLayLoad] = useState(false);
-  const [OpenForm, setOpenForm] = useState(false);
+  const formEditRevenue = useForm({
+    initialValues: {
+      revenue_name: "",
+      customer_type_id: "",
+    },
+    validate: {
+      revenue_name: isNotEmpty("กรุณากรอกข้อมูล"),
+      customer_type_id: isNotEmpty("กรุณาเลือกประเภทพนักงาน"),
+    },
+  });
   const AddRevenue = (data) => {
     formSearchRevenueCustomers.setValues({
-        customer_type_id:data.customer_type_id
-    })
+      customer_type_id: data.customer_type_id,
+    });
     setOverLayLoad(true);
     setTimeout(() => {
       setOverLayLoad(false);
@@ -132,11 +148,35 @@ function Revenue() {
         showConfirmButton: false,
       }).then((res) => {
         setOpenForm(false);
-        FetchRevenue(data.customer_type_id); 
+        FetchRevenue(data.customer_type_id);
         formAddRevenue.reset();
       });
     }, 540);
   };
+  const EditRevenue = (data) => {
+    formSearchRevenueCustomers.setValues({
+      customer_type_id: data.customer_type_id,
+    });
+    setOverLayLoad(true);
+    setTimeout(() => {
+      setOverLayLoad(false);
+      Swal.fire({
+        icon: "success",
+        title: "แก้ไขสำเร็จ",
+        timer: 1000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      }).then((res) => {
+        setOpenForm(false);
+        FetchRevenue(data.customer_type_id);
+        formEditRevenue.reset();
+      });
+    }, 540);
+  };
+  const OnOpenEdit = (id) => {
+    
+  }
+  
   return (
     <>
       <LoadingOverlay
@@ -156,7 +196,7 @@ function Revenue() {
           >
             <SimpleGrid cols={{ base: 1, sm: 2 }}>
               <Select
-              searchable
+                searchable
                 data={DataTypeEmploy}
                 {...formSearchRevenueCustomers.getInputProps("customer_type_id")}
                 label="ประเภทพนักงาน"
@@ -234,6 +274,46 @@ function Revenue() {
               onClick={() => {
                 formAddRevenue.reset();
                 setOpenForm(false);
+              }}
+              color="red"
+              variant="transparent"
+            >
+              ยกเลิก
+            </Button>
+          </Flex>
+        </form>
+      </Modal>
+      <Modal
+        closeOnClickOutside={false}
+        opened={OpenFormEdit}
+        onClose={() => {
+          formAddRevenue.reset();
+          setOpenFormEdit(false);
+        }}
+        title="แก้ไขข้อมูลรายรับ"
+      >
+        <form
+          onSubmit={formEditRevenue.onSubmit((val) => {
+            EditRevenue(val);
+          })}
+        >
+          <SimpleGrid>
+            <TextInput label="ชื่อรายรับใหม่" withAsterisk {...formEditRevenue.getInputProps("revenue_name")} />
+            <Select
+              withAsterisk
+              data={DataTypeEmploy}
+              label="ประเภทพนักงาน"
+              {...formEditRevenue.getInputProps("customer_type_id")}
+            />
+          </SimpleGrid>
+          <Flex justify={"flex-end"} gap={10} pt={10}>
+            <Button type="submit" color="teal" variant="filled" leftSection={<IconDeviceFloppy />}>
+              บันทึกข้อมูล
+            </Button>
+            <Button
+              onClick={() => {
+                formEditRevenue.reset();
+                setOpenFormEdit(false);
               }}
               color="red"
               variant="transparent"
