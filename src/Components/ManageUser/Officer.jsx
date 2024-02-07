@@ -5,7 +5,7 @@ import { MDBDataTableV5 } from "mdbreact";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { API } from "../Config/ConfigApi";
-import { useForm } from "@mantine/form";
+import { isNotEmpty, useForm } from "@mantine/form";
 function Officer() {
   const [TableUser, setTableUser] = useState([]);
   const [OverLayLoad, setOverLayLoad] = useState(false);
@@ -58,7 +58,7 @@ function Officer() {
       customer_type_id: "",
     },
     validate: {
-      customer_type_id: (v) => (v === "" || v === null ? "กรุณาเลือกประเภทบุคลากร" : null),
+      customer_type_id:isNotEmpty("กรุณาเลือกประเภทบุคลากร"),
     },
   });
   useEffect(() => {
@@ -124,6 +124,7 @@ function Officer() {
           >
             <SimpleGrid cols={{ base: 1, sm: 2 }}>
               <Select
+                withAsterisk
                 label="ประเภทบุคลากร"
                 {...formSearch.getInputProps("customer_type_id")}
                 searchable
