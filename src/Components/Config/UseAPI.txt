@@ -42,7 +42,7 @@ method = post
     use_tax :0
    }  
 
- /////////////////////
+    /////////////////////
 อัพเดทข้อมูลรายการรายรับ
 path =  index/updaterevenue
 method = post
@@ -63,4 +63,10 @@ method = post
     customer_type_id : 4,
     use_tax :0
    }  
+
+    /////////////////////
+แสดงข้อมูลเงินเดือนแต่ละประเภท
+path =  index/showcustomer/idประเภทพนักงาน
+method = get
+  
 
