@@ -164,8 +164,6 @@ function Revenue() {
       });
     }, 540);
   };
-  const OnOpenEdit = (id) => {};
-
   return (
     <>
       <LoadingOverlay
@@ -228,6 +226,7 @@ function Revenue() {
               searchTop
               searchBottom={false}
               noRecordsFoundLabel="ไม่พบรายการ"
+              entriesLabel="จำนวนที่แสดง"
             />
           )}
         </Paper>

@@ -1,4 +1,5 @@
 import { Button, Modal } from "@mantine/core";
+import { IconEdit } from "@tabler/icons-react";
 import React, { useState } from "react";
 
 function ModalEditRevenue({ revenue_id }) {
@@ -19,6 +20,7 @@ function ModalEditRevenue({ revenue_id }) {
         onClick={() => {
           setOpend(true);
         }}
+        leftSection={<IconEdit/>}
       >
         แก้ไขข้อมูลรายรับ
       </Button>
