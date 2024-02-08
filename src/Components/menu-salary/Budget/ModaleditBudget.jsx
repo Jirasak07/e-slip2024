@@ -7,6 +7,7 @@ import { Input } from "@mantine/core";
 import { API } from "../../Config/ConfigApi";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { IconEdit } from "@tabler/icons-react";
 
 export default function ModaleditBudget(props) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -53,13 +54,11 @@ export default function ModaleditBudget(props) {
   };
 
   const form = useForm({
-    initialValues: { name: '', levelbudget: 0 },
+    initialValues: { name: "", levelbudget: 0 },
 
     validate: {
-      name: (value) =>
-        value.length < 2 ? "Name must have at least 2 letters" : null,
-      levelbudget: (value) =>
-        value < 0 ? "You must be at least 18 to register" : null,
+      name: (value) => (value.length < 2 ? "Name must have at least 2 letters" : null),
+      levelbudget: (value) => (value < 0 ? "You must be at least 18 to register" : null),
     },
   });
 
@@ -76,11 +75,7 @@ export default function ModaleditBudget(props) {
         {/* Modal content */}
         <Box maw={340} mx="auto">
           <form onSubmit={form.onSubmit(submitdata)}>
-            <TextInput
-              label="ชื่องบประมาณ"
-              placeholder="ชื่องบประมาณ"
-              {...form.getInputProps("name")}
-            />
+            <TextInput label="ชื่องบประมาณ" placeholder="ชื่องบประมาณ" {...form.getInputProps("name")} />
             <NumberInput
               mt="sm"
               label="level"
@@ -96,7 +91,7 @@ export default function ModaleditBudget(props) {
         </Box>
       </Modal>
 
-      <Button variant="filled" color="orange" onClick={open}>
+      <Button variant="filled" color="var(--warning)" size="xs" leftSection={<IconEdit />} onClick={open}>
         แก้ไขงบประมาณ
       </Button>
     </>
