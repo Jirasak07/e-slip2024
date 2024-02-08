@@ -4,12 +4,13 @@ import axios from "axios";
 import { MDBDataTableV5 } from "mdbreact";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { API } from "../Config/ConfigApi";
+import { API } from "../../Config/ConfigApi";
 import { isNotEmpty, useForm } from "@mantine/form";
+import SkeletonTable from "../../Publicc-user/SkeletonTable";
 function Officer() {
-  const [TableUser, setTableUser] = useState([]);
   const [OverLayLoad, setOverLayLoad] = useState(false);
   const [DataSelectTypeCustomer, setDataSelectTypeCustomer] = useState([]);
+  const [LoadTable, setLoadTable] = useState(false);
   const columns = [
     {
       label: "ลำดับ",
@@ -18,23 +19,30 @@ function Officer() {
     {
       label: "เลขบัตรประชาชน",
       field: "citizen",
+      minimal: "lg",
     },
     {
       label: "ชื่อ-นามสกุล",
       field: "name",
+      minimal: "lg",
     },
     {
       label: "ธนาคาร",
       field: "bank",
+      minimal: "lg",
     },
     {
       label: "จัดการ",
       field: "manage",
+      minimal: "lg",
     },
   ];
+  const [TableUser, setTableUser] = useState({
+    columns: columns,
+    rows: [],
+  });
   const FetchTypeCustomer = (params) => {
     axios.get(API + "/index/showcustomertype").then((res) => {
-      // console.log(res.data);
       const data = res.data;
       if (data.length !== 0) {
         const menu = data.map((i) => ({
@@ -47,11 +55,32 @@ function Officer() {
   };
 
   const FetchData = (v) => {
-    console.log(v)
-    // setOverLayLoad(true);
-    // setTimeout(() => {
-    //   setOverLayLoad(false);
-    // }, 1200);
+    setLoadTable(true);
+    axios.get(API + "/index/showcustomer/" + v).then((res) => {
+      setTimeout(() => {
+        setLoadTable(false);
+      }, 440);
+
+      const data = res.data;
+      if (data.length !== 0) {
+        setTableUser({
+          columns: columns,
+          rows: [
+            ...data.map((i, key) => ({
+              no: key + 1,
+              citizen: i.customers_citizent,
+              name: i.customers_pname + i.customers_name + " " + i.customers_lname,
+              bank: i.bank_name,
+            })),
+          ],
+        });
+      } else {
+        setTableUser({
+          columns: columns,
+          rows: [],
+        });
+      }
+    });
   };
   const formSearch = useForm({
     initialValues: {
@@ -63,10 +92,6 @@ function Officer() {
   });
   useEffect(() => {
     FetchTypeCustomer();
-    setTableUser({
-      columns: columns,
-      rows: [],
-    });
   }, []);
   const UpdateUserAdd = (params) => {
     Swal.fire({
@@ -119,7 +144,7 @@ function Officer() {
         <Paper mt={15}>
           <form
             onSubmit={formSearch.onSubmit((v) => {
-              FetchData(v);
+              FetchData(v.customer_type_id);
             })}
           >
             <SimpleGrid cols={{ base: 1, sm: 2 }}>
@@ -130,15 +155,15 @@ function Officer() {
                 searchable
                 data={DataSelectTypeCustomer}
               />
-              <Box mt={{ base: 0, sm: 33 }}>
-                <Button color="var(--info)" type="submit" leftSection={<IconSearch />}>
+              <Flex mt={{ base: 0, sm: 33 }}>
+                <Button w={{ base: "100%", sm: 150 }} color="var(--primary)" type="submit" leftSection={<IconSearch />}>
                   ค้นหา
                 </Button>
-              </Box>
+              </Flex>
             </SimpleGrid>
           </form>
         </Paper>
-        <Paper shadow="xs" p={10} my={10}>
+        <Paper p={10} my={10}>
           <Flex justify={"flex-end"} direction={{ base: "column", md: "row" }} gap={10}>
             <Button
               onClick={() => UpdateUserAdd()}
@@ -159,19 +184,23 @@ function Officer() {
           </Flex>
         </Paper>
         <Paper mt={10}>
-          <Text>รายการบุคลากร</Text>
+          <Badge variant="light">รายการบุคลากร</Badge>
         </Paper>
         <Paper shadow="md" p={10} mt={10}>
-          <MDBDataTableV5
-            responsive
-            striped
-            searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ"
-            barReverse
-            searchTop
-            searchBottom={false}
-            data={TableUser}
-            noRecordsFoundLabel="ไม่พบรายการ"
-          />
+          {LoadTable ? (
+            <SkeletonTable />
+          ) : (
+            <MDBDataTableV5
+              responsive
+              theadColor="dark"
+              striped
+              searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ"
+              searchTop
+              searchBottom={false}
+              data={TableUser}
+              noRecordsFoundLabel="ไม่พบรายการ"
+            />
+          )}
         </Paper>
       </Container>
     </>

@@ -18,7 +18,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
 import { MDBDataTableV5 } from "mdbreact";
-import SkeletonTable from "../../Publicc/SkeletonTable";
+import SkeletonTable from "../../Publicc-user/SkeletonTable";
 import Swal from "sweetalert2";
 import ModalEditRevenue from "./ModalEditRevenue";
 function Revenue() {

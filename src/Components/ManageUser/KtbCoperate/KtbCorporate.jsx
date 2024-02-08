@@ -98,7 +98,6 @@ function KtbCorporate() {
       <Modal
         title="แบบแจ้งข้อมูลการรับเงินผ่านระบบ KTB Corporate Online"
         opened={OpenFormKbt}
-        // opened={true}
         onClose={() => {
           setOpenFormKbt(false);
         }}
