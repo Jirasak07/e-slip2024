@@ -68,5 +68,32 @@ method = post
 แสดงข้อมูลเงินเดือนแต่ละประเภท
 path =  index/showcustomer/idประเภทพนักงาน
 method = get
+
+    /////////////////////
+แสดงข้อมูลเงินเดือนแต่ละประเภท
+path =  index/updatestatuswork
+method = post
+    body : {
+    customer_status_id : 1
+    customers_citizent : เลขบัตร
+    
+   }  
+
+       /////////////////////
+แสดงข้อมูลบัญชีธนาคารแต่ละคน
+path =  index/showcustomerbank/เลขบัตร
+method = get
+       /////////////////////
+       
+อัพเดทข้อมูลบัญชีแต่ละคน
+path =  index/updatecustomerbank
+method = post
+   body : {
+    customers_citizent : เลขบัตร
+    account_number : เลขบัญชี,
+    account_type : 1,
+    statusbank :0
+   }  
+
   
 
