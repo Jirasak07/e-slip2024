@@ -42,7 +42,7 @@ function Salary() {
       minimal: "lg",
     },
     {
-      label: "รายจ่า/นอก",
+      label: "รายจ่าย/นอก",
       field: "expenses-out",
       minimal: "lg",
     },

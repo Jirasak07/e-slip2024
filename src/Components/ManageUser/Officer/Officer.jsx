@@ -77,7 +77,7 @@ function Officer() {
               bank: i.bank_name,
               manage: (
                 <Flex direction={"row"} gap={5}>
-                  <ModalEditOfficer /> <ModalEditBankOfficer /> <ModalManageSalaryOfficer /> <ModalDeleteOfficer />
+                  <ModalEditOfficer customerid={i.customers_citizent} /> <ModalEditBankOfficer /> <ModalManageSalaryOfficer /> <ModalDeleteOfficer />
                 </Flex>
               ),
             })),
