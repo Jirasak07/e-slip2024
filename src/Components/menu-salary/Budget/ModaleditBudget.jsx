@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { NumberInput, TextInput, Box } from "@mantine/core";
 import { Modal, Button } from "@mantine/core";
 import { Input } from "@mantine/core";
-import { API } from "../Config/ConfigApi";
+import { API } from "../../Config/ConfigApi";
 import axios from "axios";
 import Swal from "sweetalert2";
 

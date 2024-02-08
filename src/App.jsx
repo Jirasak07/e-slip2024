@@ -2,12 +2,12 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { Layouts } from "./Layout/Layouts";
 import Home from "./Components/Publicc/Home";
-import Budget from "./Components/Salary/Budget";
+import Budget from "./Components/menu-salary/Budget/Budget";
 import Officer from "./Components/ManageUser/Officer";
 import KtbCorporate from "./Components/ManageUser/KtbCorporate";
 import Login from "./Components/Publicc/Login";
-import Salary from "./Components/Salary/Salary";
-import Revenue from "./Components/Salary/Revenue";
+import Salary from "./Components/menu-salary/Salary/Salary";
+import Revenue from "./Components/menu-salary/Revenue/Revenue";
 
 function App() {
   return (

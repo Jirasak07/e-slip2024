@@ -16,10 +16,11 @@ import { isNotEmpty, useForm } from "@mantine/form";
 import { IconAdFilled, IconDeviceFloppy, IconEdit, IconPlus, IconSearch } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { API } from "../Config/ConfigApi";
+import { API } from "../../Config/ConfigApi";
 import { MDBDataTableV5 } from "mdbreact";
-import SkeletonTable from "../Publicc/SkeletonTable";
+import SkeletonTable from "../../Publicc/SkeletonTable";
 import Swal from "sweetalert2";
+import ModalEditRevenue from "./ModalEditRevenue";
 function Revenue() {
   const column = [
     {
@@ -91,22 +92,7 @@ function Revenue() {
               ...data.map((i, key) => ({
                 no: key + 1,
                 label: i.revenue_name,
-                manage: (
-                  <>
-                    <Tooltip label="แก้ไขข้อมูลรายรับ">
-                      <Button
-                        onClick={() => {
-                          OnOpenEdit();
-                        }}
-                        color="var(--warning)"
-                        size={"xs"}
-                      >
-                        {/* <IconEdit size={18} /> */}
-                        แก้ไขข้อมูลรายรับ
-                      </Button>
-                    </Tooltip>
-                  </>
-                ),
+                manage: <ModalEditRevenue revenue_id={i.revenue_id} />,
               })),
             ],
           });

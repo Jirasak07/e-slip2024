@@ -3,7 +3,7 @@ import { Badge } from '@mantine/core';
 import { MDBDataTableV5 } from 'mdbreact';
 import { Button } from '@mantine/core';
 import ModaladdBudget from './ModaladdBudget';
-import { API } from '../Config/ConfigApi';
+import { API } from '../../Config/ConfigApi';
 import axios from "axios";
 import ModaleditBudget from './ModaleditBudget';
 
