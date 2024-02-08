@@ -11,6 +11,7 @@ body {
   --success: #38b000 !important;
   --warning: #ffa300 !important ;
   --info: #61cbe6 !important ;
+  --purpel:#5a189a !important;
 }
 a {
   color: var(--_nav-link-color) !important;

@@ -3,11 +3,11 @@ import "./App.css";
 import { Layouts } from "./Layout/Layouts";
 import Home from "./Components/Publicc-user/Home";
 import Budget from "./Components/menu-salary/Budget/Budget";
-import Officer from "./Components/ManageUser/Officer";
-import KtbCorporate from "./Components/ManageUser/KtbCorporate";
 import Login from "./Components/Publicc-user/Login";
 import Salary from "./Components/menu-salary/Salary/Salary";
 import Revenue from "./Components/menu-salary/Revenue/Revenue";
+import Officer from "./Components/ManageUser/Officer/Officer";
+import KtbCorporate from "./Components/ManageUser/KtbCoperate/KtbCorporate";
 
 function App() {
   return (
