@@ -188,7 +188,7 @@ function Revenue() {
                 {...formSearchRevenueCustomers.getInputProps("customer_type_id")}
                 label="ประเภทพนักงาน"
               />
-              <Flex pt={{ base: 0, sm: 33 }}>
+              <Flex pt={{ base: 0, sm: 33 }} gap={10} direction={{base:"column",sm:"row"}}>
                 <Button
                   type="submit"
                   w={{ base: "100%", sm: "200" }}
@@ -197,22 +197,19 @@ function Revenue() {
                 >
                   ค้นหา
                 </Button>
-              </Flex>
-            </SimpleGrid>
-          </form>
-        </Paper>
-        <Paper pt={20}>
-          <Flex justify={"flex-end"} pr={{ base: 0, sm: 20 }}>
-            <Button
+                <Button
               onClick={() => {
                 setOpenForm(true);
               }}
               leftSection={<IconPlus />}
               color="teal"
+              w={{ base: "100%", sm: "200" }}
             >
               เพิ่มรายรับใหม่
             </Button>
-          </Flex>
+              </Flex>
+            </SimpleGrid>
+          </form>
         </Paper>
         <Paper pt={10}>
           {LoadTable ? (
