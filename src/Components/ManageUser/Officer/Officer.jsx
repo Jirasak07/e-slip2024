@@ -156,8 +156,9 @@ function Officer() {
               FetchData(v.customer_type_id);
             })}
           >
-            <SimpleGrid cols={{ base: 1, sm: 2 }}>
+            <Flex direction={{base:"column",sm:'row'}} gap={10}>
               <Select
+              miw={300}
                 withAsterisk
                 label="ประเภทบุคลากร"
                 {...formSearch.getInputProps("customer_type_id")}
@@ -165,16 +166,11 @@ function Officer() {
                 data={DataSelectTypeCustomer}
               />
               <Flex mt={{ base: 0, sm: 33 }}>
-                <Button w={{ base: "100%", sm: 150 }} color="var(--primary)" type="submit" leftSection={<IconSearch />}>
+                <SimpleGrid cols={{base:1,sm:3}} >
+                <Button  color="var(--primary)" type="submit" leftSection={<IconSearch />}>
                   ค้นหา
                 </Button>
-              </Flex>
-            </SimpleGrid>
-          </form>
-        </Paper>
-        <Paper p={10} my={10}>
-          <Flex justify={"flex-end"} direction={{ base: "column", md: "row" }} gap={10}>
-            <Button
+                <Button
               onClick={() => UpdateUserAdd()}
               leftSection={<IconRefresh />}
               variant="light"
@@ -190,6 +186,15 @@ function Officer() {
             >
               อัพเดทสถานะบุคลากรลาออก
             </Button>
+                </SimpleGrid>
+              
+              </Flex>
+            </Flex>
+          </form>
+        </Paper>
+        <Paper p={10} my={10}>
+          <Flex justify={"flex-end"} direction={{ base: "column", md: "row" }} gap={10}>
+           
           </Flex>
         </Paper>
         <Paper mt={10}>
