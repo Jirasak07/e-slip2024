@@ -108,7 +108,7 @@ method = post
    body : {
     customers_citizent : เลขบัตร
     history_salary_year : 2023,
-    history_salary_month : 1,
+    history_salary_month : 01,
     history_salary :22000,
     idbudget:1
    }  
@@ -120,11 +120,16 @@ method = post
    body : {
     customers_citizent : เลขบัตร
     history_salary_year : 2023,
-    history_salary_month : 1,
+    history_salary_month : 01,
     customers_type : 4,
     history_salary :22000,
     idbudget:1
    }  
+
+      /////////////////////
+แสดงข้อมูลเงินเดือน รายรับ รายจ่าย แต่ละคน
+path =  index/showrevenueandexpenditure/idประเภทพนักงาน/2023/01
+method = get
 
   
 
