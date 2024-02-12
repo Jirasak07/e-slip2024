@@ -131,5 +131,15 @@ method = post
 path =  index/showrevenueandexpenditure/idประเภทพนักงาน/2023/01
 method = get
 
+      /////////////////////
+แสดงข้อมูลรายจ่ายแยกประเภท
+path =  index/showexpenditurewhereid/idประเภทพนักงาน/idรายจ่าย/2023/01
+method = get
+
+      /////////////////////
+แสดงข้อมูลรายรับแยกประเภท
+path =  index/showexpenditurewhereid/idประเภทพนักงาน/idรายจ่าย/2023/01
+method = get
+
   
 
