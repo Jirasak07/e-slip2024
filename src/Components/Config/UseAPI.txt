@@ -65,12 +65,12 @@ method = post
    }  
 
     /////////////////////
-แสดงข้อมูลเงินเดือนแต่ละประเภท
+แสดงข้อมูลพนักงานแต่ละประเภท
 path =  index/showcustomer/idประเภทพนักงาน
 method = get
 
     /////////////////////
-แสดงข้อมูลเงินเดือนแต่ละประเภท
+แสดงข้อมูลสถานะการทำงานแต่ละประเภท
 path =  index/updatestatuswork
 method = post
     body : {
@@ -84,7 +84,7 @@ method = post
 path =  index/showcustomerbank/เลขบัตร
 method = get
        /////////////////////
-       
+
 อัพเดทข้อมูลบัญชีแต่ละคน
 path =  index/updatecustomerbank
 method = post
@@ -93,6 +93,37 @@ method = post
     account_number : เลขบัญชี,
     account_type : 1,
     statusbank :0
+   }  
+
+
+   /////////////////////
+แสดงข้อมูลเงินเดือนแต่ละคน
+path =  index/showhistorysalary/เลขบัตร/2023
+method = get
+
+/////////////////////
+อัพเดทข้อมูลเงินเดือนแต่ละคน
+path =  index/updatehistorysalary
+method = post
+   body : {
+    customers_citizent : เลขบัตร
+    history_salary_year : 2023,
+    history_salary_month : 1,
+    history_salary :22000,
+    idbudget:1
+   }  
+
+   /////////////////////
+เพิ่มข้อมูลเงินเดือนแต่ละคน
+path =  index/Inserthistorysalary
+method = post
+   body : {
+    customers_citizent : เลขบัตร
+    history_salary_year : 2023,
+    history_salary_month : 1,
+    customers_type : 4,
+    history_salary :22000,
+    idbudget:1
    }  
 
   
