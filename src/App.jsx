@@ -8,6 +8,8 @@ import Salary from "./Components/menu-salary/Salary/Salary";
 import Revenue from "./Components/menu-salary/Revenue/Revenue";
 import Officer from "./Components/ManageUser/Officer/Officer";
 import KtbCorporate from "./Components/ManageUser/KtbCoperate/KtbCorporate";
+import Expenditure from "./Components/menu-salary/Expenditure/Expenditure";
+import AddExpenditure from "./Components/menu-salary/Expenditure/AddExpenditure/AddExpenditure";
 
 function App() {
   return (
@@ -20,9 +22,9 @@ function App() {
           <Route path="/manage-salary/salary" element={<Salary />} />
           <Route path="/manage-salary/budget" element={<Budget />} />
           <Route path="/manage-salary/revenue" element={<Revenue />} />
-          <Route path="/manage-salary/expenses" element={<Home />} />
+          <Route path="/manage-salary/expenses" element={<Expenditure />} />
           <Route path="/manage-salary/add-revenue-fromtype" element={<Home />} />
-          <Route path="/manage-salary/add-expenses-fromtype" element={<Home />} />
+          <Route path="/manage-salary/add-expenses-fromtype" element={<AddExpenditure />} />
           <Route path="/manage-salary/import-export" element={<Home />} />
           <Route path="/manage-salary/update-revenue" element={<Home />} />
           <Route path="/manage-salary/update-expenses" element={<Home />} />

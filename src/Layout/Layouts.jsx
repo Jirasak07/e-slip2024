@@ -47,7 +47,7 @@ export function Layouts() {
   return (
     <AppShell
       header={{ height: { base: 50, sm: 0 } }}
-      navbar={{ width: 350, breakpoint: "sm", collapsed: { mobile: !opened } }}
+      navbar={{ width: 320, breakpoint: "sm", collapsed: { mobile: !opened } }}
       padding="md"
     >
       <AppShell.Header hiddenFrom="sm" bg={"var(--primary)"}>

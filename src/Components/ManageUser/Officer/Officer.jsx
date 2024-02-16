@@ -156,7 +156,7 @@ function Officer() {
               FetchData(v.customer_type_id);
             })}
           >
-            <Flex direction={{base:"column",sm:'row'}} gap={10}>
+            <Flex direction={{base:"column",md:'row'}} gap={10}>
               <Select
               miw={300}
                 withAsterisk
@@ -165,9 +165,9 @@ function Officer() {
                 searchable
                 data={DataSelectTypeCustomer}
               />
-              <Flex mt={{ base: 0, sm: 33 }}>
-                <SimpleGrid cols={{base:1,sm:3}} >
-                <Button  color="var(--primary)" type="submit" leftSection={<IconSearch />}>
+              <Flex mt={{ base: 0, md: 33 }}>
+                <SimpleGrid  w="100%" cols={{base:1,sm:3}} >
+                <Button w={{base:null,sm:"100%"}} color="var(--primary)" type="submit" leftSection={<IconSearch />}>
                   ค้นหา
                 </Button>
                 <Button

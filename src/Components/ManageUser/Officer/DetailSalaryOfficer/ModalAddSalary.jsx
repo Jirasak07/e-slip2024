@@ -1,11 +1,38 @@
-import React from 'react'
+import { Button, Flex, Modal, NumberInput, Select, SimpleGrid, TextInput } from "@mantine/core";
+import { IconDeviceFloppy, IconPlus, IconSearch } from "@tabler/icons-react";
+import React, { useState } from "react";
+import { API } from "../../../Config/ConfigApi";
+import axios from "axios";
 
-function ModalAddSalary() {
+function ModalAddSalary({Month,YearSelect,DataYear,DataMonth,DataBudget}) {
+  const [Open, setOpen] = useState(false);
+
   return (
     <div>
-      
+      <Button onClick={() => {
+        setOpen(true)}} color="var(--success)" leftSection={<IconPlus />}>
+        เพิ่มข้อมูลเงินเดือน
+      </Button>
+      <Modal
+        opened={Open}
+        onClose={() => {
+          setOpen(false);
+        }}
+        title="เพิ่มข้อมูลเงินเดือน"
+      >
+        <SimpleGrid cols={{ base: 1, sm: 2 }}>
+          <Select data={DataYear} value={YearSelect} readOnly label="ปีล่าสุด" />
+          <Select data={DataMonth} value={Month} allowDeselect={false} label="เดือนล่าสุด" />
+           <Select data={DataBudget} label="ประเภทงบประมาณล่าสุด" />
+          <NumberInput thousandSeparator suffix=" ฿" label="เงินเดือนล่าสุด" />
+        </SimpleGrid>{" "}
+        <Flex justify={"flex-end"} py={10} >
+          <Button color="var(--success)" leftSection={<IconDeviceFloppy/>} >บันทึก</Button>
+          <Button onClick={()=>setOpen(false)} color="var(--danger)" variant="transparent"  >ยกเลิก</Button>
+        </Flex>
+      </Modal>
     </div>
-  )
+  );
 }
 
-export default ModalAddSalary
+export default ModalAddSalary;
