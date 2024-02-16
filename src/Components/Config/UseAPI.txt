@@ -63,7 +63,7 @@ method = post
 
     /////////////////////
 อัพเดทข้อมูลรายการรายจ่าย
-path =  index/updaterevenue
+path =  index/updateexpenditure
 method = post
    body : {
     expenditure_id : 1

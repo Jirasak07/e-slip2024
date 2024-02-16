@@ -6,32 +6,32 @@ import { API } from "../../Config/ConfigApi";
 import { isNotEmpty, useForm } from "@mantine/form";
 import Swal from "sweetalert2";
 
-function ModalEditRevenue({ FetchRevenue, revenue_id, selectType }) {
+function ModalEditExpenditure({ FetchExpenditure, expenditure_id, selectType }) {
   const [openModal, setopenModal] = useState(false);
   const [OverLay, setOverLay] = useState(false);
-  const formEditRevenue = useForm({
+  const formEditExpenditure = useForm({
     initialValues: {
-      revenue_id: revenue_id,
-      revenue_name: "",
+      expenditure_id: expenditure_id,
+      expenditure_name: "",
       customer_type_id: null,
       use_tax: 0,
     },
     validate: {
-      revenue_name: isNotEmpty("กรุณากรอกข้อมูล"),
+      expenditure_name: isNotEmpty("กรุณากรอกข้อมูล"),
     },
   });
 
   const FetchData = () => {
     axios
-      .post(API + "/index/RevenueDetail", {
-        revenue_id: revenue_id,
+      .post(API + "/index/ExpenditureDetail", {
+        expenditure_id: expenditure_id,
       })
       .then((res) => {
         const data = res.data;
         console.log(data);
         if (data.length !== 0) {
-          formEditRevenue.setValues({
-            revenue_name: data[0].revenue_name,
+          formEditExpenditure.setValues({
+            expenditure_name: data[0].expenditure_name,
             customer_type_id: data[0].customer_type_id,
           });
           setopenModal(true);
@@ -41,24 +41,24 @@ function ModalEditRevenue({ FetchRevenue, revenue_id, selectType }) {
         }
       });
   };
-  const UpdateRevenue = (value) => {
+  const UpdateExpenditure = (value) => {
     setOverLay(true)
     const data = new FormData();
-    data.append("revenue_id",value.revenue_id)
-    data.append("revenue_name",value.revenue_name)
+    data.append("expenditure_id",value.expenditure_id)
+    data.append("expenditure_name",value.expenditure_name)
     data.append("customer_type_id",value.customer_type_id)
     data.append("use_tax",0)
-   axios.post(API+"/index/updaterevenue",data).then((res)=>{
+   axios.post(API+"/index/updateexpenditure",data).then((res)=>{
     if(res.data === "200"){
       setOverLay(false)
       Swal.fire({
         icon:'success',
-        title:'อัพเดทข้อมูลรายรับสำเร็จ',
+        title:'อัพเดทข้อมูลรายจ่ายสำเร็จ',
         timer:1000,
         timerProgressBar:true,
         showConfirmButton:false
       }).then((res)=>{
-        FetchRevenue(value.customer_type_id)
+        FetchExpenditure(value.customer_type_id)
         setopenModal(false)
       })
     }
@@ -76,7 +76,7 @@ function ModalEditRevenue({ FetchRevenue, revenue_id, selectType }) {
         leftSection={<IconEdit />}
         size="xs"
       >
-        แก้ไขข้อมูลรายรับ
+        แก้ไขข้อมูลรายจ่าย
       </Button>
       <Modal
         opened={openModal}
@@ -86,16 +86,16 @@ function ModalEditRevenue({ FetchRevenue, revenue_id, selectType }) {
         closeOnClickOutside={false}
       >
          <LoadingOverlay visible={OverLay} loaderProps={{type:'dots'}}  />
-        <form onSubmit={formEditRevenue.onSubmit((value)=>{
-          UpdateRevenue(value)
+        <form onSubmit={formEditExpenditure.onSubmit((value)=>{
+          UpdateExpenditure(value)
         })} >
           <SimpleGrid>
-            <TextInput label="ชื่อรายการรายรับ" {...formEditRevenue.getInputProps("revenue_name")} />
+            <TextInput label="ชื่อรายการรายรับ" {...formEditExpenditure.getInputProps("expenditure_name")} />
             <Select
               allowDeselect={false}
               label="ประเภทพนักงาน"
               data={selectType}
-              {...formEditRevenue.getInputProps("customer_type_id")}
+              {...formEditExpenditure.getInputProps("customer_type_id")}
             />
           </SimpleGrid>
           <Flex justify={"flex-end"} py={10} gap={10} px={0}>
@@ -114,4 +114,4 @@ function ModalEditRevenue({ FetchRevenue, revenue_id, selectType }) {
   );
 }
 
-export default ModalEditRevenue;
+export default ModalEditExpenditure;
