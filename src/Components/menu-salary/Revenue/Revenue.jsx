@@ -93,7 +93,7 @@ function Revenue() {
                 no: key + 1,
                 label: i.revenue_name,
                 manage: (
-                  <ModalEditRevenue formSearchRevenueCustomers={formSearchRevenueCustomers} revenue_id={i.revenue_id} />
+                  <ModalEditRevenue FetchRevenue={FetchRevenue} revenue_id={i.revenue_id} />
                 ),
               })),
             ],
@@ -151,6 +151,8 @@ function Revenue() {
               timer:1000,
               timerProgressBar:true,
               showConfirmButton:false
+            }).then((res)=>{
+              setOpenForm(false)
             })
           }
          

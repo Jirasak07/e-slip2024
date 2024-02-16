@@ -33,6 +33,14 @@ method = post
    }
 
  /////////////////////
+แสดงข้อมูลรายการรายรับ
+path =  index/Insertrevenue
+method = post (JSON)
+   body : {
+    revenue_id : รหัสรายการ,
+   }
+
+ /////////////////////
 เพิ่มข้อมูลรายการรายจ่าย
 path =  index/Insertexpenditure
 method = post
