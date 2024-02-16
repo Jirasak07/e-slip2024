@@ -47,7 +47,7 @@ function Revenue() {
   const [DataTypeEmploy, setDataTypeEmploy] = useState([]);
   const [OverLayLoad, setOverLayLoad] = useState(false);
   const [OpenForm, setOpenForm] = useState(false);
-  const [OpenFormEdit, setOpenFormEdit] = useState(false);
+
   //   const [TypeCustomer, setTypeCustomer] = useState("");
   const formSearchRevenueCustomers = useForm({
     initialValues: {
@@ -92,7 +92,9 @@ function Revenue() {
               ...data.map((i, key) => ({
                 no: key + 1,
                 label: i.revenue_name,
-                manage: <ModalEditRevenue revenue_id={i.revenue_id} />,
+                manage: (
+                  <ModalEditRevenue formSearchRevenueCustomers={formSearchRevenueCustomers} revenue_id={i.revenue_id} />
+                ),
               })),
             ],
           });
@@ -108,62 +110,55 @@ function Revenue() {
     initialValues: {
       revenue_name: "",
       customer_type_id: "",
+      use_tax:0
     },
     validate: {
       revenue_name: isNotEmpty("กรุณากรอกข้อมูล"),
       customer_type_id: isNotEmpty("กรุณาเลือกประเภทพนักงาน"),
     },
   });
-  const formEditRevenue = useForm({
-    initialValues: {
-      revenue_name: "",
-      customer_type_id: "",
-    },
-    validate: {
-      revenue_name: isNotEmpty("กรุณากรอกข้อมูล"),
-      customer_type_id: isNotEmpty("กรุณาเลือกประเภทพนักงาน"),
-    },
-  });
+
   const AddRevenue = (data) => {
     formSearchRevenueCustomers.setValues({
       customer_type_id: data.customer_type_id,
     });
     setOverLayLoad(true);
     setTimeout(() => {
-      setOverLayLoad(false);
-      Swal.fire({
-        icon: "success",
-        title: "เพิ่มรายรับใหม่สำเร็จ",
-        timer: 1000,
-        timerProgressBar: true,
-        showConfirmButton: false,
-      }).then((res) => {
-        setOpenForm(false);
-        FetchRevenue(data.customer_type_id);
-        formAddRevenue.reset();
-      });
+      const revenuedata = new FormData();
+      revenuedata.append("revenue_name",data.revenue_name)
+      revenuedata.append("customer_type_id",data.customer_type_id)
+      revenuedata.append("use_tax","0")
+      axios
+        .post(API + "/index/Insertrevenue",revenuedata)
+        .then((res) => {
+          setOverLayLoad(false);
+          if(res.data === "200"){
+             Swal.fire({
+            icon: "success",
+            title: "เพิ่มรายรับใหม่สำเร็จ",
+            timer: 1000,
+            timerProgressBar: true,
+            showConfirmButton: false,
+          }).then((res) => {
+            setOpenForm(false);
+            FetchRevenue(data.customer_type_id);
+            formAddRevenue.reset();
+          });
+          }else{
+            Swal.fire({
+              icon:'info',
+              title:'เพิ่มไม่สำเร็จ',
+              timer:1000,
+              timerProgressBar:true,
+              showConfirmButton:false
+            })
+          }
+         
+        });
+     
     }, 540);
   };
-  const EditRevenue = (data) => {
-    formSearchRevenueCustomers.setValues({
-      customer_type_id: data.customer_type_id,
-    });
-    setOverLayLoad(true);
-    setTimeout(() => {
-      setOverLayLoad(false);
-      Swal.fire({
-        icon: "success",
-        title: "แก้ไขสำเร็จ",
-        timer: 1000,
-        timerProgressBar: true,
-        showConfirmButton: false,
-      }).then((res) => {
-        setOpenForm(false);
-        FetchRevenue(data.customer_type_id);
-        formEditRevenue.reset();
-      });
-    }, 540);
-  };
+
   return (
     <>
       <LoadingOverlay
@@ -188,7 +183,7 @@ function Revenue() {
                 {...formSearchRevenueCustomers.getInputProps("customer_type_id")}
                 label="ประเภทพนักงาน"
               />
-              <Flex pt={{ base: 0, sm: 33 }} gap={10} direction={{base:"column",sm:"row"}}>
+              <Flex pt={{ base: 0, sm: 33 }} gap={10} direction={{ base: "column", sm: "row" }}>
                 <Button
                   type="submit"
                   w={{ base: "100%", sm: "200" }}
@@ -198,15 +193,15 @@ function Revenue() {
                   ค้นหา
                 </Button>
                 <Button
-              onClick={() => {
-                setOpenForm(true);
-              }}
-              leftSection={<IconPlus />}
-              color="teal"
-              w={{ base: "100%", sm: "200" }}
-            >
-              เพิ่มรายรับใหม่
-            </Button>
+                  onClick={() => {
+                    setOpenForm(true);
+                  }}
+                  leftSection={<IconPlus />}
+                  color="teal"
+                  w={{ base: "100%", sm: "200" }}
+                >
+                  เพิ่มรายรับใหม่
+                </Button>
               </Flex>
             </SimpleGrid>
           </form>
@@ -259,46 +254,6 @@ function Revenue() {
               onClick={() => {
                 formAddRevenue.reset();
                 setOpenForm(false);
-              }}
-              color="red"
-              variant="transparent"
-            >
-              ยกเลิก
-            </Button>
-          </Flex>
-        </form>
-      </Modal>
-      <Modal
-        closeOnClickOutside={false}
-        opened={OpenFormEdit}
-        onClose={() => {
-          formAddRevenue.reset();
-          setOpenFormEdit(false);
-        }}
-        title="แก้ไขข้อมูลรายรับ"
-      >
-        <form
-          onSubmit={formEditRevenue.onSubmit((val) => {
-            EditRevenue(val);
-          })}
-        >
-          <SimpleGrid>
-            <TextInput label="ชื่อรายรับใหม่" withAsterisk {...formEditRevenue.getInputProps("revenue_name")} />
-            <Select
-              withAsterisk
-              data={DataTypeEmploy}
-              label="ประเภทพนักงาน"
-              {...formEditRevenue.getInputProps("customer_type_id")}
-            />
-          </SimpleGrid>
-          <Flex justify={"flex-end"} gap={10} pt={10}>
-            <Button type="submit" color="teal" variant="filled" leftSection={<IconDeviceFloppy />}>
-              บันทึกข้อมูล
-            </Button>
-            <Button
-              onClick={() => {
-                formEditRevenue.reset();
-                setOpenFormEdit(false);
               }}
               color="red"
               variant="transparent"
