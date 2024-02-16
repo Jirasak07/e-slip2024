@@ -78,6 +78,9 @@ function Revenue() {
 
   const FetchRevenue = (data) => {
     setLoadTable(true);
+    formSearchRevenueCustomers.setValues({
+      customer_type_id: data,
+    });
     setTimeout(() => {
       formAddRevenue.setValues({
         customer_type_id: data,

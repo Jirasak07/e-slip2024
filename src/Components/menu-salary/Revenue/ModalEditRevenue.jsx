@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
 import { isNotEmpty, useForm } from "@mantine/form";
+import Swal from "sweetalert2";
 
 function ModalEditRevenue({ FetchRevenue, revenue_id, selectType }) {
   const [openModal, setopenModal] = useState(false);
@@ -39,6 +40,28 @@ function ModalEditRevenue({ FetchRevenue, revenue_id, selectType }) {
         }
       });
   };
+  const UpdateRevenue = (value) => {
+    const data = new FormData();
+    data.append("revenue_id",value.revenue_id)
+    data.append("revenue_name",value.revenue_name)
+    data.append("customer_type_id",value.customer_type_id)
+    data.append("use_tax",0)
+   axios.post(API+"/index/updaterevenue",data).then((res)=>{
+    if(res.data === "200"){
+      Swal.fire({
+        icon:'success',
+        title:'อัพเดทข้อมูลรายรับสำเร็จ',
+        timer:1000,
+        timerProgressBar:true,
+        showConfirmButton:false
+      }).then((res)=>{
+        FetchRevenue(value.customer_type_id)
+        setopenModal(false)
+      })
+    }
+   }) 
+  }
+  
   return (
     <>
       <Button
@@ -57,7 +80,9 @@ function ModalEditRevenue({ FetchRevenue, revenue_id, selectType }) {
           setopenModal(false);
         }}
       >
-        <form>
+        <form onSubmit={formEditRevenue.onSubmit((value)=>{
+          UpdateRevenue(value)
+        })} >
           <SimpleGrid>
             <TextInput label="ชื่อรายการรายรับ" {...formEditRevenue.getInputProps("revenue_name")} />
             <Select
@@ -68,7 +93,7 @@ function ModalEditRevenue({ FetchRevenue, revenue_id, selectType }) {
             />
           </SimpleGrid>
           <Flex justify={"flex-end"} py={10} gap={10} px={0}>
-            <Button leftSection={<IconDeviceFloppy />} color="var(--success)">
+            <Button type="submit" leftSection={<IconDeviceFloppy />} color="var(--success)">
               บันทึก
             </Button>
             <Button color="var(--danger)" variant="transparent">
