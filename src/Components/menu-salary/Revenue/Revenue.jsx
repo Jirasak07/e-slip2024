@@ -93,7 +93,7 @@ function Revenue() {
                 no: key + 1,
                 label: i.revenue_name,
                 manage: (
-                  <ModalEditRevenue FetchRevenue={FetchRevenue} revenue_id={i.revenue_id} />
+                  <ModalEditRevenue selectType={DataTypeEmploy} FetchRevenue={FetchRevenue} revenue_id={i.revenue_id} />
                 ),
               })),
             ],
