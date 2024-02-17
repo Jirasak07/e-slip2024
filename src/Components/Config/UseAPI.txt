@@ -76,6 +76,10 @@ method = post
 แสดงข้อมูลพนักงานแต่ละประเภท
 path =  index/showcustomer/idประเภทพนักงาน
 method = get
+    /////////////////////
+แสดงข้อมูลพนักงานแต่ละคน
+path =  index/showcustomerdetail/idพนักงาน
+method = get
 
     /////////////////////
 แสดงข้อมูลสถานะการทำงานแต่ละประเภท
