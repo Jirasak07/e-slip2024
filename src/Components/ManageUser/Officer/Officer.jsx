@@ -8,9 +8,9 @@ import { API } from "../../Config/ConfigApi";
 import { isNotEmpty, useForm } from "@mantine/form";
 import SkeletonTable from "../../Publicc-user/SkeletonTable";
 import ModalEditOfficer from "./ModalEditOfficer";
-import ModalEditBankOfficer from "./ModalEditBankOfficer";
 import ModalManageSalaryOfficer from "./ModalManageSalaryOfficer";
 import ModalDeleteOfficer from "./ModalDeleteOfficer";
+import ModalManageBankOfficer from "./ManageBank/ModalManageBankOfficer";
 function Officer() {
   const [OverLayLoad, setOverLayLoad] = useState(false);
   const [DataSelectTypeCustomer, setDataSelectTypeCustomer] = useState([]);
@@ -77,7 +77,7 @@ function Officer() {
               bank: i.bank_name,
               manage: (
                 <Flex direction={"row"} gap={5}>
-                  <ModalEditOfficer customerid={i.customers_citizent} /> <ModalEditBankOfficer /> <ModalManageSalaryOfficer /> <ModalDeleteOfficer />
+                  <ModalEditOfficer customerid={i.customers_citizent} /> <ModalManageBankOfficer citizenid={i.customers_citizent} name={i.customers_pname + i.customers_name + " " + i.customers_lname} /> <ModalManageSalaryOfficer /> <ModalDeleteOfficer />
                 </Flex>
               ),
             })),

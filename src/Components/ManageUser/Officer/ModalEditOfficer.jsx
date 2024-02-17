@@ -4,11 +4,12 @@ import { IconDeviceFloppy, IconEdit } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useState } from "react";
 import { API } from "../../Config/ConfigApi";
-import { useForm } from "@mantine/form";
+import { isNotEmpty, useForm } from "@mantine/form";
 
 function ModalEditOfficer({ customerid }) {
   const [opened, { open, close }] = useDisclosure(false);
   const [DataSelectTypeCustomer, setDataSelectTypeCustomer] = useState([]);
+  const [DataStatus, setDataStatus] = useState([]);
   const formEmploy = useForm({
     initialValues: {
       customers_citizent: customerid,
@@ -17,7 +18,13 @@ function ModalEditOfficer({ customerid }) {
       customer_type_id: "",
       customer_status_id: "",
     },
-    validate: {},
+    validate: {
+      customer_status_id: isNotEmpty("ว่าง"),
+      fname: isNotEmpty("ว่าง"),
+      lname: isNotEmpty("ว่าง"),
+      customer_type_id: isNotEmpty("ว่าง"),
+      customers_citizent: isNotEmpty("ว่าง"),
+    },
   });
   const FetchTypeCustomer = (params) => {
     axios.get(API + "/index/showcustomertype").then((res) => {
@@ -31,6 +38,19 @@ function ModalEditOfficer({ customerid }) {
       }
     });
   };
+  const FetchStatusCustomer = (params) => {
+    axios.get(API + "/index/showstatuswork").then((res) => {
+      const data = res.data;
+      if (data.length !== 0) {
+        const menu = data.map((i) => ({
+          value: i.customer_status_id,
+          label: i.customer_status_name,
+        }));
+        setDataStatus(menu);
+      }
+    });
+  };
+
   const FetchDataEmploy = (params) => {
     axios.get(API + "/index/showcustomerdetail/" + customerid).then((res) => {
       console.log(res.data);
@@ -57,8 +77,19 @@ function ModalEditOfficer({ customerid }) {
             <TextInput {...formEmploy.getInputProps("lname")} readOnly label="นามสกุล" />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <Select data={DataSelectTypeCustomer} {...formEmploy.getInputProps("customer_type_id")} readOnly disabled label="ประเภท" />
-            <Select {...formEmploy.getInputProps("customer_status_id")} allowDeselect={false} label="สถานะ" />
+            <Select
+              data={DataSelectTypeCustomer}
+              {...formEmploy.getInputProps("customer_type_id")}
+              readOnly
+              disabled
+              label="ประเภท"
+            />
+            <Select
+              data={DataStatus}
+              {...formEmploy.getInputProps("customer_status_id")}
+              allowDeselect={false}
+              label="สถานะ"
+            />
           </SimpleGrid>
         </SimpleGrid>
         <Flex justify={"flex-end"} pt={10} gap={5}>
@@ -72,7 +103,8 @@ function ModalEditOfficer({ customerid }) {
       </Modal>
       <Button
         onClick={() => {
-          FetchTypeCustomer()
+          FetchStatusCustomer();
+          FetchTypeCustomer();
           FetchDataEmploy();
           open();
         }}

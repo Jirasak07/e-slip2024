@@ -153,5 +153,10 @@ method = get
 path =  index/showexpenditurewhereid/idประเภทพนักงาน/idรายจ่าย/2023/01
 method = get
 
+      /////////////////////
+แสดงข้อมูลสถานะการทำงาน
+path =  /index/showstatuswork
+method = get
+
   
 
