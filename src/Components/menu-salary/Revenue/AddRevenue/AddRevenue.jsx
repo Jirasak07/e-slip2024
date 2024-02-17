@@ -8,9 +8,9 @@ import Swal from "sweetalert2";
 import { Text } from "@mantine/core";
 import { API } from "../../../Config/ConfigApi";
 import SkeletonTable from "../../../Publicc-user/SkeletonTable";
-import ModalAddExpenditure from "./ModalAddExpenditure";
+import ModalAddRevenue from "./ModalAddRevenue";
 
-function AddExpenditure() {
+function AddRevenue() {
   const column = [
     {
       label: "#",
@@ -33,8 +33,8 @@ function AddExpenditure() {
       minimal: "lg",
     },
     {
-      label: "รายการรายจ่าย",
-      field: "expenditure",
+      label: "รายการรายรับ",
+      field: "revenue",
       minimal: "lg",
     },
     {
@@ -60,7 +60,7 @@ function AddExpenditure() {
   const [LoadTable, setLoadTable] = useState(false);
   const [DataTypeEmploy, setDataTypeEmploy] = useState([]);
   const [DataYear, setDataYear] = useState([]);
-  const [SelectDataExpend, setSelectDataExpend] = useState([]);
+  const [SelectDatarevenue, setSelectDatarevenue] = useState([]);
 
   const selectmount = [
     {
@@ -148,15 +148,15 @@ function AddExpenditure() {
       });
     }, 400);
   };
-  const SelectExpenditure = (id) => {
-    axios.get(API + "/index/showexpenditure/" + id).then((res) => {
+  const Selectrevenue = (id) => {
+    axios.get(API + "/index/showrevenue/" + id).then((res) => {
       const data = res.data;
       if (data.length !== 0) {
         const select = data.map((i) => ({
-          value: i.expenditure_id,
-          label: i.expenditure_name,
+          value: i.revenue_id,
+          label: i.revenue_name,
         }));
-        setSelectDataExpend(select);
+        setSelectDatarevenue(select);
       }
     });
   };
@@ -166,10 +166,10 @@ function AddExpenditure() {
     axios
       .get(
         API +
-          "/index/showexpenditurewhereid/" +
+          "/index/showrevenuewhereid/" +
           value.type_employ +
           "/" +
-          value.expenditure_id +
+          value.revenue_id +
           "/" +
           value.year +
           "/" +
@@ -187,9 +187,9 @@ function AddExpenditure() {
                 citizen: i.customers_citizent,
                 name: i.customers_pname + i.customers_name + " " + i.customers_lname,
                 type_employ: (DataTypeEmploy.find((val) => val.value === i.customers_type) || {}).label,
-                expenditure: (
+                revenue: (
                   <Text c="red.5" fz={14}>
-                    {i.expenditure_name}
+                    {i.revenue_name}
                   </Text>
                 ),
                 budget: (
@@ -205,14 +205,14 @@ function AddExpenditure() {
                 ),
                 manage: (
                   <>
-                    <ModalAddExpenditure
-                      expend_id={i.expenditure_id}
+                    <ModalAddRevenue
+                      revenue_id={i.revenue_id}
                       budget_id={i.idbudget}
                       citiid={i.customers_citizent}
                       payslip_total={i.payslip_total}
-                      expend_name={i.expenditure_name}
-                      expend_name_title={
-                        i.expenditure_name + "  " + i.customers_pname + i.customers_name + " " + i.customers_lname
+                      revenue_name={i.revenue_name}
+                      revenue_name_title={
+                        i.revenue_name + "  " + i.customers_pname + i.customers_name + " " + i.customers_lname
                       }
                       Serch={Serch}
                     />
@@ -241,21 +241,21 @@ function AddExpenditure() {
           ? "0" + (new Date().getMonth() + 1).toString()
           : (new Date().getMonth() + 1).toString(),
       year: new Date().getFullYear().toString(),
-      expenditure_id: "",
+      revenue_id: "",
     },
 
     validate: {
       type_employ: (v) => (v !== "" ? null : "กรุณาเลือกประเภทบุคลากร"),
       month: (v) => (v !== "" ? null : "กรุณาเลือกเดือน"),
       year: (v) => (v !== "" ? null : "กรุณาเลือกปี"),
-      expenditure_id: isNotEmpty("กรุณาเลือกประเภทรายจ่าย"),
+      revenue_id: isNotEmpty("กรุณาเลือกประเภทรายรับ"),
     },
   });
   return (
     <>
       <Container p={0} bg={"white"} fluid>
         <Badge color="var(--primary)" variant="light" size="md" radius={8}>
-        เพิ่มรายจ่ายแยกตามประเภท
+          เพิ่มรายรับแยกตามประเภท
         </Badge>
         <Paper mt={20}>
           <form
@@ -275,18 +275,18 @@ function AddExpenditure() {
                 onChange={(val) => {
                   formSearch.setValues({
                     type_employ: val,
-                    expenditure_id: null,
+                    revenue_id: null,
                   });
-                  SelectExpenditure(val);
+                  Selectrevenue(val);
                 }}
                 label="ประเภทบุคลากร"
               />
               <Select
                 searchable
                 allowDeselect={false}
-                label="ประเภทรายจ่าย"
-                data={SelectDataExpend}
-                {...formSearch.getInputProps("expenditure_id")}
+                label="ประเภทรายรับ"
+                data={SelectDatarevenue}
+                {...formSearch.getInputProps("revenue_id")}
               />
               <SimpleGrid cols={2}>
                 <Select allowDeselect={false} label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
@@ -320,4 +320,4 @@ function AddExpenditure() {
   );
 }
 
-export default AddExpenditure;
+export default AddRevenue;

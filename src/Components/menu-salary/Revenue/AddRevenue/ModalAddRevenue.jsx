@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { API } from "../../../Config/ConfigApi";
 import { isNotEmpty, useForm } from "@mantine/form";
 
-function ModalAddExpenditure({ expend_name_title, expend_name, budget_id, citiid, payslip_total, expend_id, Serch }) {
+function ModalAddRevenue({ revenue_name_title, revenue_name, budget_id, citiid, payslip_total, revenue_id, Serch }) {
   const [OpenModal, setOpenModal] = useState(false);
   const [SelectDataBudget, setSelectDataBudget] = useState([]);
   const FetchBudget = (params) => {
@@ -21,19 +21,19 @@ function ModalAddExpenditure({ expend_name_title, expend_name, budget_id, citiid
       }
     });
   };
-  const formAddExpendCustomer = useForm({
+  const formAddrevenueCustomer = useForm({
     initialValues: {
       customer_id: citiid,
       payslip_total: payslip_total,
       idbudget: budget_id,
-      expend_id: expend_id,
+      revenue_id: revenue_id,
     },
     validate: {
       idbudget: isNotEmpty("กรุณาเลือกงบประมาณที่ใช้"),
       payslip_total: isNotEmpty("กรุณากรอกข้อมูล"),
     },
   });
-  const SaveExpendNew = () => {
+  const SaverevenueNew = () => {
     Serch()
   };
 
@@ -48,27 +48,27 @@ function ModalAddExpenditure({ expend_name_title, expend_name, budget_id, citiid
         color="var(--warning)"
         leftSection={<IconEdit />}
       >
-        แก้ไขรายจ่าย
+        แก้ไขรายรับ
       </Button>
       <Modal
         opened={OpenModal}
         onClose={() => {
           setOpenModal(false);
         }}
-        title={"เพิ่มรายจ่าย" + expend_name_title}
+        title={"เพิ่มรายรับ" + revenue_name_title}
       >
         <form
-          onSubmit={formAddExpendCustomer.onSubmit((v) => {
-            SaveExpendNew(v);
+          onSubmit={formAddrevenueCustomer.onSubmit((v) => {
+            SaverevenueNew(v);
           })}
         >
           <SimpleGrid cols={{ base: 1, sm: 2 }}>
-            <TextInput label="ประเภทรายจ่าย" value={expend_name} readOnly disabled />
-            <NumberInput defaultValue={0} {...formAddExpendCustomer.getInputProps("payslip_total")} label="จำนวน" />
+            <TextInput label="ประเภทรายรับ" value={revenue_name} readOnly disabled />
+            <NumberInput defaultValue={0} {...formAddrevenueCustomer.getInputProps("payslip_total")} label="จำนวน" />
           </SimpleGrid>
           <SimpleGrid pt={10} cols={1}>
             <Select
-              {...formAddExpendCustomer.getInputProps("idbudget")}
+              {...formAddrevenueCustomer.getInputProps("idbudget")}
               label="งบประมาณที่ใช้"
               data={SelectDataBudget}
             />
@@ -93,4 +93,4 @@ function ModalAddExpenditure({ expend_name_title, expend_name, budget_id, citiid
   );
 }
 
-export default ModalAddExpenditure;
+export default ModalAddRevenue;
