@@ -1,4 +1,4 @@
-import { Button, Flex, Modal, NumberInput, Select, SimpleGrid, TextInput } from "@mantine/core";
+import { Button, Flex, Modal, NumberInput, Select, SimpleGrid, Text, TextInput } from "@mantine/core";
 import { IconDeviceFloppy, IconEdit, IconPlus } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -34,7 +34,7 @@ function ModalAddRevenue({ revenue_name_title, revenue_name, budget_id, citiid, 
     },
   });
   const SaverevenueNew = () => {
-    Serch()
+    Serch();
   };
 
   return (
@@ -55,7 +55,12 @@ function ModalAddRevenue({ revenue_name_title, revenue_name, budget_id, citiid, 
         onClose={() => {
           setOpenModal(false);
         }}
-        title={"เพิ่มรายรับ" + revenue_name_title}
+        title={
+          <Flex direction={"column"} >
+            <Text  fz={14}>{"เพิ่ม/แก้ไขรายรับ "}</Text>
+            <Text fz={14}> - {revenue_name_title}</Text>
+          </Flex>
+        }
       >
         <form
           onSubmit={formAddrevenueCustomer.onSubmit((v) => {

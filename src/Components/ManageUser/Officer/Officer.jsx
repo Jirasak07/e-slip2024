@@ -74,7 +74,7 @@ function Officer() {
               no: key + 1,
               citizen: i.customers_citizent,
               name: i.customers_pname + i.customers_name + " " + i.customers_lname,
-              bank: i.bank_name,
+              bank: i.bank_name === null? <Text fz={14} fw={300} >ไม่ได้ระบุ</Text>:i.bank_name,
               manage: (
                 <Flex direction={"row"} gap={5}>
                   <ModalEditOfficer customerid={i.customers_citizent} />{" "}

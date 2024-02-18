@@ -188,13 +188,13 @@ function AddExpenditure() {
                 name: i.customers_pname + i.customers_name + " " + i.customers_lname,
                 type_employ: (DataTypeEmploy.find((val) => val.value === i.customers_type) || {}).label,
                 expenditure: (
-                  <Text c="red.5" fz={14}>
+                  <Text c="blue" fz={14}>
                     {i.expenditure_name}
                   </Text>
                 ),
                 budget: (
                   <Text fz={14} c={i.namebudget === null ? "red.5" : "blue.5"}>
-                    {i.namebudget === null ? "ไม่มี กรุณาเพิ่มข้อมูล" : i.namebudget}
+                    {i.namebudget === null ? "ไม่ได้ระบุ" : i.namebudget}
                   </Text>
                 ),
                 total: (

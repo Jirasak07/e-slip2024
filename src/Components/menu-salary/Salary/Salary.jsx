@@ -1,19 +1,12 @@
-import {
-  Badge,
-  Button,
-  Container,
-  Paper,
-  Select,
-  SimpleGrid,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { Badge, Button, Container, Paper, Select, SimpleGrid } from "@mantine/core";
+import { isNotEmpty, useForm } from "@mantine/form";
 import { IconSearch } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
 import { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { Text } from '@mantine/core';
+import { Text } from "@mantine/core";
 import SkeletonTable from "../../Publicc-user/SkeletonTable";
 
 function Salary() {
@@ -53,7 +46,7 @@ function Salary() {
       field: "expenses",
       minimal: "lg",
     },
-   
+
     {
       label: "ยอดสุทธิ",
       field: "total",
@@ -170,7 +163,8 @@ function Salary() {
 
     setLoadTable(true);
 
-    axios.get(API+"/index/showrevenueandexpenditure/"+value.type_employ+"/"+value.year+"/"+value.month)
+    axios
+      .get(API + "/index/showrevenueandexpenditure/" + value.type_employ + "/" + value.year + "/" + value.month)
       .then((res) => {
         console.warn(res);
         const data = res.data;
@@ -181,15 +175,14 @@ function Salary() {
               ...data.map((i, key) => ({
                 no: key + 1,
                 citizen: i.customers_citizent,
-                name: i.customers_pname+i.customers_name+" "+i.customers_lname,
+                name: i.customers_pname + i.customers_name + " " + i.customers_lname,
                 type_employ: i.customer_type_name,
                 salary: <Text c="teal.8">{i.history_salary_salary}</Text>,
-                revenue:<Text c="blue">{i.revenue}</Text> ,
-                expenses:<Text c="red.9">{i.expenditure}</Text> ,
+                revenue: <Text c="blue">{i.revenue}</Text>,
+                expenses: <Text c="red.9">{i.expenditure}</Text>,
                 total: <Text c="dark.9">{i.salary_true}</Text>,
-                manage: <></>
+                manage: <></>,
                 // <ModalEditRevenue revenue_id={i.revenue_id} />
-                ,
               })),
             ],
           });
@@ -206,14 +199,17 @@ function Salary() {
   const formSearch = useForm({
     initialValues: {
       type_employ: "",
-      month: "",
-      year: "",
+      month: (new Date().getMonth().toString().length === 1
+        ? "0" + new Date().getMonth()
+        : new Date().getMonth()
+      ).toString(),
+      year:(new Date().getFullYear()).toString(),
     },
 
     validate: {
-      type_employ: (v) => (v !== "" ? null : "กรุณาเลือกประเภทบุคลากร"),
-      month: (v) => (v !== "" ? null : "กรุณาเลือกเดือน"),
-      year: (v) => (v !== "" ? null : "กรุณาเลือกปี"),
+      type_employ: isNotEmpty("กรุณาเลือกประเภทบุคลากร"),
+      month: isNotEmpty("กรุณาเลือกเดือน"),
+      year: isNotEmpty("กรุณาเลือกปี"),
     },
   });
   return (
@@ -226,25 +222,13 @@ function Salary() {
           <form
             onSubmit={formSearch.onSubmit((v) => {
               submitdata(v);
-             // console.log(v);
+              // console.log(v);
             })}
           >
             <SimpleGrid cols={4}>
-              <Select
-                data={DataTypeEmploy}
-                {...formSearch.getInputProps("type_employ")}
-                label="ประเภทบุคลากร"
-              />
-              <Select
-                label="เดือน"
-                data={selectmount}
-                {...formSearch.getInputProps("month")}
-              />
-              <Select
-                label="ปี"
-                data={DataYear}
-                {...formSearch.getInputProps("year")}
-              />
+              <Select data={DataTypeEmploy} {...formSearch.getInputProps("type_employ")} label="ประเภทบุคลากร" />
+              <Select label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
+              <Select label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
               <Button type="submit" mt={33} leftSection={<IconSearch />}>
                 ค้นหา
               </Button>
@@ -252,19 +236,20 @@ function Salary() {
           </form>
         </Paper>
         <Paper pt={20}>
-        {LoadTable ? (<SkeletonTable/>):(
-          <MDBDataTableV5
-            data={TableSalary}
-            responsive
-            striped
-            searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ"
-            barReverse
-            searchTop
-            searchBottom={false}
-            noRecordsFoundLabel="ไม่พบรายการ"
-          />
-        )}
-          
+          {LoadTable ? (
+            <SkeletonTable />
+          ) : (
+            <MDBDataTableV5
+              data={TableSalary}
+              responsive
+              striped
+              searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ"
+              barReverse
+              searchTop
+              searchBottom={false}
+              noRecordsFoundLabel="ไม่พบรายการ"
+            />
+          )}
         </Paper>
       </Container>
     </>

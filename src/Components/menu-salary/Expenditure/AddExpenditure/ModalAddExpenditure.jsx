@@ -1,4 +1,4 @@
-import { Button, Flex, Modal, NumberInput, Select, SimpleGrid, TextInput } from "@mantine/core";
+import { Button, Flex, Modal, NumberInput, Select, SimpleGrid, Text, TextInput } from "@mantine/core";
 import { IconDeviceFloppy, IconEdit, IconPlus } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -55,7 +55,12 @@ function ModalAddExpenditure({ expend_name_title, expend_name, budget_id, citiid
         onClose={() => {
           setOpenModal(false);
         }}
-        title={"เพิ่มรายจ่าย" + expend_name_title}
+        title={
+          <Flex direction={"column"} >
+            <Text  fz={14}>{"เพิ่ม/แก้ไขรายจ่าย "}</Text>
+            <Text fz={14}> - {expend_name_title}</Text>
+          </Flex>
+        }
       >
         <form
           onSubmit={formAddExpendCustomer.onSubmit((v) => {

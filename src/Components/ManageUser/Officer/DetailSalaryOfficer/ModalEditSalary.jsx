@@ -3,14 +3,14 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconDeviceFloppy, IconEdit } from "@tabler/icons-react";
 import React from "react";
 
-function ModalEditSalary() {
+function ModalEditSalary({total,idbudget,citizenid,year,month}) {
   const [opened, { open, close }] = useDisclosure();
   return (
     <div>
       <Button onClick={open} leftSection={<IconEdit />} color="var(--warning)" size="xs">
         แก้ไข
       </Button>
-      <Modal opened={opened} onClose={close}>
+      <Modal title="แก้ไขข้อมูลเงินเดือน" opened={opened} onClose={close}>
         <SimpleGrid>
           <Select label="ประเภทงบประมาณ" />
           <NumberInput label="จำนวนเงิน" thousandSeparator />
