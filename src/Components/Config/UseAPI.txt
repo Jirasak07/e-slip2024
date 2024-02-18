@@ -158,5 +158,16 @@ method = get
 path =  /index/showstatuswork
 method = get
 
+ /////////////////////
+เพิ่มข้อมูลบัญชีแต่ละคน 
+path =  index/Insertaccountbank
+method = post
+   body : {
+    customers_citizent : เลขบัตร,
+    bank_id : 4,
+    account_number : เลขที่บัญชี,
+    account_type :1,
+   }  
+
   
 
