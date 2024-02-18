@@ -214,7 +214,6 @@ function Officer() {
           ) : (
             <MDBDataTableV5
               responsive
-              theadColor="dark"
               striped
               searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ"
               searchTop
