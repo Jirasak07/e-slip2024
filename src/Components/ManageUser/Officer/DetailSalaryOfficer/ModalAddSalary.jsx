@@ -16,6 +16,7 @@ function ModalAddSalary({ Month, YearSelect, DataYear, DataMonth, DataBudget }) 
       citizenid: "",
     },
   });
+  
   return (
     <div>
       <Button

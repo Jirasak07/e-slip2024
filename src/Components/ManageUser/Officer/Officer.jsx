@@ -38,7 +38,7 @@ function Officer() {
     {
       label: "จัดการ",
       field: "manage",
-      minimal: "lg",
+      minimal: "sm",
     },
   ];
   const [TableUser, setTableUser] = useState({
@@ -77,7 +77,13 @@ function Officer() {
               bank: i.bank_name,
               manage: (
                 <Flex direction={"row"} gap={5}>
-                  <ModalEditOfficer customerid={i.customers_citizent} /> <ModalManageBankOfficer citizenid={i.customers_citizent} name={i.customers_pname + i.customers_name + " " + i.customers_lname} /> <ModalManageSalaryOfficer /> <ModalDeleteOfficer />
+                  <ModalEditOfficer customerid={i.customers_citizent} />{" "}
+                  <ModalManageBankOfficer
+                    citizenid={i.customers_citizent}
+                    name={i.customers_pname + i.customers_name + " " + i.customers_lname}
+                  />{" "}
+                  <ModalManageSalaryOfficer citizenid={i.customers_citizent} />
+                  {/* <ModalDeleteOfficer /> */}
                 </Flex>
               ),
             })),
@@ -156,9 +162,9 @@ function Officer() {
               FetchData(v.customer_type_id);
             })}
           >
-            <Flex direction={{base:"column",md:'row'}} gap={10}>
+            <Flex direction={{ base: "column", md: "row" }} gap={10}>
               <Select
-              miw={300}
+                miw={300}
                 withAsterisk
                 label="ประเภทบุคลากร"
                 {...formSearch.getInputProps("customer_type_id")}
@@ -166,36 +172,38 @@ function Officer() {
                 data={DataSelectTypeCustomer}
               />
               <Flex mt={{ base: 0, md: 33 }}>
-                <SimpleGrid  w="100%" cols={{base:1,sm:3}} >
-                <Button w={{base:null,sm:"100%"}} color="var(--primary)" type="submit" leftSection={<IconSearch />}>
-                  ค้นหา
-                </Button>
-                <Button
-              onClick={() => UpdateUserAdd()}
-              leftSection={<IconRefresh />}
-              variant="light"
-              color="var(--success)"
-            >
-              อัพเดทบุคลากรเพิ่มใหม่
-            </Button>
-            <Button
-              onClick={() => UpdateStatusUserOut()}
-              leftSection={<IconUserCancel />}
-              variant="light"
-              color="var(--danger)"
-            >
-              อัพเดทสถานะบุคลากรลาออก
-            </Button>
+                <SimpleGrid w="100%" cols={{ base: 1, sm: 3 }}>
+                  <Button
+                    w={{ base: null, sm: "100%" }}
+                    color="var(--primary)"
+                    type="submit"
+                    leftSection={<IconSearch />}
+                  >
+                    ค้นหา
+                  </Button>
+                  <Button
+                    onClick={() => UpdateUserAdd()}
+                    leftSection={<IconRefresh />}
+                    variant="light"
+                    color="var(--success)"
+                  >
+                    อัพเดทบุคลากรเพิ่มใหม่
+                  </Button>
+                  <Button
+                    onClick={() => UpdateStatusUserOut()}
+                    leftSection={<IconUserCancel />}
+                    variant="light"
+                    color="var(--danger)"
+                  >
+                    อัพเดทสถานะบุคลากรลาออก
+                  </Button>
                 </SimpleGrid>
-              
               </Flex>
             </Flex>
           </form>
         </Paper>
         <Paper p={10} my={10}>
-          <Flex justify={"flex-end"} direction={{ base: "column", md: "row" }} gap={10}>
-           
-          </Flex>
+          <Flex justify={"flex-end"} direction={{ base: "column", md: "row" }} gap={10}></Flex>
         </Paper>
         <Paper mt={10}>
           <Badge variant="light">รายการบุคลากร</Badge>

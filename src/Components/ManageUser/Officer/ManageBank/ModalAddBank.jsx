@@ -1,7 +1,6 @@
 import { Button, Flex, Modal, Select, SimpleGrid, TextInput } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconCashBanknote, IconDeviceFloppy } from "@tabler/icons-react";
-import React from "react";
 
 function ModalAddBank() {
   const [opened, { open, close }] = useDisclosure(false);

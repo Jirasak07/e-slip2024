@@ -1,45 +1,47 @@
-import { Button, Flex, Modal, Paper, Select, SimpleGrid } from "@mantine/core";
+import { Button, Flex, Modal, NumberFormatter, Paper, Select, SimpleGrid, Text } from "@mantine/core";
 import { IconCoin, IconSearch } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
 import React, { useState } from "react";
 import ModalAddSalary from "./DetailSalaryOfficer/ModalAddSalary";
 import axios from "axios";
 import { API } from "../../Config/ConfigApi";
+import ModalEditSalary from "./DetailSalaryOfficer/ModalEditSalary";
+import ModalDeleteSalary from "./DetailSalaryOfficer/ModalDeleteSalary";
 
-function ModalManageSalaryOfficer() {
+function ModalManageSalaryOfficer({ citizenid }) {
   const [Open, setOpen] = useState(false);
   const column = [
     {
-      label:'ลำดับ',
-      field:'no',
-      minimal:'sm'
+      label: "ลำดับ",
+      field: "no",
+      minimal: "sm",
     },
     {
-      label:'ปี',
-      field:'year',
-      minimal:'sm'
+      label: "ปี",
+      field: "year",
+      minimal: "sm",
     },
     {
-      label:'เดือน',
-      field:'month',
-      minimal:'sm'
+      label: "เดือน",
+      field: "month",
+      minimal: "sm",
     },
     {
-      label:'เงินเดือน',
-      field:'salary',
-      minimal:'md'
+      label: "เงินเดือน",
+      field: "salary",
+      minimal: "md",
     },
     {
-      label:'ประเภทงบประมาณ',
-      field:'budget',
-      minimal:'lg'
+      label: "ประเภทงบประมาณ",
+      field: "budget",
+      minimal: "lg",
     },
     {
-      label:'จัดการ',
-      field:'manage',
-      minimal:'lg'
+      label: "จัดการ",
+      field: "manage",
+      minimal: "lg",
     },
-  ]
+  ];
   const selectmount = [
     {
       value: "01",
@@ -91,10 +93,10 @@ function ModalManageSalaryOfficer() {
     },
   ];
   const [Table, setTable] = useState({
-    columns:column,
-    rows:[]
+    columns: column,
+    rows: [],
   });
-  const [YearNow, setYearNow] = useState((new Date().getFullYear().toString()));
+  const [YearNow, setYearNow] = useState(new Date().getFullYear().toString());
   const [DataYear, setDataYear] = useState([]);
   const FetchYear = () => {
     // setLoadTable(true);
@@ -112,27 +114,59 @@ function ModalManageSalaryOfficer() {
         }
       });
     }, 400);
-  }
+  };
   const [SelectDataBudget, setSelectDataBudget] = useState([]);
   const FetchBudget = (params) => {
-   axios.get(API+"/index/showBudget").then((res)=>{
-    const data = res.data;
-    if (data.length !== 0) {
-    //   setLoadTable(false);
-      const select = data.map((i) => ({
-        value: i.idbudget,
-        label: i.namebudget,
-      }));
-      setSelectDataBudget(select);
-    }
-   }) 
-  }
+    axios.get(API + "/index/showBudget").then((res) => {
+      const data = res.data;
+      if (data.length !== 0) {
+        //   setLoadTable(false);
+        const select = data.map((i) => ({
+          value: i.idbudget,
+          label: i.namebudget,
+        }));
+        setSelectDataBudget(select);
+      }
+    });
+  };
+  const FetchHistorySalary = (params) => {
+    axios.get(API + "/index/showhistorysalary/" + citizenid + "/" + YearNow).then((res) => {
+      const data = res.data;
+      if (data.length !== 0) {
+        console.log(data);
+        setTable({
+          columns: column,
+          rows: [
+            ...data.map((i, key) => ({
+              no: key + 1,
+              year: parseInt(i.history_salary_year) + 543,
+              month: (selectmount.find((val) => val.value === i.history_salary_month) || {}).label,
+              salary: <NumberFormatter thousandSeparator value={i.history_salary_salary} suffix=" ฿" />,
+              budget: (
+                <Text fz={14} c={i.namebudget === null ? "var(--danger)" : "blue"}>
+                  {i.namebudget === null ? "ไม่ได้ระบุ" : i.namebudget}{" "}
+                </Text>
+              ),
+              manage: (
+                <Flex gap={10}>
+                  <ModalEditSalary />
+                  <ModalDeleteSalary />
+                </Flex>
+              ),
+            })),
+          ],
+        });
+      }
+    });
+  };
+
   return (
     <>
       <Button
         onClick={() => {
-          FetchBudget()
-          FetchYear()
+          FetchBudget();
+          FetchYear();
+          FetchHistorySalary();
           setOpen(true);
         }}
         leftSection={<IconCoin />}
@@ -151,13 +185,28 @@ function ModalManageSalaryOfficer() {
         title="จัดการเงินเดือน"
       >
         <Paper>
-          <SimpleGrid cols={3} >
-            <Select allowDeselect={false} searchable label="เลือกปี" value={YearNow} onChange={(v)=>setYearNow(v)} data={DataYear} />
-            <Flex pt={33} >
-              <Button color="var(--primary)" leftSection={<IconSearch/>}  >เลือก</Button>
+          <SimpleGrid cols={3}>
+            <Select
+              allowDeselect={false}
+              searchable
+              label="เลือกปี"
+              value={YearNow}
+              onChange={(v) => setYearNow(v)}
+              data={DataYear}
+            />
+            <Flex pt={33}>
+              <Button color="var(--primary)" leftSection={<IconSearch />}>
+                เลือก
+              </Button>
             </Flex>
-            <Flex pt={33} justify={"flex-end"} >
-              <ModalAddSalary DataBudget={SelectDataBudget} YearSelect={YearNow} Month={"01"} DataYear={DataYear} DataMonth={selectmount} />
+            <Flex pt={33} justify={"flex-end"}>
+              <ModalAddSalary
+                DataBudget={SelectDataBudget}
+                YearSelect={YearNow}
+                Month={Table.rows[Table.rows.length]}
+                DataYear={DataYear}
+                DataMonth={selectmount}
+              />
             </Flex>
           </SimpleGrid>
         </Paper>
