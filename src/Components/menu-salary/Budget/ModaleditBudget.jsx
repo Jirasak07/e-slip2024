@@ -72,7 +72,6 @@ export default function ModaleditBudget(props) {
   return (
     <>
       <Modal opened={opened} onClose={close} title="แก้ไขงบประมาณ">
-        {/* Modal content */}
         <Box maw={340} mx="auto">
           <form onSubmit={form.onSubmit(submitdata)}>
             <TextInput label="ชื่องบประมาณ" placeholder="ชื่องบประมาณ" {...form.getInputProps("name")} />

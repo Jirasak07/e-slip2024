@@ -83,7 +83,6 @@ function Officer() {
                     name={i.customers_pname + i.customers_name + " " + i.customers_lname}
                   />{" "}
                   <ModalManageSalaryOfficer citizenid={i.customers_citizent} />
-                  {/* <ModalDeleteOfficer /> */}
                 </Flex>
               ),
             })),
