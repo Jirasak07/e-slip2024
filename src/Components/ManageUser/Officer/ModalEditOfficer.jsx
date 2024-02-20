@@ -67,39 +67,60 @@ function ModalEditOfficer({ customerid }) {
     });
   };
 
+  const Submit = (value) => {
+    const frmData = new FormData();
+    frmData.append("customer_status_id", value.customer_status_id);
+    frmData.append("customers_citizent", value.customers_citizent);
+    axios.post(API + "/index/updatestatuswork", frmData).then((res) => {
+      console.log(res.data);
+      
+    });
+  };
+
   return (
     <>
       <Modal title="แก้ไขข้อมูลพนักงาน" opened={opened} onClose={close}>
-        <SimpleGrid>
-          <TextInput {...formEmploy.getInputProps("customers_citizent")} disabled label="เลขบัตรประชาชน/รหัสพนักงาน" />
-          <SimpleGrid cols={2}>
-            <TextInput {...formEmploy.getInputProps("fname")} readOnly label="ชื่อ" />
-            <TextInput {...formEmploy.getInputProps("lname")} readOnly label="นามสกุล" />
-          </SimpleGrid>
-          <SimpleGrid cols={2}>
-            <Select
-              data={DataSelectTypeCustomer}
-              {...formEmploy.getInputProps("customer_type_id")}
-              readOnly
+        <form
+          onSubmit={formEmploy.onSubmit((value) => {
+            Submit(value);
+          })}
+        >
+          {" "}
+          <SimpleGrid>
+            <TextInput
+              {...formEmploy.getInputProps("customers_citizent")}
               disabled
-              label="ประเภท"
+              label="เลขบัตรประชาชน/รหัสพนักงาน"
             />
-            <Select
-              data={DataStatus}
-              {...formEmploy.getInputProps("customer_status_id")}
-              allowDeselect={false}
-              label="สถานะ"
-            />
+            <SimpleGrid cols={2}>
+              <TextInput {...formEmploy.getInputProps("fname")} readOnly label="ชื่อ" />
+              <TextInput {...formEmploy.getInputProps("lname")} readOnly label="นามสกุล" />
+            </SimpleGrid>
+            <SimpleGrid cols={2}>
+              <Select
+                data={DataSelectTypeCustomer}
+                {...formEmploy.getInputProps("customer_type_id")}
+                readOnly
+                disabled
+                label="ประเภท"
+              />
+              <Select
+                data={DataStatus}
+                {...formEmploy.getInputProps("customer_status_id")}
+                allowDeselect={false}
+                label="สถานะ"
+              />
+            </SimpleGrid>
           </SimpleGrid>
-        </SimpleGrid>
-        <Flex justify={"flex-end"} pt={10} gap={5}>
-          <Button type="submit" color="var(--success)" leftSection={<IconDeviceFloppy />}>
-            บันทึก
-          </Button>
-          <Button color="var(--danger)" variant="transparent" onClick={close}>
-            ยกเลิก
-          </Button>
-        </Flex>
+          <Flex justify={"flex-end"} pt={10} gap={5}>
+            <Button type="submit" color="var(--success)" leftSection={<IconDeviceFloppy />}>
+              บันทึก
+            </Button>
+            <Button color="var(--danger)" variant="transparent" onClick={close}>
+              ยกเลิก
+            </Button>
+          </Flex>
+        </form>
       </Modal>
       <Button
         onClick={() => {
