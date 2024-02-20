@@ -77,9 +77,10 @@ function Officer() {
               bank: i.bank_name === null? <Text fz={14} fw={300} >ไม่ได้ระบุ</Text>:i.bank_name,
               manage: (
                 <Flex direction={"row"} gap={5}>
-                  <ModalEditOfficer customerid={i.customers_citizent} />{" "}
+                  <ModalEditOfficer customerid={i.customers_citizent} fn={Fetchcc} />
                   <ModalManageBankOfficer
                     citizenid={i.customers_citizent}
+
                     name={i.customers_pname + i.customers_name + " " + i.customers_lname}
                   />{" "}
                   <ModalManageSalaryOfficer citizenid={i.customers_citizent} />
@@ -143,6 +144,10 @@ function Officer() {
       }
     });
   };
+  const Fetchcc = () => {
+    FetchData(formSearch.values.customer_type_id)
+  }
+  
   return (
     <>
       <LoadingOverlay

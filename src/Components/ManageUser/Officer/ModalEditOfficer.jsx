@@ -5,14 +5,15 @@ import axios from "axios";
 import React, { useState } from "react";
 import { API } from "../../Config/ConfigApi";
 import { isNotEmpty, useForm } from "@mantine/form";
+import Swal from "sweetalert2";
 
-function ModalEditOfficer({ customerid }) {
+function ModalEditOfficer({ customerid,fn }) {
   const [opened, { open, close }] = useDisclosure(false);
   const [DataSelectTypeCustomer, setDataSelectTypeCustomer] = useState([]);
   const [DataStatus, setDataStatus] = useState([]);
   const formEmploy = useForm({
     initialValues: {
-      customers_citizent: customerid,
+      customers_citizent: "",
       fname: "",
       lname: "",
       customer_type_id: "",
@@ -73,7 +74,18 @@ function ModalEditOfficer({ customerid }) {
     frmData.append("customers_citizent", value.customers_citizent);
     axios.post(API + "/index/updatestatuswork", frmData).then((res) => {
       console.log(res.data);
-      
+      if(res.data === "200"){
+        Swal.fire({
+          icon:'success',
+          title:'อัพเดทเสร็จสิ้น',
+          timer:1200,
+          timerProgressBar:true,
+          showConfirmButton:false
+        }).then((res)=>{
+          fn()
+          close()
+        })
+      }
     });
   };
 
@@ -85,7 +97,7 @@ function ModalEditOfficer({ customerid }) {
             Submit(value);
           })}
         >
-          {" "}
+          {customerid}
           <SimpleGrid>
             <TextInput
               {...formEmploy.getInputProps("customers_citizent")}
@@ -124,6 +136,9 @@ function ModalEditOfficer({ customerid }) {
       </Modal>
       <Button
         onClick={() => {
+          formEmploy.setValues({
+            customers_citizent: customerid,
+          });
           FetchStatusCustomer();
           FetchTypeCustomer();
           FetchDataEmploy();

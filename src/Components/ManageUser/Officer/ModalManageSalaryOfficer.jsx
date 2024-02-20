@@ -149,7 +149,7 @@ function ModalManageSalaryOfficer({ citizenid }) {
               ),
               manage: (
                 <Flex gap={10}>
-                  <ModalEditSalary />
+                  <ModalEditSalary  />
                   <ModalDeleteSalary />
                 </Flex>
               ),
