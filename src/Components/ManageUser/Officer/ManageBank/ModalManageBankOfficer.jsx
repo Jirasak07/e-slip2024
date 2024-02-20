@@ -4,6 +4,8 @@ import { IconBook, IconCashBanknote, IconDeviceFloppy, IconPlus } from "@tabler/
 import { MDBDataTableV5 } from "mdbreact";
 import React, { useState } from "react";
 import ModalAddBank from "./ModalAddBank";
+import axios from "axios";
+import { API } from "../../../Config/ConfigApi";
 
 function ModalManageBankOfficer({ name, citizenid }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -36,10 +38,33 @@ function ModalManageBankOfficer({ name, citizenid }) {
       field: "manage",
     },
   ];
+  const FetchBank = (params) => {
+    axios.get(API + "/index/showcustomerbank/" + citizenid).then((res) => {
+      console.log(res.data);
+      const data = res.data;
+      if (data.length !== 0) {
+        setRowTatble([
+            ...data.map((i,key)=>({
+              no:key+1
+            }))
+          ])
+      } else {
+        console.log("error ");
+      }
+    });
+  };
 
   return (
     <>
-      <Button onClick={open} leftSection={<IconBook />} size="xs" color="var(--primary)">
+      <Button
+        onClick={() => {
+          FetchBank();
+          open();
+        }}
+        leftSection={<IconBook />}
+        size="xs"
+        color="var(--primary)"
+      >
         บัญชี
       </Button>
 
