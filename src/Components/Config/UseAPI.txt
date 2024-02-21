@@ -81,8 +81,10 @@ method = get
 path =  index/showcustomerdetail/idพนักงาน
 method = get
 
+
+
     /////////////////////
-แสดงข้อมูลสถานะการทำงานแต่ละประเภท
+อัพเดทข้อมูลสถานะการทำงานแต่ละคน
 path =  index/updatestatuswork
 method = post
     body : {
@@ -90,6 +92,7 @@ method = post
     customers_citizent : เลขบัตร
     
    }  
+
 
        /////////////////////
 แสดงข้อมูลบัญชีธนาคารแต่ละคน
@@ -169,5 +172,40 @@ method = post
     account_type :1,
    }  
 
-  
 
+ /////////////////////
+อัพเดทข้อมูลรายรับแยกประเภทแต่ละคน 
+path =  index/updatepaysliprevenue
+method = post
+   body : {
+    payslip_citizent : เลขบัตร,
+    payslip_year : 2024,
+    payslip_month : 02,
+    payslip_total: 300,
+    payslip_status_out: 1,
+    payslip_revenue :16,
+   }  
+
+    /////////////////////
+อัพเดทข้อมูลรายจ่ายแยกประเภทแต่ละคน 
+path =  index/updatepaysliprevenue
+method = post
+   body : {
+    payslip_citizent : เลขบัตร,
+    payslip_year : 2024,
+    payslip_month : 02,
+    payslip_total: 300,
+    payslip_status_out: 1,
+    payslip_expenditure :16,
+   }  
+
+       /////////////////////
+แสดงข้อมูลรายรับทุกประเภทแต่ละคน
+path =  index/showrevenueallid/2023/01/เลขบัตร/idประเภทพนักงาน
+method = get
+
+       /////////////////////
+แสดงข้อมูลรายจ่ายทุกประเภทแต่ละคน
+path =  index/showexpenditureallid/2023/01/เลขบัตร/idประเภทพนักงาน
+method = get
+wedwed
