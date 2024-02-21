@@ -8,6 +8,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Text } from "@mantine/core";
 import SkeletonTable from "../../Publicc-user/SkeletonTable";
+import ModalAddrevenue from "./ModalAddrevenue";
+
 
 function Salary() {
   const column = [
@@ -181,8 +183,7 @@ function Salary() {
                 revenue: <Text c="blue">{i.revenue}</Text>,
                 expenses: <Text c="red.9">{i.expenditure}</Text>,
                 total: <Text c="dark.9">{i.salary_true}</Text>,
-                manage: <></>,
-                // <ModalEditRevenue revenue_id={i.revenue_id} />
+                manage: <ModalAddrevenue year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type}/>,
               })),
             ],
           });
