@@ -61,11 +61,10 @@ export default function ModaladdBudget() {
   return (
     <>
       <Modal opened={opened} onClose={close} title="เพิ่มงบประมาณ">
-        {/* Modal content */}
+
         <Box maw={340} mx="auto">
             <form onSubmit={form.onSubmit(submitdata)}>
               <TextInput label="ชื่องบประมาณ" placeholder="ชื่องบประมาณ" {...form.getInputProps('name')} />
-              {/* <TextInput mt="sm" label="Email" placeholder="Email" {...form.getInputProps('email')} /> */}
               <NumberInput
                 mt="sm"
                 label="level"
