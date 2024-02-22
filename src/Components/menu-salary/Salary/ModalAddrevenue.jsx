@@ -13,6 +13,7 @@ function ModalAddrevenue({ year, month, citizent, type }) {
   const [openModal, setopenModal] = useState(false);
   const [OverLay, setOverLay] = useState(false);
   const [DataTypeEmploy, setDataTypeEmploy] = useState([]);
+  const [DataCheck, setDataCheck] = useState([]);
 
   const formEditExpenditure = useForm({
     initialValues: {
@@ -56,9 +57,10 @@ const Fetchdata = () => {
          console.log(res.data);
         const data = res.data;
         setopenModal(true);
-        formEditExpenditure.setValues({
-            check:data
-        })
+        // formEditExpenditure.setValues({
+        //     check:data
+        // })
+        setDataCheck(data);
 
         // const itemsf = data.map((value, index) => (
 
@@ -142,7 +144,7 @@ const Fetchdata = () => {
           UpdateExpenditure(value)
         })} >
                {
-              formEditExpenditure.values.check.map((value, index) => (
+              DataCheck.map((value, index) => (
 
                     <Grid>
                         <Grid.Col span={4}>
@@ -159,7 +161,7 @@ const Fetchdata = () => {
                             />
                     </Grid.Col>
                     <Grid.Col span={4}>
-                            <TextInput  {...formEditExpenditure.getInputProps("check")}  />
+                            <TextInput  key={value.revenue_id}  value={value.payslip_total} />
                         </Grid.Col>
                     </Grid>
 
