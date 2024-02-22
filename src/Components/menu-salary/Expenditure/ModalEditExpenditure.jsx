@@ -1,5 +1,5 @@
 import { Button, Flex, LoadingOverlay, Modal, Select, SimpleGrid, TextInput } from "@mantine/core";
-import { IconDeviceFloppy, IconEdit } from "@tabler/icons-react";
+import { IconDeviceFloppy, IconEdit, IconPlaylistAdd } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
@@ -44,36 +44,36 @@ function ModalEditExpenditure({ FetchExpenditure, expenditure_id, selectType }) 
   const UpdateExpenditure = (value) => {
     setOverLay(true)
     const data = new FormData();
-    data.append("expenditure_id",value.expenditure_id)
-    data.append("expenditure_name",value.expenditure_name)
-    data.append("customer_type_id",value.customer_type_id)
-    data.append("use_tax",0)
-   axios.post(API+"/index/updateexpenditure",data).then((res)=>{
-    if(res.data === "200"){
-      setOverLay(false)
-      Swal.fire({
-        icon:'success',
-        title:'อัพเดทข้อมูลรายจ่ายสำเร็จ',
-        timer:1000,
-        timerProgressBar:true,
-        showConfirmButton:false
-      }).then((res)=>{
-        FetchExpenditure(value.customer_type_id)
-        setopenModal(false)
-      })
-    }
-   }) 
+    data.append("expenditure_id", value.expenditure_id)
+    data.append("expenditure_name", value.expenditure_name)
+    data.append("customer_type_id", value.customer_type_id)
+    data.append("use_tax", 0)
+    axios.post(API + "/index/updateexpenditure", data).then((res) => {
+      if (res.data === "200") {
+        setOverLay(false)
+        Swal.fire({
+          icon: 'success',
+          title: 'อัพเดทข้อมูลรายจ่ายสำเร็จ',
+          timer: 1000,
+          timerProgressBar: true,
+          showConfirmButton: false
+        }).then((res) => {
+          FetchExpenditure(value.customer_type_id)
+          setopenModal(false)
+        })
+      }
+    })
   }
-  
+
   return (
     <>
-   
+
       <Button
         onClick={() => {
           FetchData();
         }}
         color="var(--warning)"
-        leftSection={<IconEdit />}
+        leftSection={<IconPlaylistAdd />}
         size="xs"
       >
         แก้ไขข้อมูลรายจ่าย
@@ -85,8 +85,8 @@ function ModalEditExpenditure({ FetchExpenditure, expenditure_id, selectType }) 
         }}
         closeOnClickOutside={false}
       >
-         <LoadingOverlay visible={OverLay} loaderProps={{type:'dots'}}  />
-        <form onSubmit={formEditExpenditure.onSubmit((value)=>{
+        <LoadingOverlay visible={OverLay} loaderProps={{ type: 'dots' }} />
+        <form onSubmit={formEditExpenditure.onSubmit((value) => {
           UpdateExpenditure(value)
         })} >
           <SimpleGrid>
@@ -102,7 +102,7 @@ function ModalEditExpenditure({ FetchExpenditure, expenditure_id, selectType }) 
             <Button type="submit" leftSection={<IconDeviceFloppy />} color="var(--success)">
               บันทึก
             </Button>
-            <Button onClick={()=>{
+            <Button onClick={() => {
               setopenModal(false)
             }} color="var(--danger)" variant="transparent">
               ยกเลิก

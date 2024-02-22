@@ -1,4 +1,4 @@
-import { Badge, Button, Container, Paper, Select, SimpleGrid } from "@mantine/core";
+import { Badge, Button, Container, Paper, Select, SimpleGrid, Flex } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { IconSearch } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
@@ -9,6 +9,8 @@ import Swal from "sweetalert2";
 import { Text } from "@mantine/core";
 import SkeletonTable from "../../Publicc-user/SkeletonTable";
 import ModalAddrevenue from "./ModalAddrevenue";
+import ModalExpenditure from "./ModalExpenditure";
+
 
 
 function Salary() {
@@ -183,7 +185,11 @@ function Salary() {
                 revenue: <Text c="blue">{i.revenue}</Text>,
                 expenses: <Text c="red.9">{i.expenditure}</Text>,
                 total: <Text c="dark.9">{i.salary_true}</Text>,
-                manage: <ModalAddrevenue year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type}/>,
+                manage: (<Flex direction={"row"} gap={5}>
+                        <ModalAddrevenue year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type}/> 
+                        <ModalExpenditure year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type}/>
+                        </Flex>)
+                ,
               })),
             ],
           });
