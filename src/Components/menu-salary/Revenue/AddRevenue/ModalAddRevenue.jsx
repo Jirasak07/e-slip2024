@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { API } from "../../../Config/ConfigApi";
 import { isNotEmpty, useForm } from "@mantine/form";
+import Swal from "sweetalert2";
 
 function ModalAddRevenue({ revenue_name_title, revenue_name, budget_id, citiid, payslip_total, revenue_id, Serch ,month,payslip_status_out,payslip_year}) {
   const [OpenModal, setOpenModal] = useState(false);
@@ -42,18 +43,30 @@ function ModalAddRevenue({ revenue_name_title, revenue_name, budget_id, citiid, 
   });
   const SaverevenueNew = (data) => {
     const frm = new FormData();
-    frm.append("payslip_citizent", "");
-    frm.append("payslip_year", "");
-    frm.append("payslip_month", "");
-    frm.append("payslip_total", "");
-    frm.append("payslip_status_out", "");
-    frm.append("payslip_revenue", "");
-    // axios.post().then((res) => {
-    //   if (res.data === "200") {
-    //     console.log("success");
-    //     Serch();
-    //   }
-    // });
+    frm.append("payslip_citizent", data.payslip_citizent);
+    frm.append("payslip_year", data.payslip_year);
+    frm.append("payslip_month", data.payslip_month);
+    frm.append("payslip_total", data.payslip_total);
+    frm.append("payslip_status_out", data.payslip_status_out);
+    frm.append("payslip_revenue", data.payslip_revenue);
+    frm.append("idbudget", data.idbudget);
+    axios.post(API+"/index/updatepaysliprevenue",frm).then((res) => {
+      if (res.data === "200") {
+        Swal.fire({
+          icon:'success',
+          title:"อัพเดทสำเร็จ",
+          timer:1000,
+          timerProgressBar:true,
+          showConfirmButton:false
+        }).then((res)=>{
+                 console.log("success");
+        Serch();
+        })
+ 
+      }else{
+        console.error(res.data)
+      }
+    });
     console.info(data)
   };
 const setForm = () => {

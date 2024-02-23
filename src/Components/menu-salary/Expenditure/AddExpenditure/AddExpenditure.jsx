@@ -211,6 +211,9 @@ function AddExpenditure() {
                       citiid={i.customers_citizent}
                       payslip_total={i.payslip_total}
                       expend_name={i.expenditure_name}
+                      payslip_month={i.payslip_month}
+                      payslip_status_out={i.payslip_status_out}
+                      payslip_year={i.payslip_year}
                       expend_name_title={
                         i.expenditure_name + "  " + i.customers_pname + i.customers_name + " " + i.customers_lname
                       }

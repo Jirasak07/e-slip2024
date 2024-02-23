@@ -4,15 +4,26 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { API } from "../../../Config/ConfigApi";
 import { isNotEmpty, useForm } from "@mantine/form";
+import Swal from "sweetalert2";
 
-function ModalAddExpenditure({ expend_name_title, expend_name, budget_id, citiid, payslip_total, expend_id, Serch }) {
+function ModalAddExpenditure({
+  expend_name_title,
+  expend_name,
+  budget_id,
+  citiid,
+  payslip_total,
+  expend_id,
+  Serch,
+  payslip_year,
+  payslip_month,
+  payslip_status_out,
+}) {
   const [OpenModal, setOpenModal] = useState(false);
   const [SelectDataBudget, setSelectDataBudget] = useState([]);
-  const FetchBudget = (params) => {
+  const FetchBudget = () => {
     axios.get(API + "/index/showBudget").then((res) => {
       const data = res.data;
       if (data.length !== 0) {
-        //   setLoadTable(false);
         const select = data.map((i) => ({
           value: i.idbudget,
           label: i.namebudget,
@@ -23,24 +34,67 @@ function ModalAddExpenditure({ expend_name_title, expend_name, budget_id, citiid
   };
   const formAddExpendCustomer = useForm({
     initialValues: {
-      customer_id: citiid,
-      payslip_total: payslip_total,
-      idbudget: budget_id,
-      expend_id: expend_id,
+      payslip_citizent: "",
+      payslip_year: "",
+      payslip_month: "",
+      payslip_total: "",
+      payslip_status_out: "",
+      payslip_expenditure: "",
+      idbudget: "",
     },
     validate: {
       idbudget: isNotEmpty("กรุณาเลือกงบประมาณที่ใช้"),
       payslip_total: isNotEmpty("กรุณากรอกข้อมูล"),
+      payslip_citizent: isNotEmpty("กรุณากรอกข้อมูล"),
+      payslip_year: isNotEmpty("กรุณากรอกข้อมูล"),
+      payslip_status_out: isNotEmpty("กรุณากรอกข้อมูล"),
+      payslip_expenditure: isNotEmpty("กรุณากรอกข้อมูล"),
     },
   });
-  const SaveExpendNew = () => {
-    Serch()
+  const SaveExpendNew = (data) => {
+    const frm = new FormData();
+    frm.append("payslip_citizent", data.payslip_citizent);
+    frm.append("payslip_year", data.payslip_year);
+    frm.append("payslip_month", data.payslip_month);
+    frm.append("payslip_total", data.payslip_total);
+    frm.append("payslip_status_out", data.payslip_status_out);
+    frm.append("payslip_expenditure", data.payslip_expenditure);
+    frm.append("idbudget", data.idbudget);
+    axios.post(API+"/index/updatepayslipexpenditure",frm).then((res) => {
+      if (res.data === "200") {
+        Swal.fire({
+          icon:'success',
+          title:"อัพเดทสำเร็จ",
+          timer:1000,
+          timerProgressBar:true,
+          showConfirmButton:false
+        }).then((res)=>{
+                 console.log("success");
+        Serch();
+        })
+ 
+      }else{
+        console.error(res.data)
+      }
+    });
+    console.info(data)
   };
-
+  const setForm = () => {
+    formAddExpendCustomer.setValues({
+      payslip_citizent: citiid,
+      payslip_year: payslip_year,
+      payslip_month: payslip_month,
+      payslip_total: payslip_total,
+      payslip_status_out: payslip_status_out,
+      payslip_expenditure: expend_id,
+      idbudget: budget_id,
+    });
+  };
   return (
     <div>
       <Button
         onClick={() => {
+          setForm();
           FetchBudget();
           setOpenModal(true);
         }}
@@ -56,8 +110,8 @@ function ModalAddExpenditure({ expend_name_title, expend_name, budget_id, citiid
           setOpenModal(false);
         }}
         title={
-          <Flex direction={"column"} >
-            <Text  fz={14}>{"เพิ่ม/แก้ไขรายจ่าย "}</Text>
+          <Flex direction={"column"}>
+            <Text fz={14}>{"เพิ่ม/แก้ไขรายจ่าย "}</Text>
             <Text fz={14}> - {expend_name_title}</Text>
           </Flex>
         }
@@ -69,7 +123,7 @@ function ModalAddExpenditure({ expend_name_title, expend_name, budget_id, citiid
         >
           <SimpleGrid cols={{ base: 1, sm: 2 }}>
             <TextInput label="ประเภทรายจ่าย" value={expend_name} readOnly disabled />
-            <NumberInput defaultValue={0} {...formAddExpendCustomer.getInputProps("payslip_total")} label="จำนวน" />
+            <NumberInput thousandSeparator suffix=" ฿"  {...formAddExpendCustomer.getInputProps("payslip_total")} label="จำนวน" />
           </SimpleGrid>
           <SimpleGrid pt={10} cols={1}>
             <Select

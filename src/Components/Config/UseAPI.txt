@@ -189,7 +189,7 @@ method = post
 
     /////////////////////
 อัพเดทข้อมูลรายจ่ายแยกประเภทแต่ละคน 
-path =  index/updatepaysliprevenue
+path =  index/updatepayslipexpenditure
 method = post
    body : {
     payslip_citizent : เลขบัตร,
