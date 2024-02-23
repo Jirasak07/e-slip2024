@@ -267,7 +267,7 @@ function AddExpenditure() {
               // console.log(v);
             })}
           >
-            <SimpleGrid cols={4}>
+ <SimpleGrid cols={{base:1,md:4,sm:2}}>
               <Select
                 allowDeselect={false}
                 searchable
@@ -291,7 +291,7 @@ function AddExpenditure() {
                 data={SelectDataExpend}
                 {...formSearch.getInputProps("expenditure_id")}
               />
-              <SimpleGrid cols={2}>
+ <SimpleGrid cols={{base:1,md:2,sm:2}}>
                 <Select allowDeselect={false} label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
                 <Select allowDeselect={false} label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
               </SimpleGrid>

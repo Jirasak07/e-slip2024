@@ -239,11 +239,11 @@ function Salary() {
               // console.log(v);
             })}
           >
-            <SimpleGrid cols={4}>
+            <SimpleGrid cols={{base:2,md:4}}>
               <Select data={DataTypeEmploy} {...formSearch.getInputProps("type_employ")} label="ประเภทบุคลากร" />
               <Select label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
               <Select label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
-              <Button type="submit" mt={33} leftSection={<IconSearch />}>
+              <Button type="submit" mt={33} color="var(--primary)" leftSection={<IconSearch />}>
                 ค้นหา
               </Button>
             </SimpleGrid>

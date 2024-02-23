@@ -46,21 +46,21 @@ export function Layouts() {
   const [OverLay, setOverLay] = useState(false);
   return (
     <AppShell
-      header={{ height: { base: 50, sm: 0 } }}
-      navbar={{ width: 320, breakpoint: "sm", collapsed: { mobile: !opened } }}
+      header={{ height: { base: 50, md: 0 } }}
+      navbar={{ width: 320, breakpoint: "md", collapsed: { mobile: !opened } }}
       padding="md"
     >
-      <AppShell.Header hiddenFrom="sm" bg={"var(--primary)"}>
+      <AppShell.Header hiddenFrom="md" bg={"var(--primary)"}>
         <Flex h="100%" align={"center"} justify={"space-between"} pr={10}>
           <Flex justify={"center"} w={"95%"}>
             <IconWallet color="white" /> <Text c="white">PAY-SLIP KPRU</Text>
           </Flex>
-          <Burger color="white" opened={opened} onClick={toggle} hiddenFrom="sm" size="md" />
+          <Burger color="white" opened={opened} onClick={toggle} hiddenFrom="md" size="md" />
         </Flex>
       </AppShell.Header>
       <AppShell.Navbar>
         {" "}
-        <Flex visibleFrom="sm" direction={"column"}>
+        <Flex visibleFrom="md" direction={"column"}>
           <Flex pb={0} mih={50} align={"flex-end"} justify={"center"} gap={10}>
             <IconWallet stroke={2} size={30} color="var(--primary)" />{" "}
             <Text fw={600} fz={20} c="var(--primary)">
