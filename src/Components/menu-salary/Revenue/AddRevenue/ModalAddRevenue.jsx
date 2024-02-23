@@ -27,7 +27,7 @@ function ModalAddRevenue({ revenue_name_title, revenue_name, budget_id, citiid, 
     payslip_citizent : "",
     payslip_year : "",
     payslip_month : "",
-    payslip_total: "",
+    payslip_total: 0,
     payslip_status_out: "",
     payslip_revenue :"",
     idbudget:""
@@ -74,7 +74,7 @@ const setForm = () => {
     payslip_citizent :citiid,
     payslip_year : payslip_year,
     payslip_month : month,
-    payslip_total: payslip_total,
+    payslip_total: parseFloat(payslip_total),
     payslip_status_out: payslip_status_out,
     payslip_revenue :revenue_id,
     idbudget:budget_id
