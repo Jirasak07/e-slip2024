@@ -30,91 +30,26 @@ function ModalAddrevenue({ year, month, citizent, type }) {
       expenditure_name: isNotEmpty("กรุณากรอกข้อมูล"),
     },
   });
-
-  //   const FetchData = () => {
-  //     axios
-  //       .post(API + "/index/ExpenditureDetail", {
-  //         expenditure_id: expenditure_id,
-  //       })
-  //       .then((res) => {
-  //         const data = res.data;
-  //         console.log(data);
-  //         if (data.length !== 0) {
-  //           formEditExpenditure.setValues({
-  //             expenditure_name: data[0].expenditure_name,
-  //             customer_type_id: data[0].customer_type_id,
-  //           });
-  //           setopenModal(true);
-  //           // console.log(data[0].customer_type_id)
-  //         } else {
-  //           console.log("null");
-  //         }
-  //       });
-  //   };
-
   const Fetchdata = () => {
     setTimeout(() => {
       axios.get(API + "/index/showrevenueallid/" + year + "/" + month + "/" + citizent + "/" + type).then((res) => {
         console.log(res.data);
         const data = res.data;
+        formEditExpenditure.setValues({
+          check:data
+        })
         setopenModal(true);
         setDataCheck(data);
-
-        // const itemsf = data.map((value, index) => (
-
-        //     <Grid>
-        //         <Grid.Col span={4}>
-        //           <Text size="xs">{value.revenue_name}</Text>
-        //         </Grid.Col>
-        //         <Grid.Col span={4}>
-        //         <Checkbox
-        //             mt="xs"
-        //             ml={33}
-        //             //   label={'test'}
-        //             key={index}
-        //             checked={'0'}
-        //             onChange={(event) => handlers.setItemProp(index, 'checked', event.currentTarget.checked)}
-        //             />
-        //        </Grid.Col>
-        //        <Grid.Col span={4}>
-        //              <TextInput  {...formEditExpenditure.getInputProps("check")}  value={value[index].payslip_total} />
-        //         </Grid.Col>
-        //        </Grid>
-
-        //   ));
-        // setDataTypeEmploy(itemsf);
-
-        // if (data.length !== 0) {
-        // //  setLoadTable(false);
-
-        //  // setDataYear(select);
-        // }
       });
     }, 400);
   };
+
   const UpdateExpenditure = (value) => {
-    //   setOverLay(true)
-    //   const data = new FormData();
-    //   data.append("expenditure_id",value.expenditure_id)
-    //   data.append("expenditure_name",value.expenditure_name)
-    //   data.append("customer_type_id",value.customer_type_id)
-    //   data.append("use_tax",0)
-    //  axios.post(API+"/index/updateexpenditure",data).then((res)=>{
-    //   if(res.data === "200"){
-    //     setOverLay(false)
-    //     Swal.fire({
-    //       icon:'success',
-    //       title:'อัพเดทข้อมูลรายจ่ายสำเร็จ',
-    //       timer:1000,
-    //       timerProgressBar:true,
-    //       showConfirmButton:false
-    //     }).then((res)=>{
-    //       FetchExpenditure(value.customer_type_id)
-    //       setopenModal(false)
-    //     })
-    //   }
-    //  })
-    console.log("jkjkj");
+Swal.fire({
+  icon:'info',
+}).then((res)=>{
+  
+})
   };
 
   const handleClick = (revenue_id, payslip_total) => {
@@ -122,8 +57,10 @@ function ModalAddrevenue({ year, month, citizent, type }) {
     const artwork = yourDataCheck.find((a) => a.revenue_id === revenue_id);
     artwork.payslip_total = payslip_total;
     setDataCheck(yourDataCheck);
-
-    console.log(yourDataCheck);
+    // console.log(yourDataCheck);
+  formEditExpenditure.setValues({
+    check:yourDataCheck
+  })
   };
 
   //   const handleClickcheckbook = (revenue_id,checked) => {
@@ -180,6 +117,7 @@ function ModalAddrevenue({ year, month, citizent, type }) {
                   <TextInput
                     key={value.revenue_id}
                     value={value.payslip_total}
+                  error={formEditExpenditure.errors.check}
                     onChange={(e) => handleClick(value.revenue_id, e.target.value)}
                   />
                 </Grid.Col>
@@ -189,7 +127,9 @@ function ModalAddrevenue({ year, month, citizent, type }) {
           ))}
 
           <Flex justify={"flex-end"} py={10} gap={10} px={0}>
-            <Button onClick={UpdateExpenditure} leftSection={<IconDeviceFloppy />} color="var(--success)">
+            <Button onClick={()=>{
+              UpdateExpenditure()
+            }} leftSection={<IconDeviceFloppy />} color="var(--success)">
               บันทึก
             </Button>
             <Button
