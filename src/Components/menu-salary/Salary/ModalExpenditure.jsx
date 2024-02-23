@@ -1,5 +1,5 @@
 import { Button, Flex, LoadingOverlay, Modal, Select, SimpleGrid, TextInput } from "@mantine/core";
-import { IconDeviceFloppy, IconEdit } from "@tabler/icons-react";
+import { IconDeviceFloppy, IconEdit, IconPlaylistAdd } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
@@ -68,7 +68,7 @@ function ModalExpenditure({ year, month, citizent, type }) {
             });
         }, 400);
     };
-    const UpdateExpenditure = (value) => {
+    const UpdateExpenditure = () => {
         //   setOverLay(true)
         //   const data = new FormData();
         //   data.append("expenditure_id",value.expenditure_id)
@@ -133,7 +133,7 @@ function ModalExpenditure({ year, month, citizent, type }) {
                     Fetchdata();
                 }}
                 color="var(--purpel)"
-                leftSection={<IconEdit />}
+                leftSection={<IconPlaylistAdd />}
                 size="xs"
             >
                 เพิ่มรายจ่าย
@@ -195,7 +195,7 @@ function ModalExpenditure({ year, month, citizent, type }) {
             />
           </SimpleGrid> */}
                     <Flex justify={"flex-end"} py={10} gap={10} px={0}>
-                        <Button onClick={handleClick} leftSection={<IconDeviceFloppy />} color="var(--success)">
+                        <Button onClick={UpdateExpenditure} leftSection={<IconDeviceFloppy />} color="var(--success)">
                             บันทึก
                         </Button>
                         <Button onClick={() => {

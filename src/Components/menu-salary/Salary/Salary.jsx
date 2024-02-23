@@ -1,6 +1,6 @@
-import { Badge, Button, Container, Paper, Select, SimpleGrid, Flex } from "@mantine/core";
+import { Badge, Button, Container, Paper, Select, SimpleGrid, Flex, NumberFormatter  } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
-import { IconSearch } from "@tabler/icons-react";
+import { IconSearch,IconPrinter } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
 import { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
@@ -181,14 +181,21 @@ function Salary() {
                 citizen: i.customers_citizent,
                 name: i.customers_pname + i.customers_name + " " + i.customers_lname,
                 type_employ: i.customer_type_name,
-                salary: <Text c="teal.8">{i.history_salary_salary}</Text>,
-                revenue: <Text c="blue">{i.revenue}</Text>,
-                expenses: <Text c="red.9">{i.expenditure}</Text>,
-                total: <Text c="dark.9">{i.salary_true}</Text>,
+                salary: <Text c="teal.8"><NumberFormatter thousandSeparator value={i.history_salary_salary} /></Text>,
+                revenue: <Text c="blue"><NumberFormatter thousandSeparator value={i.revenue} /></Text>,
+                expenses: <Text c="red.9"><NumberFormatter thousandSeparator value={i.expenditure} /></Text>,
+                total: <Text c="dark.9"><NumberFormatter thousandSeparator value={i.salary_true} /></Text>,
                 manage: (<Flex direction={"row"} gap={5}>
-                        <ModalAddrevenue year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type}/> 
-                        <ModalExpenditure year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type}/>
-                        </Flex>)
+                  <ModalAddrevenue year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type} />
+                  <ModalExpenditure year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type} />
+                  <Button
+                    color="var(--info)"
+                    leftSection={<IconPrinter />}
+                    size="xs"
+                  >
+                    พิมพ์
+                  </Button>
+                </Flex>)
                 ,
               })),
             ],
@@ -210,7 +217,7 @@ function Salary() {
         ? "0" + new Date().getMonth()
         : new Date().getMonth()
       ).toString(),
-      year:(new Date().getFullYear()).toString(),
+      year: (new Date().getFullYear()).toString(),
     },
 
     validate: {

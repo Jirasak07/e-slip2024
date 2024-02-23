@@ -232,7 +232,7 @@ const Fetchdata = () => {
             />
           </SimpleGrid> */}
           <Flex justify={"flex-end"} py={10} gap={10} px={0}>
-            <Button onClick={handleClick} leftSection={<IconDeviceFloppy />} color="var(--success)">
+            <Button onClick={UpdateExpenditure} leftSection={<IconDeviceFloppy />} color="var(--success)">
               บันทึก
             </Button>
             <Button onClick={()=>{
