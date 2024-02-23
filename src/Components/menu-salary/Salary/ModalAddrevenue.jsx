@@ -10,7 +10,7 @@ import { Grid } from "@mantine/core";
 import { Text } from "@mantine/core";
 import { Divider } from "@mantine/core";
 
-function ModalAddrevenue({ year, month, citizent, type }) {
+function ModalAddrevenue({ year, month, citizent, type,idbudget }) {
   const [openModal, setopenModal] = useState(false);
   const [OverLay, setOverLay] = useState(false);
   const [DataTypeEmploy, setDataTypeEmploy] = useState([]);
@@ -24,6 +24,7 @@ function ModalAddrevenue({ year, month, citizent, type }) {
       citizent: citizent,
       type: type,
       payslip_total: 0,
+      idbudget:'',
       check: [],
     },
     validate: {
@@ -38,6 +39,7 @@ function ModalAddrevenue({ year, month, citizent, type }) {
         formEditExpenditure.setValues({
           check:data
         })
+        console.log(month)
         setopenModal(true);
         setDataCheck(data);
       });
@@ -45,11 +47,17 @@ function ModalAddrevenue({ year, month, citizent, type }) {
   };
 
   const UpdateExpenditure = (value) => {
-Swal.fire({
-  icon:'info',
-}).then((res)=>{
-  
-})
+    const form = formEditExpenditure.values
+    axios.post(API+"/index/AddRevenueForPersons",{
+      citizent: citizent,
+      type: type,
+      year:year,
+      month:month,
+      idbudget:idbudget,
+      check: form.check,
+    }).then((res)=>{
+      console.log(res.data)
+    })
   };
 
   const handleClick = (revenue_id, payslip_total) => {

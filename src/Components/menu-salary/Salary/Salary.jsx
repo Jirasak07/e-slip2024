@@ -186,8 +186,8 @@ function Salary() {
                 expenses: <Text c="red.9"><NumberFormatter thousandSeparator value={i.expenditure} /></Text>,
                 total: <Text c="dark.9"><NumberFormatter thousandSeparator value={i.salary_true} /></Text>,
                 manage: (<Flex direction={"row"} gap={5}>
-                  <ModalAddrevenue year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type} />
-                  <ModalExpenditure year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type} />
+                  <ModalAddrevenue idbudget={i.idbudget} year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type} />
+                  <ModalExpenditure idbudget={i.idbudget} year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type} />
                   <Button
                     color="var(--info)"
                     leftSection={<IconPrinter />}
