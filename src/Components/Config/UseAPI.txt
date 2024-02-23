@@ -184,6 +184,7 @@ method = post
     payslip_total: 300,
     payslip_status_out: 1,
     payslip_revenue :16,
+        idbudget:"1"
    }  
 
     /////////////////////
@@ -197,6 +198,7 @@ method = post
     payslip_total: 300,
     payslip_status_out: 1,
     payslip_expenditure :16,
+    idbudget:"1"
    }  
 
        /////////////////////

@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { API } from "../../../Config/ConfigApi";
 import { isNotEmpty, useForm } from "@mantine/form";
 
-function ModalAddRevenue({ revenue_name_title, revenue_name, budget_id, citiid, payslip_total, revenue_id, Serch }) {
+function ModalAddRevenue({ revenue_name_title, revenue_name, budget_id, citiid, payslip_total, revenue_id, Serch ,month,payslip_status_out,payslip_year}) {
   const [OpenModal, setOpenModal] = useState(false);
   const [SelectDataBudget, setSelectDataBudget] = useState([]);
   const FetchBudget = (params) => {
@@ -23,24 +23,56 @@ function ModalAddRevenue({ revenue_name_title, revenue_name, budget_id, citiid, 
   };
   const formAddrevenueCustomer = useForm({
     initialValues: {
-      customer_id: citiid,
-      payslip_total: payslip_total,
-      idbudget: budget_id,
-      revenue_id: revenue_id,
+    payslip_citizent : "",
+    payslip_year : "",
+    payslip_month : "",
+    payslip_total: "",
+    payslip_status_out: "",
+    payslip_revenue :"",
+    idbudget:""
     },
     validate: {
       idbudget: isNotEmpty("กรุณาเลือกงบประมาณที่ใช้"),
       payslip_total: isNotEmpty("กรุณากรอกข้อมูล"),
+      payslip_citizent: isNotEmpty("กรุณากรอกข้อมูล"),
+      payslip_year: isNotEmpty("กรุณากรอกข้อมูล"),
+      payslip_status_out: isNotEmpty("กรุณากรอกข้อมูล"),
+      payslip_revenue: isNotEmpty("กรุณากรอกข้อมูล"),
     },
   });
-  const SaverevenueNew = () => {
-    Serch();
+  const SaverevenueNew = (data) => {
+    const frm = new FormData();
+    frm.append("payslip_citizent", "");
+    frm.append("payslip_year", "");
+    frm.append("payslip_month", "");
+    frm.append("payslip_total", "");
+    frm.append("payslip_status_out", "");
+    frm.append("payslip_revenue", "");
+    // axios.post().then((res) => {
+    //   if (res.data === "200") {
+    //     console.log("success");
+    //     Serch();
+    //   }
+    // });
+    console.info(data)
   };
+const setForm = () => {
+  formAddrevenueCustomer.setValues({
+    payslip_citizent :citiid,
+    payslip_year : payslip_year,
+    payslip_month : month,
+    payslip_total: payslip_total,
+    payslip_status_out: payslip_status_out,
+    payslip_revenue :revenue_id,
+    idbudget:budget_id
+  })
+}
 
   return (
     <div>
       <Button
         onClick={() => {
+          setForm()
           FetchBudget();
           setOpenModal(true);
         }}
@@ -56,8 +88,8 @@ function ModalAddRevenue({ revenue_name_title, revenue_name, budget_id, citiid, 
           setOpenModal(false);
         }}
         title={
-          <Flex direction={"column"} >
-            <Text  fz={14}>{"เพิ่ม/แก้ไขรายรับ "}</Text>
+          <Flex direction={"column"}>
+            <Text fz={14}>{"เพิ่ม/แก้ไขรายรับ "}</Text>
             <Text fz={14}> - {revenue_name_title}</Text>
           </Flex>
         }
@@ -69,7 +101,7 @@ function ModalAddRevenue({ revenue_name_title, revenue_name, budget_id, citiid, 
         >
           <SimpleGrid cols={{ base: 1, sm: 2 }}>
             <TextInput label="ประเภทรายรับ" value={revenue_name} readOnly disabled />
-            <NumberInput defaultValue={0} {...formAddrevenueCustomer.getInputProps("payslip_total")} label="จำนวน" />
+            <NumberInput thousandSeparator suffix=" ฿" defaultValue={0} {...formAddrevenueCustomer.getInputProps("payslip_total")} label="จำนวน" />
           </SimpleGrid>
           <SimpleGrid pt={10} cols={1}>
             <Select

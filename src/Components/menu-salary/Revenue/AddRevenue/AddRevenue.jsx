@@ -210,11 +210,15 @@ function AddRevenue() {
                       budget_id={i.idbudget}
                       citiid={i.customers_citizent}
                       payslip_total={i.payslip_total}
+                      month={i.payslip_month}
+                      payslip_status_out={i.payslip_status_out}
                       revenue_name={i.revenue_name}
                       revenue_name_title={
                         i.revenue_name + "  " + i.customers_pname + i.customers_name + " " + i.customers_lname
                       }
                       Serch={Serch}
+                      payslip_year={i.payslip_year}
+                      
                     />
                   </>
                 ),
