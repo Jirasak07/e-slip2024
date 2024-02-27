@@ -10,9 +10,6 @@ import { Text } from "@mantine/core";
 import SkeletonTable from "../../Publicc-user/SkeletonTable";
 import ModalAddrevenue from "./ModalAddrevenue";
 import ModalExpenditure from "./ModalExpenditure";
-
-
-
 function Salary() {
   const column = [
     {
@@ -30,11 +27,11 @@ function Salary() {
       field: "name",
       minimal: "lg",
     },
-    {
-      label: "ประเภทบุคลากร",
-      field: "type_employ",
-      minimal: "lg",
-    },
+    // {
+    //   label: "ประเภทบุคลากร",
+    //   field: "type_employ",
+    //   minimal: "lg",
+    // },
     {
       label: "เงินเดือน",
       field: "salary",
