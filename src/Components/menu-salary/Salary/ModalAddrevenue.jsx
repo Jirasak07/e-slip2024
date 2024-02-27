@@ -56,6 +56,17 @@ function ModalAddrevenue({ year, month, citizent, type,idbudget }) {
       idbudget:idbudget,
       check: form.check,
     }).then((res)=>{
+      if(res.data === "200"){
+        Swal.fire({
+          icon:'success',
+          title:'อัพเดทเสร็จสิ้น',
+          timer:1200,
+          timerProgressBar:true,
+          showConfirmButton:false
+        }).then((res)=>{
+          setopenModal(false)
+        })
+      }
       console.log(res.data)
     })
   };

@@ -67,6 +67,7 @@ function ModalExpenditure({ year, month, citizent, type }) {
     }, 400);
   };
   const UpdateExpenditure = () => {
+    
     //   setOverLay(true)
     //   const data = new FormData();
     //   data.append("expenditure_id",value.expenditure_id)
