@@ -30,28 +30,6 @@ function ModalExpenditure({ year, month, citizent, type,idbudget }) {
       expenditure_name: isNotEmpty("กรุณากรอกข้อมูล"),
     },
   });
-
-  //   const FetchData = () => {
-  //     axios
-  //       .post(API + "/index/ExpenditureDetail", {
-  //         expenditure_id: expenditure_id,
-  //       })
-  //       .then((res) => {
-  //         const data = res.data;
-  //         console.log(data);
-  //         if (data.length !== 0) {
-  //           formEditExpenditure.setValues({
-  //             expenditure_name: data[0].expenditure_name,
-  //             customer_type_id: data[0].customer_type_id,
-  //           });
-  //           setopenModal(true);
-  //           // console.log(data[0].customer_type_id)
-  //         } else {
-  //           console.log("null");
-  //         }
-  //       });
-  //   };
-
   const Fetchdata = () => {
     // setLoadTable(true);
     setTimeout(() => {
