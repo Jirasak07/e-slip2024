@@ -1,5 +1,5 @@
 import { Button, Flex, LoadingOverlay, Modal, NumberInput, Select, SimpleGrid, TextInput } from "@mantine/core";
-import { IconDeviceFloppy, IconEdit, IconPlaylistAdd } from "@tabler/icons-react";
+import { IconChartBubble, IconCoin, IconDeviceFloppy, IconEdit, IconPlaylistAdd } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
@@ -45,8 +45,9 @@ function ModalAddrevenue({ year, month, citizent, type, idbudget }) {
       });
     }, 400);
   };
-
+  const [BtnLoad, setBtnLoad] = useState(false);
   const UpdateExpenditure = (value) => {
+    setBtnLoad(true)
     const form = formEditExpenditure.values;
     axios
       .post(API + "/index/AddRevenueForPersons", {
@@ -58,6 +59,7 @@ function ModalAddrevenue({ year, month, citizent, type, idbudget }) {
         check: form.check,
       })
       .then((res) => {
+        setBtnLoad(false)
         if (res.data === "200") {
           Swal.fire({
             icon: "success",
@@ -135,8 +137,11 @@ function ModalAddrevenue({ year, month, citizent, type, idbudget }) {
                   <Text size="xs">{value.revenue_name}</Text>
                 </Grid.Col>
                 <Grid.Col span={4}>
-                  <NumberInput
-                  suffix=" ฿"
+                  <TextInput
+                  type="number"
+                    rightSection={<IconCoin />}
+                    rightSectionPointerEvents="none"
+                    suffix=" ฿"
                     key={value.revenue_id}
                     value={value.payslip_total}
                     error={formEditExpenditure.errors.check}
@@ -150,6 +155,7 @@ function ModalAddrevenue({ year, month, citizent, type, idbudget }) {
 
           <Flex justify={"flex-end"} py={10} gap={10} px={0}>
             <Button
+            loading={BtnLoad}
               onClick={() => {
                 UpdateExpenditure();
               }}

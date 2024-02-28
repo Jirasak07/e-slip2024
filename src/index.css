@@ -34,3 +34,6 @@ button:focus{
   /* border: none !important; */
   outline: none !important;
 }
+.pointers{
+  cursor: pointer !important;
+}
