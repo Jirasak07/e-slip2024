@@ -232,3 +232,14 @@ method = post
 แสดงข้อมูลสรุปรายรับแต่ละธนาคาร(ใช้ในเมนูรายงาน ipay)
 path =  index/showhTotalsummarybank/2023/01/idbudget
 method = get  
+
+///////////////////////////////////
+อัพเดทข้อมูลรายการรายรับแต่ละคน
+/index/AddRevenueForPersons
+method = post 
+data =  citizent: citizent,
+        type: ประเภทพนักงาน,
+        year: ปีของเงินเดือน,
+        month: เดือน,
+        idbudget: รหัสงบ,
+        check: form.check,

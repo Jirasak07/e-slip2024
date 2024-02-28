@@ -1,5 +1,5 @@
-import { Button, Flex, LoadingOverlay, Modal, Select, SimpleGrid, TextInput } from "@mantine/core";
-import { IconDeviceFloppy, IconEdit, IconPlaylistAdd } from "@tabler/icons-react";
+import { Button, Flex, LoadingOverlay, Modal, NumberInput, Select, SimpleGrid, TextInput } from "@mantine/core";
+import { IconCoin, IconDeviceFloppy, IconEdit, IconPlaylistAdd } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
@@ -10,7 +10,7 @@ import { Grid } from "@mantine/core";
 import { Text } from "@mantine/core";
 import { Divider, Table } from "@mantine/core";
 
-function ModalExpenditure({ year, month, citizent, type }) {
+function ModalExpenditure({ year, month, citizent, type,idbudget }) {
   const [openModal, setopenModal] = useState(false);
   const [OverLay, setOverLay] = useState(false);
   const [DataTypeEmploy, setDataTypeEmploy] = useState([]);
@@ -66,8 +66,32 @@ function ModalExpenditure({ year, month, citizent, type }) {
       });
     }, 400);
   };
+  const [BtnLoad, setBtnLoad] = useState(false);
   const UpdateExpenditure = () => {
-    
+    setBtnLoad(true);
+    axios.post(API+"/index/Addhistorysalarymonth",{
+      citizent: citizent,
+      type: type,
+      year: year,
+      month: month,
+      idbudget: idbudget,
+      check: DataCheck,
+    }).then((res) => {
+      setBtnLoad(false);
+      if (res.data === "200") {
+        Swal.fire({
+          icon: "success",
+          title: "อัพเดทสำเร็จ",
+          timer: 1200,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        }).then((res) => {
+          setopenModal(false);
+        });
+      } else {
+        console.log(res.data);
+      }
+    });
     //   setOverLay(true)
     //   const data = new FormData();
     //   data.append("expenditure_id",value.expenditure_id)
@@ -89,7 +113,6 @@ function ModalExpenditure({ year, month, citizent, type }) {
     //     })
     //   }
     //  })
-    console.log("jkjkj");
   };
 
   const handleClick = (expenditure_id, payslip_total) => {
@@ -113,7 +136,6 @@ function ModalExpenditure({ year, month, citizent, type }) {
     const artwork = yourDataCheck.find((a) => a.expenditure_id === expenditure_id);
     artwork.payslip_status_out = checked;
     setDataCheck(yourDataCheck);
-
     console.log(yourDataCheck);
     console.log(expenditure_id);
     console.log(checked);
@@ -150,46 +172,43 @@ function ModalExpenditure({ year, month, citizent, type }) {
 
           {DataCheck.map((value, index) => (
             <>
-              <Grid>
+              <Grid key={index}>
                 <Grid.Col span={4}>
-                  <Text  size="sm">{value.expenditure_name}</Text>
+                  <Text mx={"auto"} size="sm">
+                    {value.expenditure_name}
+                  </Text>
                 </Grid.Col>
                 <Grid.Col span={4}>
                   <Checkbox
                     mt="xs"
                     ml={33}
-                    //   label={'test'}
                     key={value.expenditure_id}
-                    // checked={value.payslip_status_out === 1 ?<>{true}</>:<>{false}</>}
-
                     checked={Number(value.payslip_status_out)}
                     onChange={(event) => handleClickcheckbook(value.expenditure_id, event.currentTarget.checked)}
                   />
                 </Grid.Col>
                 <Grid.Col span={4}>
                   <TextInput
+                    type="number"
+                    rightSection={<IconCoin />}
+                    rightSectionPointerEvents="none"
+                    suffix=" ฿"
                     key={value.expenditure_id}
                     value={value.payslip_total}
                     onChange={(e) => handleClick(value.expenditure_id, e.target.value)}
-                  />        
+                  />
                 </Grid.Col>
-      
-              </Grid>  <Divider my="xs" variant="dashed" />
-              {/* <Divider my="xs" /> */}
+              </Grid>
+              <Divider my="xs" variant="dashed" />
             </>
           ))}
-          {/* {DataTypeEmploy} */}
-          {/* <SimpleGrid>
-            <TextInput label="ชื่อรายการรายรับ" {...formEditExpenditure.getInputProps("expenditure_name")} />
-            <Select
-              allowDeselect={false}
-              label="ประเภทพนักงาน"
-              data={selectType}
-              {...formEditExpenditure.getInputProps("customer_type_id")}
-            />
-          </SimpleGrid> */}
           <Flex justify={"flex-end"} py={10} gap={10} px={0}>
-            <Button onClick={UpdateExpenditure} leftSection={<IconDeviceFloppy />} color="var(--success)">
+            <Button
+              loading={BtnLoad}
+              onClick={UpdateExpenditure}
+              leftSection={<IconDeviceFloppy />}
+              color="var(--success)"
+            >
               บันทึก
             </Button>
             <Button
