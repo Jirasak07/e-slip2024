@@ -187,9 +187,11 @@ function Updatesalary() {
 
 
         const form = Datasalarystart
+        console.log(value.values)
+        console.log(form)
         axios.post(API+"/index/Addhistorysalarymonth",{
-          month:value.monthend,
-          year:value.yearend,
+          month:value.values.monthend,
+          year:value.values.yearend,
           check: form,
         }).then((res)=>{
             Swal.fire({
@@ -279,7 +281,7 @@ function Updatesalary() {
                        <Grid justify="center">
                             <Grid.Col span={4} >
                             <Text size="xl">พบข้อมูลเงินเดือน {Datasalarystart.length} รายการ</Text>
-                             <Button type="submit" mt={33} leftSection={<IconSearch />}  color="var(--purpel)">
+                             <Button onClick={()=>submitdata(formSearch)} mt={33} leftSection={<IconSearch />}  color="var(--purpel)">
                                     อัพเดท
                                 </Button>
                             </Grid.Col>
