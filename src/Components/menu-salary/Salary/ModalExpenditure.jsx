@@ -69,9 +69,22 @@ function ModalExpenditure({ year, month, citizent, type }) {
   const [BtnLoad, setBtnLoad] = useState(false);
   const UpdateExpenditure = () => {
     setBtnLoad(true);
-    setTimeout(() => {
+    axios.post(API+"/index/").then((res) => {
       setBtnLoad(false);
-    }, 1200);
+      if (res.data === "200") {
+        Swal.fire({
+          icon: "success",
+          title: "อัพเดทสำเร็จ",
+          timer: 1200,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        }).then((res) => {
+          setopenModal(false);
+        });
+      } else {
+        console.log(res.data);
+      }
+    });
     //   setOverLay(true)
     //   const data = new FormData();
     //   data.append("expenditure_id",value.expenditure_id)

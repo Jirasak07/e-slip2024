@@ -211,3 +211,15 @@ method = get
 path =  index/showexpenditureallid/2023/01/เลขบัตร/idประเภทพนักงาน
 method = get
 wedwed
+
+
+///////////////////////////////////
+อัพเดทข้อมูลรายการรายรับแต่ละคน
+/index/AddRevenueForPersons
+method = post 
+data =  citizent: citizent,
+        type: ประเภทพนักงาน,
+        year: ปีของเงินเดือน,
+        month: เดือน,
+        idbudget: รหัสงบ,
+        check: form.check,
