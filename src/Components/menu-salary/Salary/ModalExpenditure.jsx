@@ -10,7 +10,7 @@ import { Grid } from "@mantine/core";
 import { Text } from "@mantine/core";
 import { Divider, Table } from "@mantine/core";
 
-function ModalExpenditure({ year, month, citizent, type }) {
+function ModalExpenditure({ year, month, citizent, type,idbudget }) {
   const [openModal, setopenModal] = useState(false);
   const [OverLay, setOverLay] = useState(false);
   const [DataTypeEmploy, setDataTypeEmploy] = useState([]);
@@ -69,7 +69,14 @@ function ModalExpenditure({ year, month, citizent, type }) {
   const [BtnLoad, setBtnLoad] = useState(false);
   const UpdateExpenditure = () => {
     setBtnLoad(true);
-    axios.post(API+"/index/").then((res) => {
+    axios.post(API+"/index/Addhistorysalarymonth",{
+      citizent: citizent,
+      type: type,
+      year: year,
+      month: month,
+      idbudget: idbudget,
+      check: DataCheck,
+    }).then((res) => {
       setBtnLoad(false);
       if (res.data === "200") {
         Swal.fire({
