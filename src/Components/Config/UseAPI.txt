@@ -211,3 +211,24 @@ method = get
 path =  index/showexpenditureallid/2023/01/เลขบัตร/idประเภทพนักงาน
 method = get
 wedwed
+
+       /////////////////////
+แสดงข้อมูลสรุปรายรับแต่ละประเภท(ใช้ในเมนูรายงาน ipay)
+path =  index/showhTotalsummarytype/2023/01/idbudget
+method = get
+
+
+ /////////////////////
+อัพเดทข้อมูลรายรับแยกประเภทแต่ละคน 
+path =  index/Addhistorysalarymonth
+method = post
+   body : {
+    data : [],
+    month : 2024,
+    year : 02
+   }  
+
+        /////////////////////
+แสดงข้อมูลสรุปรายรับแต่ละธนาคาร(ใช้ในเมนูรายงาน ipay)
+path =  index/showhTotalsummarybank/2023/01/idbudget
+method = get  

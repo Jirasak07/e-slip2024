@@ -67,6 +67,7 @@ function Updatesalary() {
     const [LoadTable, setLoadTable] = useState(false);
     const [DataTypeEmploy, setDataTypeEmploy] = useState([]);
     const [DataYear, setDataYear] = useState([]);
+    const [Datasalarystart, setDatasalarystart] = useState([]);
 
     const selectmount = [
         {
@@ -155,53 +156,56 @@ function Updatesalary() {
         }, 400);
     };
 
-    const submitdata = (value) => {
+
+    const searchdata = (value) => {
         console.log(value.type_employ);
         console.log(value.month);
         console.log(value.year);
-        console.log(value.monthend);
-        console.log(value.yearend);
-        // const datafrm = new FormData(); //สร้างฟอร์มสำหรับการส่งข้อมูล
-        // datafrm.append("namebudget", initialValues.name);
-        // datafrm.append("levelbudget", initialValues.levelbudget);
 
-        // setLoadTable(true);
+        setTimeout(() => {
+            axios.get(API + "/index/showhistorysalarymount/"+value.year+"/"+value.month+"/"+value.type_employ).then((res) => {
+                 console.log(res.data);
+                const data = res.data;
+                if (data.length !== 0) {
+                    setLoadTable(false);
+                 
+                    setDatasalarystart(res.data);
+                }
+            });
+        }, 400);
 
-        // axios
-        //     .get(API + "/index/showrevenueandexpenditure/" + value.type_employ + "/" + value.year + "/" + value.month)
-        //     .then((res) => {
-        //         console.warn(res);
-        //         const data = res.data;
-        //         if (data.lenth !== 0) {
-        //             setTableSalary({
-        //                 columns: column,
-        //                 rows: [
-        //                     ...data.map((i, key) => ({
-        //                         no: key + 1,
-        //                         citizen: i.customers_citizent,
-        //                         name: i.customers_pname + i.customers_name + " " + i.customers_lname,
-        //                         type_employ: i.customer_type_name,
-        //                         salary: <Text c="teal.8"><NumberFormatter thousandSeparator value={i.history_salary_salary} /></Text>,
-        //                         revenue: <Text c="blue"><NumberFormatter thousandSeparator value={i.revenue} /></Text>,
-        //                         expenses: <Text c="red.9"><NumberFormatter thousandSeparator value={i.expenditure} /></Text>,
-        //                         total: <Text c="dark.9"><NumberFormatter thousandSeparator value={i.salary_true} /></Text>,
-        //                         manage: (<Flex direction={"row"} gap={5}>
 
-        //                             <Button
-        //                                 color="var(--info)"
-        //                                 leftSection={<IconPrinter />}
-        //                                 size="xs"
-        //                             >
-        //                                 พิมพ์
-        //                             </Button>
-        //                         </Flex>)
-        //                         ,
-        //                     })),
-        //                 ],
-        //             });
-        //         }
-        //         setLoadTable(false);
-        //     });
+
+    }
+
+    const submitdata = (value) => {
+        // console.log(value.type_employ);
+        // console.log(value.month);
+        // console.log(value.year);
+        // console.log(value.monthend);
+        // console.log(value.yearend);
+
+
+        const form = Datasalarystart
+        axios.post(API+"/index/Addhistorysalarymonth",{
+          month:value.monthend,
+          year:value.yearend,
+          check: form,
+        }).then((res)=>{
+            Swal.fire({
+                title: 'อัพเดทข้อมูลสำเร็จ',
+                icon: 'success',
+              // showCancelButton: true,
+                confirmButtonText: 'ตกลง',
+              // cancelButtonText: 'No, keep it'
+              }).then((result) => {
+              //  this.toggle();
+             // close();
+              })
+             console.log(res.data)
+        })
+
+        
     };
 
     useEffect(() => {
@@ -242,7 +246,7 @@ function Updatesalary() {
                 <Paper mt={20} mb={20}>
                     <form
                         onSubmit={formSearch.onSubmit((v) => {
-                            submitdata(v);
+                            searchdata(v);
                             // console.log(v);
                         })}
                     >
@@ -274,7 +278,7 @@ function Updatesalary() {
                
                        <Grid justify="center">
                             <Grid.Col span={4} >
-                            <Text size="xl">พบข้อมูลเงินเดือน {selectmount.length} รายการ</Text>
+                            <Text size="xl">พบข้อมูลเงินเดือน {Datasalarystart.length} รายการ</Text>
                              <Button type="submit" mt={33} leftSection={<IconSearch />}  color="var(--purpel)">
                                     อัพเดท
                                 </Button>
