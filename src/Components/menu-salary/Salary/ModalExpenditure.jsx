@@ -69,7 +69,7 @@ function ModalExpenditure({ year, month, citizent, type,idbudget }) {
   const [BtnLoad, setBtnLoad] = useState(false);
   const UpdateExpenditure = () => {
     setBtnLoad(true);
-    axios.post(API+"/index/Addhistorysalarymonth",{
+    axios.post(API+"/index/AddExpendForPersons",{
       citizent: citizent,
       type: type,
       year: year,
