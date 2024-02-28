@@ -1,4 +1,4 @@
-import { Button, Flex, LoadingOverlay, Modal, Select, SimpleGrid, TextInput } from "@mantine/core";
+import { Button, Flex, LoadingOverlay, Modal, NumberInput, Select, SimpleGrid, TextInput } from "@mantine/core";
 import { IconDeviceFloppy, IconEdit, IconPlaylistAdd } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -10,7 +10,7 @@ import { Grid } from "@mantine/core";
 import { Text } from "@mantine/core";
 import { Divider } from "@mantine/core";
 
-function ModalAddrevenue({ year, month, citizent, type,idbudget }) {
+function ModalAddrevenue({ year, month, citizent, type, idbudget }) {
   const [openModal, setopenModal] = useState(false);
   const [OverLay, setOverLay] = useState(false);
   const [DataTypeEmploy, setDataTypeEmploy] = useState([]);
@@ -24,7 +24,7 @@ function ModalAddrevenue({ year, month, citizent, type,idbudget }) {
       citizent: citizent,
       type: type,
       payslip_total: 0,
-      idbudget:'',
+      idbudget: "",
       check: [],
     },
     validate: {
@@ -37,9 +37,9 @@ function ModalAddrevenue({ year, month, citizent, type,idbudget }) {
         console.log(res.data);
         const data = res.data;
         formEditExpenditure.setValues({
-          check:data
-        })
-        console.log(month)
+          check: data,
+        });
+        console.log(month);
         setopenModal(true);
         setDataCheck(data);
       });
@@ -47,28 +47,30 @@ function ModalAddrevenue({ year, month, citizent, type,idbudget }) {
   };
 
   const UpdateExpenditure = (value) => {
-    const form = formEditExpenditure.values
-    axios.post(API+"/index/AddRevenueForPersons",{
-      citizent: citizent,
-      type: type,
-      year:year,
-      month:month,
-      idbudget:idbudget,
-      check: form.check,
-    }).then((res)=>{
-      if(res.data === "200"){
-        Swal.fire({
-          icon:'success',
-          title:'อัพเดทเสร็จสิ้น',
-          timer:1200,
-          timerProgressBar:true,
-          showConfirmButton:false
-        }).then((res)=>{
-          setopenModal(false)
-        })
-      }
-      console.log(res.data)
-    })
+    const form = formEditExpenditure.values;
+    axios
+      .post(API + "/index/AddRevenueForPersons", {
+        citizent: citizent,
+        type: type,
+        year: year,
+        month: month,
+        idbudget: idbudget,
+        check: form.check,
+      })
+      .then((res) => {
+        if (res.data === "200") {
+          Swal.fire({
+            icon: "success",
+            title: "อัพเดทเสร็จสิ้น",
+            timer: 1200,
+            timerProgressBar: true,
+            showConfirmButton: false,
+          }).then((res) => {
+            setopenModal(false);
+          });
+        }
+        console.log(res.data);
+      });
   };
 
   const handleClick = (revenue_id, payslip_total) => {
@@ -77,9 +79,9 @@ function ModalAddrevenue({ year, month, citizent, type,idbudget }) {
     artwork.payslip_total = payslip_total;
     setDataCheck(yourDataCheck);
     // console.log(yourDataCheck);
-  formEditExpenditure.setValues({
-    check:yourDataCheck
-  })
+    formEditExpenditure.setValues({
+      check: yourDataCheck,
+    });
   };
 
   //   const handleClickcheckbook = (revenue_id,checked) => {
@@ -133,10 +135,11 @@ function ModalAddrevenue({ year, month, citizent, type,idbudget }) {
                   <Text size="xs">{value.revenue_name}</Text>
                 </Grid.Col>
                 <Grid.Col span={4}>
-                  <TextInput
+                  <NumberInput
+                  suffix=" ฿"
                     key={value.revenue_id}
                     value={value.payslip_total}
-                  error={formEditExpenditure.errors.check}
+                    error={formEditExpenditure.errors.check}
                     onChange={(e) => handleClick(value.revenue_id, e.target.value)}
                   />
                 </Grid.Col>
@@ -146,9 +149,13 @@ function ModalAddrevenue({ year, month, citizent, type,idbudget }) {
           ))}
 
           <Flex justify={"flex-end"} py={10} gap={10} px={0}>
-            <Button onClick={()=>{
-              UpdateExpenditure()
-            }} leftSection={<IconDeviceFloppy />} color="var(--success)">
+            <Button
+              onClick={() => {
+                UpdateExpenditure();
+              }}
+              leftSection={<IconDeviceFloppy />}
+              color="var(--success)"
+            >
               บันทึก
             </Button>
             <Button
