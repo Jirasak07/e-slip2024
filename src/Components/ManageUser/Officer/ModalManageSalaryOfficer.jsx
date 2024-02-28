@@ -8,7 +8,7 @@ import { API } from "../../Config/ConfigApi";
 import ModalEditSalary from "./DetailSalaryOfficer/ModalEditSalary";
 import ModalDeleteSalary from "./DetailSalaryOfficer/ModalDeleteSalary";
 
-function ModalManageSalaryOfficer({ citizenid }) {
+function ModalManageSalaryOfficer({ citizenid,customer_type_id }) {
   const [Open, setOpen] = useState(false);
   const column = [
     {
@@ -129,11 +129,16 @@ function ModalManageSalaryOfficer({ citizenid }) {
       }
     });
   };
+  const [LastSalary, setLastSalary] = useState("");
+  const [IdBudget, setIdBudget] = useState("");
   const FetchHistorySalary = (params) => {
     axios.get(API + "/index/showhistorysalary/" + citizenid + "/" + YearNow).then((res) => {
       const data = res.data;
       if (data.length !== 0) {
         console.log(data);
+        setLastSalary(data[data.length-1].history_salary_salary)
+        setIdBudget(data[data.length-1].idbudget)
+        
         setTable({
           columns: column,
           rows: [
@@ -149,7 +154,14 @@ function ModalManageSalaryOfficer({ citizenid }) {
               ),
               manage: (
                 <Flex gap={10}>
-                  <ModalEditSalary  />
+
+                  <ModalEditSalary
+                    total={i.history_salary_salary}
+                    idbudget={i.idbudget}
+                    citizenid={i.citizenid}
+                    year={i.history_salary_year}
+                    month={i.history_salary_month}
+                  />
                   <ModalDeleteSalary />
                 </Flex>
               ),
@@ -206,6 +218,10 @@ function ModalManageSalaryOfficer({ citizenid }) {
                 Month={Table.rows[Table.rows.length]}
                 DataYear={DataYear}
                 DataMonth={selectmount}
+                LastSalary={LastSalary}
+                idbudget={IdBudget}
+                citizenid={citizenid}
+                customers_type={customer_type_id}
               />
             </Flex>
           </SimpleGrid>

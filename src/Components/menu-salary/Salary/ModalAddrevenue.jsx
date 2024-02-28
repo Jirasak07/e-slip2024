@@ -10,7 +10,7 @@ import { Grid } from "@mantine/core";
 import { Text } from "@mantine/core";
 import { Divider } from "@mantine/core";
 
-function ModalAddrevenue({ year, month, citizent, type, idbudget }) {
+function ModalAddrevenue({ year, month, citizent, type, idbudget,fn }) {
   const [openModal, setopenModal] = useState(false);
   const [OverLay, setOverLay] = useState(false);
   const [DataTypeEmploy, setDataTypeEmploy] = useState([]);
@@ -68,6 +68,7 @@ function ModalAddrevenue({ year, month, citizent, type, idbudget }) {
             timerProgressBar: true,
             showConfirmButton: false,
           }).then((res) => {
+            fn()
             setopenModal(false);
           });
         }
@@ -122,7 +123,7 @@ function ModalAddrevenue({ year, month, citizent, type, idbudget }) {
         closeOnClickOutside={false}
         title="เพิ่มรายรับ"
       >
-        <LoadingOverlay visible={OverLay} loaderProps={{ type: "dots" }} />
+        <LoadingOverlay visible={BtnLoad} loaderProps={{ type: "dots" }} />
         <form
           onSubmit={formEditExpenditure.onSubmit((value) => {
             UpdateExpenditure(value);

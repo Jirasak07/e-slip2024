@@ -153,21 +153,15 @@ function Salary() {
       });
     }, 400);
   };
+const See = () => {
+    submitdata(formSearch.values)
+}
 
   const submitdata = (value) => {
-    console.log(value.type_employ);
-    console.log(value.month);
-    console.log(value.year);
-    // const datafrm = new FormData(); //สร้างฟอร์มสำหรับการส่งข้อมูล
-    // datafrm.append("namebudget", initialValues.name);
-    // datafrm.append("levelbudget", initialValues.levelbudget);
-
     setLoadTable(true);
-
     axios
       .get(API + "/index/showrevenueandexpenditure/" + value.type_employ + "/" + value.year + "/" + value.month)
       .then((res) => {
-        console.warn(res);
         const data = res.data;
         if (data.lenth !== 0) {
           setTableSalary({
@@ -183,8 +177,8 @@ function Salary() {
                 expenses: <Text c="red.9"><NumberFormatter thousandSeparator value={i.expenditure} /></Text>,
                 total: <Text c="dark.9"><NumberFormatter thousandSeparator value={i.salary_true} /></Text>,
                 manage: (<Flex direction={"row"} gap={5}>
-                  <ModalAddrevenue idbudget={i.idbudget} year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type} />
-                  <ModalExpenditure idbudget={i.idbudget} year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type} />
+                  <ModalAddrevenue fn={See} idbudget={i.idbudget} year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type} />
+                  <ModalExpenditure fn={See} idbudget={i.idbudget} year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type} />
                   <Button
                     color="var(--info)"
                     leftSection={<IconPrinter />}

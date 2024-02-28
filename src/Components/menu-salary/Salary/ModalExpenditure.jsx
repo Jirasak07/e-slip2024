@@ -1,4 +1,4 @@
-import { Button, Flex, LoadingOverlay, Modal, NumberInput, Select, SimpleGrid, TextInput } from "@mantine/core";
+import { Button, Flex, LoadingOverlay, Modal, NumberInput, ScrollArea, Select, SimpleGrid, TextInput } from "@mantine/core";
 import { IconCoin, IconDeviceFloppy, IconEdit, IconPlaylistAdd } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -10,7 +10,7 @@ import { Grid } from "@mantine/core";
 import { Text } from "@mantine/core";
 import { Divider, Table } from "@mantine/core";
 
-function ModalExpenditure({ year, month, citizent, type,idbudget }) {
+function ModalExpenditure({ year, month, citizent, type,idbudget,fn }) {
   const [openModal, setopenModal] = useState(false);
   const [OverLay, setOverLay] = useState(false);
   const [DataTypeEmploy, setDataTypeEmploy] = useState([]);
@@ -64,6 +64,7 @@ function ModalExpenditure({ year, month, citizent, type,idbudget }) {
           timerProgressBar: true,
           showConfirmButton: false,
         }).then((res) => {
+          fn()
           setopenModal(false);
         });
       } else {
@@ -140,13 +141,14 @@ function ModalExpenditure({ year, month, citizent, type,idbudget }) {
         title="เพิ่มรายจ่าย"
         size={"xl"}
       >
-        <LoadingOverlay visible={OverLay} loaderProps={{ type: "dots" }} />
+        <LoadingOverlay visible={BtnLoad} loaderProps={{ type: "dots" }} />
         <form
           onSubmit={formEditExpenditure.onSubmit((value) => {
             UpdateExpenditure(value);
           })}
         >
-          <Divider my="xs" />
+          <ScrollArea scrollbars="y" h={600}>
+            <Divider my="xs" />
 
           {DataCheck.map((value, index) => (
             <>
@@ -180,6 +182,7 @@ function ModalExpenditure({ year, month, citizent, type,idbudget }) {
               <Divider my="xs" variant="dashed" />
             </>
           ))}
+            </ScrollArea>
           <Flex justify={"flex-end"} py={10} gap={10} px={0}>
             <Button
               loading={BtnLoad}
@@ -199,6 +202,8 @@ function ModalExpenditure({ year, month, citizent, type,idbudget }) {
               ยกเลิก
             </Button>
           </Flex>
+        
+          
         </form>
       </Modal>
     </>
