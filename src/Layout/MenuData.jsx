@@ -114,6 +114,11 @@ export const menus = [
         sub: [
           {
             title: "รายงานรายจ่ายแยกประเภท",
+            path: "/report/expenditure-type",
+            icon: <IconTrendingDown />,
+          },
+          {
+            title: "รายงานรับจ่ายแยกประเภท",
             path: "/report/revenue-type",
             icon: <IconTrendingDown />,
           },

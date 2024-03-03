@@ -13,6 +13,11 @@ import AddExpenditure from "./Components/menu-salary/Expenditure/AddExpenditure/
 import AddRevenue from "./Components/menu-salary/Revenue/AddRevenue/AddRevenue";
 import Updatesalary from "./Components/menu-salary/Update/Updatesalary";
 import Updaterevenueexpenditure from "./Components/menu-salary/Update/Updaterevenueexpenditure";
+import Reportexpenditure from "./Components/menu-salary/Expenditure/Reportexpenditure";
+import Reportrevenue from "./Components/menu-salary/Expenditure/Reportrevenue";
+import Reportipay from "./Components/menu-salary/Expenditure/Reportipay";
+
+
 
 
 
@@ -39,8 +44,9 @@ function App() {
           <Route path="/manage-user/user" element={<Officer />} />
           <Route path="/manage-user/ktb" element={<KtbCorporate />} />
           {/* ////////////////////////////////////////////////////////////////// */}
-          <Route path="/report/revenue-type" element={<Home />} />
-          <Route path="/report/ipay" element={<Home />} />
+          <Route path="/report/revenue-type" element={<Reportrevenue />} />
+           <Route path="/report/expenditure-type" element={<Reportexpenditure />} />
+          <Route path="/report/ipay" element={<Reportipay />} />
           <Route path="/report/salary" element={<Home />} />
           <Route path="/report/print-history" element={<Home />} />
           <Route path="/report/notifications" element={<Home />} />
