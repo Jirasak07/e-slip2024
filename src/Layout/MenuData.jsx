@@ -79,7 +79,7 @@ export const menus = [
           //   icon: <IconRotateClockwise2 />,
           // },
           {
-            title: "อัพเดตข้อมูลรายรับเดือนก่อนหน้า",
+            title: "อัพเดตข้อมูลรายรับ/รายจ่ายจากเดือนก่อนหน้า",
             path: "/manage-salary/update-expenses",
             icon: <IconRotate2 />,
           },
