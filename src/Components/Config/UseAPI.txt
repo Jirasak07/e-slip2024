@@ -247,5 +247,5 @@ data =  citizent: citizent,
 
                 /////////////////////
 แสดงข้อมูลเงินเดือนแต่ละคน
-path =  index/showhistorysalarywhereemp/เลขบัตร/id ประเภทพนักงาน
+path =  /index/showhistorysalarywhereemp/เลขบัตร/id ประเภทพนักงาน
 method = get  

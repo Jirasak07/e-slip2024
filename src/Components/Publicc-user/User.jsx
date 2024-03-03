@@ -15,9 +15,10 @@ import {
 import React, { useEffect, useState } from "react";
 import SkeletonTable from "./SkeletonTable";
 import { MDBDataTableV5 } from "mdbreact";
+import axios from "axios";
+import { API } from "../Config/ConfigApi";
 function User() {
   const [Load, setLoad] = useState(false);
-
   const column = [
     {
       label: "ปี",
@@ -55,8 +56,26 @@ function User() {
     rows: [],
   });
   const fontsize = "clamp(14px,1vw,16px)";
+  const FetchData = (params) => {
+    axios.get(API + "/index/showhistorysalarywhereemp/1629900531666/1").then((res) => {
+      const data = res.data;
+
+      if (data.length !== 0) {
+        setTableSalary({
+          columns: column,
+          rows: [
+            ...data.map((i, key) => ({
+              year: i.history_salary_year,
+              month:i.history_salary_month
+            })),
+          ],
+        });
+      }
+    });
+  };
   useEffect(() => {
     setLoad(true);
+    FetchData();
     setTimeout(() => {
       setLoad(false);
     }, 1200);
