@@ -189,7 +189,7 @@ function Updaterevenueexpenditure() {
         const form = Datasalarystart
         console.log(value.values)
         console.log(form)
-        axios.post(API+"/index/Addhistorysalarymonth",{
+        axios.post(API+"/index/Addhistoryrevenueorexpenditure",{
           month:value.values.monthend,
           year:value.values.yearend,
           check: form,
