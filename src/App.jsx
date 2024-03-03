@@ -13,6 +13,7 @@ import AddExpenditure from "./Components/menu-salary/Expenditure/AddExpenditure/
 import AddRevenue from "./Components/menu-salary/Revenue/AddRevenue/AddRevenue";
 import Updatesalary from "./Components/menu-salary/Update/Updatesalary";
 import Updaterevenueexpenditure from "./Components/menu-salary/Update/Updaterevenueexpenditure";
+import User from "./Components/Publicc-user/User";
 
 
 
@@ -47,7 +48,7 @@ function App() {
           <Route path="/report/tax" element={<Home />} />
           <Route path="/report/pdf" element={<Home />} />
           {/* /////////////////////////////////////////////////////////////////////////////// */}
-          <Route path="/user-salary" element={<Home />} />
+          <Route path="/user-salary" element={<User />} />
           <Route path="/form-receive-money" element={<Home />} />
         </Route>
       </Routes>

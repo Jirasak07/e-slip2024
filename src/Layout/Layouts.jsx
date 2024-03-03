@@ -21,9 +21,13 @@ export function Layouts() {
   const [INdexSub, setINdexSub] = useState(0);
   const [menu, setmenu] = useState([]);
   const nav = useNavigate();
+  const type = localStorage.getItem("type-user-epay");
   useEffect(() => {
     // const menu2 = menus.findIndex((menu) => menu.type === localStorage.getItem("bee"));
-    const menu2 = menus.findIndex((menu) => menu.type === "1");
+    if(!type){
+      nav("/login")
+    }
+    const menu2 = menus.findIndex((menu) => menu.type === type);
     const menu = menus[menu2].data;
     const indexmenu = menu.findIndex((menu) => menu.path === window.location.pathname);
     console.log(indexmenu);

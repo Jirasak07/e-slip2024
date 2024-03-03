@@ -188,6 +188,7 @@ function Updaterevenueexpenditure() {
   };
 
   const submitdata = (value) => {
+    setOverLay(true)
     // console.log(value.type_employ);
     // console.log(value.month);
     // console.log(value.year);
@@ -204,6 +205,7 @@ function Updaterevenueexpenditure() {
         check: form,
       })
       .then((res) => {
+        setOverLay(false)
         Swal.fire({
           title: "อัพเดทข้อมูลสำเร็จ",
           icon: "success",
@@ -227,13 +229,13 @@ function Updaterevenueexpenditure() {
     initialValues: {
       type_employ: "",
       month: (new Date().getMonth().toString().length === 1
-        ? "0" + (new Date().getMonth() - 1)
-        : new Date().getMonth() - 1
+        ? "0" + (new Date().getMonth())
+        : new Date().getMonth()
       ).toString(),
       year: new Date().getFullYear().toString(),
       monthend: (new Date().getMonth().toString().length === 1
-        ? "0" + new Date().getMonth()
-        : new Date().getMonth()
+      ? "0" + (new Date().getMonth() + 1)
+      : new Date().getMonth() + 1
       ).toString(),
       yearend: new Date().getFullYear().toString(),
     },
