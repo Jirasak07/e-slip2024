@@ -1,6 +1,6 @@
-import { Badge, Button, Container, Paper, Select, SimpleGrid, Flex, NumberFormatter, Grid } from "@mantine/core";
+import { Badge, Button, Container, Paper, Select, SimpleGrid, Flex, NumberFormatter, Grid, LoadingOverlay } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
-import { IconSearch, IconPrinter } from "@tabler/icons-react";
+import { IconSearch, IconPrinter, IconArrowDown } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
 import { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
@@ -156,14 +156,16 @@ function Updatesalary() {
         }, 400);
     };
 
-
+    const [OverLay, setOverLay] = useState(false);
     const searchdata = (value) => {
+        setOverLay(true)
         console.log(value.type_employ);
         console.log(value.month);
         console.log(value.year);
 
         setTimeout(() => {
             axios.get(API + "/index/showhistorysalarymount/"+value.year+"/"+value.month+"/"+value.type_employ).then((res) => {
+                setOverLay(false)
                  console.log(res.data);
                 const data = res.data;
                 if (data.length !== 0) {
@@ -179,6 +181,7 @@ function Updatesalary() {
     }
 
     const submitdata = (value) => {
+        setOverLay(true)
         // console.log(value.type_employ);
         // console.log(value.month);
         // console.log(value.year);
@@ -194,6 +197,7 @@ function Updatesalary() {
           year:value.values.yearend,
           check: form,
         }).then((res)=>{
+            setOverLay(false)
             Swal.fire({
                 title: 'อัพเดทข้อมูลสำเร็จ',
                 icon: 'success',
@@ -219,13 +223,13 @@ function Updatesalary() {
         initialValues: {
             type_employ: "",
             month: (new Date().getMonth().toString().length === 1
-                ? "0" + new Date().getMonth()
-                : new Date().getMonth()
-            ).toString(),
+        ? "0" + (new Date().getMonth())
+        : new Date().getMonth()
+      ).toString(),
             year: (new Date().getFullYear()).toString(),
             monthend: (new Date().getMonth().toString().length === 1
-            ? "0" + new Date().getMonth()
-            : new Date().getMonth()
+            ? "0" + (new Date().getMonth() + 1)
+            : new Date().getMonth() + 1
         ).toString(),
         yearend: (new Date().getFullYear()).toString(),
         },
@@ -241,67 +245,87 @@ function Updatesalary() {
     });
     return (
         <>
-            <Container p={0} bg={"white"} fluid>
-                <Badge color="var(--primary)" variant="light" size="md" radius={8}>
-                    อัพเดทข้อมูลเงินเดือน จากเดือนก่อนหน้า
-                </Badge>
-                <Paper mt={20} mb={20}>
-                    <form
-                        onSubmit={formSearch.onSubmit((v) => {
-                            searchdata(v);
-                            // console.log(v);
-                        })}
-                    >
-                        <Grid>
-                            <Grid.Col span={8}>
-                                <Select data={DataTypeEmploy} {...formSearch.getInputProps("type_employ")} label="ประเภทบุคลากร" />
-                            </Grid.Col>
-                        </Grid>
-                        <Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50  }}>
-                            <Grid.Col span={4} >
-                                <Select label="เลือกเดือนที่จะใช้ข้อมูลเข้าเดือนใหม่" data={selectmount} {...formSearch.getInputProps("month")} />
-                                <Select label="ปี" data={DataYear} {...formSearch.getInputProps("year")} mt={10} />
-                            </Grid.Col>
-                            <Grid.Col span={4}>
-                                <Select label="เลือกเดือนที่จะนำข้อมูลเข้า " data={selectmount} {...formSearch.getInputProps("monthend")}  />
-                                <Select label="ปี" data={DataYear} {...formSearch.getInputProps("yearend")} mt={10} />
-                            </Grid.Col>
-                            <Grid.Col span={4}>
-                                <Button type="submit" mt={33} leftSection={<IconSearch />}>
-                                    ค้นหา
-                                </Button>
-                            </Grid.Col>
-                        </Grid>
+           <LoadingOverlay visible={OverLay} />
+      <Container p={0} bg={"white"} fluid>
+        <Badge color="var(--primary)" variant="light" size="md" radius={8}>
+          อัพเดทข้อมูล รายรับ-รายจ่าย จากเดือนก่อนหน้า
+        </Badge>
 
-                    </form>
-                </Paper>
+        <form
+          onSubmit={formSearch.onSubmit((v) => {
+            searchdata(v);
+          })}
+        >
+          <Flex justify={"center"}>
+            <Paper mt={20} mb={20} maw={900} w={"100%"}>
+              <SimpleGrid>
+                <Select
+                  allowDeselect={false}
+                  data={DataTypeEmploy}
+                  {...formSearch.getInputProps("type_employ")}
+                  label="ประเภทบุคลากร"
+                />
+              </SimpleGrid>
+              <SimpleGrid cols={2} pt={15}>
+                <Select
+                  allowDeselect={false}
+                  label="เลือกเดือนที่จะใช้ข้อมูลเข้าเดือนใหม่"
+                  data={selectmount}
+                  {...formSearch.getInputProps("month")}
+                />
+                <Select allowDeselect={false} label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
+              </SimpleGrid>
+              <Flex justify={"center"} my={"xl"}>
+                <IconArrowDown />
+              </Flex>
 
-                <Paper pt={20} shadow="xl" p="xl">
-               
-                       <Grid justify="center">
-                            <Grid.Col span={4} >
-                            <Text size="xl">พบข้อมูลเงินเดือน {Datasalarystart.length} รายการ</Text>
-                             <Button onClick={()=>submitdata(formSearch)} mt={33} leftSection={<IconSearch />}  color="var(--purpel)">
-                                    อัพเดท
-                                </Button>
-                            </Grid.Col>
-                        </Grid>
-                    {/* {LoadTable ? (
-                        <SkeletonTable />
-                    ) : (
-                        <MDBDataTableV5
-                            data={TableSalary}
-                            responsive
-                            striped
-                            searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ"
-                            barReverse
-                            searchTop
-                            searchBottom={false}
-                            noRecordsFoundLabel="ไม่พบรายการ"
-                        />
-                    )} */}
-                </Paper>
-            </Container>
+              <SimpleGrid cols={2}>
+                <Select
+                  allowDeselect={false}
+                  label="เลือกเดือนที่จะนำข้อมูลเข้า "
+                  data={selectmount}
+                  {...formSearch.getInputProps("monthend")}
+                />
+                <Select allowDeselect={false} label="ปี" data={DataYear} {...formSearch.getInputProps("yearend")} />
+              </SimpleGrid>
+              <SimpleGrid>
+                <Button w={"100%"} type="submit" mt={33} leftSection={<IconSearch />}>
+                  ค้นหา
+                </Button>
+              </SimpleGrid>
+            </Paper>
+          </Flex>
+        </form>
+        <Flex justify={"center"}>
+          <Paper maw={900} w={"100%"} pt={20}>
+            <SimpleGrid cols={1}>
+              <Text size="xl">
+                พบข้อมูลรายรับ/รายจ่าย จำนวน : <IconArrowDown />{" "}
+              </Text>
+              <Paper shadow="sm" p={10} maw={200} >
+                <Flex justify={"center"} align={"center"} gap={10}>
+                     <Text fz={"50px"} c={"green"}>
+                  <NumberFormatter thousandSeparator value={Datasalarystart.length} />
+                </Text> 
+              <Text size="md"  >
+                รายการ
+                </Text>  
+                </Flex>
+              
+              </Paper>
+              <Button
+                disabled={Datasalarystart.length != 0 ? false : true}
+                onClick={() => submitdata(formSearch)}
+                mt={33}
+                leftSection={<IconSearch />}
+                color="var(--purpel)"
+              >
+                อัพเดท
+              </Button>
+            </SimpleGrid>
+          </Paper>
+        </Flex>
+      </Container>
         </>
     );
 }

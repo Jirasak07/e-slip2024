@@ -10,7 +10,58 @@ import { Text } from "@mantine/core";
 import SkeletonTable from "../../Publicc-user/SkeletonTable";
 import ModalAddrevenue from "./ModalAddrevenue";
 import ModalExpenditure from "./ModalExpenditure";
+import React from "react";
+import ExcelJs from 'exceljs'
 function Salary() {
+const ExcelExport = ()=>{
+  const workbook = new ExcelJs.Workbook();
+  const sheet = workbook.addWorksheet("Mysheet");
+  sheet.properties.defaultRowHeight = 15;
+  
+  sheet.columns = [
+    {
+      header:"ชื่อ",
+      key:"name",
+      width:20
+    },
+    {
+      header:"เลขบัตร",
+      key:"names",
+      width:20,
+    },
+  ]
+  sheet.addRow({
+    name:"สวัสดีครับ",
+    names:"ครับผม"
+  })
+
+
+
+
+
+
+workbook.xlsx.writeBuffer().then(data=>{
+  const blob = new Blob([data],{
+    type:"application/vnd.openxmlformats-officedocument.spreadsheet.sheet",
+  });
+  const url = window.URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = 'HHH.xlsx';
+  anchor.click();
+  window.URL.revokeObjectURL(url);
+})
+
+}
+
+
+
+
+
+
+
+
+
   const column = [
     {
       label: "#",
@@ -257,6 +308,7 @@ const See = () => {
           )}
         </Paper>
       </Container>
+      <Button onClick={()=>{ExcelExport()}} color="green" >ExcelExport</Button>
     </>
   );
 }

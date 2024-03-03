@@ -73,13 +73,13 @@ export const menus = [
             path: "/manage-salary/import-export",
             icon: <IconReportMoney />,
           },
+          // {
+          //   title: "อัพเดตข้อมูลรายจ่ายเดือนก่อนหน้า",
+          //   path: "/manage-salary/update-revenue",
+          //   icon: <IconRotateClockwise2 />,
+          // },
           {
-            title: "อัพเดตข้อมูลรายจ่ายเดือนก่อนหน้า",
-            path: "/manage-salary/update-revenue",
-            icon: <IconRotateClockwise2 />,
-          },
-          {
-            title: "อัพเดตข้อมูลรายรับเดือนก่อนหน้า",
+            title: "อัพเดตข้อมูลรายรับ/รายจ่ายจากเดือนก่อนหน้า",
             path: "/manage-salary/update-expenses",
             icon: <IconRotate2 />,
           },

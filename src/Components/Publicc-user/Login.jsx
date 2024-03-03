@@ -48,7 +48,14 @@ function Login() {
         setOverLay(true);
         setTimeout(() => {
           setOverLay(false);
-          nav("/main-page");
+          if(v.username === "b"){
+            localStorage.setItem("type-user-epay","2");
+            nav("/user-salary");
+          }else{
+            localStorage.setItem("type-user-epay","1");  
+            nav("/main-page");
+          }
+        
         }, 900);
       });
     }, 1200);

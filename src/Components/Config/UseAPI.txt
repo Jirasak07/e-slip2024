@@ -243,9 +243,3 @@ data =  citizent: citizent,
         month: เดือน,
         idbudget: รหัสงบ,
         check: form.check,
-
-
-                /////////////////////
-แสดงข้อมูลเงินเดือนแต่ละคน
-path =  index/showhistorysalarywhereemp/เลขบัตร/id ประเภทพนักงาน
-method = get  

@@ -18,6 +18,7 @@ import Reportrevenue from "./Components/menu-salary/Expenditure/Reportrevenue";
 import Reportipay from "./Components/menu-salary/Expenditure/Reportipay";
 
 
+import User from "./Components/Publicc-user/User";
 
 
 
@@ -53,7 +54,7 @@ function App() {
           <Route path="/report/tax" element={<Home />} />
           <Route path="/report/pdf" element={<Home />} />
           {/* /////////////////////////////////////////////////////////////////////////////// */}
-          <Route path="/user-salary" element={<Home />} />
+          <Route path="/user-salary" element={<User />} />
           <Route path="/form-receive-money" element={<Home />} />
         </Route>
       </Routes>
