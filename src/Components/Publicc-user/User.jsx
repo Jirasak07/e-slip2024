@@ -1,11 +1,13 @@
 import {
   Badge,
+  Button,
   Card,
   Container,
   Divider,
   Flex,
   Grid,
   Image,
+  NumberFormatter,
   Paper,
   SimpleGrid,
   Skeleton,
@@ -16,8 +18,11 @@ import React, { useEffect, useState } from "react";
 import SkeletonTable from "./SkeletonTable";
 import { MDBDataTableV5 } from "mdbreact";
 import axios from "axios";
+import { monthh } from "./Month";
 import { API } from "../Config/ConfigApi";
+import { IconFileDescription, IconPdf, IconPrinter } from "@tabler/icons-react";
 function User() {
+  const monthselect = monthh;
   const [Load, setLoad] = useState(false);
   const column = [
     {
@@ -33,22 +38,22 @@ function User() {
     {
       label: "รายรับ",
       field: "revenue",
-      minimal: "sm",
+      minimal: "lg",
     },
     {
       label: "รายจ่าย",
       field: "expenditure",
-      minimal: "sm",
+      minimal: "lg",
     },
     {
       label: "ยอดสุทธิ",
       field: "total",
-      minimal: "sm",
+      minimal: "lg",
     },
     {
       label: "ใบเงินเดือน",
       field: "fileprint",
-      minimal: "sm",
+      minimal: "lg",
     },
   ];
   const [TableSalary, setTableSalary] = useState({
@@ -56,6 +61,11 @@ function User() {
     rows: [],
   });
   const fontsize = "clamp(14px,1vw,16px)";
+  const GetMonth = (params) => {
+    const label = monthselect.findIndex((value) => value.value === params);
+    return monthselect[label].label;
+  };
+
   const FetchData = (params) => {
     axios.get(API + "/index/showhistorysalarywhereemp/1629900531666/1").then((res) => {
       const data = res.data;
@@ -66,7 +76,22 @@ function User() {
           rows: [
             ...data.map((i, key) => ({
               year: i.history_salary_year,
-              month:i.history_salary_month
+              month: GetMonth(i.history_salary_month),
+              revenue: <NumberFormatter thousandSeparator suffix=" ฿" value={i.revenue} />,
+              expenditure: <NumberFormatter thousandSeparator suffix=" ฿" value={i.expenditure} />,
+              total: <NumberFormatter thousandSeparator suffix=" ฿" value={i.salary_true} />,
+              fileprint: (
+                <>
+                  <Flex gap={10}>
+                    <Button leftSection={<IconPrinter />} color="var(--primary)">
+                      พิมพ์สลิปเงินเดือน
+                    </Button>
+                    <Button leftSection={<IconFileDescription />} color="blue.8">
+                      ไฟล์เอกสารอื่นๆ
+                    </Button>
+                  </Flex>
+                </>
+              ),
             })),
           ],
         });
@@ -86,7 +111,7 @@ function User() {
         รายการเงินเดือน
       </Badge>
       <Flex justify={"center"}>
-        <Paper shadow="lg" w={"clamp(300px,80vw,600px)"} mih={150} p={10}>
+        <Paper withBorder shadow="lg" w={"clamp(300px,80vw,600px)"} mih={150} p={10}>
           {Load ? (
             <Flex h={"100%"} gap={10}>
               <Stack my={"auto"}>
@@ -152,7 +177,7 @@ function User() {
         {Load ? (
           <SkeletonTable />
         ) : (
-          <Paper p={10} shadow="lg">
+          <Paper withBorder p={10} shadow="lg">
             <MDBDataTableV5
               data={TableSalary}
               responsive

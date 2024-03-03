@@ -163,7 +163,7 @@ export function Layouts() {
           </Flex>
         </ScrollArea>
       </AppShell.Navbar>
-      <AppShell.Main>
+      <AppShell.Main >
         <LoadingOverlay loaderProps={{ type: "oval", color: "var(--primary)" }} visible={OverLay} />
         <Outlet />
       </AppShell.Main>
