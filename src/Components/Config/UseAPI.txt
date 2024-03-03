@@ -243,3 +243,8 @@ data =  citizent: citizent,
         month: เดือน,
         idbudget: รหัสงบ,
         check: form.check,
+
+
+
+ทำExcel
+        https://www.npmjs.com/package/exceljs 
