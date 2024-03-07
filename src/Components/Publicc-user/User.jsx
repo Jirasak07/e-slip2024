@@ -7,6 +7,7 @@ import {
   Flex,
   Grid,
   Image,
+  LoadingOverlay,
   NumberFormatter,
   Paper,
   SimpleGrid,
@@ -56,6 +57,7 @@ function User() {
       minimal: "lg",
     },
   ];
+  const [LoadButton, setLoadButton] = useState(false);
   const [TableSalary, setTableSalary] = useState({
     columns: column,
     rows: [],
@@ -69,7 +71,6 @@ function User() {
   const FetchData = (params) => {
     axios.get(API + "/index/showhistorysalarywhereemp/1629900531666/1").then((res) => {
       const data = res.data;
-
       if (data.length !== 0) {
         setTableSalary({
           columns: column,
@@ -83,7 +84,27 @@ function User() {
               fileprint: (
                 <>
                   <Flex gap={10}>
-                    <Button leftSection={<IconPrinter />} color="var(--primary)">
+                    <Button
+                      onClick={() => {
+                        setLoadButton(true);
+                        setTimeout(() => {
+                          setLoadButton(false);
+                          window.open(
+                            API +
+                              "/PDF/SalarySlip.php?id=" +
+                              i.customers_citizent +
+                              "&year=" +
+                              i.history_salary_year +
+                              "&month=" +
+                              i.history_salary_month +
+                              "&type=" +
+                              i.customers_type
+                          );
+                        }, 1200);
+                      }}
+                      leftSection={<IconPrinter />}
+                      color="var(--primary)"
+                    >
                       พิมพ์สลิปเงินเดือน
                     </Button>
                     <Button leftSection={<IconFileDescription />} color="blue.8">
@@ -107,6 +128,7 @@ function User() {
   }, []);
   return (
     <div>
+      <LoadingOverlay visible={LoadButton} />
       <Badge size="xl" variant="subtle" color="var(--primary)">
         รายการเงินเดือน
       </Badge>
