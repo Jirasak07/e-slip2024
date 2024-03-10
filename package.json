@@ -11,26 +11,26 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mantine/core": "^7.5.2",
-    "@mantine/form": "^7.5.2",
-    "@mantine/hooks": "^7.5.2",
+    "@mantine/core": "^7.6.1",
+    "@mantine/form": "^7.6.1",
+    "@mantine/hooks": "^7.6.1",
     "@tabler/icons-react": "^2.47.0",
     "axios": "^1.6.7",
     "exceljs": "^4.4.0",
     "mdbreact": "^5.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.0",
-    "sweetalert2": "^11.10.5"
+    "react-router-dom": "^6.22.3",
+    "sweetalert2": "^11.10.6"
   },
   "devDependencies": {
-    "@types/react": "^18.2.55",
-    "@types/react-dom": "^18.2.19",
+    "@types/react": "^18.2.64",
+    "@types/react-dom": "^18.2.21",
     "@vitejs/plugin-react-swc": "^3.6.0",
-    "eslint": "^8.56.0",
-    "eslint-plugin-react": "^7.33.2",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
-    "vite": "^5.1.2"
+    "vite": "^5.1.5"
   }
 }
