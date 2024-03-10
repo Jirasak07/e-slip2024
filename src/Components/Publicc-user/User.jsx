@@ -70,7 +70,7 @@ function User() {
   };
 
   const FetchData = (params) => {
-    axios.get(API + "/index/showhistorysalarywhereemp/1159900288774/1").then((res) => {
+    axios.get(API + "/index/showhistorysalarywhereemp/1629900531666/1").then((res) => {
       const data = res.data;
       if (data.length !== 0) {
         setTableSalary({
