@@ -11,18 +11,31 @@ body {
   --success: #023e7d !important;
   --warning: #ffa300 !important ;
   --info: #61cbe6 !important ;
-  --purpel:#5a189a !important;
+  --purpel: #5a189a !important;
 }
 a {
-  color: var(--_nav-link-color) !important;
+  color: var(--mantine-primary-color-light-color);
+  text-decoration: none !important;
+  font-family: "Sarabun", sans-serif !important;
+  font-weight: 500;
+}
+a:where([data-active]) {
+  /* color: var(--nl-) !important; */
+  color: var(--nl-color) !important;
   text-decoration: none !important;
   font-family: "Sarabun", sans-serif !important;
   font-weight: 500;
 }
 a:hover {
-  color: var(--_nav-link-color) !important;
+  color: var(--nl-hover) !important;
+  /* color: #d62246 !important; */
   text-decoration: none !important;
 }
+a:hover:where([data-active]) {
+  color: var(--nl-color) !important;
+  text-decoration: none !important;
+}
+
 /* @media screen and (max-width: 400px) {
   .d-flex.w-100.justify-content-end > .d-flex.align-items-center.justify-content-end {
     flex-direction: column !important;
@@ -30,10 +43,10 @@ a:hover {
     width: 100%;
   }
 } */
-button:focus{
+button:focus {
   /* border: none !important; */
   outline: none !important;
 }
-.pointers{
+.pointers {
   cursor: pointer !important;
 }
