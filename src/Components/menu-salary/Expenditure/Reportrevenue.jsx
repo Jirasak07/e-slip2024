@@ -8,6 +8,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Text } from "@mantine/core";
 import SkeletonTable from "../../Publicc-user/SkeletonTable";
+import ExcelJs from 'exceljs'
 
 
 
@@ -60,6 +61,73 @@ function Reportrevenue() {
           
         ],
     });
+
+    const ExcelExport = () => {
+
+        const workbook = new ExcelJs.Workbook();
+        const sheet = workbook.addWorksheet("Mysheet");
+        sheet.properties.defaultRowHeight = 15;
+
+        sheet.columns = [
+            {
+                header: "เลขบัตร",
+                key: "customers_citizent",
+                width: 20
+            },
+            {
+                header: "ชื่อ-นามสกุล",
+                key: "customers_pname",
+                width: 20,
+            },
+            {
+                header: "ประเภทบุคลากร",
+                key: "customer_type_name",
+                width: 20,
+            },
+            {
+                header: "รายจ่ายใน",
+                key: "total_in",
+                width: 20,
+            },
+            {
+                header: "รายจ่ายนอก",
+                key: "total_out",
+                width: 20,
+            },
+            {
+                header: "ยอดสุทธิ",
+                key: "total",
+                width: 20,
+            },
+        ]
+
+        DataTotalsummary.map((i) => (
+            sheet.addRow(
+                {
+                    customers_citizent: i.customers_citizent,
+                    customers_pname: i.customers_pname + i.customers_name + '  ' + i.customers_lname,
+                    customer_type_name: i.customer_type_name,
+                    total_in: i.total_in,
+                    total_out: i.total_out,
+                    total: i.total
+                }
+            )
+        ))
+
+
+        workbook.xlsx.writeBuffer().then(data => {
+            const blob = new Blob([data], {
+                type: "application/vnd.openxmlformats-officedocument.spreadsheet.sheet",
+            });
+            const url = window.URL.createObjectURL(blob);
+            const anchor = document.createElement('a');
+            anchor.href = url;
+            anchor.download = 'รายรับแยกประเภท.xlsx';
+            anchor.click();
+            window.URL.revokeObjectURL(url);
+        })
+
+    }
 
     const selectmount = [
         {
@@ -316,6 +384,9 @@ function Reportrevenue() {
                              {/* <Button onClick={()=>submitdata(formSearch)} mt={33} leftSection={<IconSearch />}  color="var(--purpel)">
                                     อัพเดท
                                 </Button> */}
+                                 {DataTotalsummary.length !== 0 ? <>
+                                <Button onClick={() => { ExcelExport() }} color="green" mt={20} >ดาวน์โหลดรายรับแยกประเภท</Button>
+                            </> : <></>}
                             </Grid.Col>
                         </Grid>
                     {LoadTable ? (

@@ -8,7 +8,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Text } from "@mantine/core";
 import SkeletonTable from "../../Publicc-user/SkeletonTable";
-
+import ExcelJs from 'exceljs'
 
 
 function Reportexpenditure() {
@@ -48,7 +48,7 @@ function Reportexpenditure() {
             field: "total",
             minimal: "lg",
         },
-      
+
     ];
     const [TableSalary, setTableSalary] = useState({
         columns: column,
@@ -59,7 +59,81 @@ function Reportexpenditure() {
     const [DataYear, setDataYear] = useState([]);
     const [DataTotalsummary, setDataTotalsummary] = useState([]);
     const [Dataexpenditurelist, setDataexpenditurelist] = useState([]);
-     const [Tablelist, setTablelist] = useState([]);
+    const [Tablelist, setTablelist] = useState({
+        columns: column,
+        rows: [
+
+        ],
+    });
+
+
+    const ExcelExport = () => {
+
+        const workbook = new ExcelJs.Workbook();
+        const sheet = workbook.addWorksheet("Mysheet");
+        sheet.properties.defaultRowHeight = 15;
+
+        sheet.columns = [
+            {
+                header: "เลขบัตร",
+                key: "customers_citizent",
+                width: 20
+            },
+            {
+                header: "ชื่อ-นามสกุล",
+                key: "customers_pname",
+                width: 20,
+            },
+            {
+                header: "ประเภทบุคลากร",
+                key: "customer_type_name",
+                width: 20,
+            },
+            {
+                header: "รายจ่ายใน",
+                key: "total_in",
+                width: 20,
+            },
+            {
+                header: "รายจ่ายนอก",
+                key: "total_out",
+                width: 20,
+            },
+            {
+                header: "ยอดสุทธิ",
+                key: "total",
+                width: 20,
+            },
+        ]
+
+        DataTotalsummary.map((i) => (
+            sheet.addRow(
+                {
+                    customers_citizent: i.customers_citizent,
+                    customers_pname: i.customers_pname + i.customers_name + '  ' + i.customers_lname,
+                    customer_type_name: i.customer_type_name,
+                    total_in: i.total_in,
+                    total_out: i.total_out,
+                    total: i.total
+                }
+            )
+        ))
+
+
+        workbook.xlsx.writeBuffer().then(data => {
+            const blob = new Blob([data], {
+                type: "application/vnd.openxmlformats-officedocument.spreadsheet.sheet",
+            });
+            const url = window.URL.createObjectURL(blob);
+            const anchor = document.createElement('a');
+            anchor.href = url;
+            anchor.download = 'รายจ่ายแยกประเภท.xlsx';
+            anchor.click();
+            window.URL.revokeObjectURL(url);
+        })
+
+    }
+
 
     const selectmount = [
         {
@@ -168,27 +242,27 @@ function Reportexpenditure() {
 
 
     const searchdata = (value) => {
-     
+
 
         setLoadTable(true);
-         //   axios.get(API + "/index/showhTotalsummarytypelist/"+value.year+"/"+value.month+"/"+value.type+"/"+value.idbudget).then((res) => {
-            axios.post(API+"/index/showhTotalsummarytypelist",{
-                month:value.month,
-                year:value.year,
-                type:value.type,
-                idbudget:value.idbudget
-               
-              }).then((res)=>{
+        //   axios.get(API + "/index/showhTotalsummarytypelist/"+value.year+"/"+value.month+"/"+value.type+"/"+value.idbudget).then((res) => {
+        axios.post(API + "/index/showhTotalsummarytypelist", {
+            month: value.month,
+            year: value.year,
+            type: value.type,
+            idbudget: value.idbudget
 
-                console.log(res.data);
-                const data = res.data;
-                if (data.length !== 0) {
-                    setLoadTable(false);
+        }).then((res) => {
+            setLoadTable(false);
+            console.log(res.data);
+            const data = res.data;
+            if (data.length !== 0) {
 
-                    setTablelist({
-                        columns: column,
-                        rows: [
-                          ...data.map((i, key) => ({
+
+                setTablelist({
+                    columns: column,
+                    rows: [
+                        ...data.map((i, key) => ({
                             no: key + 1,
                             citizen: i.customers_citizent,
                             name: i.customers_pname + i.customers_name + " " + i.customers_lname,
@@ -196,15 +270,15 @@ function Reportexpenditure() {
                             total_in: <Text c="teal.8"><NumberFormatter thousandSeparator value={i.total_in} /></Text>,
                             total_out: <Text c="blue"><NumberFormatter thousandSeparator value={i.total_out} /></Text>,
                             total: <Text c="red.9"><NumberFormatter thousandSeparator value={i.total} /></Text>,
-                          
-                          })),
-                        ],
-                      });
-                 
-                    setDataTotalsummary(res.data);
-                }
-            });
-      
+
+                        })),
+                    ],
+                });
+
+                setDataTotalsummary(res.data);
+            }
+        });
+
 
 
 
@@ -221,25 +295,25 @@ function Reportexpenditure() {
         const form = Datasalarystart
         console.log(value.values)
         console.log(form)
-        axios.post(API+"/index/Addhistorysalarymonth",{
-          month:value.values.monthend,
-          year:value.values.yearend,
-          check: form,
-        }).then((res)=>{
+        axios.post(API + "/index/Addhistorysalarymonth", {
+            month: value.values.monthend,
+            year: value.values.yearend,
+            check: form,
+        }).then((res) => {
             Swal.fire({
                 title: 'อัพเดทข้อมูลสำเร็จ',
                 icon: 'success',
-              // showCancelButton: true,
+                // showCancelButton: true,
                 confirmButtonText: 'ตกลง',
-              // cancelButtonText: 'No, keep it'
-              }).then((result) => {
-              //  this.toggle();
-             // close();
-              })
-             console.log(res.data)
+                // cancelButtonText: 'No, keep it'
+            }).then((result) => {
+                //  this.toggle();
+                // close();
+            })
+            console.log(res.data)
         })
 
-        
+
     };
 
     useEffect(() => {
@@ -257,7 +331,7 @@ function Reportexpenditure() {
             ).toString(),
             year: (new Date().getFullYear()).toString(),
             type: "",
-      //  yearend: (new Date().getFullYear()).toString(),
+            //  yearend: (new Date().getFullYear()).toString(),
         },
 
         validate: {
@@ -265,15 +339,15 @@ function Reportexpenditure() {
             month: isNotEmpty("กรุณาเลือกเดือน"),
             year: isNotEmpty("กรุณาเลือกปี"),
             type: isNotEmpty("กรุณาเลือกประเภทรายจ่าย"),
-          //  yearend: isNotEmpty("กรุณาเลือกปี"),
-            
+            //  yearend: isNotEmpty("กรุณาเลือกปี"),
+
         },
     });
     return (
         <>
             <Container p={0} bg={"white"} fluid>
                 <Badge color="var(--primary)" variant="light" size="md" radius={8}>
-                   รายงานรายจ่ายแยกประเภท
+                    รายงานรายจ่ายแยกประเภท
                 </Badge>
                 <Paper mt={20} mb={20}>
                     <form
@@ -287,18 +361,18 @@ function Reportexpenditure() {
                                 <Select data={DataBudget} {...formSearch.getInputProps("idbudget")} label="งบประมาณ" />
                             </Grid.Col>
                         </Grid>
-                        <Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50  }}>
+                        <Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }}>
                             <Grid.Col span={2} >
                                 <Select label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
-                               
+
                             </Grid.Col>
                             <Grid.Col span={2}>
-                                 <Select label="ปี" data={DataYear} {...formSearch.getInputProps("year")}  />
+                                <Select label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
                                 {/* <Select label="เลือกเดือนที่จะนำข้อมูลเข้า " data={selectmount} {...formSearch.getInputProps("monthend")}  />
                                 <Select label="ปี" data={DataYear} {...formSearch.getInputProps("yearend")} mt={10} /> */}
                             </Grid.Col>
                             <Grid.Col span={4}>
-                                 <Select label="ประเภทรายจ่าย" data={Dataexpenditurelist} {...formSearch.getInputProps("type")}  />
+                                <Select label="ประเภทรายจ่าย" data={Dataexpenditurelist} {...formSearch.getInputProps("type")} />
                                 {/* <Select label="เลือกเดือนที่จะนำข้อมูลเข้า " data={selectmount} {...formSearch.getInputProps("monthend")}  />
                                 <Select label="ปี" data={DataYear} {...formSearch.getInputProps("yearend")} mt={10} /> */}
                             </Grid.Col>
@@ -313,15 +387,19 @@ function Reportexpenditure() {
                 </Paper>
 
                 <Paper pt={20} shadow="xl" p="xl">
-               
-                       <Grid justify="center">
-                            <Grid.Col span={4} >
+
+                    <Grid justify="center">
+                        <Grid.Col span={4} >
                             <Text size="xl">พบข้อมูลเงินเดือน {DataTotalsummary.length} รายการ</Text>
-                             {/* <Button onClick={()=>submitdata(formSearch)} mt={33} leftSection={<IconSearch />}  color="var(--purpel)">
+                            {/* <Button onClick={()=>submitdata(formSearch)} mt={33} leftSection={<IconSearch />}  color="var(--purpel)">
                                     อัพเดท
                                 </Button> */}
-                            </Grid.Col>
-                        </Grid>
+                            {DataTotalsummary.length !== 0 ? <>
+                                <Button onClick={() => { ExcelExport() }} color="green" mt={20} >ดาวน์โหลดรายจ่ายแยกประเภท</Button>
+                            </> : <></>}
+                        </Grid.Col>
+
+                    </Grid>
                     {LoadTable ? (
                         <SkeletonTable />
                     ) : (
