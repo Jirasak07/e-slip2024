@@ -13,6 +13,7 @@ import ModalExpenditure from "./ModalExpenditure";
 import React from "react";
 import ExcelJs from 'exceljs'
 function Salary() {
+  
 const ExcelExport = ()=>{
   const workbook = new ExcelJs.Workbook();
   const sheet = workbook.addWorksheet("Mysheet");

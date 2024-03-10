@@ -54,7 +54,12 @@ function Reportrevenue() {
     const [DataYear, setDataYear] = useState([]);
     const [DataTotalsummary, setDataTotalsummary] = useState([]);
     const [Dataexpenditurelist, setDataexpenditurelist] = useState([]);
-    const [Tablelist, setTablelist] = useState([]);
+    const [Tablelist, setTablelist] = useState({
+        columns: column,
+        rows: [
+          
+        ],
+    });
 
     const selectmount = [
         {
@@ -173,11 +178,11 @@ function Reportrevenue() {
                 idbudget:value.idbudget
                
               }).then((res)=>{
-
+ setLoadTable(false);
                 console.log(res.data);
                 const data = res.data;
                 if (data.length !== 0) {
-                    setLoadTable(false);
+                   
 
                   setTablelist({
                     columns: column,

@@ -1,6 +1,6 @@
-import { Badge, Button, Container, Paper, Select, SimpleGrid, Flex, NumberFormatter, Grid } from "@mantine/core";
+import { Badge, Button, Container, Paper, Select, SimpleGrid, Flex, NumberFormatter, Grid, List, ThemeIcon, rem } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
-import { IconSearch, IconPrinter } from "@tabler/icons-react";
+import { IconSearch, IconPrinter, IconCircleCheck, IconCircleDashed } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
 import { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
@@ -8,10 +8,14 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Text } from "@mantine/core";
 import SkeletonTable from "../../Publicc-user/SkeletonTable";
-
+import ExcelJs from 'exceljs'
 
 
 function Reportipay() {
+
+    
+
+
     const column = [
         {
             label: "#",
@@ -58,6 +62,67 @@ function Reportipay() {
     const [DataYear, setDataYear] = useState([]);
     const [DataTotalsummary, setDataTotalsummary] = useState([]);
     const [Dataexpenditurelist, setDataexpenditurelist] = useState([]);
+    const [Dataipay, setDataipay] = useState([{
+        columns: column,
+        rows: [],
+    }]);
+
+    const ExcelExport = ()=>{
+
+        const workbook = new ExcelJs.Workbook();
+        const sheet = workbook.addWorksheet("Mysheet");
+        sheet.properties.defaultRowHeight = 15;
+        
+        sheet.columns = [
+          {
+            header:"ชื่อ",
+            key:"name",
+            width:20
+          },
+          {
+            header:"เงิน",
+            key:"names",
+            width:20,
+          },
+          {
+            header:"จ่ายนอก",
+            key:"namesout",
+            width:20,
+          },
+          {
+            header:"ยอดส่ง",
+            key:"namestotal",
+            width:20,
+          },
+        ]
+
+        Dataipay.map((i) => (   
+            sheet.addRow(
+            {
+            name:i.expenditure_name,
+            names:i.sum,
+            namesout:i.sumout,
+            namestotal:i.totalfinal
+            }
+            ) 
+        ))
+      
+      
+      workbook.xlsx.writeBuffer().then(data=>{
+        const blob = new Blob([data],{
+          type:"application/vnd.openxmlformats-officedocument.spreadsheet.sheet",
+        });
+        const url = window.URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = 'รายงาน IPAY.xlsx';
+        anchor.click();
+        window.URL.revokeObjectURL(url);
+      })
+      
+      }
+
+
 
     const selectmount = [
         {
@@ -170,19 +235,40 @@ function Reportipay() {
         // console.log(value.month);
         // console.log(value.year);
 
-        
-            axios.get(API + "/index/showhTotalsummarybank/"+value.year+"/"+value.month+"/"+value.idbudget).then((res) => {
-         
 
-                console.log(res.data);
-                const data = res.data;
-                if (data.length !== 0) {
-                  //  setLoadTable(false);
-                 
-                    setDataTotalsummary(res.data);
-                }
-            });
-      
+        axios.get(API + "/index/showhTotalsummarybank/" + value.year + "/" + value.month + "/" + value.idbudget).then((res) => {
+
+
+            console.log(res.data);
+            const data = res.data;
+            if (data.length !== 0) {
+                //  setLoadTable(false);
+
+                setDataTotalsummary(res.data);
+            }
+        });
+
+
+
+        axios.get(API + "/index/showipayall/" + value.year + "/" + value.month + "/" + value.idbudget).then((res) => {
+
+
+            console.log(res.data);
+            const data = res.data;
+            if (data.length !== 0) {
+                //  setLoadTable(false);
+
+                setDataipay(res.data);
+                // console.log((res.data.reduce((a,v) =>  a = a + v.totalfinal , 0 )))
+
+                const total = res.data.reduce(
+                    (total, currentItem) => (total = total + Number(currentItem.totalfinal)),
+                    0,
+                );
+                console.log(total);
+            }
+        });
+
 
 
 
@@ -194,25 +280,25 @@ function Reportipay() {
         const form = Datasalarystart
         console.log(value.values)
         console.log(form)
-        axios.post(API+"/index/Addhistorysalarymonth",{
-          month:value.values.monthend,
-          year:value.values.yearend,
-          check: form,
-        }).then((res)=>{
+        axios.post(API + "/index/Addhistorysalarymonth", {
+            month: value.values.monthend,
+            year: value.values.yearend,
+            check: form,
+        }).then((res) => {
             Swal.fire({
                 title: 'อัพเดทข้อมูลสำเร็จ',
                 icon: 'success',
-              // showCancelButton: true,
+                // showCancelButton: true,
                 confirmButtonText: 'ตกลง',
-              // cancelButtonText: 'No, keep it'
-              }).then((result) => {
-              //  this.toggle();
-             // close();
-              })
-             console.log(res.data)
+                // cancelButtonText: 'No, keep it'
+            }).then((result) => {
+                //  this.toggle();
+                // close();
+            })
+            console.log(res.data)
         })
 
-        
+
     };
 
     useEffect(() => {
@@ -229,24 +315,24 @@ function Reportipay() {
                 : new Date().getMonth()
             ).toString(),
             year: (new Date().getFullYear()).toString(),
-       
+
         },
 
         validate: {
             idbudget: isNotEmpty("กรุณาเลือกประเภทงบประมาณ"),
             month: isNotEmpty("กรุณาเลือกเดือน"),
             year: isNotEmpty("กรุณาเลือกปี"),
-          
-            
+
+
         },
     });
     return (
         <>
             <Container p={0} bg={"white"} fluid>
                 <Badge color="var(--primary)" variant="light" size="md" radius={8}>
-                   รายงาน IPAY
+                    รายงาน IPAY
                 </Badge>
-             
+
                 <Paper mt={20} mb={20}>
                     <form
                         onSubmit={formSearch.onSubmit((v) => {
@@ -259,16 +345,16 @@ function Reportipay() {
                                 <Select data={DataBudget} {...formSearch.getInputProps("idbudget")} label="งบประมาณ" />
                             </Grid.Col>
                         </Grid>
-                        <Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50  }}>
+                        <Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }}>
                             <Grid.Col span={4} >
                                 <Select label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
-                               
+
                             </Grid.Col>
                             <Grid.Col span={4}>
-                                 <Select label="ปี" data={DataYear} {...formSearch.getInputProps("year")}  />
-                              
+                                <Select label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
+
                             </Grid.Col>
-                         
+
                             <Grid.Col span={4}>
                                 <Button type="submit" mt={33} leftSection={<IconSearch />}>
                                     ค้นหา
@@ -280,15 +366,38 @@ function Reportipay() {
                 </Paper>
 
                 <Paper pt={20} shadow="xl" p="xl">
-               
-                       <Grid justify="center">
-                            <Grid.Col span={4} >
+
+                    <Grid justify="center">
+                        
+                        <Grid.Col span={4} >
                             <Text size="xl">พบข้อมูลเงินเดือน {DataTotalsummary.length} รายการ</Text>
-                             {/* <Button onClick={()=>submitdata(formSearch)} mt={33} leftSection={<IconSearch />}  color="var(--purpel)">
+
+                            <List
+                                spacing="xs"
+                                size="sm"
+                                mt={10}
+                                center
+                                icon={
+                                    <ThemeIcon color="teal" size={24} radius="xl">
+                                        <IconCircleCheck style={{ width: rem(16), height: rem(16) }} />
+                                    </ThemeIcon>
+                                }
+                            >
+                                    {DataTotalsummary.map((i, key) => (
+                                        <List.Item>{i.bank_name}  {i.MonneyFull}</List.Item>
+                                    ))}
+                                         
+                            </List>
+{DataTotalsummary.length !== 0?<>
+ <Button onClick={()=>{ExcelExport()}} color="green" mt={20} >ExcelExport</Button>
+</>:<></>}
+
+
+                            {/* <Button onClick={()=>submitdata(formSearch)} mt={33} leftSection={<IconSearch />}  color="var(--purpel)">
                                     อัพเดท
                                 </Button> */}
-                            </Grid.Col>
-                        </Grid>
+                        </Grid.Col>
+                    </Grid>
                     {/* {LoadTable ? (
                         <SkeletonTable />
                     ) : (
