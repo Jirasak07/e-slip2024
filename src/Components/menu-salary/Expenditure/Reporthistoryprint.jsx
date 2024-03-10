@@ -8,10 +8,10 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Text } from "@mantine/core";
 import SkeletonTable from "../../Publicc-user/SkeletonTable";
-import ExcelJs from 'exceljs'
 
 
-function Reportipay() {
+
+function Reporthistoryprint() {
 
     
 
@@ -24,35 +24,37 @@ function Reportipay() {
         },
         {
             label: "เลขบัตร",
-            field: "citizen",
+            field: "print_citizent",
             minimal: "lg",
         },
         {
-            label: "ชื่อ-นามสกุล",
-            field: "name",
+            label: "ชื่อไฟล์",
+            field: "print_file_name",
             minimal: "lg",
         },
         {
             label: "ประเภทบุคลากร",
-            field: "type_employ",
+            field: "print_customer_type",
             minimal: "lg",
         },
         {
-            label: "รายจ่าย",
-            field: "total_in",
+            label: "วันที่พิมพ์",
+            field: "print_date",
             minimal: "lg",
         },
         {
-            label: "รายจ่ายนอก",
-            field: "total_out",
+            label: "เดือน",
+            field: "print_payslip_month",
             minimal: "lg",
         },
         {
-            label: "ยอดสุทธิ",
-            field: "total",
+            label: "ปี",
+            field: "print_payslip_year",
             minimal: "lg",
         }
     ];
+
+
     const [TableSalary, setTableSalary] = useState({
         columns: column,
         rows: [],
@@ -60,7 +62,7 @@ function Reportipay() {
     const [LoadTable, setLoadTable] = useState(false);
     const [DataBudget, setDataBudget] = useState([]);
     const [DataYear, setDataYear] = useState([]);
-    const [DataTotalsummary, setDataTotalsummary] = useState([]);
+    const [Datahistoryprint, setDatahistoryprint] = useState([]);
     const [Dataexpenditurelist, setDataexpenditurelist] = useState([]);
     const [Dataipay, setDataipay] = useState({
         columns: column,
@@ -69,60 +71,7 @@ function Reportipay() {
         ],
     });
 
-    const ExcelExport = ()=>{
-
-        const workbook = new ExcelJs.Workbook();
-        const sheet = workbook.addWorksheet("Mysheet");
-        sheet.properties.defaultRowHeight = 15;
-        
-        sheet.columns = [
-          {
-            header:"ชื่อ",
-            key:"name",
-            width:20
-          },
-          {
-            header:"เงิน",
-            key:"names",
-            width:20,
-          },
-          {
-            header:"จ่ายนอก",
-            key:"namesout",
-            width:20,
-          },
-          {
-            header:"ยอดส่ง",
-            key:"namestotal",
-            width:20,
-          },
-        ]
-
-        Dataipay.map((i) => (   
-            sheet.addRow(
-            {
-            name:i.expenditure_name,
-            names:i.sum,
-            namesout:i.sumout,
-            namestotal:i.totalfinal
-            }
-            ) 
-        ))
-      
-      
-      workbook.xlsx.writeBuffer().then(data=>{
-        const blob = new Blob([data],{
-          type:"application/vnd.openxmlformats-officedocument.spreadsheet.sheet",
-        });
-        const url = window.URL.createObjectURL(blob);
-        const anchor = document.createElement('a');
-        anchor.href = url;
-        anchor.download = 'รายงาน IPAY.xlsx';
-        anchor.click();
-        window.URL.revokeObjectURL(url);
-      })
-      
-      }
+ 
 
 
 
@@ -238,41 +187,32 @@ function Reportipay() {
         // console.log(value.year);
 
 
-        axios.get(API + "/index/showhTotalsummarybank/" + value.year + "/" + value.month + "/" + value.idbudget).then((res) => {
+        axios.get(API + "/index/showhistoryprint/" + value.year + "/" + value.month ).then((res) => {
 
 
             console.log(res.data);
             const data = res.data;
             if (data.length !== 0) {
                 //  setLoadTable(false);
+                setTableSalary({
+                    columns: column,
+                    rows: [
+                        ...data.map((i, key) => ({
+                            no: key + 1,
+                            print_citizent: i.print_citizent,
+                            print_file_name: i.print_file_name,
+                            print_customer_type: i.print_customer_type,
+                            print_date: i.print_date,
+                            print_payslip_month: i.print_payslip_month,
+                            print_payslip_year: i.print_payslip_year,
 
-                setDataTotalsummary(res.data);
+                        })),
+                    ],
+                });
+
+                setDatahistoryprint(res.data);
             }
         });
-
-
-
-        axios.get(API + "/index/showipayall/" + value.year + "/" + value.month + "/" + value.idbudget).then((res) => {
-
-
-            console.log(res.data);
-            const data = res.data;
-            if (data.length !== 0) {
-                //  setLoadTable(false);
-
-                setDataipay(res.data);
-                // console.log((res.data.reduce((a,v) =>  a = a + v.totalfinal , 0 )))
-
-                const total = res.data.reduce(
-                    (total, currentItem) => (total = total + Number(currentItem.totalfinal)),
-                    0,
-                );
-                console.log(total);
-            }
-        });
-
-
-
 
     }
 
@@ -311,7 +251,7 @@ function Reportipay() {
 
     const formSearch = useForm({
         initialValues: {
-            idbudget: "",
+           
             month: (new Date().getMonth().toString().length === 1
                 ? "0" + new Date().getMonth()
                 : new Date().getMonth()
@@ -321,7 +261,7 @@ function Reportipay() {
         },
 
         validate: {
-            idbudget: isNotEmpty("กรุณาเลือกประเภทงบประมาณ"),
+         
             month: isNotEmpty("กรุณาเลือกเดือน"),
             year: isNotEmpty("กรุณาเลือกปี"),
 
@@ -332,7 +272,7 @@ function Reportipay() {
         <>
             <Container p={0} bg={"white"} fluid>
                 <Badge color="var(--primary)" variant="light" size="md" radius={8}>
-                    รายงาน IPAY
+                    ประวัติการพิมพ์
                 </Badge>
 
                 <Paper mt={20} mb={20}>
@@ -342,11 +282,7 @@ function Reportipay() {
                             // console.log(v);
                         })}
                     >
-                        <Grid>
-                            <Grid.Col span={8}>
-                                <Select data={DataBudget} {...formSearch.getInputProps("idbudget")} label="งบประมาณ" />
-                            </Grid.Col>
-                        </Grid>
+                      
                         <Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }}>
                             <Grid.Col span={4} >
                                 <Select label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
@@ -372,9 +308,9 @@ function Reportipay() {
                     <Grid justify="center">
                         
                         <Grid.Col span={4} >
-                            <Text size="xl">พบข้อมูลเงินเดือน {DataTotalsummary.length} รายการ</Text>
+                            <Text size="xl">พบข้อมูลเงินเดือน {Datahistoryprint.length} รายการ</Text>
 
-                            <List
+                            {/* <List
                                 spacing="xs"
                                 size="sm"
                                 mt={10}
@@ -385,39 +321,35 @@ function Reportipay() {
                                     </ThemeIcon>
                                 }
                             >
-                                    {DataTotalsummary.map((i, key) => (
+                                    {Datahistoryprint.map((i, key) => (
                                         <List.Item>{i.bank_name}  {i.MonneyFull}</List.Item>
                                     ))}
                                          
-                            </List>
-{DataTotalsummary.length !== 0?<>
- <Button onClick={()=>{ExcelExport()}} color="green" mt={20} >ExcelExport</Button>
-</>:<></>}
-
+                            </List> */}
 
                             {/* <Button onClick={()=>submitdata(formSearch)} mt={33} leftSection={<IconSearch />}  color="var(--purpel)">
                                     อัพเดท
                                 </Button> */}
                         </Grid.Col>
                     </Grid>
-                    {/* {LoadTable ? (
+                    {LoadTable ? (
                         <SkeletonTable />
                     ) : (
                         <MDBDataTableV5
                             data={TableSalary}
                             responsive
                             striped
-                            searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ"
+                            searchLabel="ค้นหาจากเลขบัตร"
                             barReverse
                             searchTop
                             searchBottom={false}
                             noRecordsFoundLabel="ไม่พบรายการ"
                         />
-                    )} */}
+                    )}
                 </Paper>
             </Container>
         </>
     );
 }
 
-export default Reportipay;
+export default Reporthistoryprint;

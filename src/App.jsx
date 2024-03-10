@@ -18,7 +18,11 @@ import Reportrevenue from "./Components/menu-salary/Expenditure/Reportrevenue";
 import Reportipay from "./Components/menu-salary/Expenditure/Reportipay";
 
 
+
 import User from "./Components/Publicc-user/User";
+import Reporthistoryprint from "./Components/menu-salary/Expenditure/Reporthistoryprint";
+import Reportshowsalaryopen from "./Components/menu-salary/Expenditure/Reportshowsalaryopen";
+
 
 
 
@@ -48,8 +52,8 @@ function App() {
           <Route path="/report/revenue-type" element={<Reportrevenue />} />
            <Route path="/report/expenditure-type" element={<Reportexpenditure />} />
           <Route path="/report/ipay" element={<Reportipay />} />
-          <Route path="/report/salary" element={<Home />} />
-          <Route path="/report/print-history" element={<Home />} />
+          <Route path="/report/salary" element={<Reportshowsalaryopen />} />
+          <Route path="/report/print-history" element={<Reporthistoryprint />} />
           <Route path="/report/notifications" element={<Home />} />
           <Route path="/report/tax" element={<Home />} />
           <Route path="/report/pdf" element={<Home />} />

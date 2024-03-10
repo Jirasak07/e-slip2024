@@ -249,3 +249,9 @@ data =  citizent: citizent,
 แสดงข้อมูลเงินเดือนแต่ละคน
 path =  /index/showhistorysalarywhereemp/เลขบัตร/id ประเภทพนักงาน
 method = get  
+
+
+      /////////////////////
+แสดงข้อมูลประวัติการพิมพ์
+path =  index/showhistoryprint/2023/01
+method = get
