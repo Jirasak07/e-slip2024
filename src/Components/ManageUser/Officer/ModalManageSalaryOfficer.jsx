@@ -225,6 +225,7 @@ const Fetchh = (params) => {
                 idbudget={IdBudget}
                 citizenid={citizenid}
                 customers_type={customer_type_id}
+                fetch={Fetchh}
               />
             </Flex>
           </SimpleGrid>

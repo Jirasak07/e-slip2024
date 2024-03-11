@@ -6,7 +6,7 @@ import axios from "axios";
 import { useForm } from "@mantine/form";
 import Swal from "sweetalert2";
 
-function ModalAddSalary({ Month, YearSelect, DataYear, DataMonth, DataBudget,LastSalary,idbudget,citizenid ,customers_type}) {
+function ModalAddSalary({ Month, YearSelect, DataYear, DataMonth, DataBudget,LastSalary,idbudget,citizenid ,customers_type,fetch}) {
   const [Open, setOpen] = useState(false);
   const form = useForm({
     initialValues: {
@@ -15,6 +15,7 @@ function ModalAddSalary({ Month, YearSelect, DataYear, DataMonth, DataBudget,Las
       idbudget: null,
       salary: null,
       citizenid: "",
+      customers_type:""
     },
   });
   const AddSalary = (value) => {
@@ -22,15 +23,9 @@ function ModalAddSalary({ Month, YearSelect, DataYear, DataMonth, DataBudget,Las
     fmdata.append("customers_citizent",value.citizenid)
     fmdata.append("history_salary_year",value.year)
     fmdata.append("history_salary_month",value.month)
-    fmdata.append("customers_type",value.month)
+    fmdata.append("customers_type",value.customers_type)
     fmdata.append("history_salary_salary",value.salary)
     fmdata.append("idbudget",value.idbudget)
-
-    // history_salary_year : 2023,
-    // history_salary_month : 01,
-    // customers_type : 4,
-    // history_salary :22000,
-    // idbudget:1
     axios.post(API+"/index/Inserthistorysalary",fmdata).then((res)=>{
       if(res.data === "200"){
         Swal.fire({
@@ -41,7 +36,7 @@ function ModalAddSalary({ Month, YearSelect, DataYear, DataMonth, DataBudget,Las
           showConfirmButton:false
         }).then((res)=>{
           fetch()
-          close()
+          setOpen(false)
         })
       }else if(res.data === "have"){
         Swal.fire({
@@ -53,7 +48,7 @@ function ModalAddSalary({ Month, YearSelect, DataYear, DataMonth, DataBudget,Las
           showConfirmButton:false
         }).then((res)=>{
           fetch()
-          close()
+          setOpen(false)
         })
       }else{
          console.log(res.data)
@@ -71,6 +66,7 @@ function ModalAddSalary({ Month, YearSelect, DataYear, DataMonth, DataBudget,Las
             idbudget: idbudget,
             salary: LastSalary,
             citizenid: citizenid,
+            customers_type:customers_type
           })
           setOpen(true);
         }}

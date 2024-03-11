@@ -39,7 +39,7 @@ function ModalEditSalary({ total, idbudget, citizenid, year, month,fetch }) {
     body.append("history_salary_year", val.history_salary_year);
     body.append("history_salary_month", val.history_salary_month);
     body.append("history_salary", val.history_salary_salary);
-    body.append("idbudget", idbudget);
+    body.append("idbudget", val.idbudget);
     axios.post(API + "/index/updatehistorysalary", body).then((res) => {
      if(res.data === "200"){
       Swal.fire({
