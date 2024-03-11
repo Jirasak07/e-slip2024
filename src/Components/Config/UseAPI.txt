@@ -137,7 +137,7 @@ method = post
     history_salary_year : 2023,
     history_salary_month : 01,
     customers_type : 4,
-    history_salary :22000,
+    history_salary_salary :22000,
     idbudget:1
    }  
 

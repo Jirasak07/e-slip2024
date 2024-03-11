@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { API } from "../../../Config/ConfigApi";
 import axios from "axios";
 import { useForm } from "@mantine/form";
+import Swal from "sweetalert2";
 
 function ModalAddSalary({ Month, YearSelect, DataYear, DataMonth, DataBudget,LastSalary,idbudget,citizenid ,customers_type}) {
   const [Open, setOpen] = useState(false);
@@ -22,7 +23,7 @@ function ModalAddSalary({ Month, YearSelect, DataYear, DataMonth, DataBudget,Las
     fmdata.append("history_salary_year",value.year)
     fmdata.append("history_salary_month",value.month)
     fmdata.append("customers_type",value.month)
-    fmdata.append("history_salary",value.salary)
+    fmdata.append("history_salary_salary",value.salary)
     fmdata.append("idbudget",value.idbudget)
 
     // history_salary_year : 2023,
@@ -30,8 +31,33 @@ function ModalAddSalary({ Month, YearSelect, DataYear, DataMonth, DataBudget,Las
     // customers_type : 4,
     // history_salary :22000,
     // idbudget:1
-    axios.post().then((res)=>{
-
+    axios.post(API+"/index/Inserthistorysalary",fmdata).then((res)=>{
+      if(res.data === "200"){
+        Swal.fire({
+          icon:"success",
+          title:'เพิ่มข้อมูลเงินเดือนสำเร็จ',
+          timer:1200,
+          timerProgressBar:true,
+          showConfirmButton:false
+        }).then((res)=>{
+          fetch()
+          close()
+        })
+      }else if(res.data === "have"){
+        Swal.fire({
+          icon:"warning",
+          title:'ไม่สามารถเพิ่มได้',
+          text:'มีรายการเงินของเดือนนี้ในระบบแล้ว',
+          timer:1200,
+          timerProgressBar:true,
+          showConfirmButton:false
+        }).then((res)=>{
+          fetch()
+          close()
+        })
+      }else{
+         console.log(res.data)
+      }
     })
   }
   
@@ -75,7 +101,7 @@ function ModalAddSalary({ Month, YearSelect, DataYear, DataMonth, DataBudget,Las
           <NumberInput {...form.getInputProps("salary")} thousandSeparator suffix=" ฿" label="เงินเดือนล่าสุด" />
         </SimpleGrid>{" "}
         <Flex justify={"flex-end"} py={10}>
-          <Button color="var(--success)" leftSection={<IconDeviceFloppy />}>
+          <Button type="submit" color="var(--success)" leftSection={<IconDeviceFloppy />}>
             บันทึก 
           </Button>
           <Button onClick={() => setOpen(false)} color="var(--danger)" variant="transparent">
