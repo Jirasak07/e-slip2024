@@ -107,6 +107,7 @@ function Officer() {
       customer_type_id: isNotEmpty("กรุณาเลือกประเภทบุคลากร"),
     },
   });
+  
   useEffect(() => {
     FetchTypeCustomer();
   }, []);

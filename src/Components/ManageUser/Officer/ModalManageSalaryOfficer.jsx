@@ -154,13 +154,13 @@ function ModalManageSalaryOfficer({ citizenid,customer_type_id }) {
               ),
               manage: (
                 <Flex gap={10}>
-
                   <ModalEditSalary
                     total={i.history_salary_salary}
                     idbudget={i.idbudget}
-                    citizenid={i.citizenid}
+                    citizenid={i.customers_citizent}
                     year={i.history_salary_year}
                     month={i.history_salary_month}
+                    fetch={Fetchh}
                   />
                   <ModalDeleteSalary />
                 </Flex>
@@ -171,6 +171,9 @@ function ModalManageSalaryOfficer({ citizenid,customer_type_id }) {
       }
     });
   };
+const Fetchh = (params) => {
+  FetchHistorySalary() 
+}
 
   return (
     <>
