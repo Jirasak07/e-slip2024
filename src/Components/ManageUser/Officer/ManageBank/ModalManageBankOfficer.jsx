@@ -43,9 +43,11 @@ function ModalManageBankOfficer({ name, citizenid }) {
 
       const data = res.data;
       if (data.length !== 0) {
+        console.log(data)
         setRowTatble([
             ...data.map((i,key)=>({
-              no:key+1
+              no:key+1,
+              
             }))
           ])
       } else {
