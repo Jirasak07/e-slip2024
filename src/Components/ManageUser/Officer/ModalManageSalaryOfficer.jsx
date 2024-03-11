@@ -102,7 +102,7 @@ function ModalManageSalaryOfficer({ citizenid,customer_type_id }) {
     // setLoadTable(true);
     setTimeout(() => {
       axios.get(API + "/index/showyear").then((res) => {
-        // console.log(res.data);
+
         const data = res.data;
         if (data.length !== 0) {
           // setLoadTable(false);
@@ -135,7 +135,7 @@ function ModalManageSalaryOfficer({ citizenid,customer_type_id }) {
     axios.get(API + "/index/showhistorysalary/" + citizenid + "/" + YearNow).then((res) => {
       const data = res.data;
       if (data.length !== 0) {
-        console.log(data);
+
         setLastSalary(data[data.length-1].history_salary_salary)
         setIdBudget(data[data.length-1].idbudget)
         

@@ -19,8 +19,7 @@ export default function ModaleditBudget(props) {
   ]);
 
   const submitdata = (initialValues) => {
-    console.log(initialValues.name);
-    console.log(initialValues.levelbudget);
+  
 
     const datafrm = new FormData(); //สร้างฟอร์มสำหรับการส่งข้อมูล
     datafrm.append("idbudget", props.idbudget);

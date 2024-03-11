@@ -40,7 +40,7 @@ function ModalManageBankOfficer({ name, citizenid }) {
   ];
   const FetchBank = (params) => {
     axios.get(API + "/index/showcustomerbank/" + citizenid).then((res) => {
-      console.log(res.data);
+
       const data = res.data;
       if (data.length !== 0) {
         setRowTatble([
