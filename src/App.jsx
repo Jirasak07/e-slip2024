@@ -22,6 +22,7 @@ import Reportipay from "./Components/menu-salary/Expenditure/Reportipay";
 import User from "./Components/Publicc-user/User";
 import Reporthistoryprint from "./Components/menu-salary/Expenditure/Reporthistoryprint";
 import Reportshowsalaryopen from "./Components/menu-salary/Expenditure/Reportshowsalaryopen";
+import KTBForm from "./Components/Publicc-user/KTBForm";
 
 
 
@@ -59,7 +60,7 @@ function App() {
           <Route path="/report/pdf" element={<Home />} />
           {/* /////////////////////////////////////////////////////////////////////////////// */}
           <Route path="/user-salary" element={<User />} />
-          <Route path="/form-receive-money" element={<Home />} />
+          <Route path="/form-receive-money" element={<KTBForm />} />
         </Route>
       </Routes>
     </>

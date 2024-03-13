@@ -24,7 +24,7 @@ export function Layouts() {
   const type = localStorage.getItem("type-user-epay");
   useEffect(() => {
     // const menu2 = menus.findIndex((menu) => menu.type === localStorage.getItem("bee"));
-    if(!type){
+    if(type === null || type === "" || type === undefined){
       nav("/login")
     }
     const menu2 = menus.findIndex((menu) => menu.type === type);
