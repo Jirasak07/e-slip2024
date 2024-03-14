@@ -62,14 +62,14 @@ function Login() {
   };
 
   return (
-    <Container fluid w={"100dvw"} h={"100dvh"} bg={{ sm: "#e5e5e5", base: "white" }}>
+    <Container fluid w={"100dvw"} h={"100dvh"} >
       <LoadingOverlay
         visible={OverLay}
         loaderProps={{ color: "var(--primary)", type: "dots" }}
         overlayProps={{ blur: 1 }}
       />
       <Flex align={"center"} direction={"column"} h={"100%"} justify={"center"}>
-        <Paper shadow={{ sm: "xl", base: "none" }} h={550} w={"clamp(350px,95vw,600px)"}>
+        <Paper shadow={"lg"} withBorder h={550} w={"clamp(350px,95vw,600px)"}>
           <Flex pt={15} align={"center"} direction={"column"} justify={"center"}>
             <Image src={Logo} maw={80} />
             <Text c={"var(--primary)"} fz={20} fw={600} ff={"Kanit"}>
