@@ -109,6 +109,14 @@ method = post
     account_type : 1,
     statusbank :0
    }  
+path =  index/insertcustomerbank
+method = post
+   body : {
+    customers_citizent : เลขบัตร
+    account_number : เลขบัญชี,
+    account_type : 1,
+    statusbank :0
+   }  
 
 
    /////////////////////

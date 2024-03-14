@@ -5,11 +5,15 @@ import React from "react";
 import Swal from "sweetalert2";
 import { API } from "../../../Config/ConfigApi";
 
-function DeleteKtb({ user_citizent,fetch }) {
+function DeleteKtb({ user_citizent, fetch }) {
   const Delete = () => {
     Swal.fire({
       icon: "info",
-      title: "Delete ?",
+      title: "ลบหรือไม่ ?",
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonText: "ตกลง",
+      cancelButtonText: "ไม่",
     }).then((res) => {
       if (res.isConfirmed === true) {
         console.log(user_citizent);
@@ -36,7 +40,7 @@ function DeleteKtb({ user_citizent,fetch }) {
   return (
     <div>
       <Button onClick={Delete} size="xs" leftSection={<IconTrash />} color="red">
-        แก้ไข
+        ลบ
       </Button>
     </div>
   );
