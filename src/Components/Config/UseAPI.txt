@@ -255,3 +255,8 @@ method = get
 แสดงข้อมูลประวัติการพิมพ์
 path =  index/showhistoryprint/2023/01
 method = get
+
+      /////////////////////
+แสดงข้อมูลKTB Coperate ทั้งหมด
+path =  index/ShowAllCoperate
+method = get
