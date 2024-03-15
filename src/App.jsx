@@ -16,12 +16,15 @@ import Updaterevenueexpenditure from "./Components/menu-salary/Update/Updatereve
 import Reportexpenditure from "./Components/menu-salary/Expenditure/Reportexpenditure";
 import Reportrevenue from "./Components/menu-salary/Expenditure/Reportrevenue";
 import Reportipay from "./Components/menu-salary/Expenditure/Reportipay";
+import Uploadsalary from "./Components/menu-salary/Salary/Uploadsalary";
+import FormKTB from "./Components/ManageUser/KtbCoperate/FormKTB";
 
 
 
 import User from "./Components/Publicc-user/User";
 import Reporthistoryprint from "./Components/menu-salary/Expenditure/Reporthistoryprint";
 import Reportshowsalaryopen from "./Components/menu-salary/Expenditure/Reportshowsalaryopen";
+import KTBForm from "./Components/Publicc-user/KTBForm";
 
 
 
@@ -59,7 +62,7 @@ function App() {
           <Route path="/report/pdf" element={<Home />} />
           {/* /////////////////////////////////////////////////////////////////////////////// */}
           <Route path="/user-salary" element={<User />} />
-          <Route path="/form-receive-money" element={<KTBForm />} />
+          <Route path="/form-receive-money" element={<KTBForm/>} />
         </Route>
       </Routes>
     </>
