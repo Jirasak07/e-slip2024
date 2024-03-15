@@ -280,3 +280,8 @@ path = /index/selectadmin
 method = post
 data =  txtemail: เลขบัตร,
         txtpass: วันเดือนปีเกิด
+
+      /////////////////////
+แสดงข้อมูลเงินเดือนสำหรับส่งออก
+path =  index/showhistorysalarylist/2023/01/idbudget
+method = get

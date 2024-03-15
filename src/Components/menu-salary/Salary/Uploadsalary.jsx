@@ -9,7 +9,8 @@ import Swal from "sweetalert2";
 import { Text } from "@mantine/core";
 import SkeletonTable from "../../Publicc-user/SkeletonTable";
 import ExcelJs from 'exceljs'
-
+//import { read, writeFileXLSX } from "xlsx";
+import * as xlsx from 'xlsx';
 
 
 function Uploadsalary() {
@@ -57,12 +58,7 @@ function Uploadsalary() {
     const [DataYear, setDataYear] = useState([]);
     const [DataTotalsummary, setDataTotalsummary] = useState([]);
     const [Dataexpenditurelist, setDataexpenditurelist] = useState([]);
-    const [Tablelist, setTablelist] = useState({
-        columns: column,
-        rows: [
-          
-        ],
-    });
+    const [Tablelist, setTablelist] = useState([]);
 
     //const [file, setFile] = useState<File | null>(null);
     const [file, setFile] = useState([]);
@@ -180,26 +176,61 @@ function Uploadsalary() {
     //     workbook.xlsx.load(v);
     //     const json = JSON.stringify(workbook.model);
     //    console.log(json);
-    const file = e.target.files[0];
-    const wb = new ExcelJs.Workbook();
-    const reader = new FileReader();
+    // const file = e.target.files[0];
+    // const wb = new ExcelJs.Workbook();
+    // const reader = new FileReader();
 
-    reader.readAsArrayBuffer(file);
-    reader.onload = () => {
-        const buffer = reader.result;
-        wb.xlsx.load(buffer).then((workbook) => {
-            console.log(workbook, 'workbook instance');
-             workbook.eachSheet((sheet, id) => {
-                sheet.eachRow((row, rowIndex) => {
-                    console.log(row.values );
-                });
-            });
-        });
-       console.log(workbook);
-      //workbook.xlsx.load(buffer);
-     // const json = JSON.stringify(wb);
-     // console.log(json);
-    };
+    e.preventDefault();
+    if (e.target.files) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const data = e.target.result;
+            const workbook = xlsx.read(data, { type: "array" });
+            const sheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[sheetName];
+            const json = xlsx.utils.sheet_to_json(worksheet);
+            console.log(json);
+        };
+        reader.readAsArrayBuffer(e.target.files[0]);
+    }
+
+
+
+
+    // reader.readAsArrayBuffer(file);
+    // reader.onload = () => {
+    //     const buffer = reader.result;
+    //     wb.xlsx.load(buffer).then((workbook) => {
+    //         console.log(workbook, 'workbook instance');
+    //          workbook.eachSheet((sheet, id) => {
+    //             console.log(sheet);
+    //             // sheet.eachRow((row, rowIndex) => {
+    //             //     // console.log(row.values ,);
+    //             //   //  Tablelist => [...Tablelist,row.values]  
+    //             // //    setTablelist({
+    //             // //     columns: column,
+    //             // //     rows: [{
+    //             // //         no: row.values,
+    //             // //         citizen: i.customers_citizent,
+    //             // //         name: i.customers_pname + i.customers_name + " " + i.customers_lname,
+    //             // //         type_employ: i.customer_type_name,
+    //             // //         total_in: <Text c="teal.8"><NumberFormatter thousandSeparator value={i.total_in} /></Text>,
+    //             // //         total: <Text c="red.9"><NumberFormatter thousandSeparator value={i.total} /></Text>,
+    //             // //         }
+                      
+    //             // //     ]
+    //             // //    }
+                    
+                  
+    //             // //     );
+    //             // });
+    //         });
+    //     });
+    //    console.log(workbook);
+    //   //workbook.xlsx.load(buffer);
+    //  // const json = JSON.stringify(wb);
+    //  // console.log(json);
+    // };
 
 
     };
@@ -330,11 +361,10 @@ function Uploadsalary() {
                                 {/* <Select label="เลือกเดือนที่จะนำข้อมูลเข้า " data={selectmount} {...formSearch.getInputProps("monthend")}  />
                                 <Select label="ปี" data={DataYear} {...formSearch.getInputProps("yearend")} mt={10} /> */}
                             </Grid.Col>
-                            <Grid.Col span={4}>
+                            {/* <Grid.Col span={4}>
                                  <Select label="ประเภทรายจ่าย" data={Dataexpenditurelist} {...formSearch.getInputProps("type")}  />
-                                {/* <Select label="เลือกเดือนที่จะนำข้อมูลเข้า " data={selectmount} {...formSearch.getInputProps("monthend")}  />
-                                <Select label="ปี" data={DataYear} {...formSearch.getInputProps("yearend")} mt={10} /> */}
-                            </Grid.Col>
+                               
+                            </Grid.Col> */}
                             <Grid.Col span={4}>
                                 <Button type="submit" mt={33} leftSection={<IconSearch />}>
                                     ค้นหา
@@ -345,6 +375,7 @@ function Uploadsalary() {
                     </form>
                 </Paper>
 
+<hr/>
                 <Paper pt={20} shadow="xl" p="xl">
                
                        <Grid justify="center">
@@ -353,12 +384,12 @@ function Uploadsalary() {
                              {/* <FileButton onChange={(e) => Readfile(e) } accept="image/png,image/jpeg,application/.xls,.xlsx">
                                 {(props) => <Button {...props}>Upload image</Button>}
                                 </FileButton> */}
- <input type='file' onChange={(e) => Readfile(e)} />
-
-                        
+                                <label>นำเข้าข้อมูลเงินเดือน</label>
+                                <input type='file' onChange={(e) => Readfile(e)} />
+                                <p>{Tablelist.length}</p>
                             </Grid.Col>
                         </Grid>
-                    {LoadTable ? (
+                    {/* {LoadTable ? (
                         <SkeletonTable />
                     ) : (
                         <MDBDataTableV5
@@ -371,7 +402,7 @@ function Uploadsalary() {
                             searchBottom={false}
                             noRecordsFoundLabel="ไม่พบรายการ"
                         />
-                    )}
+                    )} */}
                 </Paper>
             </Container>
         </>
