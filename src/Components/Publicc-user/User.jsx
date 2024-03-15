@@ -69,57 +69,62 @@ function User() {
     const label = monthselect.findIndex((value) => value.value === params);
     return monthselect[label].label;
   };
-const [CitiZent, setCitiZent] = useState("");
+  const [CitiZent, setCitiZent] = useState("");
   const FetchData = (params) => {
-    
-    axios.get(API + "/index/showhistorysalarywhereemp/"+CitiZent+"/1").then((res) => {
-      const data = res.data;
-      if (data.length !== 0) {
-        setTableSalary({
-          columns: column,
-          rows: [
-            ...data.map((i, key) => ({
-              year: i.history_salary_year,
-              month: GetMonth(i.history_salary_month),
-              revenue: <NumberFormatter thousandSeparator suffix=" ฿" value={i.revenue} />,
-              expenditure: <NumberFormatter thousandSeparator suffix=" ฿" value={i.expenditure} />,
-              total: <NumberFormatter thousandSeparator suffix=" ฿" value={i.salary_true} />,
-              fileprint: (
-                <>
-                  <Flex gap={10}>
-                    <Button
-                      onClick={() => {
-                        setLoadButton(true);
-                        setTimeout(() => {
-                          setLoadButton(false);
-                          window.open(
-                            API +
-                              "/PDF/SalarySlip.php?id=" +
-                              i.customers_citizent +
-                              "&year=" +
-                              i.history_salary_year +
-                              "&month=" +
-                              i.history_salary_month +
-                              "&type=" +
-                              i.customers_type
-                          );
-                        }, 1200);
-                      }}
-                      leftSection={<IconPrinter />}
-                      color="var(--primary)"
-                    >
-                      พิมพ์สลิปเงินเดือน
-                    </Button>
-                    <Button leftSection={<IconFileDescription />} color="blue.8">
-                      ไฟล์เอกสารอื่นๆ
-                    </Button>
-                  </Flex>
-                </>
-              ),
-            })),
-          ],
-        });
-      }
+    const fm = new FormData();
+    fm.append("customers_citizent", CitiZent);
+    axios.post(API + "/index/findtypeemploy", fm).then((type) => {
+      const types = type.data[0].customers_type;
+      localStorage.setItem("type_name", type.data[0].customers_type_name);
+      axios.get(API + "/index/showhistorysalarywhereemp/" + CitiZent + "/" + types).then((res) => {
+        const data = res.data;
+        if (data.length !== 0) {
+          setTableSalary({
+            columns: column,
+            rows: [
+              ...data.map((i, key) => ({
+                year: i.history_salary_year,
+                month: GetMonth(i.history_salary_month),
+                revenue: <NumberFormatter thousandSeparator suffix=" ฿" value={i.revenue} />,
+                expenditure: <NumberFormatter thousandSeparator suffix=" ฿" value={i.expenditure} />,
+                total: <NumberFormatter thousandSeparator suffix=" ฿" value={i.salary_true} />,
+                fileprint: (
+                  <>
+                    <Flex gap={10}>
+                      <Button
+                        onClick={() => {
+                          setLoadButton(true);
+                          setTimeout(() => {
+                            setLoadButton(false);
+                            window.open(
+                              API +
+                                "/PDF/SalarySlip.php?id=" +
+                                i.customers_citizent +
+                                "&year=" +
+                                i.history_salary_year +
+                                "&month=" +
+                                i.history_salary_month +
+                                "&type=" +
+                                i.customers_type
+                            );
+                          }, 1200);
+                        }}
+                        leftSection={<IconPrinter />}
+                        color="var(--primary)"
+                      >
+                        พิมพ์สลิปเงินเดือน
+                      </Button>
+                      <Button leftSection={<IconFileDescription />} color="blue.8">
+                        ไฟล์เอกสารอื่นๆ
+                      </Button>
+                    </Flex>
+                  </>
+                ),
+              })),
+            ],
+          });
+        }
+      });
     });
   };
   const nav = useNavigate();
@@ -130,13 +135,16 @@ const [CitiZent, setCitiZent] = useState("");
       localStorage.getItem("citizen") === ""
     ) {
       nav("/login");
+    } else {
+      const id = parseInt(localStorage.getItem("citizen")) - 33;
+      setCitiZent(id);
     }
     setLoad(true);
     FetchData();
     setTimeout(() => {
       setLoad(false);
     }, 1200);
-  }, []);
+  }, [CitiZent]);
   return (
     <>
       <div>
@@ -163,7 +171,11 @@ const [CitiZent, setCitiZent] = useState("");
                 ) : (
                   <>
                     <Flex h={"100%"} align={"center"}>
-                      <Image src={"https://mis.kpru.ac.th/images/pic_emp_50/001596.jpg"} maw={100} radius={8} />
+                      <Image
+                        src={"https://mis.kpru.ac.th/images/pic_emp_50/" + localStorage.getItem("employee_id") + ".jpg"}
+                        maw={100}
+                        radius={8}
+                      />
                       <Flex px={10} direction={"column"}>
                         <Grid gutter={0}>
                           <Grid.Col span={4}>
@@ -171,7 +183,10 @@ const [CitiZent, setCitiZent] = useState("");
                           </Grid.Col>
                           <Grid.Col span={8}>
                             <Text fz={fontsize} fw={300}>
-                              นาย จิรศักดิ์ สิงหบุตร
+                              {localStorage.getItem("pname")}
+                              {localStorage.getItem("fname")}
+                              &nbsp; &nbsp;
+                              {localStorage.getItem("lname")}
                             </Text>
                           </Grid.Col>
                           <Grid.Col>
@@ -183,7 +198,7 @@ const [CitiZent, setCitiZent] = useState("");
                           </Grid.Col>
                           <Grid.Col span={8}>
                             <Text fz={fontsize} fw={300}>
-                              ลูกจ้างชั่วคราว
+                              {localStorage.getItem("type_name")}
                             </Text>
                           </Grid.Col>
                           <Grid.Col span={4}>
@@ -191,7 +206,7 @@ const [CitiZent, setCitiZent] = useState("");
                           </Grid.Col>
                           <Grid.Col span={8}>
                             <Text fz={fontsize} fw={300}>
-                              นักวิชาการคอมพิวเตอร์
+                            {localStorage.getItem("rank_name")}
                             </Text>
                           </Grid.Col>
                           <Grid.Col span={4}>
@@ -199,7 +214,8 @@ const [CitiZent, setCitiZent] = useState("");
                           </Grid.Col>
                           <Grid.Col span={8}>
                             <Text fz={fontsize} fw={300}>
-                              สำนักส่งเสริมวิชาการและงานทะเบียน
+                            {localStorage.getItem("organization_name")}
+                            
                             </Text>
                           </Grid.Col>
                         </Grid>

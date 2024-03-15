@@ -12,7 +12,7 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../assets/image/kpru.png";
 import browser from "../../assets/image/browser.png";
 import { IconKey } from "@tabler/icons-react";
@@ -21,6 +21,16 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
 function Login() {
+  useEffect(()=>{
+    localStorage.removeItem("citizen");
+    localStorage.removeItem("fname");
+    localStorage.removeItem("pname");
+    localStorage.removeItem("lname");
+    localStorage.removeItem("employee_id");
+    localStorage.removeItem("organization_name");
+    localStorage.removeItem("rank_name");
+    localStorage.removeItem("type-user-epay");
+  },[])
   const [LoadingButton, setLoadingButton] = useState(false);
   const nav = useNavigate();
   const formlogin = useForm({
