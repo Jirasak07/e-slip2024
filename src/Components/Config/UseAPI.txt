@@ -268,3 +268,9 @@ method = get
 แสดงข้อมูลKTB Coperate ทั้งหมด
 path =  index/ShowAllCoperate
 method = get
+
+/////
+path = https://mua.kpru.ac.th/FrontEnd_Mis/login/login/
+method = post
+data =  txtemail: เลขบัตร,
+        txtpass: วันเดือนปีเกิด
