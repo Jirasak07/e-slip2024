@@ -22,7 +22,6 @@ export default class Budget extends Component {
 getshowBudget() { 
   axios.get(API+"/index/showBudget")
   .then(res => {
-      console.log(res);
         this.setState({ data: res.data })
     
 

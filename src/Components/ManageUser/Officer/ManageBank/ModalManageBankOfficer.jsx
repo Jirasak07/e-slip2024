@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import ModalAddBank from "./ModalAddBank";
 import axios from "axios";
 import { API } from "../../../Config/ConfigApi";
+import { useForm } from "@mantine/form";
 
 function ModalManageBankOfficer({ name, citizenid }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -33,21 +34,35 @@ function ModalManageBankOfficer({ name, citizenid }) {
       label: "สถานะ",
       field: "bank_status",
     },
-    {
-      label: "จัดการ",
-      field: "manage",
-    },
+    // {
+    //   label: "จัดการ",
+    //   field: "manage",
+    // },
   ];
+
   const FetchBank = (params) => {
     axios.get(API + "/index/showcustomerbank/" + citizenid).then((res) => {
-      console.log(res.data);
       const data = res.data;
       if (data.length !== 0) {
+        console.log(data);
         setRowTatble([
-            ...data.map((i,key)=>({
-              no:key+1
-            }))
-          ])
+          ...data.map((i, key) => ({
+            no: key + 1,
+            bank_name: i.bank_name,
+            bank_no: i.account_number,
+            bank_type: i.name_account_type,
+            bank_status: (
+              <Badge variant="light" color={i.statusbank === "1" ? "green" : "gray"} radius={4} fz={12}>
+                {i.statusbank === "1" ? "ใช้งาน" : "ระงับใช้งาน"}{" "}
+              </Badge>
+            ),
+            manage: (
+              <>
+                <Button size="xs"></Button>
+              </>
+            ),
+          })),
+        ]);
       } else {
         console.log("error ");
       }
@@ -73,7 +88,7 @@ function ModalManageBankOfficer({ name, citizenid }) {
           <Badge radius={4} variant="light" size="lg" color="var(--primary)">
             รายการบัญชี
           </Badge>
-          <ModalAddBank />
+          <ModalAddBank fetch={FetchBank} customers_citizent={citizenid} />
         </Flex>
 
         <MDBDataTableV5 striped responsive data={{ columns: col, rows: RowTatble }} />

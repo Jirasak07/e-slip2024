@@ -54,7 +54,7 @@ function ModalEditOfficer({ customerid,fn }) {
 
   const FetchDataEmploy = (params) => {
     axios.get(API + "/index/showcustomerdetail/" + customerid).then((res) => {
-      console.log(res.data);
+
       const data = res.data;
       if (data.length !== 0) {
         const value = data[0];
@@ -73,7 +73,7 @@ function ModalEditOfficer({ customerid,fn }) {
     frmData.append("customer_status_id", value.customer_status_id);
     frmData.append("customers_citizent", value.customers_citizent);
     axios.post(API + "/index/updatestatuswork", frmData).then((res) => {
-      console.log(res.data);
+     
       if(res.data === "200"){
         Swal.fire({
           icon:'success',

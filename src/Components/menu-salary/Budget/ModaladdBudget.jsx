@@ -14,8 +14,6 @@ export default function ModaladdBudget() {
 
 
   const submitdata =(initialValues)=>{
-        console.log(initialValues.name)
-        console.log(initialValues.levelbudget)
 
             const datafrm = new FormData(); //สร้างฟอร์มสำหรับการส่งข้อมูล
             datafrm.append("namebudget", initialValues.name);
@@ -28,7 +26,6 @@ export default function ModaladdBudget() {
             })
                               .then(res => {
                                   console.warn(res);
-                                  console.log("response: ", res)
                                   if (res.status=== 200) {
                                
                                         Swal.fire({

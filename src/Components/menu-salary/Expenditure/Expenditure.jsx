@@ -62,7 +62,6 @@ import ModalEditExpenditure from "./ModalEditExpenditure";
       setLoadTable(true);
       setTimeout(() => {
         axios.get(API + "/index/showcustomertype").then((res) => {
-          console.log(res.data);
           const data = res.data;
           if (data.length !== 0) {
             setLoadTable(false);

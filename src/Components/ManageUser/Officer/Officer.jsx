@@ -66,7 +66,7 @@ function Officer() {
       }, 440);
 
       const data = res.data;
-      console.log(data)
+
       if (data.length !== 0) {
         setTableUser({
           columns: columns,
@@ -107,6 +107,7 @@ function Officer() {
       customer_type_id: isNotEmpty("กรุณาเลือกประเภทบุคลากร"),
     },
   });
+  
   useEffect(() => {
     FetchTypeCustomer();
   }, []);

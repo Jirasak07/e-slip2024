@@ -1,14 +1,27 @@
-import { Button, Divider, Fieldset, Flex, Modal, Radio, SimpleGrid, TextInput } from "@mantine/core";
+import {
+  Blockquote,
+  Button,
+  Divider,
+  Fieldset,
+  Flex,
+  Modal,
+  Paper,
+  Radio,
+  ScrollArea,
+  SimpleGrid,
+  Text,
+  TextInput,
+} from "@mantine/core";
+import { isNotEmpty, useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
-import { IconDeviceFloppy, IconEdit, IconFilePlus } from "@tabler/icons-react";
+import { IconDeviceFloppy, IconInfoCircle, IconPlus } from "@tabler/icons-react";
 import axios from "axios";
 import React from "react";
-import { isNotEmpty, useForm } from "@mantine/form";
 import Swal from "sweetalert2";
 import { API } from "../../Config/ConfigApi";
 
-function FormKTB({ fetch }) {
-  const [opened, { open, close }] = useDisclosure();
+function FormAddKTB() {
+  const [opend, { open, close }] = useDisclosure();
   const formEdit = useForm({
     initialValues: {
       user_pname: "",
@@ -61,46 +74,7 @@ function FormKTB({ fetch }) {
       user_citizent: isNotEmpty("กรุณากรอกข้อมูล"),
     },
   });
-  // const FetchOldData = () => {
-  //   const formdata = new FormData();
-  //   formdata.append("user_citizent", user_citizent);
-  //   axios.post(API + "/index/ShowEditCoperate", formdata).then((res) => {
-  //     console.log(res.data);
-  //     const data = res.data;
-  //     if (data.length !== 0) {
-  //       formEdit.setValues({
-  //         user_pname: data[0].user_pname,
-  //         user_fname: data[0].user_fname,
-  //         user_lname: data[0].user_lname,
-  //         user_position: data[0].user_position,
-  //         user_office: data[0].user_office,
-  //         user_belong: data[0].user_belong,
-  //         user_department: data[0].user_department,
-  //         user_add_no: data[0].user_add_no,
-  //         user_add_soi: data[0].user_add_soi,
-  //         user_add_road: data[0].user_add_road,
-  //         user_add_tumbon: data[0].user_add_tumbon,
-  //         user_add_amphoe: data[0].user_add_amphoe,
-  //         user_add_province: data[0].user_add_province,
-  //         user_add_code: data[0].user_add_code,
-  //         user_add_phone: data[0].user_add_phone,
-  //         user_emp: data[0].user_emp,
-  //         user_bank_name: data[0].user_bank_name,
-  //         user_bank_branch: data[0].user_bank_branch,
-  //         user_bank_type: data[0].user_bank_type,
-  //         user_bank_number: data[0].user_bank_number,
-  //         user_phone_number: data[0].user_phone_number,
-  //         user_email: data[0].user_email,
-  //         user_citizent: data[0].user_citizent,
-  //       });
-  //     } else {
-  //       formEdit.setValues({
-  //         user_citizent: user_citizent,
-  //       });
-  //     }
-  //   });
-  // };
-  const Submit = (data) => {
+  const SubMit = (data) => {
     const formdata = new FormData();
     formdata.append("user_citizent", data.user_citizent);
     formdata.append("user_pname", data.user_pname);
@@ -125,7 +99,6 @@ function FormKTB({ fetch }) {
     formdata.append("user_phone_number", data.user_phone_number);
     formdata.append("user_email", data.user_email);
     formdata.append("user_add_code", data.user_add_code);
-
     axios.post(API + "/index/InsertCoperate", formdata).then((res) => {
       if (res.data === "success") {
         Swal.fire({
@@ -143,22 +116,26 @@ function FormKTB({ fetch }) {
   };
 
   return (
-    <div>
-      <Button onClick={open} variant="light" color="var(--primary)" leftSection={<IconFilePlus />}>
-        เพิ่มข้อมูล
+    <>
+      <Button color="var(--success)" leftSection={<IconPlus />} onClick={open}>
+        เพิ่มข้อมูลแบบฟอร์ม
       </Button>
       <Modal
         title="แบบแจ้งข้อมูลการรับเงินผ่านระบบ KTB Corporate Online"
+        // onClose={() => {
+        //   setOpenFormKbt(false);
+        // }}
         size={"xxl"}
         closeOnClickOutside={false}
-        opened={opened}
+        opened={opend}
         onClose={close}
       >
         <form
           onSubmit={formEdit.onSubmit((v) => {
-            Submit(v);
+            SubMit(v);
           })}
         >
+          <ScrollArea h={515}>
           <Fieldset legend="ข้อมูลทั่วไป">
             <SimpleGrid cols={{ base: 1, sm: 3 }}>
               <TextInput label="คำนำหน้า" {...formEdit.getInputProps("user_pname")} />
@@ -231,6 +208,13 @@ function FormKTB({ fetch }) {
               <TextInput label="E-mail" {...formEdit.getInputProps("user_email")} />
             </SimpleGrid>
           </Fieldset>
+            <Blockquote icon={<IconInfoCircle />}>
+              <Text c={"blue"}>
+                หากกรอกและบันทึกข้อมูลนี้แล้ว ให้พิมพ์แบบฟอร์มนี้ แล้วเตรียมสำเนาหน้าสมุดบัญชี
+                จากนั้นนำมาส่งที่งานการเงิน
+              </Text>
+            </Blockquote>
+          </ScrollArea>{" "}
           <Flex py={10} justify={"flex-end"}>
             <Button type="submit" leftSection={<IconDeviceFloppy />} color="var(--success)" variant="filled">
               บันทึกข้อมูล
@@ -241,8 +225,8 @@ function FormKTB({ fetch }) {
           </Flex>
         </form>
       </Modal>
-    </div>
+    </>
   );
 }
 
-export default FormKTB;
+export default FormAddKTB;

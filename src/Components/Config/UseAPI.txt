@@ -109,6 +109,14 @@ method = post
     account_type : 1,
     statusbank :0
    }  
+path =  index/insertcustomerbank
+method = post
+   body : {
+    customers_citizent : เลขบัตร
+    account_number : เลขบัญชี,
+    account_type : 1,
+    statusbank :0
+   }  
 
 
    /////////////////////
@@ -137,7 +145,7 @@ method = post
     history_salary_year : 2023,
     history_salary_month : 01,
     customers_type : 4,
-    history_salary :22000,
+    history_salary_salary :22000,
     idbudget:1
    }  
 
@@ -256,9 +264,7 @@ method = get
 path =  index/showhistoryprint/2023/01
 method = get
 
-/////
-login
-path = https://mua.kpru.ac.th/FrontEnd_Mis/login/login/
-method = post 
- data = txtemail: เลขบัตร,
-        txtpass: วันเดือนปีเกิด
+      /////////////////////
+แสดงข้อมูลKTB Coperate ทั้งหมด
+path =  index/ShowAllCoperate
+method = get

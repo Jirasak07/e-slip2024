@@ -5,8 +5,9 @@ import { IconCoin, IconDeviceFloppy, IconEdit } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useState } from "react";
 import { API } from "../../../Config/ConfigApi";
+import Swal from "sweetalert2";
 
-function ModalEditSalary({ total, idbudget, citizenid, year, month }) {
+function ModalEditSalary({ total, idbudget, citizenid, year, month,fetch }) {
   const [opened, { open, close }] = useDisclosure();
   const formEditSalary = useForm({
     initialValues: {
@@ -32,18 +33,41 @@ function ModalEditSalary({ total, idbudget, citizenid, year, month }) {
       }
     });
   };
+  const Submit = (val) => {
+    const body = new FormData();
+    body.append("customers_citizent", val.customer_citizent);
+    body.append("history_salary_year", val.history_salary_year);
+    body.append("history_salary_month", val.history_salary_month);
+    body.append("history_salary", val.history_salary_salary);
+    body.append("idbudget", val.idbudget);
+    axios.post(API + "/index/updatehistorysalary", body).then((res) => {
+     if(res.data === "200"){
+      Swal.fire({
+        icon:"success",
+        title:'อัพเดทข้อมูลเงินเดือนสำเร็จ',
+        timer:1200,
+        timerProgressBar:true,
+        showConfirmButton:false
+      }).then((res)=>{
+        fetch()
+        close()
+      })
+     }
+    });
+  };
+
   return (
     <div>
       <Button
         onClick={() => {
-          FetchBudget()
+          FetchBudget();
           formEditSalary.setValues({
             customer_citizent: citizenid,
             history_salary_salary: total,
             history_salary_year: year,
             history_salary_month: month,
             idbudget: idbudget,
-          })
+          });
           open();
         }}
         leftSection={<IconEdit />}
@@ -53,31 +77,28 @@ function ModalEditSalary({ total, idbudget, citizenid, year, month }) {
         แก้ไข
       </Button>
       <Modal title="แก้ไขข้อมูลเงินเดือน" opened={opened} onClose={close}>
-        <form onSubmit={formEditSalary.onSubmit((val)=>{
-
-        })} >
-           <SimpleGrid>
-          <Select data={SelectDataBudget} label="ประเภทงบประมาณ"   {...formEditSalary.getInputProps("idbudget")} />
-          <TextInput
-            type="number"
-            rightSection={<IconCoin />}
-            rightSectionPointerEvents="none"
-            suffix=" ฿"
-           {...formEditSalary.getInputProps("history_salary_salary")}
-            label="จำนวนเงิน"
-            thousandSeparator
-          />
-        </SimpleGrid>
-        <Flex justify={"flex-end"} pt={10}>
-          <Button type="submit" leftSection={<IconDeviceFloppy />} color="var(--success)">
-            บันทึก
-          </Button>
-          <Button onClick={close} leftSection={<IconDeviceFloppy />} color="var(--danger)" variant="transparent">
-            ยกเลิก
-          </Button>
-        </Flex>
+        <form onSubmit={formEditSalary.onSubmit((val) => {Submit(val)})}>
+          <SimpleGrid>
+            <Select data={SelectDataBudget} label="ประเภทงบประมาณ" {...formEditSalary.getInputProps("idbudget")} />
+            <TextInput
+              type="number"
+              rightSection={<IconCoin />}
+              rightSectionPointerEvents="none"
+              suffix=" ฿"
+              {...formEditSalary.getInputProps("history_salary_salary")}
+              label="จำนวนเงิน"
+              thousandSeparator
+            />
+          </SimpleGrid>
+          <Flex justify={"flex-end"} pt={10}>
+            <Button type="submit" leftSection={<IconDeviceFloppy />} color="var(--success)">
+              บันทึก
+            </Button>
+            <Button onClick={close} leftSection={<IconDeviceFloppy />} color="var(--danger)" variant="transparent">
+              ยกเลิก
+            </Button>
+          </Flex>
         </form>
-       
       </Modal>
     </div>
   );
