@@ -274,3 +274,9 @@ path = https://mua.kpru.ac.th/FrontEnd_Mis/login/login/
 method = post
 data =  txtemail: เลขบัตร,
         txtpass: วันเดือนปีเกิด
+
+        /////
+path = /index/selectadmin
+method = post
+data =  txtemail: เลขบัตร,
+        txtpass: วันเดือนปีเกิด
