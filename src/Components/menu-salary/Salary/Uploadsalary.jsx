@@ -1,6 +1,6 @@
-import { Badge, Button, Container, Paper, Select, SimpleGrid, Flex, NumberFormatter, Grid,  FileButton,  Group } from "@mantine/core";
-import { isNotEmpty, useForm  } from "@mantine/form";
-import { IconSearch, IconPrinter } from "@tabler/icons-react";
+import { Badge, Button, Container, Paper, Select, SimpleGrid, Flex, NumberFormatter, Grid, FileButton, Group } from "@mantine/core";
+import { isNotEmpty, useForm } from "@mantine/form";
+import { IconSearch, IconPrinter, IconDownload, IconFolderUp } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
 import { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
@@ -40,7 +40,7 @@ function Uploadsalary() {
             field: "total_in",
             minimal: "lg",
         },
-        
+
         {
             label: "ยอดสุทธิ",
             field: "total",
@@ -56,14 +56,104 @@ function Uploadsalary() {
     const [LoadTable, setLoadTable] = useState(false);
     const [DataBudget, setDataBudget] = useState([]);
     const [DataYear, setDataYear] = useState([]);
-    const [DataTotalsummary, setDataTotalsummary] = useState([]);
-    const [Dataexpenditurelist, setDataexpenditurelist] = useState([]);
+    // const [DataTotalsummary, setDataTotalsummary] = useState([]);
+    //const [Dataexpenditurelist, setDataexpenditurelist] = useState([]);
     const [Tablelist, setTablelist] = useState([]);
+    const [Salarylist, setSalarylist] = useState([]);
 
     //const [file, setFile] = useState<File | null>(null);
     const [file, setFile] = useState([]);
 
-   
+
+
+    const ExcelExport = () => {
+
+        const workbook = new ExcelJs.Workbook();
+        const sheet = workbook.addWorksheet("Mysheet");
+        sheet.properties.defaultRowHeight = 15;
+
+        sheet.columns = [
+            {
+                header: "customers_citizent",
+                key: "customers_citizent",
+                width: 20
+            },
+            {
+                header: "history_salary_year",
+                key: "history_salary_year",
+                width: 20,
+            },
+            {
+                header: "history_salary_month",
+                key: "history_salary_month",
+                width: 20,
+            },
+            {
+                header: "customers_type",
+                key: "customers_type",
+                width: 20,
+            },
+            {
+                header: "idbudget",
+                key: "idbudget",
+                width: 20,
+            },
+            {
+                header: "customers_pname",
+                key: "customers_pname",
+                width: 20,
+            },
+            {
+                header: "customers_name",
+                key: "customers_name",
+                width: 20,
+            },
+            {
+                header: "customers_lname",
+                key: "customers_lname",
+                width: 20,
+            },
+            {
+                header: "history_salary_salary",
+                key: "history_salary_salary",
+                width: 20,
+            },
+        ]
+
+        Salarylist.map((i) => (
+            sheet.addRow(
+                {
+                    customers_citizent: i.customers_citizent,
+                    history_salary_year: i.history_salary_year,
+                    history_salary_month: i.history_salary_month,
+                    customers_type: i.customers_type,
+                    idbudget: i.idbudget,
+                    customers_pname: i.customers_pname,
+                    customers_name: i.customers_name,
+                    customers_lname: i.customers_lname,
+                    history_salary_salary: i.history_salary_salary
+                }
+            )
+        ))
+
+
+        workbook.xlsx.writeBuffer().then(data => {
+            //  const sdfg = `dd${formSearch.getInputProps("year").toString}.xlsx`;
+            const blob = new Blob([data], {
+                type: "application/vnd.openxmlformats-officedocument.spreadsheet.sheet",
+            });
+            const url = window.URL.createObjectURL(blob);
+            const anchor = document.createElement('a');
+            anchor.href = url;
+            anchor.download = 'ข้อมูลเงินเดือน.xlsx';
+            // anchor.download = sdfg;
+            anchor.click();
+            window.URL.revokeObjectURL(url);
+        })
+
+    }
+
+
 
     const selectmount = [
         {
@@ -171,144 +261,112 @@ function Uploadsalary() {
     };
 
     const Readfile = (e) => {
-        // v.preventDefault();
-    //     const workbook = new ExcelJs.Workbook();
-    //     workbook.xlsx.load(v);
-    //     const json = JSON.stringify(workbook.model);
-    //    console.log(json);
-    // const file = e.target.files[0];
-    // const wb = new ExcelJs.Workbook();
-    // const reader = new FileReader();
-
-    e.preventDefault();
-    if (e.target.files) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const data = e.target.result;
-            const workbook = xlsx.read(data, { type: "array" });
-            const sheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[sheetName];
-            const json = xlsx.utils.sheet_to_json(worksheet);
-            console.log(json);
-        };
-        reader.readAsArrayBuffer(e.target.files[0]);
-    }
 
 
-
-
-    // reader.readAsArrayBuffer(file);
-    // reader.onload = () => {
-    //     const buffer = reader.result;
-    //     wb.xlsx.load(buffer).then((workbook) => {
-    //         console.log(workbook, 'workbook instance');
-    //          workbook.eachSheet((sheet, id) => {
-    //             console.log(sheet);
-    //             // sheet.eachRow((row, rowIndex) => {
-    //             //     // console.log(row.values ,);
-    //             //   //  Tablelist => [...Tablelist,row.values]  
-    //             // //    setTablelist({
-    //             // //     columns: column,
-    //             // //     rows: [{
-    //             // //         no: row.values,
-    //             // //         citizen: i.customers_citizent,
-    //             // //         name: i.customers_pname + i.customers_name + " " + i.customers_lname,
-    //             // //         type_employ: i.customer_type_name,
-    //             // //         total_in: <Text c="teal.8"><NumberFormatter thousandSeparator value={i.total_in} /></Text>,
-    //             // //         total: <Text c="red.9"><NumberFormatter thousandSeparator value={i.total} /></Text>,
-    //             // //         }
-                      
-    //             // //     ]
-    //             // //    }
-                    
-                  
-    //             // //     );
-    //             // });
-    //         });
-    //     });
-    //    console.log(workbook);
-    //   //workbook.xlsx.load(buffer);
-    //  // const json = JSON.stringify(wb);
-    //  // console.log(json);
-    // };
-
+        e.preventDefault();
+        if (e.target.files) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const data = e.target.result;
+                const workbook = xlsx.read(data, { type: "array" });
+                const sheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
+                const json = xlsx.utils.sheet_to_json(worksheet);
+                console.log(json);
+                setTablelist(json);
+            };
+            reader.readAsArrayBuffer(e.target.files[0]);
+        }
 
     };
 
     const searchdata = (value) => {
-   
-        setLoadTable(true);
-        
-            axios.post(API+"/index/showhTotalsummaryrevenuelist",{
-                month:value.month,
-                year:value.year,
-                type:value.type,
-                idbudget:value.idbudget
-               
-              }).then((res)=>{
- setLoadTable(false);
-                console.log(res.data);
-                const data = res.data;
-                if (data.length !== 0) {
-                   
 
-                  setTablelist({
+        setLoadTable(true);
+
+        axios.post(API + "/index/showhTotalsummaryrevenuelist", {
+            month: value.month,
+            year: value.year,
+            type: value.type,
+            idbudget: value.idbudget
+
+        }).then((res) => {
+            setLoadTable(false);
+            console.log(res.data);
+            const data = res.data;
+            if (data.length !== 0) {
+
+
+                setTablelist({
                     columns: column,
                     rows: [
-                      ...data.map((i, key) => ({
-                        no: key + 1,
-                        citizen: i.customers_citizent,
-                        name: i.customers_pname + i.customers_name + " " + i.customers_lname,
-                        type_employ: i.customer_type_name,
-                        total_in: <Text c="teal.8"><NumberFormatter thousandSeparator value={i.total_in} /></Text>,
-                        total: <Text c="red.9"><NumberFormatter thousandSeparator value={i.total} /></Text>,
-                      
-                      })),
+                        ...data.map((i, key) => ({
+                            no: key + 1,
+                            citizen: i.customers_citizent,
+                            name: i.customers_pname + i.customers_name + " " + i.customers_lname,
+                            type_employ: i.customer_type_name,
+                            total_in: <Text c="teal.8"><NumberFormatter thousandSeparator value={i.total_in} /></Text>,
+                            total: <Text c="red.9"><NumberFormatter thousandSeparator value={i.total} /></Text>,
+
+                        })),
                     ],
-                  });
-                 
-                    setDataTotalsummary(res.data);
-                }
-            });
-      
+                });
+
+                setDataTotalsummary(res.data);
+            }
+        });
+
     }
 
-    const submitdata = (value) => {
-        // console.log(value.type_employ);
-        // console.log(value.month);
-        // console.log(value.year);
-        // console.log(value.monthend);
-        // console.log(value.yearend);
-
-
-        const form = Datasalarystart
+    const submitdata = (initialValues) => {
+     
+      //  console.log(initialValues.year)
+        const form = Salarylist
         console.log(value.values)
         console.log(form)
-        axios.post(API+"/index/Addhistorysalarymonth",{
-          month:value.values.monthend,
-          year:value.values.yearend,
-          check: form,
-        }).then((res)=>{
+        axios.post(API + "/index/Addhistorysalarymonth", {
+            month: initialValues.month,
+            year: initialValues.year,
+            check: form,
+        }).then((res) => {
             Swal.fire({
                 title: 'อัพเดทข้อมูลสำเร็จ',
                 icon: 'success',
-              // showCancelButton: true,
                 confirmButtonText: 'ตกลง',
-              // cancelButtonText: 'No, keep it'
-              }).then((result) => {
-              //  this.toggle();
-             // close();
-              })
-             console.log(res.data)
+            }).then((result) => {
+               
+            })
+            console.log(res.data)
         })
 
-        
+
     };
+
+    const Fetchshowhistorysalarylist = (value) => {
+        // setLoadTable(true);
+        setTimeout(() => {
+            axios.get(API + "/index/showhistorysalarylist/" + value.year + "/" + value.month + "/" + value.idbudget).then((res) => {
+                // console.log(res.data);
+                const data = res.data;
+                if (data.length !== 0) {
+                    // setLoadTable(false);
+                    // const select = data.map((i) => ({
+                    //     value: i.name_year,
+                    //     label: i.name_year_th,
+                    // }));
+                    setSalarylist(data);
+                }
+            });
+        }, 400);
+    };
+
+
 
     useEffect(() => {
         FetchTypeshowBudget();
         FetchTshowexpenditurelist();
         FetchYear();
+        // FetchYear();
     }, []);
 
     const formSearch = useForm({
@@ -319,30 +377,30 @@ function Uploadsalary() {
                 : new Date().getMonth()
             ).toString(),
             year: (new Date().getFullYear()).toString(),
-            type: "",
-      //  yearend: (new Date().getFullYear()).toString(),
+            //    type: "",
+            //  yearend: (new Date().getFullYear()).toString(),
         },
 
         validate: {
             idbudget: isNotEmpty("กรุณาเลือกประเภทงบประมาณ"),
             month: isNotEmpty("กรุณาเลือกเดือน"),
             year: isNotEmpty("กรุณาเลือกปี"),
-            type: isNotEmpty("กรุณาเลือกประเภทรายจ่าย"),
-          //  yearend: isNotEmpty("กรุณาเลือกปี"),
-            
+            //  type: isNotEmpty("กรุณาเลือกประเภทรายจ่าย"),
+            //  yearend: isNotEmpty("กรุณาเลือกปี"),
+
         },
     });
     return (
         <>
             <Container p={0} bg={"white"} fluid>
                 <Badge color="var(--primary)" variant="light" size="md" radius={8}>
-                   นำเข้าข้อมูลเงินเดือน
+                    นำเข้าข้อมูลเงินเดือน
                 </Badge>
-             
+
                 <Paper mt={20} mb={20}>
                     <form
                         onSubmit={formSearch.onSubmit((v) => {
-                            searchdata(v);
+                            Fetchshowhistorysalarylist(v);
                             // console.log(v);
                         })}
                     >
@@ -351,13 +409,13 @@ function Uploadsalary() {
                                 <Select data={DataBudget} {...formSearch.getInputProps("idbudget")} label="งบประมาณ" />
                             </Grid.Col>
                         </Grid>
-                        <Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50  }}>
+                        <Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }}>
                             <Grid.Col span={2} >
                                 <Select label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
-                               
+
                             </Grid.Col>
                             <Grid.Col span={2}>
-                                 <Select label="ปี" data={DataYear} {...formSearch.getInputProps("year")}  />
+                                <Select label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
                                 {/* <Select label="เลือกเดือนที่จะนำข้อมูลเข้า " data={selectmount} {...formSearch.getInputProps("monthend")}  />
                                 <Select label="ปี" data={DataYear} {...formSearch.getInputProps("yearend")} mt={10} /> */}
                             </Grid.Col>
@@ -373,22 +431,36 @@ function Uploadsalary() {
                         </Grid>
 
                     </form>
+
+                  
+                    {Salarylist.length !== 0 ? <>
+                        <p className="mt-5">พบรายการเงินเดือน {Salarylist.length} รายการ</p>
+                        <Button onClick={() => { ExcelExport() }} color="green" mt={10} leftSection={<IconDownload />}> ดาวน์โหลดข้อมูลเงินเดือน</Button>
+                    </> : <></>}
                 </Paper>
 
-<hr/>
-                <Paper pt={20} shadow="xl" p="xl">
-               
-                       <Grid justify="center">
-                            <Grid.Col span={4} >
 
-                             {/* <FileButton onChange={(e) => Readfile(e) } accept="image/png,image/jpeg,application/.xls,.xlsx">
+                <hr />
+                <Paper pt={20} shadow="xl" p="xl">
+                    <p>นำเข้าข้อมูลเงินเดือน</p>
+                    <input type='file' onChange={(e) => Readfile(e)} />
+                    <p className="mt-5">รายการนำเข้า {Tablelist.length} รายการ</p>
+
+                    <form onSubmit={formSearch.onSubmit(submitdata)}>
+                               <Button type="submit"   leftSection={<IconFolderUp />}>
+                                    นำเข้าข้อมูล 
+                                </Button>
+                    </form>
+
+                    <Grid justify="center">
+                        <Grid.Col span={4} >
+
+                            {/* <FileButton onChange={(e) => Readfile(e) } accept="image/png,image/jpeg,application/.xls,.xlsx">
                                 {(props) => <Button {...props}>Upload image</Button>}
                                 </FileButton> */}
-                                <label>นำเข้าข้อมูลเงินเดือน</label>
-                                <input type='file' onChange={(e) => Readfile(e)} />
-                                <p>{Tablelist.length}</p>
-                            </Grid.Col>
-                        </Grid>
+
+                        </Grid.Col>
+                    </Grid>
                     {/* {LoadTable ? (
                         <SkeletonTable />
                     ) : (
