@@ -19,6 +19,7 @@ import { IconKey } from "@tabler/icons-react";
 import { useForm } from "@mantine/form";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import axios from "axios";
 function Login() {
   const [LoadingButton, setLoadingButton] = useState(false);
   const nav = useNavigate();
@@ -35,34 +36,63 @@ function Login() {
   const [OverLay, setOverLay] = useState(false);
   const onLogin = (v) => {
     setLoadingButton(true);
-    setTimeout(() => {
-      setLoadingButton(false);
-      formlogin.reset();
-      Swal.fire({
-        icon: "success",
-        title: "ยินดีต้อนรับ",
-        showConfirmButton: false,
-        timer: 1200,
-        timerProgressBar: true,
-      }).then((res) => {
-        setOverLay(true);
-        setTimeout(() => {
-          setOverLay(false);
-          if(v.username === "b"){
-            localStorage.setItem("type-user-epay","2");
+    axios
+      .post("https://mua.kpru.ac.th/FrontEnd_Mis/login/login/", {
+        txtemail: v.username,
+        txtpass: v.password,
+      })
+      .then((res) => {
+        setOverLay(false);
+        const data = res.data;
+        if (data.length !== 0) {
+          Swal.fire({
+            icon: "success",
+            title: "ยินดีต้อนรับ",
+            text: data[0].prefix_name + data[0].frist_name + " " + data[0].last_name,
+            showConfirmButton: false,
+            timer: 1200,
+            timerProgressBar: true,
+          }).then((res) => {
+            localStorage.setItem("citizen", 33 + parseInt(v.username));
+            localStorage.setItem("fname", data[0].frist_name);
+            localStorage.setItem("pname", data[0].prefix_name);
+            localStorage.setItem("lname", data[0].last_name);
+            localStorage.setItem("employee_id", data[0].employee_id);
+            localStorage.setItem("organization_name", data[0].organization_name);
+            localStorage.setItem("rank_name", data[0].rank_name);
+            localStorage.setItem("type-user-epay", "2");
             nav("/user-salary");
-          }else{
-            localStorage.setItem("type-user-epay","1");  
-            nav("/main-page");
-          }
-        
-        }, 900);
+          });
+        }
       });
-    }, 1200);
+
+    // setTimeout(() => {
+    //   setLoadingButton(false);
+    //   formlogin.reset();
+    //   Swal.fire({
+    //     icon: "success",
+    //     title: "ยินดีต้อนรับ",
+    //     showConfirmButton: false,
+    //     timer: 1200,
+    //     timerProgressBar: true,
+    //   }).then((res) => {
+    //     setOverLay(true);
+    //     setTimeout(() => {
+    //       setOverLay(false);
+    //       if (v.username === "b") {
+    //         localStorage.setItem("type-user-epay", "2");
+    //         nav("/user-salary");
+    //       } else {
+    //         localStorage.setItem("type-user-epay", "1");
+    //         nav("/main-page");
+    //       }
+    //     }, 900);
+    //   });
+    // }, 1200);
   };
 
   return (
-    <Container fluid w={"100dvw"} h={"100dvh"} >
+    <Container fluid w={"100dvw"} h={"100dvh"}>
       <LoadingOverlay
         visible={OverLay}
         loaderProps={{ color: "var(--primary)", type: "dots" }}

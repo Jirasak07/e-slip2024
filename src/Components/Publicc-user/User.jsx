@@ -23,6 +23,7 @@ import axios from "axios";
 import { monthh } from "./Month";
 import { API } from "../Config/ConfigApi";
 import { IconFileDescription, IconPdf, IconPrinter } from "@tabler/icons-react";
+import { useNavigate } from "react-router-dom";
 function User() {
   const monthselect = monthh;
   const [Load, setLoad] = useState(false);
@@ -68,9 +69,10 @@ function User() {
     const label = monthselect.findIndex((value) => value.value === params);
     return monthselect[label].label;
   };
-
+const [CitiZent, setCitiZent] = useState("");
   const FetchData = (params) => {
-    axios.get(API + "/index/showhistorysalarywhereemp/1629900531666/1").then((res) => {
+    
+    axios.get(API + "/index/showhistorysalarywhereemp/"+CitiZent+"/1").then((res) => {
       const data = res.data;
       if (data.length !== 0) {
         setTableSalary({
@@ -120,7 +122,15 @@ function User() {
       }
     });
   };
+  const nav = useNavigate();
   useEffect(() => {
+    if (
+      localStorage.getItem("citizen") === null ||
+      localStorage.getItem("citizen") === undefined ||
+      localStorage.getItem("citizen") === ""
+    ) {
+      nav("/login");
+    }
     setLoad(true);
     FetchData();
     setTimeout(() => {
@@ -207,7 +217,7 @@ function User() {
                 <Paper withBorder p={10} shadow="lg">
                   <MDBDataTableV5
                     data={TableSalary}
-                    entriesOptions={[5,6,10,15,50,100,150,200,300,500]}
+                    entriesOptions={[5, 6, 10, 15, 50, 100, 150, 200, 300, 500]}
                     entries={6}
                     responsive
                     searchTop={true}
