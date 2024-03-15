@@ -22,6 +22,7 @@ import Reportipay from "./Components/menu-salary/Expenditure/Reportipay";
 import User from "./Components/Publicc-user/User";
 import Reporthistoryprint from "./Components/menu-salary/Expenditure/Reporthistoryprint";
 import Reportshowsalaryopen from "./Components/menu-salary/Expenditure/Reportshowsalaryopen";
+import Uploadsalary from "./Components/menu-salary/Salary/Uploadsalary";
 
 
 
@@ -40,7 +41,7 @@ function App() {
           <Route path="/manage-salary/expenses" element={<Expenditure />} />
           <Route path="/manage-salary/add-revenue-fromtype" element={<AddRevenue />} />
           <Route path="/manage-salary/add-expenses-fromtype" element={<AddExpenditure />} />
-          <Route path="/manage-salary/import-export" element={<Home />} />
+          <Route path="/manage-salary/import-export" element={<Uploadsalary />} />
           <Route path="/manage-salary/update-revenue" element={<Home />} />
           <Route path="/manage-salary/update-expenses" element={<Updaterevenueexpenditure />} />
           <Route path="/manage-salary/update-salary" element={<Updatesalary />} />

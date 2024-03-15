@@ -255,3 +255,10 @@ method = get
 แสดงข้อมูลประวัติการพิมพ์
 path =  index/showhistoryprint/2023/01
 method = get
+
+/////
+login
+path = https://mua.kpru.ac.th/FrontEnd_Mis/login/login/
+method = post 
+ data = txtemail: เลขบัตร,
+        txtpass: วันเดือนปีเกิด
