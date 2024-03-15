@@ -181,7 +181,6 @@ function User() {
                           </Grid.Col>
                           <Grid.Col span={8}>
                             <Text fz={fontsize} fw={300}>
-                              {" "}
                               นักวิชาการคอมพิวเตอร์
                             </Text>
                           </Grid.Col>

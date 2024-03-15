@@ -55,7 +55,7 @@ function FormKTB({ fetch }) {
       user_bank_name: isNotEmpty("กรุณากรอกข้อมูล"),
       user_bank_branch: isNotEmpty("กรุณากรอกข้อมูล"),
       user_bank_type: isNotEmpty("กรุณากรอกข้อมูล"),
-      user_bank_number: isNotEmpty("กรุณากรอกข้อมูล"),
+      user_bank_number: (value) => (/^\d{3}-\d{1,5}-\d{5}-\d{1,7}$/.test(value) ? null : "รูปแบบไม่ถูกต้อง"),
       user_phone_number: isNotEmpty("กรุณากรอกข้อมูล"),
       user_email: isNotEmpty("กรุณากรอกข้อมูล"),
       user_citizent: isNotEmpty("กรุณากรอกข้อมูล"),
@@ -223,7 +223,7 @@ function FormKTB({ fetch }) {
               <TextInput label="ประเภทธนาคาร" {...formEdit.getInputProps("user_bank_type")} />
             </SimpleGrid>
             <SimpleGrid cols={{ base: 1, sm: 3 }}>
-              <TextInput label="เลขที่บัญชีเงินฝากธนาคาร" {...formEdit.getInputProps("user_bank_number")} />
+              <TextInput placeholder="" label="เลขที่บัญชีเงินฝากธนาคาร" {...formEdit.getInputProps("user_bank_number")} />
               <TextInput
                 label="เบอร์โทรศัพท์ สำหรับแจ้งเตือนผ่านมือถือ"
                 {...formEdit.getInputProps("user_phone_number")}
