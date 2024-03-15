@@ -68,7 +68,7 @@ function FormAddKTB() {
       user_bank_name: isNotEmpty("กรุณากรอกข้อมูล"),
       user_bank_branch: isNotEmpty("กรุณากรอกข้อมูล"),
       user_bank_type: isNotEmpty("กรุณากรอกข้อมูล"),
-      user_bank_number: isNotEmpty("กรุณากรอกข้อมูล"),
+      user_bank_number: (value) => (/^\d{3}-\d{1,5}-\d{5}-\d{1,7}$/.test(value) ? null : "รูปแบบไม่ถูกต้อง"),
       user_phone_number: isNotEmpty("กรุณากรอกข้อมูล"),
       user_email: isNotEmpty("กรุณากรอกข้อมูล"),
       user_citizent: isNotEmpty("กรุณากรอกข้อมูล"),
@@ -128,7 +128,10 @@ function FormAddKTB() {
         size={"xxl"}
         closeOnClickOutside={false}
         opened={opend}
-        onClose={close}
+        onClose={() => {
+          formEdit.reset();
+          close();
+        }}
       >
         <form
           onSubmit={formEdit.onSubmit((v) => {
@@ -136,78 +139,78 @@ function FormAddKTB() {
           })}
         >
           <ScrollArea h={515}>
-          <Fieldset legend="ข้อมูลทั่วไป">
-            <SimpleGrid cols={{ base: 1, sm: 3 }}>
-              <TextInput label="คำนำหน้า" {...formEdit.getInputProps("user_pname")} />
-              <TextInput label="ชื่อ" {...formEdit.getInputProps("user_fname")} />
-              <TextInput label="นามสกุล" {...formEdit.getInputProps("user_lname")} />
-            </SimpleGrid>
-            <SimpleGrid cols={{ base: 1, sm: 3 }}>
-              <TextInput label="เลขประจำตัวประชาชน" {...formEdit.getInputProps("user_citizent")} />
-              <TextInput label="สำนัก/กอง/ศูนย์" {...formEdit.getInputProps("user_office")} />
-              <TextInput label="กระทรวง" {...formEdit.getInputProps("user_belong")} />
-            </SimpleGrid>
-            <SimpleGrid cols={{ base: 1, sm: 3 }}>
-              {" "}
-              <TextInput label="สังกัดกรม" {...formEdit.getInputProps("user_department")} />
-              <TextInput label="ตำแหน่ง" {...formEdit.getInputProps("user_position")} />
-            </SimpleGrid>
-          </Fieldset>
-          <Divider my="md" variant="dashed" />
-          <Fieldset legend="ข้อมูลที่อยู่">
-            <SimpleGrid cols={{ base: 1, sm: 3 }}>
-              <TextInput label="บ้านเลขที่" {...formEdit.getInputProps("user_add_no")} />
-              <TextInput label="ซอย" {...formEdit.getInputProps("user_add_soi")} />
-              <TextInput label="ถนน" {...formEdit.getInputProps("user_add_road")} />
-            </SimpleGrid>
-            <SimpleGrid cols={{ base: 1, sm: 3 }}>
-              <TextInput label="ตำบล" {...formEdit.getInputProps("user_add_tumbon")} />
-              <TextInput label="อำเภอ" {...formEdit.getInputProps("user_add_amphoe")} />
-              <TextInput label="จังหวัด" {...formEdit.getInputProps("user_add_province")} />
-            </SimpleGrid>
-            <SimpleGrid cols={{ base: 1, sm: 3 }}>
-              <TextInput label="รหัสไปรษณีย์" {...formEdit.getInputProps("user_add_code")} />
-              <TextInput label="เบอร์โทรศัพท์" {...formEdit.getInputProps("user_add_phone")} />
-            </SimpleGrid>
-          </Fieldset>
-          <Divider my="md" variant="dashed" />
-          <Fieldset legend="ข้อมูลธนาคาร">
-            <SimpleGrid>
-              <Radio
-                error={formEdit.errors.user_emp}
-                onChange={() => {
-                  formEdit.setValues({
-                    user_emp: "1",
-                  });
-                }}
-                checked={formEdit.values.user_emp === "1" ? true : false}
-                label="เป็นข้าราชการ ลูกจ้าง พนักงานราชการของหน่วยงาน"
-              />
-              <Radio
-                error={formEdit.errors.user_emp}
-                onChange={() => {
-                  formEdit.setValues({
-                    user_emp: "2",
-                  });
-                }}
-                checked={formEdit.values.user_emp === "2" ? true : false}
-                label="เป็นบุคคลภายนอก เพื่อเข้าบัญชีเงินฝากธนคาร"
-              />
-            </SimpleGrid>
-            <SimpleGrid cols={{ base: 1, sm: 3 }}>
-              <TextInput label="บัญชีเงินฝากธนาคาร" {...formEdit.getInputProps("user_bank_name")} />
-              <TextInput label="สาขา" {...formEdit.getInputProps("user_bank_branch")} />
-              <TextInput label="ประเภทธนาคาร" {...formEdit.getInputProps("user_bank_type")} />
-            </SimpleGrid>
-            <SimpleGrid cols={{ base: 1, sm: 3 }}>
-              <TextInput label="เลขที่บัญชีเงินฝากธนาคาร" {...formEdit.getInputProps("user_bank_number")} />
-              <TextInput
-                label="เบอร์โทรศัพท์ สำหรับแจ้งเตือนผ่านมือถือ"
-                {...formEdit.getInputProps("user_phone_number")}
-              />
-              <TextInput label="E-mail" {...formEdit.getInputProps("user_email")} />
-            </SimpleGrid>
-          </Fieldset>
+            <Fieldset legend="ข้อมูลทั่วไป">
+              <SimpleGrid cols={{ base: 1, sm: 3 }}>
+                <TextInput label="คำนำหน้า" {...formEdit.getInputProps("user_pname")} />
+                <TextInput label="ชื่อ" {...formEdit.getInputProps("user_fname")} />
+                <TextInput label="นามสกุล" {...formEdit.getInputProps("user_lname")} />
+              </SimpleGrid>
+              <SimpleGrid cols={{ base: 1, sm: 3 }}>
+                <TextInput label="เลขประจำตัวประชาชน" {...formEdit.getInputProps("user_citizent")} />
+                <TextInput label="สำนัก/กอง/ศูนย์" {...formEdit.getInputProps("user_office")} />
+                <TextInput label="กระทรวง" {...formEdit.getInputProps("user_belong")} />
+              </SimpleGrid>
+              <SimpleGrid cols={{ base: 1, sm: 3 }}>
+                {" "}
+                <TextInput label="สังกัดกรม" {...formEdit.getInputProps("user_department")} />
+                <TextInput label="ตำแหน่ง" {...formEdit.getInputProps("user_position")} />
+              </SimpleGrid>
+            </Fieldset>
+            <Divider my="md" variant="dashed" />
+            <Fieldset legend="ข้อมูลที่อยู่">
+              <SimpleGrid cols={{ base: 1, sm: 3 }}>
+                <TextInput label="บ้านเลขที่" {...formEdit.getInputProps("user_add_no")} />
+                <TextInput label="ซอย" {...formEdit.getInputProps("user_add_soi")} />
+                <TextInput label="ถนน" {...formEdit.getInputProps("user_add_road")} />
+              </SimpleGrid>
+              <SimpleGrid cols={{ base: 1, sm: 3 }}>
+                <TextInput label="ตำบล" {...formEdit.getInputProps("user_add_tumbon")} />
+                <TextInput label="อำเภอ" {...formEdit.getInputProps("user_add_amphoe")} />
+                <TextInput label="จังหวัด" {...formEdit.getInputProps("user_add_province")} />
+              </SimpleGrid>
+              <SimpleGrid cols={{ base: 1, sm: 3 }}>
+                <TextInput label="รหัสไปรษณีย์" {...formEdit.getInputProps("user_add_code")} />
+                <TextInput label="เบอร์โทรศัพท์" {...formEdit.getInputProps("user_add_phone")} />
+              </SimpleGrid>
+            </Fieldset>
+            <Divider my="md" variant="dashed" />
+            <Fieldset legend="ข้อมูลธนาคาร">
+              <SimpleGrid>
+                <Radio
+                  error={formEdit.errors.user_emp}
+                  onChange={() => {
+                    formEdit.setValues({
+                      user_emp: "1",
+                    });
+                  }}
+                  checked={formEdit.values.user_emp === "1" ? true : false}
+                  label="เป็นข้าราชการ ลูกจ้าง พนักงานราชการของหน่วยงาน"
+                />
+                <Radio
+                  error={formEdit.errors.user_emp}
+                  onChange={() => {
+                    formEdit.setValues({
+                      user_emp: "2",
+                    });
+                  }}
+                  checked={formEdit.values.user_emp === "2" ? true : false}
+                  label="เป็นบุคคลภายนอก เพื่อเข้าบัญชีเงินฝากธนคาร"
+                />
+              </SimpleGrid>
+              <SimpleGrid cols={{ base: 1, sm: 3 }}>
+                <TextInput label="บัญชีเงินฝากธนาคาร" {...formEdit.getInputProps("user_bank_name")} />
+                <TextInput label="สาขา" {...formEdit.getInputProps("user_bank_branch")} />
+                <TextInput label="ประเภทธนาคาร" {...formEdit.getInputProps("user_bank_type")} />
+              </SimpleGrid>
+              <SimpleGrid cols={{ base: 1, sm: 3 }}>
+                <TextInput label="เลขที่บัญชีเงินฝากธนาคาร" {...formEdit.getInputProps("user_bank_number")} />
+                <TextInput
+                  label="เบอร์โทรศัพท์ สำหรับแจ้งเตือนผ่านมือถือ"
+                  {...formEdit.getInputProps("user_phone_number")}
+                />
+                <TextInput label="E-mail" {...formEdit.getInputProps("user_email")} />
+              </SimpleGrid>
+            </Fieldset>
             <Blockquote icon={<IconInfoCircle />}>
               <Text c={"blue"}>
                 หากกรอกและบันทึกข้อมูลนี้แล้ว ให้พิมพ์แบบฟอร์มนี้ แล้วเตรียมสำเนาหน้าสมุดบัญชี
@@ -219,7 +222,14 @@ function FormAddKTB() {
             <Button type="submit" leftSection={<IconDeviceFloppy />} color="var(--success)" variant="filled">
               บันทึกข้อมูล
             </Button>
-            <Button onClick={close} color="var(--danger)" variant="subtle">
+            <Button
+              onClick={() => {
+                formEdit.reset();
+                close();
+              }}
+              color="var(--danger)"
+              variant="subtle"
+            >
               ยกเลิก
             </Button>
           </Flex>
