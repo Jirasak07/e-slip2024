@@ -20,6 +20,7 @@ import { useForm } from "@mantine/form";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { API } from "../../Components/Config/ConfigApi";
 function Login() {
   useEffect(()=>{
     localStorage.removeItem("citizen");
@@ -53,8 +54,11 @@ function Login() {
       })
       .then((res) => {
         setOverLay(false);
+        setLoadingButton(false);
         const data = res.data;
-        if (data.length !== 0 && data[0].frist_name === "บี" ) {
+       // if (data.length !== 0 && data[0].frist_name === "บี" ) {
+      //  console.log(res.data[0].loginstatus)
+           if (res.data[0].loginstatus === '1' ) {    
           Swal.fire({
             icon: "success",
             title: "ยินดีต้อนรับ",
@@ -74,15 +78,60 @@ function Login() {
             nav("/user-salary");
           });
         }else{
-          localStorage.setItem("citizen", 33 + parseInt('1236545854587'));
-            localStorage.setItem("fname", 'admin');
-            localStorage.setItem("pname", "data[0].prefix_name");
-            localStorage.setItem("lname", "data[0].last_name");
-            localStorage.setItem("employee_id", "data[0].employee_id");
-            localStorage.setItem("organization_name", "data[0].organization_name");
-            localStorage.setItem("rank_name", "sdddfd");
-          localStorage.setItem("type-user-epay", "1");
-          nav("/main-page");
+          console.log('ผู้ดูแลระบบ')
+          const datafrm = new FormData(); 
+          datafrm.append("txtemail", v.username);
+          datafrm.append("txtpass", v.password);
+    
+          axios.post(API+"/index/selectadmin",datafrm,{
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+          })
+          .then((res) => {
+
+             const data = res.data;
+              if (res.data.length !== 0) {
+                setOverLay(false);
+              //  setLoadingButton(false);
+                Swal.fire({
+                  icon: "success",
+                  title: "ยินดีต้อนรับ",
+                  text: data[0].admin_name + " " + data[0].admin_lname,
+                  showConfirmButton: false,
+                  timer: 1200,
+                  timerProgressBar: true,
+                  
+                }).then((res) => {
+                       
+                        localStorage.setItem("citizen", data[0].employee_id);
+                        localStorage.setItem("fname", data[0].admin_name);
+                        localStorage.setItem("pname", "admin");
+                        localStorage.setItem("lname", data[0].admin_lname);
+                        localStorage.setItem("employee_id", data[0].employee_id);
+                        localStorage.setItem("organization_name", "การเงิน");
+                        localStorage.setItem("rank_name", "sdddfd");
+                        localStorage.setItem("type-user-epay", "1");
+                        nav("/main-page");
+                });
+
+              }else{
+                setOverLay(false);
+                setLoadingButton(false);
+                Swal.fire({
+                  icon: "warning",
+                  title: "ไม่สามารถเข้าสู่ระบบได้",
+                  text: 'กรุณาลองใหม่อีกครั้ง',
+                  showConfirmButton: false,
+                  timer: 1200,
+                  timerProgressBar: true,
+                }).then((res) => {
+                 
+                });
+              }
+           
+          });
+        
         }
       });
 

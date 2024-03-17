@@ -84,10 +84,10 @@ export function Layouts() {
               {" "}
               <Flex justify={"flex-start"} gap={5} align={"center"}>
                 <Avatar color="var(--primary)" size={"md"}>
-                  จิ
+                  {localStorage.getItem('fname').substring(0, 1)}
                 </Avatar>
                 <Badge variant="white" color="var(--primary)" size="lg" radius={8}>
-                  จิรศักดิ์ สิงหบุตร
+                  {localStorage.getItem('fname')+' '+localStorage.getItem('lname') }
                 </Badge>
               </Flex>
               {Array.isArray(menu) &&

@@ -320,10 +320,11 @@ function Uploadsalary() {
 
     const submitdata = (initialValues) => {
      
-      //  console.log(initialValues.year)
-        const form = Salarylist
-        console.log(value.values)
-        console.log(form)
+        console.log(initialValues.year)
+
+        const form = Tablelist
+       // console.log(value.values)
+        console.log(Tablelist)
         axios.post(API + "/index/Addhistorysalarymonth", {
             month: initialValues.month,
             year: initialValues.year,
@@ -335,6 +336,7 @@ function Uploadsalary() {
                 confirmButtonText: 'ตกลง',
             }).then((result) => {
                
+                
             })
             console.log(res.data)
         })
