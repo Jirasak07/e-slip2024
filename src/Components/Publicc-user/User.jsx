@@ -149,7 +149,7 @@ function User() {
     <>
       <div>
         {" "}
-        <ScrollArea h={"calc(100dvh - 2rem)"}>
+        {/* <ScrollArea h={"calc(100dvh - 2rem)"}> */}
           <Container fluid p={0}>
             <Badge size="xl" variant="subtle" color="var(--primary)">
               รายการเงินเดือน
@@ -247,7 +247,7 @@ function User() {
               )}
             </Container>
           </Container>{" "}
-        </ScrollArea>
+        {/* </ScrollArea> */}
       </div>
     </>
   );

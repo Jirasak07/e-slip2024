@@ -23,10 +23,7 @@ function KTBForm() {
           color="violet"
           leftSection={<IconSearch />}
         >
-          ตรวจสอบแบบฟอร์ม
-        </Button>
-        <Button color="green" leftSection={<IconDownload />}>
-          ดาวน์โหลดแบบฟอร์ม
+          ตรวจสอบแบบฟอร์มและดาวน์โหลด
         </Button>
       </Flex>
     </div>
