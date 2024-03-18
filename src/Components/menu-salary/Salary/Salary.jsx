@@ -1,6 +1,6 @@
-import { Badge, Button, Container, Paper, Select, SimpleGrid, Flex, NumberFormatter  } from "@mantine/core";
+import { Badge, Button, Container, Paper, Select, SimpleGrid, Flex, NumberFormatter } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
-import { IconSearch,IconPrinter } from "@tabler/icons-react";
+import { IconSearch, IconPrinter } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
 import { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
@@ -11,57 +11,42 @@ import SkeletonTable from "../../Publicc-user/SkeletonTable";
 import ModalAddrevenue from "./ModalAddrevenue";
 import ModalExpenditure from "./ModalExpenditure";
 import React from "react";
-import ExcelJs from 'exceljs'
+import ExcelJs from "exceljs";
 function Salary() {
-  
-const ExcelExport = ()=>{
-  const workbook = new ExcelJs.Workbook();
-  const sheet = workbook.addWorksheet("Mysheet");
-  sheet.properties.defaultRowHeight = 15;
-  
-  sheet.columns = [
-    {
-      header:"ชื่อ",
-      key:"name",
-      width:20
-    },
-    {
-      header:"เลขบัตร",
-      key:"names",
-      width:20,
-    },
-  ]
-  sheet.addRow({
-    name:"สวัสดีครับ",
-    names:"ครับผม"
-  })
+  const ExcelExport = () => {
+    const workbook = new ExcelJs.Workbook();
+    const sheet = workbook.addWorksheet("Mysheet");
+    sheet.properties.defaultRowHeight = 15;
 
+    sheet.columns = [
+      {
+        header: "ชื่อ",
+        key: "name",
+        width: 20,
+      },
+      {
+        header: "เลขบัตร",
+        key: "names",
+        width: 20,
+      },
+    ];
+    sheet.addRow({
+      name: "สวัสดีครับ",
+      names: "ครับผม",
+    });
 
-
-
-
-
-workbook.xlsx.writeBuffer().then(data=>{
-  const blob = new Blob([data],{
-    type:"application/vnd.openxmlformats-officedocument.spreadsheet.sheet",
-  });
-  const url = window.URL.createObjectURL(blob);
-  const anchor = document.createElement('a');
-  anchor.href = url;
-  anchor.download = 'HHH.xlsx';
-  anchor.click();
-  window.URL.revokeObjectURL(url);
-})
-
-}
-
-
-
-
-
-
-
-
+    workbook.xlsx.writeBuffer().then((data) => {
+      const blob = new Blob([data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheet.sheet",
+      });
+      const url = window.URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = "HHH.xlsx";
+      anchor.click();
+      window.URL.revokeObjectURL(url);
+    });
+  };
 
   const column = [
     {
@@ -205,9 +190,9 @@ workbook.xlsx.writeBuffer().then(data=>{
       });
     }, 400);
   };
-const See = () => {
-    submitdata(formSearch.values)
-}
+  const See = () => {
+    submitdata(formSearch.values);
+  };
 
   const submitdata = (value) => {
     setLoadTable(true);
@@ -224,22 +209,66 @@ const See = () => {
                 citizen: i.customers_citizent,
                 name: i.customers_pname + i.customers_name + " " + i.customers_lname,
                 type_employ: i.customer_type_name,
-                salary: <Text c="teal.8"><NumberFormatter thousandSeparator value={i.history_salary_salary} /></Text>,
-                revenue: <Text c="blue"><NumberFormatter thousandSeparator value={i.revenue} /></Text>,
-                expenses: <Text c="red.9"><NumberFormatter thousandSeparator value={i.expenditure} /></Text>,
-                total: <Text c="dark.9"><NumberFormatter thousandSeparator value={i.salary_true} /></Text>,
-                manage: (<Flex direction={"row"} gap={5}>
-                  <ModalAddrevenue fn={See} idbudget={i.idbudget} year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type} />
-                  <ModalExpenditure fn={See} idbudget={i.idbudget} year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type} />
-                  <Button
-                    color="var(--info)"
-                    leftSection={<IconPrinter />}
-                    size="xs"
-                  >
-                    พิมพ์
-                  </Button>
-                </Flex>)
-                ,
+                salary: (
+                  <Text c="teal.8">
+                    <NumberFormatter thousandSeparator value={i.history_salary_salary} />
+                  </Text>
+                ),
+                revenue: (
+                  <Text c="blue">
+                    <NumberFormatter thousandSeparator value={i.revenue} />
+                  </Text>
+                ),
+                expenses: (
+                  <Text c="red.9">
+                    <NumberFormatter thousandSeparator value={i.expenditure} />
+                  </Text>
+                ),
+                total: (
+                  <Text c="dark.9">
+                    <NumberFormatter thousandSeparator value={i.salary_true} />
+                  </Text>
+                ),
+                manage: (
+                  <Flex direction={"row"} gap={5}>
+                    <ModalAddrevenue
+                      fn={See}
+                      idbudget={i.idbudget}
+                      year={i.history_salary_year}
+                      month={i.history_salary_month}
+                      citizent={i.customers_citizent}
+                      type={i.customers_type}
+                    />
+                    <ModalExpenditure
+                      fn={See}
+                      idbudget={i.idbudget}
+                      year={i.history_salary_year}
+                      month={i.history_salary_month}
+                      citizent={i.customers_citizent}
+                      type={i.customers_type}
+                    />
+                    <Button
+                      onClick={() => {
+                        window.open(
+                          API +
+                            "/PDF/SalarySlip.php?id=" +
+                            (parseInt(i.customers_citizent) + 33) +
+                            "&year=" +
+                            i.history_salary_year +
+                            "&month=" +
+                            i.history_salary_month +
+                            "&type=" +
+                            i.customers_type
+                        );
+                      }}
+                      color="var(--info)"
+                      leftSection={<IconPrinter />}
+                      size="xs"
+                    >
+                      พิมพ์
+                    </Button>
+                  </Flex>
+                ),
               })),
             ],
           });
@@ -260,7 +289,7 @@ const See = () => {
         ? "0" + new Date().getMonth()
         : new Date().getMonth()
       ).toString(),
-      year: (new Date().getFullYear()).toString(),
+      year: new Date().getFullYear().toString(),
     },
 
     validate: {
@@ -282,7 +311,7 @@ const See = () => {
               // console.log(v);
             })}
           >
-            <SimpleGrid cols={{base:2,md:4}}>
+            <SimpleGrid cols={{ base: 2, md: 4 }}>
               <Select data={DataTypeEmploy} {...formSearch.getInputProps("type_employ")} label="ประเภทบุคลากร" />
               <Select label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
               <Select label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
