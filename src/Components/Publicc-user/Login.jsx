@@ -56,8 +56,6 @@ function Login() {
         setOverLay(false);
         setLoadingButton(false);
         const data = res.data;
-       // if (data.length !== 0 && data[0].frist_name === "บี" ) {
-      //  console.log(res.data[0].loginstatus)
            if (res.data[0].loginstatus === '1' ) {    
           Swal.fire({
             icon: "success",

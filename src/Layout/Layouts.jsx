@@ -24,22 +24,22 @@ export function Layouts() {
   const type = localStorage.getItem("type-user-epay");
   useEffect(() => {
     // const menu2 = menus.findIndex((menu) => menu.type === localStorage.getItem("bee"));
-    if(type === null || type === "" || type === undefined || (localStorage.getItem('fname') === null || localStorage.getItem('fname') === "" || localStorage.getItem('fname') === undefined ) ){
+    if(type === null || type === "" || type === undefined ){
       nav("/login")
     }
     const menu2 = menus.findIndex((menu) => menu.type === type);
     const menu = menus[menu2].data;
-    const indexmenu = menu.findIndex((menu) => menu.path === window.location.pathname);
-    console.log(indexmenu);
+    const indexmenu = menu.findIndex((menu) => '/testslip'+menu.path === window.location.pathname);
+    console.log('/' + window.location.pathname.split("/")[1]+'/' + window.location.pathname.split("/")[2]);
     if (indexmenu === -1) {
-      const indexmenus = menu.findIndex((menu) => menu.path === "/" + window.location.pathname.split("/")[1]);
+      const indexmenus = menu.findIndex((menu) => '/testslip'+menu.path === '/' + window.location.pathname.split("/")[1]+'/' + window.location.pathname.split("/")[2]);
       if (indexmenus === -1) {
-        console.log("ไม่ใช่");
-        nav("/login");
+        // nav("/login");
       } else {
-        const indexsub = menu[indexmenus].sub.findIndex((sub) => sub.path === window.location.pathname);
+        const indexsub = menu[indexmenus].sub.findIndex((sub) => '/testslip'+sub.path === window.location.pathname);
         setIndexMenu(indexmenus);
         setINdexSub(indexsub);
+        // console.log('/testslip'+sub.path);
       }
     } else {
       setIndexMenu(indexmenu);
@@ -112,8 +112,8 @@ export function Layouts() {
                       <NavLink
                         color="var(--primary)"
                         variant="filled"
-                        active={"/" + window.location.pathname.split("/")[1] === menu.path ? true : false}
-                        defaultOpened={"/" + window.location.pathname.split("/")[1] === menu.path ? true : false}
+                        active={"/" + window.location.pathname.split("/")[2] === menu.path ? true : false}
+                        defaultOpened={"/" + window.location.pathname.split("/")[2] === menu.path ? true : false}
                         label={menu.title}
                         leftSection={menu.icon}
                       >
