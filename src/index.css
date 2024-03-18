@@ -50,3 +50,6 @@ button:focus {
 .pointers {
   cursor: pointer !important;
 }
+*{
+  font-size:large;
+}
