@@ -24,7 +24,7 @@ export function Layouts() {
   const type = localStorage.getItem("type-user-epay");
   useEffect(() => {
     // const menu2 = menus.findIndex((menu) => menu.type === localStorage.getItem("bee"));
-    if(type === null || type === "" || type === undefined){
+    if(type === null || type === "" || type === undefined || (localStorage.getItem('fname') === null || localStorage.getItem('fname') === "" || localStorage.getItem('fname') === undefined ) ){
       nav("/login")
     }
     const menu2 = menus.findIndex((menu) => menu.type === type);
@@ -84,7 +84,7 @@ export function Layouts() {
               {" "}
               <Flex justify={"flex-start"} gap={5} align={"center"}>
                 <Avatar color="var(--primary)" size={"md"}>
-                  {localStorage.getItem('fname').substring(0, 1)}
+                  {localStorage.getItem('fname') !== null?  localStorage.getItem('fname').substring(0, 1) :""}
                 </Avatar>
                 <Badge variant="white" color="var(--primary)" size="lg" radius={8}>
                   {localStorage.getItem('fname')+' '+localStorage.getItem('lname') }
