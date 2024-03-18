@@ -11,6 +11,7 @@ import ModalEditOfficer from "./ModalEditOfficer";
 import ModalManageSalaryOfficer from "./ModalManageSalaryOfficer";
 import ModalDeleteOfficer from "./ModalDeleteOfficer";
 import ModalManageBankOfficer from "./ManageBank/ModalManageBankOfficer";
+import ManageOfficer from "./ManageOfficer/ManageOfficer";
 function Officer() {
   const [OverLayLoad, setOverLayLoad] = useState(false);
   const [DataSelectTypeCustomer, setDataSelectTypeCustomer] = useState([]);
@@ -75,14 +76,20 @@ function Officer() {
               no: key + 1,
               citizen: i.customers_citizent,
               name: i.customers_pname + i.customers_name + " " + i.customers_lname,
-              bank: i.bank_name === null? <Text fz={14} fw={300} >ไม่ได้ระบุ</Text>:i.bank_name,
+              bank:
+                i.bank_name === null ? (
+                  <Text fz={14} fw={300}>
+                    ไม่ได้ระบุ
+                  </Text>
+                ) : (
+                  i.bank_name
+                ),
               manage: (
                 <Flex direction={"row"} gap={5}>
                   {i.customer_type_id}
                   <ModalEditOfficer customerid={i.customers_citizent} fn={Fetchcc} />
                   <ModalManageBankOfficer
                     citizenid={i.customers_citizent}
-
                     name={i.customers_pname + i.customers_name + " " + i.customers_lname}
                   />{" "}
                   <ModalManageSalaryOfficer customer_type_id={i.customers_type} citizenid={i.customers_citizent} />
@@ -107,7 +114,7 @@ function Officer() {
       customer_type_id: isNotEmpty("กรุณาเลือกประเภทบุคลากร"),
     },
   });
-  
+
   useEffect(() => {
     FetchTypeCustomer();
   }, []);
@@ -148,9 +155,9 @@ function Officer() {
     });
   };
   const Fetchcc = () => {
-    FetchData(formSearch.values.customer_type_id)
-  }
-  
+    FetchData(formSearch.values.customer_type_id);
+  };
+
   return (
     <>
       <LoadingOverlay
@@ -188,7 +195,7 @@ function Officer() {
                   >
                     ค้นหา
                   </Button>
-                  <Button
+                  {/* <Button
                     onClick={() => UpdateUserAdd()}
                     leftSection={<IconRefresh />}
                     variant="light"
@@ -203,7 +210,10 @@ function Officer() {
                     color="var(--danger)"
                   >
                     อัพเดทสถานะบุคลากรลาออก
-                  </Button>
+                  </Button> */}
+                  <SimpleGrid>
+                    <ManageOfficer />
+                  </SimpleGrid>
                 </SimpleGrid>
               </Flex>
             </Flex>
