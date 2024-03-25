@@ -70,15 +70,17 @@ function User() {
     return monthselect[label].label;
   };
   const [CitiZent, setCitiZent] = useState("");
+  const [IMG, setIMG] = useState("");
   const FetchData = (params) => {
     const fm = new FormData();
-    fm.append("customers_citizent", parseInt(localStorage.getItem("citizen"))-33 );
+    fm.append("customers_citizent", parseInt(localStorage.getItem("citizen")) - 33);
     axios.post(API + "/index/findtypeemploy", fm).then((type) => {
       const types = type.data[0].customers_type;
       localStorage.setItem("type_name", type.data[0].customers_type_name);
       axios.get(API + "/index/showhistorysalarywhereemp/" + CitiZent + "/" + types).then((res) => {
         const data = res.data;
         if (data.length !== 0) {
+          setIMG("https://mis.kpru.ac.th/images/pic_emp_50/" + localStorage.getItem("employee_id") + ".jpg");
           setTableSalary({
             columns: column,
             rows: [
@@ -99,7 +101,7 @@ function User() {
                             window.open(
                               API +
                                 "/PDF/SalarySlip.php?id=" +
-                                (parseInt(i.customers_citizent)+33) +
+                                (parseInt(i.customers_citizent) + 33) +
                                 "&year=" +
                                 i.history_salary_year +
                                 "&month=" +
@@ -150,103 +152,98 @@ function User() {
       <div>
         {" "}
         {/* <ScrollArea h={"calc(100dvh - 2rem)"}> */}
-          <Container fluid p={0}>
-            <Badge size="xl" variant="subtle" color="var(--primary)">
-              รายการเงินเดือน
-            </Badge>
-            <Flex justify={"center"}>
-              <Paper withBorder shadow="lg" w={"clamp(300px,80vw,600px)"} mih={150} p={10}>
-                <LoadingOverlay transitionProps={{ transition: "pop" }} visible={LoadButton} />
-                {Load ? (
-                  <Flex h={"100%"} gap={10}>
-                    <Stack my={"auto"}>
-                      <Skeleton h={90} w={80} />
-                    </Stack>
-                    <Stack mt="25">
-                      <Skeleton h={10} w={250} />
-                      <Skeleton h={10} w={120} />
-                      <Skeleton h={10} w={130} />
-                    </Stack>
-                  </Flex>
-                ) : (
-                  <>
-                    <Flex h={"100%"} align={"center"}>
-                      <Image
-                        src={"https://mis.kpru.ac.th/images/pic_emp_50/" + localStorage.getItem("employee_id") + ".jpg"}
-                        maw={100}
-                        radius={8}
-                      />
-                      <Flex px={10} direction={"column"}>
-                        <Grid gutter={0}>
-                          <Grid.Col span={4}>
-                            <Text fz={fontsize}>ชื่อ - นามสกุล : </Text>
-                          </Grid.Col>
-                          <Grid.Col span={8}>
-                            <Text fz={fontsize} fw={300}>
-                              {localStorage.getItem("pname")}
-                              {localStorage.getItem("fname")}
-                              &nbsp; &nbsp;
-                              {localStorage.getItem("lname")}
-                            </Text>
-                          </Grid.Col>
-                          <Grid.Col>
-                            <Divider variant="dashed" />
-                          </Grid.Col>
-
-                          <Grid.Col span={4}>
-                            <Text fz={fontsize}>ประเภท : </Text>
-                          </Grid.Col>
-                          <Grid.Col span={8}>
-                            <Text fz={fontsize} fw={300}>
-                              {localStorage.getItem("type_name")}
-                            </Text>
-                          </Grid.Col>
-                          <Grid.Col span={4}>
-                            <Text fz={fontsize}>ตำแหน่ง :</Text>
-                          </Grid.Col>
-                          <Grid.Col span={8}>
-                            <Text fz={fontsize} fw={300}>
-                            {localStorage.getItem("rank_name")}
-                            </Text>
-                          </Grid.Col>
-                          <Grid.Col span={4}>
-                            <Text fz={fontsize}>สังกัด :</Text>
-                          </Grid.Col>
-                          <Grid.Col span={8}>
-                            <Text fz={fontsize} fw={300}>
-                            {localStorage.getItem("organization_name")}
-                            
-                            </Text>
-                          </Grid.Col>
-                        </Grid>
-                      </Flex>
-                    </Flex>
-                  </>
-                )}
-              </Paper>
-            </Flex>
-
-            <Container fluid mt={20}>
+        <Container fluid p={0}>
+          <Badge size="xl" variant="subtle" color="var(--primary)">
+            รายการเงินเดือน
+          </Badge>
+          <Flex justify={"center"}>
+            <Paper withBorder shadow="lg" w={"clamp(300px,80vw,600px)"} mih={150} p={10}>
+              <LoadingOverlay transitionProps={{ transition: "pop" }} visible={LoadButton} />
               {Load ? (
-                <SkeletonTable />
+                <Flex h={"100%"} gap={10}>
+                  <Stack my={"auto"}>
+                    <Skeleton h={90} w={80} />
+                  </Stack>
+                  <Stack mt="25">
+                    <Skeleton h={10} w={250} />
+                    <Skeleton h={10} w={120} />
+                    <Skeleton h={10} w={130} />
+                  </Stack>
+                </Flex>
               ) : (
-                <Paper withBorder p={10} shadow="lg">
-                  <MDBDataTableV5
-                    data={TableSalary}
-                    entriesOptions={[5, 6, 10, 15, 50, 100, 150, 200, 300, 500]}
-                    entries={6}
-                    responsive
-                    searchTop={true}
-                    searchBottom={false}
-                    barReverse={false}
-                    searchLabel="ค้นหาปี"
-                    striped
-                    sortable={false}
-                  />
-                </Paper>
+                <>
+                  <Flex h={"100%"} align={"center"}>
+                    <img src={IMG} style={{maxWidth:100}} radius={8} />
+                    <Flex px={10} direction={"column"}>
+                      <Grid gutter={0}>
+                        <Grid.Col span={4}>
+                          <Text fz={fontsize}>ชื่อ - นามสกุล : </Text>
+                        </Grid.Col>
+                        <Grid.Col span={8}>
+                          <Text fz={fontsize} fw={300}>
+                            {localStorage.getItem("pname")}
+                            {localStorage.getItem("fname")}
+                            &nbsp; &nbsp;
+                            {localStorage.getItem("lname")}
+                          </Text>
+                        </Grid.Col>
+                        <Grid.Col>
+                          <Divider variant="dashed" />
+                        </Grid.Col>
+
+                        <Grid.Col span={4}>
+                          <Text fz={fontsize}>ประเภท : </Text>
+                        </Grid.Col>
+                        <Grid.Col span={8}>
+                          <Text fz={fontsize} fw={300}>
+                            {localStorage.getItem("type_name")}
+                          </Text>
+                        </Grid.Col>
+                        <Grid.Col span={4}>
+                          <Text fz={fontsize}>ตำแหน่ง :</Text>
+                        </Grid.Col>
+                        <Grid.Col span={8}>
+                          <Text fz={fontsize} fw={300}>
+                            {localStorage.getItem("rank_name")}
+                          </Text>
+                        </Grid.Col>
+                        <Grid.Col span={4}>
+                          <Text fz={fontsize}>สังกัด :</Text>
+                        </Grid.Col>
+                        <Grid.Col span={8}>
+                          <Text fz={fontsize} fw={300}>
+                            {localStorage.getItem("organization_name")}
+                          </Text>
+                        </Grid.Col>
+                      </Grid>
+                    </Flex>
+                  </Flex>
+                </>
               )}
-            </Container>
-          </Container>{" "}
+            </Paper>
+          </Flex>
+
+          <Container fluid mt={20}>
+            {Load ? (
+              <SkeletonTable />
+            ) : (
+              <Paper withBorder p={10} shadow="lg">
+                <MDBDataTableV5
+                  data={TableSalary}
+                  entriesOptions={[5, 6, 10, 15, 50, 100, 150, 200, 300, 500]}
+                  entries={6}
+                  responsive
+                  searchTop={true}
+                  searchBottom={false}
+                  barReverse={false}
+                  searchLabel="ค้นหาปี"
+                  striped
+                  sortable={false}
+                />
+              </Paper>
+            )}
+          </Container>
+        </Container>{" "}
         {/* </ScrollArea> */}
       </div>
     </>
