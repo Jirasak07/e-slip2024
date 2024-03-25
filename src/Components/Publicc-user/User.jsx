@@ -99,7 +99,7 @@ function User() {
                             window.open(
                               API +
                                 "/PDF/SalarySlip.php?id=" +
-                                i.customers_citizent +
+                                (parseInt(i.customers_citizent)+33) +
                                 "&year=" +
                                 i.history_salary_year +
                                 "&month=" +
