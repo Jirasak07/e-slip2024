@@ -281,6 +281,7 @@ method = post
 data =  txtemail: เลขบัตร,
         txtpass: วันเดือนปีเกิด
         ///////////////////
+        เพิ่มบุคคลากรใหม่
 path = index/AddNewCustomers
 method = post
 data =  
@@ -290,6 +291,16 @@ data =
             $customers_lname = $_POST['customers_lname'];
             $customers_type = $_POST['customers_type'];
             $customers_status = $_POST['customers_status'];
+
+
+
+        เพิ่มรายการเงินเดือนที่จะแสดง
+path = index/AddSalaryShow
+method = post
+data =  
+             $show_year = $_POST['show_year'];
+            $show_month = $_POST['show_month'];
+            $show_status = $_POST['show_status'];
 
 
       /////////////////////

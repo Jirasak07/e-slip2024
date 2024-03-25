@@ -23,6 +23,7 @@ import Swal from "sweetalert2";
 import { Text } from "@mantine/core";
 import SkeletonTable from "../../Publicc-user/SkeletonTable";
 import { monthh } from "../../Publicc-user/Month";
+import AddMonthSalaryShow from "./AddMonthSalaryShow";
 
 function Reportshowsalaryopen() {
   const column = [
@@ -119,14 +120,31 @@ function Reportshowsalaryopen() {
     const la = m[find].label;
     return la;
   };
+  const UpdateStatus = (year, month, status) => {
+    const value = new FormData();
+    value.append("show_year", year);
+    value.append("show_month", month);
+    if (status === "1") {
+      value.append("show_status", "0");
+    } else if (status === "0") {
+      value.append("show_status", "1");
+    }
 
+    axios.post(API + "/index/UpdateStatusShowSalary", value).then((res) => {
+      if (res.data === "success") {
+        
+        fetch()
+      } else {
+        fetch()
+      }
+    });
+  };
+  const fetch = (params) => {
+    searchdata()
+  }
+  
   const searchdata = (value) => {
-    // console.log(value.idbudget);
-    // console.log(value.month);
-    // console.log(value.year);
-
     axios.get(API + "/index/showsalaryopen").then((res) => {
-      console.log(res.data);
       const data = res.data;
       if (data.length !== 0) {
         //  setLoadTable(false);
@@ -142,17 +160,19 @@ function Reportshowsalaryopen() {
                   <Switch
                     color="green"
                     checked={i.show_status === "1" ? true : false}
+                    onChange={() => {
+                      UpdateStatus(i.show_year, i.show_month, i.show_status);
+                    }}
                     // onLabel="แสดง"
                     // offLabel="ไม่แสดง"
                   />
-                  <Text fz={14} >{i.show_status === "1" ? "แสดง" : "ไม่แสดง"}</Text>
+                  <Text fz={14}>{i.show_status === "1" ? "แสดง" : "ไม่แสดง"}</Text>
                 </Flex>
               ),
               //   i.show_status,
             })),
           ],
         });
-
         // setDatahistoryprint(res.data);
       }
     });
@@ -160,7 +180,6 @@ function Reportshowsalaryopen() {
 
   useEffect(() => {
     searchdata();
-
     //  FetchTshowexpenditurelist();
     //   FetchYear();
   }, []);
@@ -185,35 +204,9 @@ function Reportshowsalaryopen() {
         <Badge color="var(--primary)" variant="light" size="md" radius={8}>
           แสดงรายการโชว์เงินเดือน
         </Badge>
-
-        {/* <Paper mt={20} mb={20}>
-                    <form
-                        onSubmit={formSearch.onSubmit((v) => {
-                            searchdata(v);
-                            // console.log(v);
-                        })}
-                    >
-                      
-                        <Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }}>
-                            <Grid.Col span={4} >
-                                <Select label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
-
-                            </Grid.Col>
-                            <Grid.Col span={4}>
-                                <Select label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
-
-                            </Grid.Col>
-
-                            <Grid.Col span={4}>
-                                <Button type="submit" mt={33} leftSection={<IconSearch />}>
-                                    ค้นหา
-                                </Button>
-                            </Grid.Col>
-                        </Grid>
-
-                    </form>
-                </Paper> */}
-
+        <Flex justify={"flex-end"}>
+          <AddMonthSalaryShow fetch={searchdata} />
+        </Flex>
         <Paper pt={20} shadow="xl" p="xl">
           {LoadTable ? (
             <SkeletonTable />

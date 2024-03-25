@@ -184,8 +184,8 @@ function Login() {
           >
             <Flex pt={15} align={"center"} direction={"column"} justify={"center"}>
               <SimpleGrid w={"100%"} maw={300}>
-                <TextInput label="ชื่อผู้ใช้" {...formlogin.getInputProps("username")} />
-                <TextInput type="password" label="รหัสผ่าน" {...formlogin.getInputProps("password")} />
+                <TextInput name="Username" label="ชื่อผู้ใช้" {...formlogin.getInputProps("username")} />
+                <TextInput name="Password" type="password" label="รหัสผ่าน" {...formlogin.getInputProps("password")} />
                 <Button
                   loading={LoadingButton}
                   loaderProps={{ type: "dots" }}
