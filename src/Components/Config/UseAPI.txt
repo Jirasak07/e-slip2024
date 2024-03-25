@@ -280,6 +280,17 @@ path = /index/selectadmin
 method = post
 data =  txtemail: เลขบัตร,
         txtpass: วันเดือนปีเกิด
+        ///////////////////
+path = index/AddNewCustomers
+method = post
+data =  
+            $customers_citizent = $_POST['customers_citizent'];
+            $customers_pname = $_POST['customers_pname'];
+            $customers_name = $_POST['customers_name'];
+            $customers_lname = $_POST['customers_lname'];
+            $customers_type = $_POST['customers_type'];
+            $customers_status = $_POST['customers_status'];
+
 
       /////////////////////
 แสดงข้อมูลเงินเดือนสำหรับส่งออก
