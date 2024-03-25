@@ -25,6 +25,7 @@ import User from "./Components/Publicc-user/User";
 import Reporthistoryprint from "./Components/menu-salary/Expenditure/Reporthistoryprint";
 import Reportshowsalaryopen from "./Components/menu-salary/Expenditure/Reportshowsalaryopen";
 import KTBForm from "./Components/Publicc-user/KTBForm";
+import HowToPDF from "./Components/Publicc-user/HowToPDF";
 
 
 
@@ -59,7 +60,7 @@ function App() {
           <Route path="/report/print-history" element={<Reporthistoryprint />} />
           <Route path="/report/notifications" element={<Home />} />
           <Route path="/report/tax" element={<Home />} />
-          <Route path="/report/pdf" element={<Home />} />
+          <Route path="/report/pdf" element={<HowToPDF />} />
           {/* /////////////////////////////////////////////////////////////////////////////// */}
           <Route path="/user-salary" element={<User />} />
           <Route path="/form-receive-money" element={<KTBForm/>} />

@@ -147,11 +147,11 @@ export const menus = [
             path: "/report/tax",
             icon: <IconReceiptTax />,
           },
-          {
-            title: "วิธีการแยกไฟล์ PDF",
-            path: "/report/pdf",
-            icon: <IconFileTypePdf />,
-          },
+          // {
+          //   title: "วิธีการแยกไฟล์ PDF",
+          //   path: "/report/pdf",
+          //   icon: <IconFileTypePdf />,
+          // },
         ],
       },
     ],
