@@ -72,7 +72,7 @@ function Reportipay() {
     const ExcelExport = ()=>{
 
         const workbook = new ExcelJs.Workbook();
-        const sheet = workbook.addWorksheet("Mysheet");
+        const sheet = workbook.addWorksheet("รายหัก");
         sheet.properties.defaultRowHeight = 15;
         
         sheet.columns = [
@@ -102,11 +102,69 @@ function Reportipay() {
             sheet.addRow(
             {
             name:i.expenditure_name,
+            names:Number(i.sum),
+            namesout:Number(i.sumout),
+            namestotal:Number(i.totalfinal)
+            }
+            ) 
+
+        ))
+        const sum = Dataipay.reduce(
+            (sum, currentItem) => (sum = sum + Number(currentItem.sum)),
+            0,
+        );
+        const sumout = Dataipay.reduce(
+            (sumout, currentItem) => (sumout = sumout + Number(currentItem.sumout)),
+            0,
+        );
+        const total = sum+sumout;
+       
+        sheet.addRow(
+            {
+            name:'รวมเงินรายจ่าย ',
+            names:sum,
+            namesout:sumout,
+            namestotal:total
+            }
+            ) 
+
+
+        const sheet2 = workbook.addWorksheet("รายได้");
+        sheet2.properties.defaultRowHeight = 15;
+        
+        sheet2.columns = [
+          {
+            header:"ชื่อ",
+            key:"name",
+            width:20
+          },
+          {
+            header:"เงิน",
+            key:"names",
+            width:20,
+          },
+          {
+            header:"จ่ายนอก",
+            key:"namesout",
+            width:20,
+          },
+          {
+            header:"ยอดส่ง",
+            key:"namestotal",
+            width:20,
+          },
+        ]
+
+        Dataipay.map((i) => (   
+            sheet2.addRow(
+            {
+            name:i.expenditure_name,
             names:i.sum,
             namesout:i.sumout,
             namestotal:i.totalfinal
             }
             ) 
+
         ))
       
       
