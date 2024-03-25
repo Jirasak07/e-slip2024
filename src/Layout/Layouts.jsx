@@ -34,7 +34,7 @@ export function Layouts() {
     if (indexmenu === -1) {
       const indexmenus = menu.findIndex((menu) => '/testslip'+menu.path === '/' + window.location.pathname.split("/")[1]+'/' + window.location.pathname.split("/")[2]);
       if (indexmenus === -1) {
-        // nav("/login");
+        nav("/login");
       } else {
         const indexsub = menu[indexmenus].sub.findIndex((sub) => '/testslip'+sub.path === window.location.pathname);
         setIndexMenu(indexmenus);

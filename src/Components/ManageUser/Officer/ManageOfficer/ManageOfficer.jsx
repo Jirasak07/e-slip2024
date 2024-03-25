@@ -14,6 +14,12 @@ function ManageOfficer() {
       DATA_STATUS_USER: [],
       customer_type_id: "1",
       customer_status_id: "1",
+      customers_citizent: "",
+      customers_pname: "",
+      customers_name: "",
+      customers_lname: "",
+      customers_type: "",
+      customers_status: "",
     },
   });
   const FetchTypeCustomer = (params) => {
@@ -57,15 +63,18 @@ function ManageOfficer() {
       >
         เพิ่มบุคลากรใหม่
       </Button>
-      <Modal title="เพิ่มบุคลากรใหม่" opened={opened} onClose={close}>
+      <Modal size={"lg"} title="เพิ่มบุคลากรใหม่" opened={opened} onClose={close}>
         <SimpleGrid>
-          <TextInput label="รหัสประจำตัวประชาชน" />
+          <TextInput label="รหัสประจำตัวประชาชน" {...form.getInputProps("customers_citizent")} />
           <Grid>
-            <Grid.Col span={4}>
-              <TextInput label="คำนำหน้าชื่อ" />
+            <Grid.Col span={2}>
+              <TextInput label="คำนำหน้า" {...form.getInputProps("customers_pname")} />
             </Grid.Col>
-            <Grid.Col span={8}>
-              <TextInput label="ชื่อ-นามสกุล" />
+            <Grid.Col span={5}>
+              <TextInput label="ชื่อ" {...form.getInputProps("customers_name")} />
+            </Grid.Col>
+            <Grid.Col span={5}>
+              <TextInput label="นามสกุล" {...form.getInputProps("customers_lname")} />
             </Grid.Col>
           </Grid>
           <Select
