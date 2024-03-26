@@ -1,4 +1,4 @@
-import { Button, Group, Text, rem } from "@mantine/core";
+import { Button, Container, Group, Text, rem } from "@mantine/core";
 import { IconUpload, IconPhoto, IconX, IconFileSpreadsheet, IconFileTypeXls } from "@tabler/icons-react";
 import { Dropzone, MS_EXCEL_MIME_TYPE } from "@mantine/dropzone";
 import { useState } from "react";
@@ -45,7 +45,10 @@ function Upload50() {
   };
 
   return (
-    <>
+    <Container>
+      <Text fz={20} fw={500}>
+        อัพโหลดไฟล์ทวิ 50
+      </Text>
       <Dropzone
         loading={Load}
         onDrop={(files) => SetFile(files)}
@@ -92,7 +95,7 @@ function Upload50() {
       >
         อัพโหลดไฟล์ทวิ50
       </Button>
-    </>
+    </Container>
   );
 }
 
