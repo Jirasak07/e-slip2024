@@ -130,7 +130,11 @@ function Upload50() {
     }
   };
   const show = (params) => {
-    console.log(A);
+    axios.post(API+"/index/InsertGovToSlip",{
+        data:A
+    }).then((res)=>{
+        console.log(res.data)
+    })
   };
 
   return (
