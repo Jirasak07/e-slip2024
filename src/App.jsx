@@ -26,6 +26,7 @@ import Reporthistoryprint from "./Components/menu-salary/Expenditure/Reporthisto
 import Reportshowsalaryopen from "./Components/menu-salary/Expenditure/Reportshowsalaryopen";
 import KTBForm from "./Components/Publicc-user/KTBForm";
 import HowToPDF from "./Components/Publicc-user/HowToPDF";
+import UploadSlip from "./Components/menu-salary/Upload/UploadSlip";
 
 
 
@@ -38,7 +39,7 @@ function App() {
         <Route path="/" element={<Layouts />}>
           <Route path="/main-page" element={<Home />} />
           {/* /////////////////////////////////////////////////// */}
-          <Route path="/manage-salary/uploadslip" element={<Salary />} />
+          <Route path="/manage-salary/uploadslip" element={<UploadSlip />} />
           <Route path="/manage-salary/salary" element={<Salary />} />
           <Route path="/manage-salary/budget" element={<Budget />} />
           <Route path="/manage-salary/revenue" element={<Revenue />} />
