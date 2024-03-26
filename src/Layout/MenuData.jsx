@@ -10,6 +10,7 @@ import {
   IconPigMoney,
   IconPlaylistAdd,
   IconPrinter,
+  IconReceipt2,
   IconReceiptTax,
   IconRefresh,
   IconReport,
@@ -42,6 +43,11 @@ export const menus = [
             title: "อัพโหลดสลิป",
             path: "/manage-salary/uploadslip",
             icon: <IconReceiptTax />,
+          },
+          {
+            title: "อัพโหลดทวิ50",
+            path: "/manage-salary/upload50",
+            icon: <IconReceipt2 />,
           },
           {
             title: "จัดการเงินเดือน",
