@@ -1,4 +1,4 @@
-import { Button, Container, Group, Text, rem } from "@mantine/core";
+import { Button, Container, FileInput, Group, Text, rem } from "@mantine/core";
 import { IconUpload, IconPhoto, IconX, IconFileSpreadsheet, IconFileTypeXls } from "@tabler/icons-react";
 import { Dropzone, MS_EXCEL_MIME_TYPE } from "@mantine/dropzone";
 import { useState } from "react";
@@ -19,29 +19,118 @@ function Upload50() {
   };
   const [Load, setLoad] = useState(false);
   const SendFile = (params) => {
-    setLoad(true);
-    const frm = new FormData();
-    frm.append("slip", FileExcel);
-    axios.post(API + "/uploadfile/uploadtavi50", frm).then((res) => {
-      setLoad(false);
-      if (res.data === "success") {
-        Swal.fire({
-          icon: "success",
-          title: "อัพโหลดสำเร็จ",
-          timer: 1200,
-          timerProgressBar: true,
-          showConfirmButton: false,
-        }).then((res) => {
-          setFileExcel([]);
-          setFileName("");
-        });
+    // setLoad(true);
+    // const frm = new FormData();
+    // frm.append("slip", FileExcel);
+    // axios.post(API + "/uploadfile/uploadtavi50", frm).then((res) => {
+    //   setLoad(false);
+    //   if (res.data === "success") {
+    //     Swal.fire({
+    //       icon: "success",
+    //       title: "อัพโหลดสำเร็จ",
+    //       timer: 1200,
+    //       timerProgressBar: true,
+    //       showConfirmButton: false,
+    //     }).then((res) => {
+    //       setFileExcel([]);
+    //       setFileName("");
+    //     });
+    //   } else {
+    //     Swal.fire({
+    //       icon: "error",
+    //       title: "อัพโหลดไม่สำเร็จ",
+    //     });
+    //   }
+    // });
+  };
+  const columns = [
+    "yearpay",
+    "monthpay",
+    "citizent",
+    "prefix",
+    "fname",
+    "lname",
+    "department",
+    "subdepart",
+    "bank_code",
+    "bank_name",
+    "bank_branch",
+  ];
+  const [Txt, setTxt] = useState("");
+  const [A, setA] = useState([]);
+  const Onchange = (val) => {
+    if (val) {
+      var preview = document.getElementById("show-text");
+      var file = val;
+      var reader = new FileReader();
+      var textFile = /text.*/;
+      if (file.type.match(textFile)) {
+        reader.onload = function (event) {
+          const data = event.target.result;
+          const arrayText = data.split("$");
+          const arraySort = [];
+          arrayText.forEach((item) => {
+            const stringsArray = item.split(/\r?\n/).map(String);
+            if (stringsArray.length > 1) {
+              stringsArray.forEach((items) => {
+                arraySort.push(items);
+              });
+            } else {
+              arraySort.push(item);
+            }
+          });
+          setA(arraySort);
+          let dataToPush = [];
+          let dataToPushs = [];
+          let i = 0;
+          let j = 0;
+          arraySort.forEach((is) => {  
+            dataToPush.push(is);
+            if (i === 78) {
+              dataToPushs[j] = dataToPush
+              dataToPush = []
+              i = 0;
+              j++;
+            }else{
+                   i++;  
+            }
+       
+          });
+          //   setA(arrrr);
+          //   let i = 0;
+          //   let a = 0;
+          //   let pp = [];
+          //   arrrr.forEach((element) => {
+          //     if (i <= 78) {
+          //       const stringsArray = element.split(/\r?\n/).map(String);
+          //       if (stringsArray.length > 1) {
+          //         pp.push(stringsArray[0]);
+          //         pp.push(stringsArray[1]);
+          //       }
+          //       ad.push(element);
+          //       if (i === 78) {
+          //         d[a] = ad;
+          //         ad = [];
+          //         i = 0;
+          //         a++;
+          //       }
+          //     }
+          //     i++;
+          //   });
+          //   setTxt(d);
+          //   setA(pp);
+          setA(dataToPushs)
+        };
       } else {
-        Swal.fire({
-          icon: "error",
-          title: "อัพโหลดไม่สำเร็จ",
-        });
+        console.log("skdjhf");
       }
-    });
+      reader.readAsText(file);
+    } else {
+      alert("Your browser is too old to support HTML5 File API");
+    }
+  };
+  const show = (params) => {
+    console.log(A);
   };
 
   return (
@@ -95,6 +184,13 @@ function Upload50() {
       >
         อัพโหลดไฟล์ทวิ50
       </Button>
+      <Button onClick={show}></Button>
+      <FileInput
+        onChange={(e) => {
+          Onchange(e);
+        }}
+      />
+      {/* {Txt} */}
     </Container>
   );
 }
