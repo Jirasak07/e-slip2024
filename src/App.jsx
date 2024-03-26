@@ -38,6 +38,7 @@ function App() {
         <Route path="/" element={<Layouts />}>
           <Route path="/main-page" element={<Home />} />
           {/* /////////////////////////////////////////////////// */}
+          <Route path="/manage-salary/uploadslip" element={<Salary />} />
           <Route path="/manage-salary/salary" element={<Salary />} />
           <Route path="/manage-salary/budget" element={<Budget />} />
           <Route path="/manage-salary/revenue" element={<Revenue />} />
