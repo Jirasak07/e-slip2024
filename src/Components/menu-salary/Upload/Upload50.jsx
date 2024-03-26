@@ -2,6 +2,8 @@ import { Button, Group, Text, rem } from "@mantine/core";
 import { IconUpload, IconPhoto, IconX, IconFileSpreadsheet, IconFileTypeXls } from "@tabler/icons-react";
 import { Dropzone, MS_EXCEL_MIME_TYPE } from "@mantine/dropzone";
 import { useState } from "react";
+import axios from "axios";
+import { API } from "../../Config/ConfigApi";
 function Upload50() {
   const [FileExcel, setFileExcel] = useState([]);
   const [FileName, setFileName] = useState("");
@@ -14,6 +16,13 @@ function Upload50() {
       setFileExcel([]);
     }
   };
+const SendFile = (params) => {
+  const frm = new FormData()
+  frm.append("slip",FileExcel);
+    axios.post(API+"/uploadtavi50").then((res)=>{
+
+  })
+}
 
   return (
     <>
