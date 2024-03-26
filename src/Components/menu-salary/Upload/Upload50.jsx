@@ -4,6 +4,7 @@ import { Dropzone, MS_EXCEL_MIME_TYPE } from "@mantine/dropzone";
 import { useState } from "react";
 import axios from "axios";
 import { API } from "../../Config/ConfigApi";
+import Swal from "sweetalert2";
 function Upload50() {
   const [FileExcel, setFileExcel] = useState([]);
   const [FileName, setFileName] = useState("");
@@ -16,17 +17,37 @@ function Upload50() {
       setFileExcel([]);
     }
   };
-const SendFile = (params) => {
-  const frm = new FormData()
-  frm.append("slip",FileExcel);
-    axios.post(API+"/uploadtavi50").then((res)=>{
-
-  })
-}
+  const [Load, setLoad] = useState(false);
+  const SendFile = (params) => {
+    setLoad(true);
+    const frm = new FormData();
+    frm.append("slip", FileExcel);
+    axios.post(API + "/uploadfile/uploadtavi50", frm).then((res) => {
+      setLoad(false);
+      if (res.data === "success") {
+        Swal.fire({
+          icon: "success",
+          title: "อัพโหลดสำเร็จ",
+          timer: 1200,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        }).then((res) => {
+          setFileExcel([]);
+          setFileName("");
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "อัพโหลดไม่สำเร็จ",
+        });
+      }
+    });
+  };
 
   return (
     <>
       <Dropzone
+        loading={Load}
         onDrop={(files) => SetFile(files)}
         onReject={(files) => console.log("rejected files", files)}
         maxSize={5 * 1024 ** 2}
@@ -57,7 +78,7 @@ const SendFile = (params) => {
           </div>
         </Group>
       </Dropzone>{" "}
-      {FileName !== "" ? "ไฟล์ที่เลือก : "+FileName : ""}
+      {FileName !== "" ? "ไฟล์ที่เลือก : " + FileName : ""}
       <Button
         mt={10}
         disabled={FileExcel.length !== 0 ? false : true}
@@ -65,7 +86,7 @@ const SendFile = (params) => {
         h={60}
         color="green"
         onClick={() => {
-          console.log(FileExcel);
+          SendFile();
         }}
         leftSection={<IconFileTypeXls />}
       >
