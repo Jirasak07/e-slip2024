@@ -129,9 +129,9 @@ export const menus = [
             icon: <IconTrendingDown />,
           },
           {
-            title: "รายงานรับจ่ายแยกประเภท",
+            title: "รายงานรายรับแยกประเภท",
             path: "/report/revenue-type",
-            icon: <IconTrendingDown />,
+            icon: <IconTrendingUp />,
           },
           {
             title: "รายงาน IPAY",
