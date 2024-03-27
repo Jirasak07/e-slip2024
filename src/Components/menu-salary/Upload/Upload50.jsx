@@ -1,10 +1,11 @@
-import { Button, Container, FileInput, Group, Text, rem } from "@mantine/core";
+import { Button, Container, FileInput, Group, Select, Text, rem } from "@mantine/core";
 import { IconUpload, IconPhoto, IconX, IconFileSpreadsheet, IconFileTypeXls } from "@tabler/icons-react";
 import { Dropzone, MS_EXCEL_MIME_TYPE } from "@mantine/dropzone";
 import { useState } from "react";
 import axios from "axios";
 import { API } from "../../Config/ConfigApi";
 import Swal from "sweetalert2";
+import { useForm } from "@mantine/form";
 function Upload50() {
   const [FileExcel, setFileExcel] = useState([]);
   const [FileName, setFileName] = useState("");
@@ -17,6 +18,11 @@ function Upload50() {
       setFileExcel([]);
     }
   };
+  const form = useForm({
+    initialValues: {
+      TYPE: "2",
+    },
+  });
   const [Load, setLoad] = useState(false);
   const SendFile = (params) => {
     // setLoad(true);
@@ -43,24 +49,10 @@ function Upload50() {
     //   }
     // });
   };
-  const columns = [
-    "yearpay",
-    "monthpay",
-    "citizent",
-    "prefix",
-    "fname",
-    "lname",
-    "department",
-    "subdepart",
-    "bank_code",
-    "bank_name",
-    "bank_branch",
-  ];
-  const [Txt, setTxt] = useState("");
   const [A, setA] = useState([]);
   const Onchange = (val) => {
     if (val) {
-      var preview = document.getElementById("show-text");
+      // var preview = document.getElementById("show-text");
       var file = val;
       var reader = new FileReader();
       var textFile = /text.*/;
@@ -84,17 +76,16 @@ function Upload50() {
           let dataToPushs = [];
           let i = 0;
           let j = 0;
-          arraySort.forEach((is) => {  
+          arraySort.forEach((is) => {
             dataToPush.push(is);
             if (i === 78) {
-              dataToPushs[j] = dataToPush
-              dataToPush = []
+              dataToPushs[j] = dataToPush;
+              dataToPush = [];
               i = 0;
               j++;
-            }else{
-                   i++;  
+            } else {
+              i++;
             }
-       
           });
           //   setA(arrrr);
           //   let i = 0;
@@ -119,7 +110,7 @@ function Upload50() {
           //   });
           //   setTxt(d);
           //   setA(pp);
-          setA(dataToPushs)
+          setA(dataToPushs);
         };
       } else {
         console.log("skdjhf");
@@ -130,11 +121,13 @@ function Upload50() {
     }
   };
   const show = (params) => {
-    axios.post(API+"/index/InsertGovToSlip",{
-        data:A
-    }).then((res)=>{
-        console.log(res.data)
-    })
+    // axios.post(API+"/index/InsertGovToSlip",{
+    // data:A,
+    // customer_type_id:form.values.TYPE
+    // }).then((res)=>{
+    //     console.log(res.data)
+    // })
+    console.log(A);
   };
 
   return (
@@ -147,7 +140,7 @@ function Upload50() {
         onDrop={(files) => SetFile(files)}
         onReject={(files) => console.log("rejected files", files)}
         maxSize={5 * 1024 ** 2}
-        accept={MS_EXCEL_MIME_TYPE}
+        accept=".txt"
         // {...props}
       >
         <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: "none" }}>
@@ -157,9 +150,6 @@ function Upload50() {
               stroke={1.5}
             />
           </Dropzone.Accept>
-          {/* <Dropzone.Reject>
-            <IconX style={{ width: rem(52), height: rem(52), color: "var(--mantine-color-red-6)" }} stroke={1.5} />
-          </Dropzone.Reject> */}
           <Dropzone.Idle>
             <IconPhoto style={{ width: rem(52), height: rem(52), color: "var(--mantine-color-dimmed)" }} stroke={1.5} />
           </Dropzone.Idle>
@@ -169,12 +159,27 @@ function Upload50() {
               ลากไฟล์มาวาง หรือ คลิกที่ว่างเพื่อเลือกไฟล์
             </Text>
             <Text size="sm" c="dimmed" inline mt={7}>
-              ไฟล์นามสกุล .xlsx เท่านั้น
+              ไฟล์นามสกุล .txt UTF-8 เท่านั้น
             </Text>
           </div>
         </Group>
       </Dropzone>{" "}
       {FileName !== "" ? "ไฟล์ที่เลือก : " + FileName : ""}
+      <Select
+        label="ประเภทบุคลากร"
+        allowDeselect={false}
+        data={[
+          {
+            value: "2",
+            label: "ลูกจ้างประจำ",
+          },
+          {
+            value: "6",
+            label: "ข้าราชการ/ข้าราชการพลเรือน",
+          },
+        ]}
+        {...form.getInputProps("TYPE")}
+      />
       <Button
         mt={10}
         disabled={FileExcel.length !== 0 ? false : true}
@@ -182,11 +187,12 @@ function Upload50() {
         h={60}
         color="green"
         onClick={() => {
-          SendFile();
+          // SendFile();
+          show();
         }}
         leftSection={<IconFileTypeXls />}
       >
-        อัพโหลดไฟล์ทวิ50
+        อัพโหลดไฟล์สลิป
       </Button>
       <Button onClick={show}></Button>
       <FileInput

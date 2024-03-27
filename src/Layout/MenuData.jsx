@@ -39,13 +39,13 @@ export const menus = [
         path: "/manage-salary",
         icon: <IconCoins />,
         sub: [
+          // {
+          //   title: "อัพโหลดสลิป",
+          //   path: "/manage-salary/uploadslip",
+          //   icon: <IconReceiptTax />,
+          // },
           {
             title: "อัพโหลดสลิป",
-            path: "/manage-salary/uploadslip",
-            icon: <IconReceiptTax />,
-          },
-          {
-            title: "อัพโหลดทวิ50",
             path: "/manage-salary/upload50",
             icon: <IconReceipt2 />,
           },
