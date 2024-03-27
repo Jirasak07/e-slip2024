@@ -1,4 +1,4 @@
-import { Badge, Button, Container, Paper, Select, SimpleGrid, Flex, NumberFormatter, Grid, List, ThemeIcon, rem } from "@mantine/core";
+import { Badge, Button, Container, Paper, Select, SimpleGrid, Flex, NumberFormatter, Grid, List, ThemeIcon, rem ,Table } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { IconSearch, IconPrinter, IconCircleCheck, IconCircleDashed } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
@@ -9,6 +9,8 @@ import Swal from "sweetalert2";
 import { Text } from "@mantine/core";
 import SkeletonTable from "../../Publicc-user/SkeletonTable";
 import ExcelJs from 'exceljs'
+import Btndownloadtobank from "./Btndownloadtobank";
+
 
 
 function Reportipay() {
@@ -109,11 +111,11 @@ function Reportipay() {
             ) 
 
         ))
-        const sum = Dataipay.reduce(
+        const sum = Dataipay.filter((Dataipay) => Dataipay.expenditure_name !== "ธนาคารกรุงไทย" && Dataipay.expenditure_name !== "ธนาคารกรุงเทพ").reduce(
             (sum, currentItem) => (sum = sum + Number(currentItem.sum)),
             0,
         );
-        const sumout = Dataipay.reduce(
+        const sumout = Dataipay.filter((Dataipay) => Dataipay.expenditure_name !== "ธนาคารกรุงไทย" && Dataipay.expenditure_name !== "ธนาคารกรุงเทพ").reduce(
             (sumout, currentItem) => (sumout = sumout + Number(currentItem.sumout)),
             0,
         );
@@ -175,7 +177,7 @@ function Reportipay() {
         const url = window.URL.createObjectURL(blob);
         const anchor = document.createElement('a');
         anchor.href = url;
-        anchor.download = 'รายงาน IPAY.xlsx';
+        anchor.download = ("รายงาน ipay"+formSearch.values.year+"-"+formSearch.values.month+"-ประเภทงบ"+formSearch.values.idbudget+".xlsx");
         anchor.click();
         window.URL.revokeObjectURL(url);
       })
@@ -386,6 +388,16 @@ function Reportipay() {
 
         },
     });
+
+    const rows = DataTotalsummary.map((element) => (
+        <Table.Tr>
+          <Table.Td>{element.bank_name}</Table.Td>
+          <Table.Td>{element.MonneyFull}</Table.Td>
+          <Table.Td><Btndownloadtobank year={formSearch.values.year} month={formSearch.values.month} idbudget={formSearch.values.idbudget} bank_id={element.bank_id} bank_name={element.bank_name} /></Table.Td>
+        </Table.Tr>
+      ));
+    
+
     return (
         <>
             <Container p={0} bg={"white"} fluid>
@@ -429,7 +441,7 @@ function Reportipay() {
 
                     <Grid justify="center">
                         
-                        <Grid.Col span={4} >
+                        <Grid.Col span={8} >
                             <Text size="xl">พบข้อมูลเงินเดือน {DataTotalsummary.length} รายการ</Text>
 
                             <List
@@ -443,13 +455,27 @@ function Reportipay() {
                                     </ThemeIcon>
                                 }
                             >
-                                    {DataTotalsummary.map((i, key) => (
-                                        <List.Item>{i.bank_name}  {i.MonneyFull}</List.Item>
-                                    ))}
+                                    {/* {DataTotalsummary.map((i, key) => (
+
+                                        <List.Item>{i.bank_name}  {i.MonneyFull}</List.Item> 
+                                    ))} */}
+                                     <Table>
+                                        <Table.Thead>
+                                            <Table.Tr>
+                                            <Table.Th>ชื่อธนาคาร</Table.Th>
+                                            <Table.Th>จำนวน</Table.Th>
+                                            <Table.Th>ดาวน์โหลด</Table.Th>
+                                            </Table.Tr>
+                                        </Table.Thead>
+                                        <Table.Tbody>{rows}</Table.Tbody>
+                                        </Table>
+
+
+
                                          
                             </List>
 {DataTotalsummary.length !== 0?<>
- <Button onClick={()=>{ExcelExport()}} color="green" mt={20} >ExcelExport</Button>
+ <Button onClick={()=>{ExcelExport()}} color="green" mt={20} >รายงานหักเงินเดือนทั้งหมด</Button>
 </>:<></>}
 
 
@@ -457,6 +483,8 @@ function Reportipay() {
                                     อัพเดท
                                 </Button> */}
                         </Grid.Col>
+
+
                     </Grid>
                     {/* {LoadTable ? (
                         <SkeletonTable />
