@@ -1,5 +1,5 @@
 import { Button, Flex, LoadingOverlay, Modal, Select, SimpleGrid, TextInput } from "@mantine/core";
-import { IconDeviceFloppy, IconEdit, IconPlaylistAdd } from "@tabler/icons-react";
+import { IconDeviceFloppy, IconEdit, IconPlaylistAdd ,IconDownload} from "@tabler/icons-react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
@@ -149,7 +149,10 @@ function Btndownloadtobank({ FetchExpenditure, expenditure_id, year, month, idbu
     <>
 {Dataexport.length >0 ?<>
     <Button
-       onClick={()=>{ExcelExport()}} color="green" 
+       onClick={()=>{ExcelExport()}} color="purple" 
+       leftSection={<IconDownload  />}
+       size="xs"
+       radius="lg"
       >
        Download {bank_name}
       </Button>
@@ -161,6 +164,7 @@ function Btndownloadtobank({ FetchExpenditure, expenditure_id, year, month, idbu
         color="var(--warning)"
         leftSection={<IconPlaylistAdd />}
         size="xs"
+        radius="lg"
       >
     Download {bank_name}
       </Button>
