@@ -162,7 +162,7 @@ function Upload50() {
     <Container>
       <LoadingOverlay visible={Over} />
       <Text fz={20} fw={500}>
-        อัพโหลดไฟล์ทวิ 50
+        อัพโหลดไฟล์สลิป
       </Text>
       <Dropzone
         loading={Load}
