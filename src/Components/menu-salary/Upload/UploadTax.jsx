@@ -92,7 +92,7 @@ function UploadTax() {
               arraySort.push(item);
             }
           });
-          setA(arraySort);
+          //   setA(arraySort);
           let dataToPush = [];
           let dataToPushs = [];
           let i = 0;
@@ -108,7 +108,35 @@ function UploadTax() {
               i++;
             }
           });
-
+          const dataB = [];
+          dataToPushs.forEach((value) => {
+            if (value[4] === "3100601225418") {
+              dataB.push({
+                TAX_NO: value[0],
+                AGENCY_NAME: value[1],
+                TAX_ID_AGENCY: value[2],
+                ADDRESS_AGENCY: value[3],
+                CITIZEN_ID: value[4],
+                TAX_ID_NONECITIZEN: value[5],
+                FULLNAME: value[6],
+                ADDRESS_CUSTOMER: value[7],
+                NO: value[8],
+                TAX_PAY_TYPE: value[9],
+                TAX_PAY_YEAR: value[10],
+                TAX_AMOUNT: value[11],
+                TAX_DEDUCTED: value[12],
+                TAX_AMOUNT_TOTAL: value[13],
+                TAX_DEDUCTED_TOTAL: value[14],
+                TAX_TOTAL_TEXT: value[15],
+                RESERVE_TYPE: value[16],
+                RESERVE_AMOUNT: value[17],
+                PAY_TYPE: value[18],
+                DATE_SIGN: value[19],
+                CUSTOMER_TYPE_ID: form.values.TYPE,
+              });
+            }
+          });
+          console.log(dataB);
           setA(dataToPushs);
         };
       } else {
