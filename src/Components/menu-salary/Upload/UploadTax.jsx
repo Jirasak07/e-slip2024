@@ -6,10 +6,12 @@ import axios from "axios";
 import { API } from "../../Config/ConfigApi";
 import Swal from "sweetalert2";
 import { useForm } from "@mantine/form";
-function Upload50() {
+function UploadTax() {
   const [FileExcel, setFileExcel] = useState([]);
   const [FileName, setFileName] = useState("");
   const SetFile = (val) => {
+    setFileName("");
+    setFileExcel([]);
     if (val) {
       setFileName(val[0].name);
       setFileExcel(val[0]);
@@ -25,35 +27,35 @@ function Upload50() {
   });
   const [Load, setLoad] = useState(false);
   // const SendFile = (params) => {
-    // setLoad(true);
-    // const frm = new FormData();
-    // frm.append("slip", FileExcel);
-    // axios.post(API + "/uploadfile/uploadtavi50", frm).then((res) => {
-    //   setLoad(false);
-    //   if (res.data === "success") {
-    //     Swal.fire({
-    //       icon: "success",
-    //       title: "อัพโหลดสำเร็จ",
-    //       timer: 1200,
-    //       timerProgressBar: true,
-    //       showConfirmButton: false,
-    //     }).then((res) => {
-    //       setFileExcel([]);
-    //       setFileName("");
-    //     });
-    //   } else {
-    //     Swal.fire({
-    //       icon: "error",
-    //       title: "อัพโหลดไม่สำเร็จ",
-    //     });
-    //   }
-    // });
+  // setLoad(true);
+  // const frm = new FormData();
+  // frm.append("slip", FileExcel);
+  // axios.post(API + "/uploadfile/uploadtavi50", frm).then((res) => {
+  //   setLoad(false);
+  //   if (res.data === "success") {
+  //     Swal.fire({
+  //       icon: "success",
+  //       title: "อัพโหลดสำเร็จ",
+  //       timer: 1200,
+  //       timerProgressBar: true,
+  //       showConfirmButton: false,
+  //     }).then((res) => {
+  //       setFileExcel([]);
+  //       setFileName("");
+  //     });
+  //   } else {
+  //     Swal.fire({
+  //       icon: "error",
+  //       title: "อัพโหลดไม่สำเร็จ",
+  //     });
+  //   }
+  // });
   // };
   const [A, setA] = useState([]);
   const Onchange = (val) => {
-    setLoad(true)
+    setLoad(true);
     SetFile(val);
-    if (val[0]) {
+    if (val) {
       // var preview = document.getElementById("show-text");
       var file = val[0];
       var reader = new FileReader();
@@ -80,7 +82,7 @@ function Upload50() {
           let j = 0;
           arraySort.forEach((is) => {
             dataToPush.push(is);
-            if (i === 78) {
+            if (i === 19) {
               dataToPushs[j] = dataToPush;
               dataToPush = [];
               i = 0;
@@ -88,8 +90,8 @@ function Upload50() {
             } else {
               i++;
             }
-            setLoad(false)
           });
+        
           setA(dataToPushs);
         };
       } else {
@@ -98,7 +100,7 @@ function Upload50() {
       reader.readAsText(file);
     } else {
       alert("Your browser is too old to support HTML5 File API");
-    }
+    }  setLoad(false);
   };
   const [Over, setOver] = useState(false);
   const show = (params) => {
@@ -113,24 +115,25 @@ function Upload50() {
     }).then((res) => {
       setOver(true);
       if (res.isConfirmed === true) {
-        axios
-          .post(API + "/index/InsertGovToSlip", {
-            data: A,
-            customer_type_id: form.values.TYPE,
-          })
-          .then((ress) => {
-            if (ress.data === "success") {
-              Swal.fire({
-                icon: "success",
-                title: "เพิ่มรายการสำเร็จ",
-                timer: 1200,
-                timerProgressBar: true,
-                showConfirmButton: false,
-              }).then((ree) => {
-                setOver(false);
-              });
-            }
-          });
+        console.log(A);
+        // axios
+        //   .post(API + "/index/InsertGovToSlip", {
+        //     data: A,
+        //     customer_type_id: form.values.TYPE,
+        //   })
+        //   .then((ress) => {
+        //     if (ress.data === "success") {
+        //       Swal.fire({
+        //         icon: "success",
+        //         title: "เพิ่มรายการสำเร็จ",
+        //         timer: 1200,
+        //         timerProgressBar: true,
+        //         showConfirmButton: false,
+        //       }).then((ree) => {
+        //         setOver(false);
+        //       });
+        //     }
+        //   });
       } else {
         // setOver(false);
       }
@@ -141,7 +144,7 @@ function Upload50() {
     <Container>
       <LoadingOverlay visible={Over} />
       <Text fz={20} fw={500}>
-        อัพโหลดไฟล์สลิป
+        อัพโหลดไฟล์หนังสือรับรอง ภาษี
       </Text>
       <Dropzone
         loading={Load}
@@ -211,4 +214,4 @@ function Upload50() {
   );
 }
 
-export default Upload50;
+export default UploadTax;

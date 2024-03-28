@@ -28,6 +28,7 @@ import KTBForm from "./Components/Publicc-user/KTBForm";
 import HowToPDF from "./Components/Publicc-user/HowToPDF";
 import UploadSlip from "./Components/menu-salary/Upload/UploadSlip";
 import Upload50 from "./Components/menu-salary/Upload/Upload50";
+import UploadTax from "./Components/menu-salary/Upload/UploadTax";
 
 
 
@@ -41,6 +42,7 @@ function App() {
           <Route path="/main-page" element={<Home />} />
           {/* /////////////////////////////////////////////////// */}
           <Route path="/manage-salary/uploadslip" element={<UploadSlip />} />
+          <Route path="/manage-salary/upload-tax" element={<UploadTax />} />
           <Route path="/manage-salary/upload50" element={<Upload50 />} />
           <Route path="/manage-salary/salary" element={<Salary />} />
           <Route path="/manage-salary/budget" element={<Budget />} />
