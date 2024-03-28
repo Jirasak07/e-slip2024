@@ -1,4 +1,4 @@
-import { Button, Container, FileInput, Group, Select, Text, rem } from "@mantine/core";
+import { Button, Container, FileInput, Group, LoadingOverlay, Select, Text, rem } from "@mantine/core";
 import { IconUpload, IconPhoto, IconX, IconFileSpreadsheet, IconFileTypeXls } from "@tabler/icons-react";
 import { Dropzone, MS_EXCEL_MIME_TYPE } from "@mantine/dropzone";
 import { useState } from "react";
@@ -51,9 +51,10 @@ function Upload50() {
   };
   const [A, setA] = useState([]);
   const Onchange = (val) => {
-    if (val) {
+    SetFile(val);
+    if (val[0]) {
       // var preview = document.getElementById("show-text");
-      var file = val;
+      var file = val[0];
       var reader = new FileReader();
       var textFile = /text.*/;
       if (file.type.match(textFile)) {
@@ -120,24 +121,52 @@ function Upload50() {
       alert("Your browser is too old to support HTML5 File API");
     }
   };
+  const [Over, setOver] = useState(false);
   const show = (params) => {
-    // axios.post(API+"/index/InsertGovToSlip",{
-    // data:A,
-    // customer_type_id:form.values.TYPE
-    // }).then((res)=>{
-    //     console.log(res.data)
-    // })
-    console.log(A);
+    const title = form.values.TYPE === "2" ? "ลูกจ้างประจำ" : "ข้าราชการ/ข้าราชการพลเรือน";
+    Swal.fire({
+      icon: "info",
+      title: "ยืนยันเลือกประเภทบุคลากร",
+      text: title,
+      showCancelButton: true,
+      cancelButtonText: "ยกเลิก",
+      confirmButtonText: "ยืนยันส่ง",
+    }).then((res) => {
+      setOver(true);
+      if (res.isConfirmed === true) {
+        axios
+          .post(API + "/index/InsertGovToSlip", {
+            data: A,
+            customer_type_id: form.values.TYPE,
+          })
+          .then((ress) => {
+            if (ress.data === "success") {
+              Swal.fire({
+                icon: "success",
+                title: "เพิ่มรายการสำเร็จ",
+                timer: 1200,
+                timerProgressBar: true,
+                showConfirmButton: false,
+              }).then((ree) => {
+                setOver(false);
+              });
+            }
+          });
+      } else {
+        // setOver(false);
+      }
+    });
   };
 
   return (
     <Container>
+      <LoadingOverlay visible={Over} />
       <Text fz={20} fw={500}>
         อัพโหลดไฟล์ทวิ 50
       </Text>
       <Dropzone
         loading={Load}
-        onDrop={(files) => SetFile(files)}
+        onDrop={(files) => Onchange(files)}
         onReject={(files) => console.log("rejected files", files)}
         maxSize={5 * 1024 ** 2}
         accept=".txt"
@@ -194,12 +223,10 @@ function Upload50() {
       >
         อัพโหลดไฟล์สลิป
       </Button>
-      <Button onClick={show}></Button>
-      <FileInput
-        onChange={(e) => {
-          Onchange(e);
-        }}
-      />
+      {/* <Button onClick={show}></Button> */}
+      {/* <FileInput
+       
+      /> */}
       {/* {Txt} */}
     </Container>
   );
