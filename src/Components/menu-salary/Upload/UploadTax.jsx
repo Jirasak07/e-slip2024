@@ -1,5 +1,24 @@
-import { Button, Container, FileInput, Group, LoadingOverlay, Select, Text, rem } from "@mantine/core";
-import { IconUpload, IconPhoto, IconX, IconFileSpreadsheet, IconFileTypeXls } from "@tabler/icons-react";
+import {
+  ActionIcon,
+  Button,
+  Container,
+  FileInput,
+  Flex,
+  Group,
+  LoadingOverlay,
+  Select,
+  Text,
+  rem,
+} from "@mantine/core";
+import {
+  IconUpload,
+  IconPhoto,
+  IconX,
+  IconFileSpreadsheet,
+  IconFileTypeXls,
+  IconTruckReturn,
+  IconRestore,
+} from "@tabler/icons-react";
 import { Dropzone, MS_EXCEL_MIME_TYPE } from "@mantine/dropzone";
 import { useState } from "react";
 import axios from "axios";
@@ -10,8 +29,6 @@ function UploadTax() {
   const [FileExcel, setFileExcel] = useState([]);
   const [FileName, setFileName] = useState("");
   const SetFile = (val) => {
-    setFileName("");
-    setFileExcel([]);
     if (val) {
       setFileName(val[0].name);
       setFileExcel(val[0]);
@@ -91,7 +108,7 @@ function UploadTax() {
               i++;
             }
           });
-        
+
           setA(dataToPushs);
         };
       } else {
@@ -100,7 +117,8 @@ function UploadTax() {
       reader.readAsText(file);
     } else {
       alert("Your browser is too old to support HTML5 File API");
-    }  setLoad(false);
+    }
+    setLoad(false);
   };
   const [Over, setOver] = useState(false);
   const show = (params) => {
@@ -135,21 +153,27 @@ function UploadTax() {
         //     }
         //   });
       } else {
-        // setOver(false);
+        setOver(false);
       }
     });
+  };
+  const resets = (params) => {
+    setFileName("");
+    setFileExcel([]);
   };
 
   return (
     <Container>
       <LoadingOverlay visible={Over} />
       <Text fz={20} fw={500}>
-        อัพโหลดไฟล์หนังสือรับรอง ภาษี
+        อัพโหลดไฟล์หนังสือรับรองภาษี
       </Text>
       <Dropzone
-        loading={Load}
         onDrop={(files) => Onchange(files)}
-        onReject={(files) => console.log("rejected files", files)}
+        // onReject={(files) => console.log("rejected files", files)}
+        onReject={() => {
+          console.log("sdsdsd");
+        }}
         maxSize={5 * 1024 ** 2}
         accept=".txt"
         // {...props}
@@ -175,7 +199,16 @@ function UploadTax() {
           </div>
         </Group>
       </Dropzone>{" "}
-      {FileName !== "" ? "ไฟล์ที่เลือก : " + FileName : ""}
+      {FileName !== "" ? (
+        <Flex align={"center"} gap={10} mt={10}>
+          {"ไฟล์ที่เลือก : " + FileName}
+          <ActionIcon color="orange" onClick={resets}>
+            <IconRestore />
+          </ActionIcon>{" "}
+        </Flex>
+      ) : (
+        ""
+      )}
       <Select
         label="ประเภทบุคลากร"
         allowDeselect={false}
@@ -203,7 +236,7 @@ function UploadTax() {
         }}
         leftSection={<IconFileTypeXls />}
       >
-        อัพโหลดไฟล์สลิป
+        อัพโหลดไฟล์หนังสือรับรองภาษี
       </Button>
       {/* <Button onClick={show}></Button> */}
       {/* <FileInput
