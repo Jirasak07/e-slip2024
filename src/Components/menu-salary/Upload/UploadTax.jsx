@@ -110,7 +110,7 @@ function UploadTax() {
           });
           const dataB = [];
           dataToPushs.forEach((value) => {
-            if (value[4] === "3100601225418") {
+            // if (value[4] === "3100601225418") {
               dataB.push({
                 TAX_NO: value[0],
                 AGENCY_NAME: value[1],
@@ -134,10 +134,11 @@ function UploadTax() {
                 DATE_SIGN: value[19],
                 CUSTOMER_TYPE_ID: form.values.TYPE,
               });
-            }
+            // }
           });
           console.log(dataB);
-          setA(dataToPushs);
+          //   setA(dataToPushs);
+          setA(dataB);
         };
       } else {
         console.log("skdjhf");
@@ -162,24 +163,26 @@ function UploadTax() {
       setOver(true);
       if (res.isConfirmed === true) {
         console.log(A);
-        // axios
-        //   .post(API + "/index/InsertGovToSlip", {
-        //     data: A,
-        //     customer_type_id: form.values.TYPE,
-        //   })
-        //   .then((ress) => {
-        //     if (ress.data === "success") {
-        //       Swal.fire({
-        //         icon: "success",
-        //         title: "เพิ่มรายการสำเร็จ",
-        //         timer: 1200,
-        //         timerProgressBar: true,
-        //         showConfirmButton: false,
-        //       }).then((ree) => {
-        //         setOver(false);
-        //       });
-        //     }
-        //   });
+        axios
+          .post(API + "/index/UploadTax50", {
+            data: A,
+          })
+          .then((ress) => {
+            if (ress.data === "success") {
+              Swal.fire({
+                icon: "success",
+                title: "เพิ่มรายการสำเร็จ",
+                timer: 1200,
+                timerProgressBar: true,
+                showConfirmButton: false,
+              }).then((ree) => {
+                setOver(false);
+              });
+            } else {
+              setOver(false);
+              console.log(ress.data);
+            }
+          });
       } else {
         setOver(false);
       }

@@ -11,6 +11,7 @@ import {
   NumberFormatter,
   Paper,
   ScrollArea,
+  Select,
   SimpleGrid,
   Skeleton,
   Stack,
@@ -22,8 +23,9 @@ import { MDBDataTableV5 } from "mdbreact";
 import axios from "axios";
 import { monthh } from "./Month";
 import { API } from "../Config/ConfigApi";
-import { IconFileDescription, IconPdf, IconPrinter } from "@tabler/icons-react";
+import { IconDownload, IconFileDescription, IconPdf, IconPrinter } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
+import { isNotEmpty, useForm } from "@mantine/form";
 function User() {
   const monthselect = monthh;
   const [Load, setLoad] = useState(false);
@@ -69,7 +71,38 @@ function User() {
     const label = monthselect.findIndex((value) => value.value === params);
     return monthselect[label].label;
   };
+  const formtax = useForm({
+    initialValues: {
+      TAX_PAY_YEAR: "",
+      TAX_PAY_YEAR_DATA: [],
+    },
+    validate: {
+      TAX_PAY_YEAR: isNotEmpty("กรุณาเลือกปี"),
+    },
+  });
   const [CitiZent, setCitiZent] = useState("");
+  const FetchYearTax = (params) => {
+    axios
+      .post(API + "/index/SelectYearTax", {
+        citizen: parseInt(localStorage.getItem("citizen")) - 33,
+      })
+      .then((res) => {
+        if (res.data.length !== 0) {
+          const data = res.data;
+          const select = data.map((i) => ({
+            value: i.TAX_PAY_YEAR,
+            label: i.TAX_PAY_YEAR,
+          }));
+          formtax.setValues({
+            TAX_PAY_YEAR_DATA: select,
+            TAX_PAY_YEAR: select[0].value,
+          });
+        } else {
+          console.log(res.data);
+        }
+      });
+  };
+
   const [IMG, setIMG] = useState("");
   const FetchData = (params) => {
     const fm = new FormData();
@@ -129,6 +162,10 @@ function User() {
       });
     });
   };
+  const PrintTax50 = (val) => {
+    window.open(API + "/PDF/Tax50.php?id=" + localStorage.getItem("citizen") + "&year=" + val.TAX_PAY_YEAR);
+  };
+
   const nav = useNavigate();
   useEffect(() => {
     if (
@@ -143,6 +180,7 @@ function User() {
     }
     setLoad(true);
     FetchData();
+    FetchYearTax();
     setTimeout(() => {
       setLoad(false);
     }, 1200);
@@ -173,7 +211,7 @@ function User() {
               ) : (
                 <>
                   <Flex h={"100%"} align={"center"}>
-                    <img src={IMG} style={{maxWidth:100}} radius={8} />
+                    <img src={IMG} style={{ maxWidth: 100 }} radius={8} />
                     <Flex px={10} direction={"column"}>
                       <Grid gutter={0}>
                         <Grid.Col span={4}>
@@ -222,7 +260,36 @@ function User() {
               )}
             </Paper>
           </Flex>
-
+          <Container fluid mt={20}>
+            <Paper shadow="sm" p={10}>
+              <form
+                onSubmit={formtax.onSubmit((val) => {
+                  PrintTax50(val);
+                })}
+              >
+                <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }}>
+                  <Select
+                    allowDeselect={false}
+                    data={formtax.values.TAX_PAY_YEAR_DATA}
+                    {...formtax.getInputProps("TAX_PAY_YEAR")}
+                    label="เลือกปี"
+                  />
+                  <Button
+                    disabled={formtax.values.TAX_PAY_YEAR_DATA.length > 0 ? false : true}
+                    type="submit"
+                    mt={{ base: 10, sm: 33, md: 33 }}
+                    variant="light"
+                    leftSection={<IconDownload />}
+                  >
+                    <Text fz={12} fw={500}>
+                      {" "}
+                      ดาวน์โหลดหนังสือรับรองการหักภาษี ณ ที่จ่าย
+                    </Text>
+                  </Button>
+                </SimpleGrid>
+              </form>
+            </Paper>
+          </Container>
           <Container fluid mt={20}>
             {Load ? (
               <SkeletonTable />
