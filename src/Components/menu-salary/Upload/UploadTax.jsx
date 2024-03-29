@@ -123,13 +123,13 @@ function UploadTax() {
                 NO: value[8],
                 TAX_PAY_TYPE: value[9],
                 TAX_PAY_YEAR: value[10],
-                TAX_AMOUNT: value[11],
-                TAX_DEDUCTED: value[12],
-                TAX_AMOUNT_TOTAL: value[13],
-                TAX_DEDUCTED_TOTAL: value[14],
+                TAX_AMOUNT: parseInt(value[11]),
+                TAX_DEDUCTED:parseInt(value[12]),
+                TAX_AMOUNT_TOTAL: parseInt(value[13]),
+                TAX_DEDUCTED_TOTAL: parseInt(value[14]),
                 TAX_TOTAL_TEXT: value[15],
                 RESERVE_TYPE: value[16],
-                RESERVE_AMOUNT: value[17],
+                RESERVE_AMOUNT: parseInt(value[17]),
                 PAY_TYPE: value[18],
                 DATE_SIGN: value[19],
                 CUSTOMER_TYPE_ID: form.values.TYPE,
@@ -163,26 +163,26 @@ function UploadTax() {
       setOver(true);
       if (res.isConfirmed === true) {
         console.log(A);
-        // axios
-        //   .post(API + "/index/UploadTax50", {
-        //     data: A,
-        //   })
-        //   .then((ress) => {
-        //     if (ress.data === "success") {
-        //       Swal.fire({
-        //         icon: "success",
-        //         title: "เพิ่มรายการสำเร็จ",
-        //         timer: 1200,
-        //         timerProgressBar: true,
-        //         showConfirmButton: false,
-        //       }).then((ree) => {
+        axios
+          .post(API + "/index/UploadTax50", {
+            data: A,
+          })
+          .then((ress) => {
+            if (ress.data === "success") {
+              Swal.fire({
+                icon: "success",
+                title: "เพิ่มรายการสำเร็จ",
+                timer: 1200,
+                timerProgressBar: true,
+                showConfirmButton: false,
+              }).then((ree) => {
                 setOver(false);
-        //       });
-        //     } else {
-        //       setOver(false);
-        //       console.log(ress.data);
-        //     }
-        //   });
+              });
+            } else {
+              setOver(false);
+              console.log(ress.data);
+            }
+          });
       } else {
         setOver(false);
       }
