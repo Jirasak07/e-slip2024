@@ -163,26 +163,26 @@ function UploadTax() {
       setOver(true);
       if (res.isConfirmed === true) {
         console.log(A);
-        axios
-          .post(API + "/index/UploadTax50", {
-            data: A,
-          })
-          .then((ress) => {
-            if (ress.data === "success") {
-              Swal.fire({
-                icon: "success",
-                title: "เพิ่มรายการสำเร็จ",
-                timer: 1200,
-                timerProgressBar: true,
-                showConfirmButton: false,
-              }).then((ree) => {
+        // axios
+        //   .post(API + "/index/UploadTax50", {
+        //     data: A,
+        //   })
+        //   .then((ress) => {
+        //     if (ress.data === "success") {
+        //       Swal.fire({
+        //         icon: "success",
+        //         title: "เพิ่มรายการสำเร็จ",
+        //         timer: 1200,
+        //         timerProgressBar: true,
+        //         showConfirmButton: false,
+        //       }).then((ree) => {
                 setOver(false);
-              });
-            } else {
-              setOver(false);
-              console.log(ress.data);
-            }
-          });
+        //       });
+        //     } else {
+        //       setOver(false);
+        //       console.log(ress.data);
+        //     }
+        //   });
       } else {
         setOver(false);
       }
