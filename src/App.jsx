@@ -19,8 +19,6 @@ import Reportipay from "./Components/menu-salary/Expenditure/Reportipay";
 import Uploadsalary from "./Components/menu-salary/Salary/Uploadsalary";
 import FormKTB from "./Components/ManageUser/KtbCoperate/FormKTB";
 
-
-
 import User from "./Components/Publicc-user/User";
 import Reporthistoryprint from "./Components/menu-salary/Expenditure/Reporthistoryprint";
 import Reportshowsalaryopen from "./Components/menu-salary/Expenditure/Reportshowsalaryopen";
@@ -29,9 +27,7 @@ import HowToPDF from "./Components/Publicc-user/HowToPDF";
 import UploadSlip from "./Components/menu-salary/Upload/UploadSlip";
 import Upload50 from "./Components/menu-salary/Upload/Upload50";
 import UploadTax from "./Components/menu-salary/Upload/UploadTax";
-
-
-
+import UploadTavi50ForAllCustomer from "./Components/menu-salary/Upload/UploadTavi50ForAllCustomer";
 
 function App() {
   return (
@@ -43,7 +39,7 @@ function App() {
           {/* /////////////////////////////////////////////////// */}
           <Route path="/manage-salary/uploadslip" element={<UploadSlip />} />
           <Route path="/manage-salary/upload-tax" element={<UploadTax />} />
-          <Route path="/manage-salary/customer-50" element={<UploadTax />} />
+          <Route path="/manage-salary/customer-50" element={<UploadTavi50ForAllCustomer />} />
           <Route path="/manage-salary/upload50" element={<Upload50 />} />
           <Route path="/manage-salary/salary" element={<Salary />} />
           <Route path="/manage-salary/budget" element={<Budget />} />
@@ -55,13 +51,13 @@ function App() {
           <Route path="/manage-salary/update-revenue" element={<Home />} />
           <Route path="/manage-salary/update-expenses" element={<Updaterevenueexpenditure />} />
           <Route path="/manage-salary/update-salary" element={<Updatesalary />} />
-          
+
           {/* /////////////////////////////////////////////////////////////////// */}
           <Route path="/manage-user/user" element={<Officer />} />
           <Route path="/manage-user/ktb" element={<KtbCorporate />} />
           {/* ////////////////////////////////////////////////////////////////// */}
           <Route path="/report/revenue-type" element={<Reportrevenue />} />
-           <Route path="/report/expenditure-type" element={<Reportexpenditure />} />
+          <Route path="/report/expenditure-type" element={<Reportexpenditure />} />
           <Route path="/report/ipay" element={<Reportipay />} />
           <Route path="/report/salary" element={<Reportshowsalaryopen />} />
           <Route path="/report/print-history" element={<Reporthistoryprint />} />
@@ -70,7 +66,7 @@ function App() {
           <Route path="/report/pdf" element={<HowToPDF />} />
           {/* /////////////////////////////////////////////////////////////////////////////// */}
           <Route path="/user-salary" element={<User />} />
-          <Route path="/form-receive-money" element={<KTBForm/>} />
+          <Route path="/form-receive-money" element={<KTBForm />} />
         </Route>
       </Routes>
     </>

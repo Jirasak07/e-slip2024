@@ -87,7 +87,7 @@ export function Layouts() {
           <ScrollArea h={650}>
             {" "}
             <Flex direction={"column"} pb={10}>
-              <Flex direction={"column"} pt={20} gap={10} px={10}>
+              <Flex  direction={"column"} pt={20} gap={10} px={10}>
                 {" "}
                 <Flex justify={"flex-start"} gap={5} align={"center"}>
                   <Avatar color="var(--primary)" size={"md"}>
@@ -122,6 +122,7 @@ export function Layouts() {
                           active={"/" + window.location.pathname.split("/")[2] === menu.path ? true : false}
                           defaultOpened={"/" + window.location.pathname.split("/")[2] === menu.path ? true : false}
                           label={menu.title}
+                          key={keymenu}
                           leftSection={menu.icon}
                         >
                           {Array.isArray(menu.sub) &&
