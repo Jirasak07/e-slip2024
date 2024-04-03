@@ -3,6 +3,7 @@ import FormAddKTB from "./ComponentCorperate/FormAddKTB";
 import { Blockquote, Button, Flex, Text } from "@mantine/core";
 import { IconDownload, IconInfoCircle, IconSearch } from "@tabler/icons-react";
 import { API } from "../Config/ConfigApi";
+import ShowDataKTB from "./ShowDataKTB";
 
 function KTBForm() {
   const id = localStorage.getItem("citizen");
@@ -26,6 +27,7 @@ function KTBForm() {
           ตรวจสอบแบบฟอร์มและดาวน์โหลด
         </Button>
       </Flex>
+      <ShowDataKTB/>
     </div>
   );
 }
