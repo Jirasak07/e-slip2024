@@ -50,6 +50,11 @@ export const menus = [
             icon: <IconReceipt2 />,
           },
           {
+            title: "จัดการใบภาษีของบุคลากร",
+            path: "/manage-salary/customer-50",
+            icon: <IconReceipt2 />,
+          },
+          {
             title: "จัดการเงินเดือน",
             path: "/manage-salary/salary",
             icon: <IconPigMoney />,

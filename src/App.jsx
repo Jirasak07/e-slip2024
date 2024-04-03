@@ -43,6 +43,7 @@ function App() {
           {/* /////////////////////////////////////////////////// */}
           <Route path="/manage-salary/uploadslip" element={<UploadSlip />} />
           <Route path="/manage-salary/upload-tax" element={<UploadTax />} />
+          <Route path="/manage-salary/customer-50" element={<UploadTax />} />
           <Route path="/manage-salary/upload50" element={<Upload50 />} />
           <Route path="/manage-salary/salary" element={<Salary />} />
           <Route path="/manage-salary/budget" element={<Budget />} />
