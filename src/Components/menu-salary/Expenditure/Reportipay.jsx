@@ -55,6 +55,10 @@ function Reportipay() {
             minimal: "lg",
         }
     ];
+
+
+   
+
     const [TableSalary, setTableSalary] = useState({
         columns: column,
         rows: [],
@@ -65,6 +69,13 @@ function Reportipay() {
     const [DataTotalsummary, setDataTotalsummary] = useState([]);
     const [Dataexpenditurelist, setDataexpenditurelist] = useState([]);
     const [Dataipay, setDataipay] = useState({
+        columns: column,
+        rows: [
+          
+        ],
+    });
+
+    const [Datarevenueipay, setDatarevenueipay] = useState({
         columns: column,
         rows: [
           
@@ -135,19 +146,15 @@ function Reportipay() {
         sheet2.properties.defaultRowHeight = 15;
         
         sheet2.columns = [
+        
           {
-            header:"ชื่อ",
+            header:"รายการ",
             key:"name",
-            width:20
-          },
-          {
-            header:"เงิน",
-            key:"names",
             width:20,
           },
           {
-            header:"จ่ายนอก",
-            key:"namesout",
+            header:"เงินรวม",
+            key:"names",
             width:20,
           },
           {
@@ -157,17 +164,30 @@ function Reportipay() {
           },
         ]
 
-        Dataipay.map((i) => (   
+        Datarevenueipay.map((i) => (   
             sheet2.addRow(
             {
-            name:i.expenditure_name,
-            names:i.sum,
-            namesout:i.sumout,
-            namestotal:i.totalfinal
+            name:i.revenue_name,
+            names:Number(i.sumrevenue),
+            namestotal:Number(i.sumrevenue)
             }
             ) 
 
         ))
+        const sumrevenue = Datarevenueipay.filter((Datarevenueipay) => Datarevenueipay.revenue_name !== "null" ).reduce(
+            (sumrevenue, currentItem) => (sumrevenue = sumrevenue + Number(currentItem.sumrevenue)),
+            0,
+        );
+      
+        const total2 = sumrevenue;
+       sheet2.addRow(
+        {
+        name:'รวมเงินรายรับ ',
+        names:total2,
+        namestotal:total2
+        }
+        ) 
+
       
       
       workbook.xlsx.writeBuffer().then(data=>{
@@ -328,6 +348,20 @@ function Reportipay() {
                     0,
                 );
                 console.log(total);
+            }
+        });
+
+
+        axios.get(API + "/index/showrevenuelistipay/" + value.year + "/" + value.month + "/" + value.idbudget).then((res) => {
+
+
+            console.log(res.data);
+            const data = res.data;
+            if (data.length !== 0) {
+                //  setLoadTable(false);
+
+                setDatarevenueipay(res.data);
+              
             }
         });
 

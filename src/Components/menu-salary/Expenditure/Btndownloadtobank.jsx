@@ -113,7 +113,7 @@ function Btndownloadtobank({ FetchExpenditure, expenditure_id, year, month, idbu
         console.log(data);
         if (data.length !== 0) {
             setDataexport(data);
-         // setopenModal(true);
+          // setopenModal(true);
           // console.log(data[0].customer_type_id)
         } else {
           console.log("null");
@@ -157,7 +157,7 @@ function Btndownloadtobank({ FetchExpenditure, expenditure_id, year, month, idbu
        Download {bank_name}
       </Button>
 </>:<>
- <Button
+      <Button
         onClick={() => {
           FetchData();
         }}
@@ -166,7 +166,7 @@ function Btndownloadtobank({ FetchExpenditure, expenditure_id, year, month, idbu
         size="xs"
         radius="lg"
       >
-    Download {bank_name}
+       Download {bank_name}
       </Button>
      
 </>}
@@ -177,3 +177,4 @@ function Btndownloadtobank({ FetchExpenditure, expenditure_id, year, month, idbu
 }
 
 export default Btndownloadtobank;
+
