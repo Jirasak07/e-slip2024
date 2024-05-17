@@ -181,7 +181,7 @@ import ModalEditExpenditure from "./ModalEditExpenditure";
               })}
             >
               <SimpleGrid cols={{ base: 1, sm: 2 }}>
-                <Select
+                <Select searchable
                   searchable
                   data={DataTypeEmploy}
                   {...formSearchExpenditureCustomers.getInputProps("customer_type_id")}
@@ -243,7 +243,7 @@ import ModalEditExpenditure from "./ModalEditExpenditure";
           >
             <SimpleGrid>
               <TextInput label="ชื่อรายจ่ายใหม่" withAsterisk {...formAddExpeniture.getInputProps("expenditure_name")} />
-              <Select
+              <Select searchable
                 withAsterisk
                 data={DataTypeEmploy}
                 label="ประเภทพนักงาน"

@@ -109,14 +109,14 @@ function ModalEditOfficer({ customerid,fn }) {
               <TextInput {...formEmploy.getInputProps("lname")} readOnly label="นามสกุล" />
             </SimpleGrid>
             <SimpleGrid cols={2}>
-              <Select
+              <Select searchable
                 data={DataSelectTypeCustomer}
                 {...formEmploy.getInputProps("customer_type_id")}
                 readOnly
                 disabled
                 label="ประเภท"
               />
-              <Select
+              <Select searchable
                 data={DataStatus}
                 {...formEmploy.getInputProps("customer_status_id")}
                 allowDeselect={false}

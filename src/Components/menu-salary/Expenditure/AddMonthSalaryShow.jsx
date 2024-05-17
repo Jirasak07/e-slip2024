@@ -100,9 +100,9 @@ function AddMonthSalaryShow({ fetch }) {
           })}
         >
           <SimpleGrid>
-            <Select label="ปี" allowDeselect={false} data={form.values.DATA_YEAR} {...form.getInputProps("YEAR")} />
-            <Select label="เดือน" allowDeselect={false} data={monthh} {...form.getInputProps("MONTH")} />
-            <Select
+            <Select searchable label="ปี" allowDeselect={false} data={form.values.DATA_YEAR} {...form.getInputProps("YEAR")} />
+            <Select searchable label="เดือน" allowDeselect={false} data={monthh} {...form.getInputProps("MONTH")} />
+            <Select searchable
               label="สถานะ"
               allowDeselect={false}
               data={[

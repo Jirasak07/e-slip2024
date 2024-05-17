@@ -117,7 +117,7 @@ const setForm = () => {
             <NumberInput thousandSeparator suffix=" ฿" defaultValue={0} {...formAddrevenueCustomer.getInputProps("payslip_total")} label="จำนวน" />
           </SimpleGrid>
           <SimpleGrid pt={10} cols={1}>
-            <Select
+            <Select searchable
               {...formAddrevenueCustomer.getInputProps("idbudget")}
               label="งบประมาณที่ใช้"
               data={SelectDataBudget}

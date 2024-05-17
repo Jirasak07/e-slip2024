@@ -264,7 +264,7 @@ function Updaterevenueexpenditure() {
           <Flex justify={"center"}>
             <Paper mt={20} mb={20} maw={900} w={"100%"}>
               <SimpleGrid>
-                <Select
+                <Select searchable
                   allowDeselect={false}
                   data={DataTypeEmploy}
                   {...formSearch.getInputProps("type_employ")}
@@ -272,26 +272,26 @@ function Updaterevenueexpenditure() {
                 />
               </SimpleGrid>
               <SimpleGrid cols={2} pt={15}>
-                <Select
+                <Select searchable
                   allowDeselect={false}
                   label="เลือกเดือนที่จะใช้ข้อมูลเข้าเดือนใหม่"
                   data={selectmount}
                   {...formSearch.getInputProps("month")}
                 />
-                <Select allowDeselect={false} label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
+                <Select searchable allowDeselect={false} label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
               </SimpleGrid>
               <Flex justify={"center"} my={"xl"}>
                 <IconArrowDown />
               </Flex>
 
               <SimpleGrid cols={2}>
-                <Select
+                <Select searchable
                   allowDeselect={false}
                   label="เลือกเดือนที่จะนำข้อมูลเข้า "
                   data={selectmount}
                   {...formSearch.getInputProps("monthend")}
                 />
-                <Select allowDeselect={false} label="ปี" data={DataYear} {...formSearch.getInputProps("yearend")} />
+                <Select searchable allowDeselect={false} label="ปี" data={DataYear} {...formSearch.getInputProps("yearend")} />
               </SimpleGrid>
               <SimpleGrid>
                 <Button w={"100%"} type="submit" mt={33} leftSection={<IconSearch />}>

@@ -91,14 +91,14 @@ function ModalAddBank({ customers_citizent,fetch }) {
         >
           <SimpleGrid cols={1}>
             <SimpleGrid cols={{ base: 1, sm: 2 }}>
-              <Select
+              <Select searchable
                 allowDeselect={false}
                 searchable
                 data={form.values.select_bank}
                 label="ธนาคาร"
                 {...form.getInputProps("bank_id")}
               />
-              <Select
+              <Select searchable
                 allowDeselect={false}
                 searchable
                 data={form.values.select_bank_type}

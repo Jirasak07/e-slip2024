@@ -79,7 +79,7 @@ function ModalEditSalary({ total, idbudget, citizenid, year, month,fetch }) {
       <Modal title="แก้ไขข้อมูลเงินเดือน" opened={opened} onClose={close}>
         <form onSubmit={formEditSalary.onSubmit((val) => {Submit(val)})}>
           <SimpleGrid>
-            <Select data={SelectDataBudget} label="ประเภทงบประมาณ" {...formEditSalary.getInputProps("idbudget")} />
+            <Select searchable data={SelectDataBudget} label="ประเภทงบประมาณ" {...formEditSalary.getInputProps("idbudget")} />
             <TextInput
               type="number"
               rightSection={<IconCoin />}

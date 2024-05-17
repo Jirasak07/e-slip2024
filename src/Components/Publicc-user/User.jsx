@@ -268,7 +268,7 @@ function User() {
                 })}
               >
                 <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }}>
-                  <Select
+                  <Select searchable
                     allowDeselect={false}
                     data={formtax.values.TAX_PAY_YEAR_DATA}
                     {...formtax.getInputProps("TAX_PAY_YEAR")}

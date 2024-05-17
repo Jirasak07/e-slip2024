@@ -129,6 +129,7 @@ function Reportipay() {
         Dataipay.expenditure_name !== "ธนาคารกรุงไทย" &&
         Dataipay.expenditure_name !== "ธนาคารกรุงเทพ"
     ).reduce((sum, currentItem) => (sum = sum + Number(currentItem.sum)), 0);
+    
     const sumout = Dataipay.filter(
       (Dataipay) =>
         Dataipay.expenditure_name !== "ธนาคารกรุงไทย" &&
@@ -468,7 +469,7 @@ function Reportipay() {
           >
             <Grid>
               <Grid.Col span={8}>
-                <Select
+                <Select searchable
                   data={DataBudget}
                   {...formSearch.getInputProps("idbudget")}
                   label="งบประมาณ"
@@ -477,14 +478,14 @@ function Reportipay() {
             </Grid>
             <Grid gutter={{ base: 5, xs: "md", md: "xl", xl: 50 }}>
               <Grid.Col span={4}>
-                <Select
+                <Select searchable
                   label="เดือน"
                   data={selectmount}
                   {...formSearch.getInputProps("month")}
                 />
               </Grid.Col>
               <Grid.Col span={4}>
-                <Select
+                <Select searchable
                   label="ปี"
                   data={DataYear}
                   {...formSearch.getInputProps("year")}

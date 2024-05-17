@@ -408,21 +408,21 @@ function Uploadsalary() {
                     >
                         <Grid>
                             <Grid.Col span={8}>
-                                <Select data={DataBudget} {...formSearch.getInputProps("idbudget")} label="งบประมาณ" />
+                                <Select searchable data={DataBudget} {...formSearch.getInputProps("idbudget")} label="งบประมาณ" />
                             </Grid.Col>
                         </Grid>
                         <Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }}>
                             <Grid.Col span={2} >
-                                <Select label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
+                                <Select searchable label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
 
                             </Grid.Col>
                             <Grid.Col span={2}>
-                                <Select label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
-                                {/* <Select label="เลือกเดือนที่จะนำข้อมูลเข้า " data={selectmount} {...formSearch.getInputProps("monthend")}  />
-                                <Select label="ปี" data={DataYear} {...formSearch.getInputProps("yearend")} mt={10} /> */}
+                                <Select searchable label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
+                                {/* <Select searchable label="เลือกเดือนที่จะนำข้อมูลเข้า " data={selectmount} {...formSearch.getInputProps("monthend")}  />
+                                <Select searchable label="ปี" data={DataYear} {...formSearch.getInputProps("yearend")} mt={10} /> */}
                             </Grid.Col>
                             {/* <Grid.Col span={4}>
-                                 <Select label="ประเภทรายจ่าย" data={Dataexpenditurelist} {...formSearch.getInputProps("type")}  />
+                                 <Select searchable label="ประเภทรายจ่าย" data={Dataexpenditurelist} {...formSearch.getInputProps("type")}  />
                                
                             </Grid.Col> */}
                             <Grid.Col span={4}>

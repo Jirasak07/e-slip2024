@@ -53,8 +53,8 @@ function UploadTavi50ForAllCustomer() {
       <Container fluid p={0}>
         <Paper shadow="lg" p={10}>
           <SimpleGrid cols={{ base: 1, sm: 3 }}>
-            <Select data={DataTypeEmploy} label="เลือกประเภทบุคลากร" />
-            <Select data={DataYear} label="เลือกปี" />
+            <Select searchable data={DataTypeEmploy} label="เลือกประเภทบุคลากร" />
+            <Select searchable data={DataYear} label="เลือกปี" />
             <Button mt={33} leftSection={<IconSearch />} color="var(--primary)">
           ดูข้อมูล
         </Button>

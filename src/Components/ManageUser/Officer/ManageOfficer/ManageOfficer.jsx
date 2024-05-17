@@ -132,13 +132,13 @@ function ManageOfficer() {
                 <TextInput label="นามสกุล" {...form.getInputProps("customers_lname")} />
               </Grid.Col>
             </Grid>
-            <Select
+            <Select searchable
               data={form.values.DATA_TYPE_USER}
               {...form.getInputProps("customer_type_id")}
               allowDeselect={false}
               label="เลือกประเภทบุคลากร"
             />
-            <Select
+            <Select searchable
               data={form.values.DATA_STATUS_USER}
               {...form.getInputProps("customer_status_id")}
               allowDeselect={false}

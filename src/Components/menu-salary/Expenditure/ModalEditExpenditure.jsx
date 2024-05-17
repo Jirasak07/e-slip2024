@@ -91,7 +91,7 @@ function ModalEditExpenditure({ FetchExpenditure, expenditure_id, selectType }) 
         })} >
           <SimpleGrid>
             <TextInput label="ชื่อรายการรายรับ" {...formEditExpenditure.getInputProps("expenditure_name")} />
-            <Select
+            <Select searchable
               allowDeselect={false}
               label="ประเภทพนักงาน"
               data={selectType}

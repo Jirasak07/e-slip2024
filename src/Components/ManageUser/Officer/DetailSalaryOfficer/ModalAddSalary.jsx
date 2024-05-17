@@ -86,9 +86,9 @@ function ModalAddSalary({ Month, YearSelect, DataYear, DataMonth, DataBudget,Las
           AddSalary(value)
         })}>
             <SimpleGrid cols={{ base: 1, sm: 2 }}>
-          <Select data={DataYear} {...form.getInputProps("year")} readOnly label="ปีล่าสุด" />
-          <Select data={DataMonth} {...form.getInputProps("month")} allowDeselect={false} label="เดือน" />
-          <Select
+          <Select searchable data={DataYear} {...form.getInputProps("year")} readOnly label="ปีล่าสุด" />
+          <Select searchable data={DataMonth} {...form.getInputProps("month")} allowDeselect={false} label="เดือน" />
+          <Select searchable
             data={DataBudget}
             allowDeselect={false}
             label="ประเภทงบประมาณล่าสุด"

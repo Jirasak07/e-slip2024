@@ -66,11 +66,11 @@ export const menus = [
             path: "/manage-salary/upload50",
             icon: <IconReceipt2 />,
           },
-          {
-            title: "จัดการใบภาษีของบุคลากร",
-            path: "/manage-salary/customer-50",
-            icon: <IconReceipt2 />,
-          },
+          // {
+          //   title: "จัดการใบภาษีของบุคลากร",
+          //   path: "/manage-salary/customer-50",
+          //   icon: <IconReceipt2 />,
+          // },
           {
             title: "จัดการเงินเดือน",
             path: "/manage-salary/salary",

@@ -126,7 +126,7 @@ function ModalAddExpenditure({
             <NumberInput thousandSeparator suffix=" ฿"  {...formAddExpendCustomer.getInputProps("payslip_total")} label="จำนวน" />
           </SimpleGrid>
           <SimpleGrid pt={10} cols={1}>
-            <Select
+            <Select searchable
               {...formAddExpendCustomer.getInputProps("idbudget")}
               label="งบประมาณที่ใช้"
               data={SelectDataBudget}

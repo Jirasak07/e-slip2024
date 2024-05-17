@@ -240,7 +240,7 @@ function UploadTax() {
       ) : (
         ""
       )}
-      <Select
+      <Select searchable
         label="ประเภทบุคลากร"
         allowDeselect={false}
         data={[

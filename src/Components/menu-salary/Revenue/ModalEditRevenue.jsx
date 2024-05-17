@@ -91,7 +91,7 @@ function ModalEditRevenue({ FetchRevenue, revenue_id, selectType }) {
         })} >
           <SimpleGrid>
             <TextInput label="ชื่อรายการรายรับ" {...formEditRevenue.getInputProps("revenue_name")} />
-            <Select
+            <Select searchable
               allowDeselect={false}
               label="ประเภทพนักงาน"
               data={selectType}

@@ -285,11 +285,11 @@ function Reporthistoryprint() {
                       
                         <Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }}>
                             <Grid.Col span={4} >
-                                <Select label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
+                                <Select searchable label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
 
                             </Grid.Col>
                             <Grid.Col span={4}>
-                                <Select label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
+                                <Select searchable label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
 
                             </Grid.Col>
 

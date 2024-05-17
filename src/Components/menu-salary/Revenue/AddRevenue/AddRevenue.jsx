@@ -269,7 +269,7 @@ function AddRevenue() {
             })}
           >
             <SimpleGrid cols={{base:1,md:4,sm:2}}>
-              <Select
+              <Select searchable
                 allowDeselect={false}
                 searchable
                 data={DataTypeEmploy}
@@ -285,7 +285,7 @@ function AddRevenue() {
                 }}
                 label="ประเภทบุคลากร"
               />
-              <Select
+              <Select searchable
                 searchable
                 allowDeselect={false}
                 label="ประเภทรายรับ"
@@ -293,8 +293,8 @@ function AddRevenue() {
                 {...formSearch.getInputProps("revenue_id")}
               />
            <SimpleGrid cols={{base:1,sm:2}}>
-                <Select allowDeselect={false} label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
-                <Select allowDeselect={false} label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
+                <Select searchable allowDeselect={false} label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
+                <Select searchable allowDeselect={false} label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
               </SimpleGrid>
 
               <Button type="submit" mt={33} leftSection={<IconSearch />}>

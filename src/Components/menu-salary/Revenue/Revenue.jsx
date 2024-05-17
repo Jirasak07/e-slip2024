@@ -182,7 +182,7 @@ function Revenue() {
             })}
           >
             <SimpleGrid cols={{ base: 1, sm: 2 }}>
-              <Select
+              <Select searchable
                 searchable
                 data={DataTypeEmploy}
                 {...formSearchRevenueCustomers.getInputProps("customer_type_id")}
@@ -244,7 +244,7 @@ function Revenue() {
         >
           <SimpleGrid>
             <TextInput label="ชื่อรายรับใหม่" withAsterisk {...formAddRevenue.getInputProps("revenue_name")} />
-            <Select
+            <Select searchable
               withAsterisk
               data={DataTypeEmploy}
               label="ประเภทพนักงาน"

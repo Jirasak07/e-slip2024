@@ -1,6 +1,6 @@
-import { Button, Container, FileInput, Group, LoadingOverlay, Select, Text, rem } from "@mantine/core";
-import { IconUpload, IconPhoto, IconX, IconFileSpreadsheet, IconFileTypeXls } from "@tabler/icons-react";
-import { Dropzone, MS_EXCEL_MIME_TYPE } from "@mantine/dropzone";
+import { Button, Container, Group, LoadingOverlay, Select, Text, rem } from "@mantine/core";
+import { IconUpload, IconPhoto,  IconFileTypeXls } from "@tabler/icons-react";
+import { Dropzone } from "@mantine/dropzone";
 import { useState } from "react";
 import axios from "axios";
 import { API } from "../../Config/ConfigApi";
@@ -173,7 +173,7 @@ function Upload50() {
         </Group>
       </Dropzone>{" "}
       {FileName !== "" ? "ไฟล์ที่เลือก : " + FileName : ""}
-      <Select
+      <Select searchable
         label="ประเภทบุคลากร"
         allowDeselect={false}
         data={[

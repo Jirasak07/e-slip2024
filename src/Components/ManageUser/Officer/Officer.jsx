@@ -177,7 +177,7 @@ function Officer() {
             })}
           >
             <Flex direction={{ base: "column", md: "row" }} gap={10}>
-              <Select
+              <Select searchable
                 miw={300}
                 withAsterisk
                 label="ประเภทบุคลากร"

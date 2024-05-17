@@ -201,7 +201,7 @@ const Fetchh = (params) => {
       >
         <Paper>
           <SimpleGrid cols={3}>
-            <Select
+            <Select searchable
               allowDeselect={false}
               searchable
               label="เลือกปี"
