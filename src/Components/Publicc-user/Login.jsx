@@ -110,7 +110,8 @@ function Login() {
                         localStorage.setItem("organization_name", "การเงิน");
                         localStorage.setItem("rank_name", "sdddfd");
                         localStorage.setItem("type-user-epay", "1");
-                        nav("/main-page");
+                        // nav("/main-page");
+                        nav("/manage-user/user");
                 });
 
               }else{

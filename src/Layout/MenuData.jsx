@@ -28,11 +28,28 @@ export const menus = [
   {
     type: "1",
     data: [
+      // {
+      //   title: "หน้าหลัก",
+      //   path: "/main-page",
+      //   icon: <IconHome />,
+      //   sub: [],
+      // },
       {
-        title: "หน้าหลัก",
-        path: "/main-page",
-        icon: <IconHome />,
-        sub: [],
+        title: "จัดการบุคลากร",
+        path: "/manage-user",
+        icon: <IconUserCog />,
+        sub: [
+          {
+            title: "ข้อมูลบุคลากร",
+            path: "/manage-user/user",
+            icon: <IconUser />,
+          },
+          {
+            title: "KTB Corporate Online",
+            path: "/manage-user/ktb",
+            icon: <IconBuildingBank />,
+          },
+        ],
       },
       {
         title: "จัดการเงินเดือน",
@@ -106,23 +123,7 @@ export const menus = [
           },
         ],
       },
-      {
-        title: "จัดการบุคลากร",
-        path: "/manage-user",
-        icon: <IconUserCog />,
-        sub: [
-          {
-            title: "ข้อมูลบุคลากร",
-            path: "/manage-user/user",
-            icon: <IconUser />,
-          },
-          {
-            title: "KTB Corporate Online",
-            path: "/manage-user/ktb",
-            icon: <IconBuildingBank />,
-          },
-        ],
-      },
+
       {
         title: "รายงานและข้อมูล",
         path: "/report",
