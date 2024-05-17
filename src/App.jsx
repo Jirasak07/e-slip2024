@@ -39,28 +39,52 @@ function App() {
           {/* /////////////////////////////////////////////////// */}
           <Route path="/manage-salary/uploadslip" element={<UploadSlip />} />
           <Route path="/manage-salary/upload-tax" element={<UploadTax />} />
-          <Route path="/manage-salary/customer-50" element={<UploadTavi50ForAllCustomer />} />
+          <Route
+            path="/manage-salary/customer-50"
+            element={<UploadTavi50ForAllCustomer />}
+          />
           <Route path="/manage-salary/upload50" element={<Upload50 />} />
           <Route path="/manage-salary/salary" element={<Salary />} />
           <Route path="/manage-salary/budget" element={<Budget />} />
           <Route path="/manage-salary/revenue" element={<Revenue />} />
           <Route path="/manage-salary/expenses" element={<Expenditure />} />
-          <Route path="/manage-salary/add-revenue-fromtype" element={<AddRevenue />} />
-          <Route path="/manage-salary/add-expenses-fromtype" element={<AddExpenditure />} />
-          <Route path="/manage-salary/import-export" element={<Uploadsalary />} />
+          <Route
+            path="/manage-salary/add-revenue-fromtype"
+            element={<AddRevenue />}
+          />
+          <Route
+            path="/manage-salary/add-expenses-fromtype"
+            element={<AddExpenditure />}
+          />
+          <Route
+            path="/manage-salary/import-export"
+            element={<Uploadsalary />}
+          />
           <Route path="/manage-salary/update-revenue" element={<Home />} />
-          <Route path="/manage-salary/update-expenses" element={<Updaterevenueexpenditure />} />
-          <Route path="/manage-salary/update-salary" element={<Updatesalary />} />
+          <Route
+            path="/manage-salary/update-expenses"
+            element={<Updaterevenueexpenditure />}
+          />
+          <Route
+            path="/manage-salary/update-salary"
+            element={<Updatesalary />}
+          />
 
           {/* /////////////////////////////////////////////////////////////////// */}
           <Route path="/manage-user/user" element={<Officer />} />
           <Route path="/manage-user/ktb" element={<KtbCorporate />} />
           {/* ////////////////////////////////////////////////////////////////// */}
           <Route path="/report/revenue-type" element={<Reportrevenue />} />
-          <Route path="/report/expenditure-type" element={<Reportexpenditure />} />
+          <Route
+            path="/report/expenditure-type"
+            element={<Reportexpenditure />}
+          />
           <Route path="/report/ipay" element={<Reportipay />} />
           <Route path="/report/salary" element={<Reportshowsalaryopen />} />
-          <Route path="/report/print-history" element={<Reporthistoryprint />} />
+          <Route
+            path="/report/print-history"
+            element={<Reporthistoryprint />}
+          />
           <Route path="/report/notifications" element={<Home />} />
           <Route path="/report/tax" element={<Home />} />
           <Route path="/report/pdf" element={<HowToPDF />} />
