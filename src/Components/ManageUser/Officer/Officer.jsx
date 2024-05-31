@@ -182,7 +182,6 @@ function Officer() {
                 withAsterisk
                 label="ประเภทบุคลากร"
                 {...formSearch.getInputProps("customer_type_id")}
-                searchable
                 data={DataSelectTypeCustomer}
               />
               <Flex mt={{ base: 0, md: 33 }}>

@@ -270,7 +270,7 @@ function AddExpenditure() {
  <SimpleGrid cols={{base:1,md:4,sm:2}}>
               <Select searchable
                 allowDeselect={false}
-                searchable
+                
                 data={DataTypeEmploy}
                 value={formSearch.values.type_employ}
                 error={formSearch.errors.type_employ}
@@ -285,7 +285,6 @@ function AddExpenditure() {
                 label="ประเภทบุคลากร"
               />
               <Select searchable
-                searchable
                 allowDeselect={false}
                 label="ประเภทรายจ่าย"
                 data={SelectDataExpend}

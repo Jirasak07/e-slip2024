@@ -1,5 +1,5 @@
 import {
-  ActionIcon,
+
   Badge,
   Button,
   Container,
@@ -10,12 +10,12 @@ import {
   Select,
   SimpleGrid,
   TextInput,
-  Tooltip,
+
 } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
-import { IconAdFilled, IconDeviceFloppy, IconEdit, IconPlus, IconSearch } from "@tabler/icons-react";
+import { IconDeviceFloppy, IconPlus, IconSearch } from "@tabler/icons-react";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
 import { MDBDataTableV5 } from "mdbreact";
 import SkeletonTable from "../../Publicc-user/SkeletonTable";
@@ -183,7 +183,6 @@ function Revenue() {
           >
             <SimpleGrid cols={{ base: 1, sm: 2 }}>
               <Select searchable
-                searchable
                 data={DataTypeEmploy}
                 {...formSearchRevenueCustomers.getInputProps("customer_type_id")}
                 label="ประเภทพนักงาน"

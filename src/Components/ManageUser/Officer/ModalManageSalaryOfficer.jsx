@@ -203,7 +203,6 @@ const Fetchh = (params) => {
           <SimpleGrid cols={3}>
             <Select searchable
               allowDeselect={false}
-              searchable
               label="เลือกปี"
               value={YearNow}
               onChange={(v) => setYearNow(v)}

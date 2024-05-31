@@ -182,7 +182,6 @@ import ModalEditExpenditure from "./ModalEditExpenditure";
             >
               <SimpleGrid cols={{ base: 1, sm: 2 }}>
                 <Select searchable
-                  searchable
                   data={DataTypeEmploy}
                   {...formSearchExpenditureCustomers.getInputProps("customer_type_id")}
                   label="ประเภทพนักงาน"
