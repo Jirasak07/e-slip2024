@@ -15,6 +15,7 @@ import ManageOfficer from "./ManageOfficer/ManageOfficer";
 function Officer() {
   const [OverLayLoad, setOverLayLoad] = useState(false);
   const [DataSelectTypeCustomer, setDataSelectTypeCustomer] = useState([]);
+  const [DataSelectCustomerlist, setDataSelectCustomerlist] = useState([]);
   const [LoadTable, setLoadTable] = useState(false);
   const columns = [
     {
@@ -55,6 +56,19 @@ function Officer() {
           label: i.customer_type_name,
         }));
         setDataSelectTypeCustomer(menu);
+      }
+    });
+  };
+
+  const FetchCustomerlist = () => {
+    axios.get(API + "/index/selectEmp").then((res) => {
+      const data = res.data;
+      if (data.length !== 0) {
+        // const menu = data.map((i) => ({
+        //   value: i.customer_type_id,
+        //   label: i.customer_type_name,
+        // }));
+        setDataSelectCustomerlist(data);
       }
     });
   };
@@ -117,7 +131,10 @@ function Officer() {
 
   useEffect(() => {
     FetchTypeCustomer();
+    FetchCustomerlist();
   }, []);
+
+
   const UpdateUserAdd = (params) => {
     Swal.fire({
       icon: "info",
@@ -136,7 +153,10 @@ function Officer() {
       }
     });
   };
+
+
   const UpdateStatusUserOut = (params) => {
+
     Swal.fire({
       icon: "warning",
       title: "ยืนยันอัพเดทสถานะบุคลากรลาออก",
@@ -149,7 +169,26 @@ function Officer() {
       if (res.isConfirmed === true) {
         setOverLayLoad(true);
         setTimeout(() => {
-          setOverLayLoad(false);
+
+          const form = DataSelectCustomerlist
+          // console.log(value.values)
+           console.log(DataSelectCustomerlist)
+           axios.post(API + "/index/Updatestatusemp", {
+               check: form,
+           }).then((res) => {
+            setOverLayLoad(false);
+               Swal.fire({
+                   title: 'อัพเดทข้อมูลสำเร็จ',
+                   icon: 'success',
+                   confirmButtonText: 'ตกลง',
+               }).then((result) => {
+                  
+                   
+               })
+               console.log(res.data)
+           })
+
+          
         }, 1200);
       }
     });
@@ -194,7 +233,7 @@ function Officer() {
                   >
                     ค้นหา
                   </Button>
-                  {/* <Button
+                  <Button
                     onClick={() => UpdateUserAdd()}
                     leftSection={<IconRefresh />}
                     variant="light"
@@ -209,7 +248,7 @@ function Officer() {
                     color="var(--danger)"
                   >
                     อัพเดทสถานะบุคลากรลาออก
-                  </Button> */}
+                  </Button>
                   <SimpleGrid>
                     <ManageOfficer />
                   </SimpleGrid>

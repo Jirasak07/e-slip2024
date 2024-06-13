@@ -28,6 +28,8 @@ import UploadSlip from "./Components/menu-salary/Upload/UploadSlip";
 import Upload50 from "./Components/menu-salary/Upload/Upload50";
 import UploadTax from "./Components/menu-salary/Upload/UploadTax";
 import UploadTavi50ForAllCustomer from "./Components/menu-salary/Upload/UploadTavi50ForAllCustomer";
+import Uploadsalary1715 from "./Components/menu-salary/Salary/Uploadsalary1715";
+
 
 function App() {
   return (
@@ -89,8 +91,9 @@ function App() {
           <Route path="/report/tax" element={<Home />} />
           <Route path="/report/pdf" element={<HowToPDF />} />
           {/* /////////////////////////////////////////////////////////////////////////////// */}
-          <Route path="/user-salary" element={<User />} />
-          <Route path="/form-receive-money" element={<KTBForm />} />
+           <Route path="/user-salary" element={<User />} />
+           <Route path="/form-receive-money" element={<KTBForm />} />
+           <Route path="/manage-salary/import-export1715" element={<Uploadsalary1715 />} />
         </Route>
       </Routes>
     </>

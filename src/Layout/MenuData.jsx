@@ -103,7 +103,7 @@ export const menus = [
           },
           {
             title: "นำเข้าและส่งออกข้อมูลเงินเดือน",
-            path: "/manage-salary/import-export",
+            path: "/manage-salary/import-export1715",
             icon: <IconReportMoney />,
           },
           // {
