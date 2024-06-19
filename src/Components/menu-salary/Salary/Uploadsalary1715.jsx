@@ -61,6 +61,11 @@ function Uploadsalary1715() {
             field: "history_salary_salary1715",
             minimal: "lg",
         },
+        {
+            label: "เงินเดือน 0.1",
+            field: "history_salary_salary01",
+            minimal: "lg",
+        },
           {
             label: "เงินเลื่อนขั้น",
             field: "promotionmoney",
@@ -361,11 +366,15 @@ function Uploadsalary1715() {
                      i.customers_line === '1' ? round(i.เงินเดือนบัจจุบัน*1.7/1.6,-1) :
                      round(i.เงินเดือนบัจจุบัน*1.5/1.4,-1) 
                     :i.เงินเดือนบัจจุบัน,
+                    history_salary_salary01:i.customers_type === '4' ?
+                    i.customers_line === '1' ? (round(i.เงินเดือนบัจจุบัน*1.7/1.6,-1)-i.เงินเดือนบัจจุบัน) :
+                    (round(i.เงินเดือนบัจจุบัน*1.5/1.4,-1) - i.เงินเดือนบัจจุบัน)
+                   :'',
                     promotionmoney: i.เงินเลื่อนขั้น,
                     numberofmonths: i.จำนวนเดือนตกเบิก,
                     backpay: i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก,//ตกเบิก
                     backpay1715: i.customers_type === '4' ?
-                    i.customers_line === '1' ?  (i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.7/1.6:(i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.5/1.4
+                    i.customers_line === '1' ?  (i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.7/1.6: (i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.5/1.4
                    
 
                     :i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก//ตกเบิก1715
@@ -392,11 +401,17 @@ function Uploadsalary1715() {
                             i.customers_line === '1' ? <NumberFormatter thousandSeparator value={round(i.เงินเดือนบัจจุบัน*1.7/1.6,-1)} decimalScale={2} /> :
                             <NumberFormatter thousandSeparator value={round(i.เงินเดือนบัจจุบัน*1.5/1.4,-1) } decimalScale={2}/>
                             :<NumberFormatter thousandSeparator value={i.เงินเดือนบัจจุบัน  } decimalScale={2}/>,
+
+                            history_salary_salary01:i.customers_type === '4' ?
+                            i.customers_line === '1' ? <NumberFormatter thousandSeparator value={(round(i.เงินเดือนบัจจุบัน*1.7/1.6,-1)-i.เงินเดือนบัจจุบัน)} decimalScale={2} /> :
+                            <NumberFormatter thousandSeparator value={(round(i.เงินเดือนบัจจุบัน*1.5/1.4,-1)-i.เงินเดือนบัจจุบัน) } decimalScale={2}/>
+                            :'',
+
                             promotionmoney: i.เงินเลื่อนขั้น,
                             numberofmonths: i.จำนวนเดือนตกเบิก,
                             backpay: <NumberFormatter thousandSeparator value={i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก} decimalScale={2}/>,//ตกเบิก
                             backpay1715: i.customers_type === '4' ?
-                            i.customers_line === '1' ?  (i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.7/1.6:(i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.5/1.4
+                            i.customers_line === '1' ? round((i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.7/1.6,-1 ):(i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.5/1.4
                            :i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก//ตกเบิก1715
 
                         })),
