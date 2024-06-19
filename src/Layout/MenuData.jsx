@@ -112,17 +112,17 @@ export const menus = [
         icon: <IconSettings />,
         sub: [
           {
-            title: "จัดการงบประมาณ",
+            title: "จัดการประเภทงบประมาณ",
             path: "/manage-funda/budget",
             icon: <IconCoin />,
           },
           {
-            title: "จัดการรายรับ",
+            title: "จัดการประเภทรายรับ",
             path: "/manage-funda/revenue",
             icon: <IconTrendingUp />,
           },
           {
-            title: "จัดการรายจ่าย",
+            title: "จัดการประเภทรายจ่าย",
             path: "/manage-funda/expenses",
             icon: <IconTrendingDown />,
           },
