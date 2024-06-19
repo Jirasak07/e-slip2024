@@ -47,9 +47,9 @@ function App() {
           />
           <Route path="/manage-salary/upload50" element={<Upload50 />} />
           <Route path="/manage-salary/salary" element={<Salary />} />
-          <Route path="/manage-salary/budget" element={<Budget />} />
-          <Route path="/manage-salary/revenue" element={<Revenue />} />
-          <Route path="/manage-salary/expenses" element={<Expenditure />} />
+          <Route path="/manage-funda/budget" element={<Budget />} />
+          <Route path="/manage-funda/revenue" element={<Revenue />} />
+          <Route path="/manage-funda/expenses" element={<Expenditure />} />
           <Route
             path="/manage-salary/add-revenue-fromtype"
             element={<AddRevenue />}
