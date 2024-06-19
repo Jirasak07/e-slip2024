@@ -72,7 +72,7 @@ export function Layouts() {
           <Flex></Flex>
         </Flex>
         <Flex direction={"column"} justify={"space-between"}>
-          <ScrollArea h={"90dvh"}>
+          <ScrollArea h={"90dvh"} type="always">
             {" "}
             <Flex direction={"column"} pb={10}>
               <Flex direction={"column"} pt={20} gap={10} px={10}>
