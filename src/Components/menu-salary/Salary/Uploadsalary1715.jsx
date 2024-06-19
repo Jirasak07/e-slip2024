@@ -374,10 +374,10 @@ function Uploadsalary1715() {
                     numberofmonths: i.จำนวนเดือนตกเบิก,
                     backpay: i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก,//ตกเบิก
                     backpay1715: i.customers_type === '4' ?
-                    i.customers_line === '1' ?  (i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.7/1.6: (i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.5/1.4
+                    i.customers_line === '1' ?   round((i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.7/1.6,-1):  round((i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.5/1.4,-1)
                    
 
-                    :i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก//ตกเบิก1715
+                    :''//ตกเบิก1715
                     
                     
                 }));
@@ -411,8 +411,8 @@ function Uploadsalary1715() {
                             numberofmonths: i.จำนวนเดือนตกเบิก,
                             backpay: <NumberFormatter thousandSeparator value={i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก} decimalScale={2}/>,//ตกเบิก
                             backpay1715: i.customers_type === '4' ?
-                            i.customers_line === '1' ? round((i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.7/1.6,-1 ):(i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.5/1.4
-                           :i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก//ตกเบิก1715
+                            i.customers_line === '1' ? <NumberFormatter thousandSeparator value={round((i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.7/1.6,-1 )} decimalScale={2}/>:<NumberFormatter thousandSeparator value={round((i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.5/1.4,-1)} decimalScale={2}/>
+                           :''//ตกเบิก1715
 
                         })),
                     ],
