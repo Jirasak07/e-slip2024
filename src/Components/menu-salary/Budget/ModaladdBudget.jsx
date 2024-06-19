@@ -61,15 +61,15 @@ export default function ModaladdBudget() {
 
         <Box maw={340} mx="auto">
             <form onSubmit={form.onSubmit(submitdata)}>
-              <TextInput label="ชื่องบประมาณ" placeholder="ชื่องบประมาณ" {...form.getInputProps('name')} />
               <NumberInput
                 mt="sm"
-                label="level"
+                label="รหัสงบประมาณ"
                 placeholder="levelbudget"
                 min={0}
                 max={99}
                 {...form.getInputProps('levelbudget')}
               />
+                <TextInput label="ชื่องบประมาณ" placeholder="ชื่องบประมาณ" {...form.getInputProps('name')} />
               <Button type="submit" mt="sm">
                 เพิ่ม
               </Button>
