@@ -19,13 +19,14 @@ export function Layouts() {
       const menu2 = await menus.findIndex((menu) => menu.type === type);
       const menuu = await menus[menu2];
       const menu = await menuu.data;
+      console.log(localStorage.getItem("type-user-epay"))
       if (menu.length !== 0) {
         const indexmenu = menu.findIndex((menu) => "/testslip" + menu.path === window.location.pathname);
         console.log("/" + window.location.pathname.split("/")[1] + "/" + window.location.pathname.split("/")[2]);
         if (indexmenu === -1) {
           const indexmenus = menu.findIndex((menu) => "/testslip" + menu.path === "/" + window.location.pathname.split("/")[1] + "/" + window.location.pathname.split("/")[2]);
           if (indexmenus === -1) {
-            nav("/login");
+            // nav("/login");
           } else {
             const indexsub = menu[indexmenus].sub.findIndex((sub) => "/testslip" + sub.path === window.location.pathname);
             setIndexMenu(indexmenus);

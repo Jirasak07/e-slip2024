@@ -128,7 +128,6 @@ export const menus = [
           },
         ],
       },
-
       {
         title: "รายงานและข้อมูล",
         path: "/report",
@@ -195,8 +194,6 @@ export const menus = [
       },
     ],
   },
-
-
   {
     type: "plan",
     data: [
@@ -205,22 +202,21 @@ export const menus = [
         path: "/report",
         icon: <IconReport />,
         sub: [
-          {
-            title: "รายงานรายจ่ายแยกประเภท",
-            path: "/report/expenditure-type",
-            icon: <IconTrendingDown />,
-          },
-          {
-            title: "รายงานรายรับแยกประเภท",
-            path: "/report/revenue-type",
-            icon: <IconTrendingUp />,
-          },
+          // {
+          //   title: "รายงานรายจ่ายแยกประเภท",
+          //   path: "/report/expenditure-type",
+          //   icon: <IconTrendingDown />,
+          // },
+          // {
+          //   title: "รายงานรายรับแยกประเภท",
+          //   path: "/report/revenue-type",
+          //   icon: <IconTrendingUp />,
+          // },
          
         ],
       },
     ],
   },
-
   {
     type: "hr",
     data: [

@@ -81,6 +81,10 @@ function App() {
             path="/report/expenditure-type"
             element={<Reportexpenditure />}
           />
+          <Route
+            path="/report"
+            element={<Reportexpenditure />}
+          />
           <Route path="/report/ipay" element={<Reportipay />} />
           <Route path="/report/salary" element={<Reportshowsalaryopen />} />
           <Route

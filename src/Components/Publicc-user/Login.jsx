@@ -1,17 +1,4 @@
-import {
-  Badge,
-  Box,
-  Button,
-  Container,
-  Divider,
-  Flex,
-  Image,
-  LoadingOverlay,
-  Paper,
-  SimpleGrid,
-  Text,
-  TextInput,
-} from "@mantine/core";
+import { Badge, Box, Button, Container, Divider, Flex, Image, LoadingOverlay, Paper, SimpleGrid, Text, TextInput } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import Logo from "../../assets/image/kpru.png";
 import browser from "../../assets/image/browser.png";
@@ -22,7 +9,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { API } from "../../Components/Config/ConfigApi";
 function Login() {
-  useEffect(()=>{
+  useEffect(() => {
     localStorage.removeItem("citizen");
     localStorage.removeItem("fname");
     localStorage.removeItem("pname");
@@ -31,7 +18,7 @@ function Login() {
     localStorage.removeItem("organization_name");
     localStorage.removeItem("rank_name");
     localStorage.removeItem("type-user-epay");
-  },[])
+  }, []);
   const [LoadingButton, setLoadingButton] = useState(false);
   const nav = useNavigate();
   const formlogin = useForm({
@@ -56,7 +43,7 @@ function Login() {
         setOverLay(false);
         setLoadingButton(false);
         const data = res.data;
-           if (res.data[0].loginstatus === '1' ) {    
+        if (res.data[0].loginstatus === "1") {
           Swal.fire({
             icon: "success",
             title: "ยินดีต้อนรับ",
@@ -75,23 +62,23 @@ function Login() {
             localStorage.setItem("type-user-epay", "2");
             nav("/user-salary");
           });
-        }else{
-          console.log('ผู้ดูแลระบบ')
-          const datafrm = new FormData(); 
+        } else {
+          console.log("ผู้ดูแลระบบ");
+          const datafrm = new FormData();
           datafrm.append("txtemail", v.username);
           datafrm.append("txtpass", v.password);
-    
-          axios.post(API+"/index/selectadmin",datafrm,{
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-          })
-          .then((res) => {
 
-             const data = res.data;
+          axios
+            .post(API + "/index/selectadmin", datafrm, {
+              headers: {
+                "content-type": "multipart/form-data",
+              },
+            })
+            .then((res) => {
+              const data = res.data;
               if (res.data.length !== 0) {
                 setOverLay(false);
-              //  setLoadingButton(false);
+                //  setLoadingButton(false);
                 Swal.fire({
                   icon: "success",
                   title: "ยินดีต้อนรับ",
@@ -99,38 +86,39 @@ function Login() {
                   showConfirmButton: false,
                   timer: 1200,
                   timerProgressBar: true,
-                  
                 }).then((res) => {
-                       
-                        localStorage.setItem("citizen", data[0].employee_id);
-                        localStorage.setItem("fname", data[0].admin_name);
-                        localStorage.setItem("pname", "admin");
-                        localStorage.setItem("lname", data[0].admin_lname);
-                        localStorage.setItem("employee_id", data[0].employee_id);
-                        localStorage.setItem("organization_name", "การเงิน");
-                        localStorage.setItem("rank_name", "sdddfd");
-                        localStorage.setItem("type-user-epay", data[0].admin_type); 
-                        // nav("/main-page");
-                        nav("/manage-user/user");
-                });
+                  localStorage.setItem("citizen", data[0].employee_id);
+                  localStorage.setItem("fname", data[0].admin_name);
+                  localStorage.setItem("pname", "admin");
+                  localStorage.setItem("lname", data[0].admin_lname);
+                  localStorage.setItem("employee_id", data[0].employee_id);
+                  localStorage.setItem("organization_name", "การเงิน");
+                  localStorage.setItem("rank_name", "sdddfd");
+                  localStorage.setItem("type-user-epay", data[0].admin_type);
+                  // nav("/main-page");
 
-              }else{
+                  if (data[0].admin_type === "super") {
+                    nav("/manage-user/user");
+                  } else if (data[0].admin_type === "hr") {
+                    nav("/manage-user/user");
+                  } else if (data[0].admin_type === "plan") {
+                    nav("/report");
+                  }
+                  // nav("/");
+                });
+              } else {
                 setOverLay(false);
                 setLoadingButton(false);
                 Swal.fire({
                   icon: "warning",
                   title: "ไม่สามารถเข้าสู่ระบบได้",
-                  text: 'กรุณาลองใหม่อีกครั้ง',
+                  text: "กรุณาลองใหม่อีกครั้ง",
                   showConfirmButton: false,
                   timer: 1200,
                   timerProgressBar: true,
-                }).then((res) => {
-                 
-                });
+                }).then((res) => {});
               }
-           
-          });
-        
+            });
         }
       });
 
@@ -161,11 +149,7 @@ function Login() {
 
   return (
     <Container fluid w={"100dvw"} h={"100dvh"}>
-      <LoadingOverlay
-        visible={OverLay}
-        loaderProps={{ color: "var(--primary)", type: "dots" }}
-        overlayProps={{ blur: 1 }}
-      />
+      <LoadingOverlay visible={OverLay} loaderProps={{ color: "var(--primary)", type: "dots" }} overlayProps={{ blur: 1 }} />
       <Flex align={"center"} direction={"column"} h={"100%"} justify={"center"}>
         <Paper shadow={"lg"} withBorder h={550} w={"clamp(350px,95vw,600px)"}>
           <Flex pt={15} align={"center"} direction={"column"} justify={"center"}>
@@ -187,13 +171,7 @@ function Login() {
               <SimpleGrid w={"100%"} maw={300}>
                 <TextInput name="Username" label="ชื่อผู้ใช้" {...formlogin.getInputProps("username")} />
                 <TextInput name="Password" type="password" label="รหัสผ่าน" {...formlogin.getInputProps("password")} />
-                <Button
-                  loading={LoadingButton}
-                  loaderProps={{ type: "dots" }}
-                  type="submit"
-                  leftSection={<IconKey />}
-                  color="var(--primary)"
-                >
+                <Button loading={LoadingButton} loaderProps={{ type: "dots" }} type="submit" leftSection={<IconKey />} color="var(--primary)">
                   เข้าสู่ระบบ
                 </Button>
               </SimpleGrid>
