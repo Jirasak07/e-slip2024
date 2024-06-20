@@ -12,6 +12,7 @@ import ModalManageSalaryOfficer from "./ModalManageSalaryOfficer";
 import ModalDeleteOfficer from "./ModalDeleteOfficer";
 import ModalManageBankOfficer from "./ManageBank/ModalManageBankOfficer";
 import ManageOfficer from "./ManageOfficer/ManageOfficer";
+import { useViewportSize } from "@mantine/hooks";
 function Officer() {
   const [OverLayLoad, setOverLayLoad] = useState(false);
   const [DataSelectTypeCustomer, setDataSelectTypeCustomer] = useState([]);
@@ -102,11 +103,7 @@ function Officer() {
                 <Flex direction={"row"} gap={5}>
                   {i.customer_type_id}
                   <ModalEditOfficer customerid={i.customers_citizent} fn={Fetchcc} />
-                  <ModalManageBankOfficer
-                    citizenid={i.customers_citizent}
-                    name={i.customers_pname + i.customers_name + " " + i.customers_lname}
-                  />{" "}
-                  <ModalManageSalaryOfficer customer_type_id={i.customers_type} citizenid={i.customers_citizent} />
+                  <ModalManageBankOfficer citizenid={i.customers_citizent} name={i.customers_pname + i.customers_name + " " + i.customers_lname} /> <ModalManageSalaryOfficer customer_type_id={i.customers_type} citizenid={i.customers_citizent} />
                 </Flex>
               ),
             })),
@@ -134,7 +131,6 @@ function Officer() {
     FetchCustomerlist();
   }, []);
 
-
   const UpdateUserAdd = (params) => {
     Swal.fire({
       icon: "info",
@@ -154,9 +150,7 @@ function Officer() {
     });
   };
 
-
   const UpdateStatusUserOut = (params) => {
-
     Swal.fire({
       icon: "warning",
       title: "ยืนยันอัพเดทสถานะบุคลากรลาออก",
@@ -169,26 +163,22 @@ function Officer() {
       if (res.isConfirmed === true) {
         setOverLayLoad(true);
         setTimeout(() => {
-
-          const form = DataSelectCustomerlist
+          const form = DataSelectCustomerlist;
           // console.log(value.values)
-           console.log(DataSelectCustomerlist)
-           axios.post(API + "/index/Updatestatusemp", {
-               check: form,
-           }).then((res) => {
-            setOverLayLoad(false);
-               Swal.fire({
-                   title: 'อัพเดทข้อมูลสำเร็จ',
-                   icon: 'success',
-                   confirmButtonText: 'ตกลง',
-               }).then((result) => {
-                  
-                   
-               })
-               console.log(res.data)
-           })
-
-          
+          console.log(DataSelectCustomerlist);
+          axios
+            .post(API + "/index/Updatestatusemp", {
+              check: form,
+            })
+            .then((res) => {
+              setOverLayLoad(false);
+              Swal.fire({
+                title: "อัพเดทข้อมูลสำเร็จ",
+                icon: "success",
+                confirmButtonText: "ตกลง",
+              }).then((result) => {});
+              console.log(res.data);
+            });
         }, 1200);
       }
     });
@@ -196,16 +186,11 @@ function Officer() {
   const Fetchcc = () => {
     FetchData(formSearch.values.customer_type_id);
   };
-
+  const { height, width } = useViewportSize();
   return (
     <>
-      <LoadingOverlay
-        visible={OverLayLoad}
-        loaderProps={{ type: "dots", color: "var(--primary)" }}
-        overlayProps={{ radius: "sm", blur: 1 }}
-      />
-
-      <Container p={0} bg={"white"} fluid>
+      <LoadingOverlay visible={OverLayLoad} loaderProps={{ type: "dots", color: "var(--primary)" }} overlayProps={{ radius: "sm", blur: 1 }} />
+      <Container px={0} bg={"white"}  maw={width}>
         <Badge color="var(--primary)" variant="light" size="md" radius={8}>
           ข้อมูลบุคลากร
         </Badge>
@@ -216,37 +201,16 @@ function Officer() {
             })}
           >
             <Flex direction={{ base: "column", md: "row" }} gap={10}>
-              <Select searchable
-                miw={300}
-                withAsterisk
-                label="ประเภทบุคลากร"
-                {...formSearch.getInputProps("customer_type_id")}
-                data={DataSelectTypeCustomer}
-              />
+              <Select searchable miw={300} withAsterisk label="ประเภทบุคลากร" {...formSearch.getInputProps("customer_type_id")} data={DataSelectTypeCustomer} />
               <Flex mt={{ base: 0, md: 33 }}>
                 <SimpleGrid w="100%" cols={{ base: 1, sm: 3 }}>
-                  <Button
-                    w={{ base: null, sm: "100%" }}
-                    color="var(--primary)"
-                    type="submit"
-                    leftSection={<IconSearch />}
-                  >
+                  <Button w={{ base: null, sm: "100%" }} color="var(--primary)" type="submit" leftSection={<IconSearch />}>
                     ค้นหา
                   </Button>
-                  <Button
-                    onClick={() => UpdateUserAdd()}
-                    leftSection={<IconRefresh />}
-                    variant="light"
-                    color="var(--success)"
-                  >
+                  <Button onClick={() => UpdateUserAdd()} leftSection={<IconRefresh />} variant="light" color="var(--success)">
                     อัพเดทบุคลากรเพิ่มใหม่
                   </Button>
-                  <Button
-                    onClick={() => UpdateStatusUserOut()}
-                    leftSection={<IconUserCancel />}
-                    variant="light"
-                    color="var(--danger)"
-                  >
+                  <Button onClick={() => UpdateStatusUserOut()} leftSection={<IconUserCancel />} variant="light" color="var(--danger)">
                     อัพเดทสถานะบุคลากรลาออก
                   </Button>
                   <SimpleGrid>
@@ -263,20 +227,8 @@ function Officer() {
         <Paper mt={10}>
           <Badge variant="light">รายการบุคลากร</Badge>
         </Paper>
-        <Paper shadow="md" p={10} mt={10}>
-          {LoadTable ? (
-            <SkeletonTable />
-          ) : (
-            <MDBDataTableV5
-              responsive
-              striped
-              searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ"
-              searchTop
-              searchBottom={false}
-              data={TableUser}
-              noRecordsFoundLabel="ไม่พบรายการ"
-            />
-          )}
+        <Paper  shadow="md" p={10} mt={10}>
+          {LoadTable ? <SkeletonTable /> : <MDBDataTableV5 responsiveMd striped searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ" searchTop searchBottom={false} data={TableUser} noRecordsFoundLabel="ไม่พบรายการ" />}
         </Paper>
       </Container>
     </>

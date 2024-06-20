@@ -1,7 +1,7 @@
 import { AppShell, Avatar, Badge, Burger, Button, Divider, Flex, LoadingOverlay, NavLink, Paper, ScrollArea, Text } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useViewportSize } from "@mantine/hooks";
 import { IconLogout2, IconWallet } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink as Nl, Outlet, useNavigate } from "react-router-dom";
 import { menus } from "./MenuData";
 import Steppers from "../Components/Publicc-user/Stepper";
@@ -46,10 +46,12 @@ export function Layouts() {
     // const menu2 = menus.findIndex((menu) => menu.type === localStorage.getItem("bee"));
     Fetch();
   }, []);
+  const { height, width } = useViewportSize();
+  console.log(height)
   const [LoadLogout, setLoadLogout] = useState(false);
   const [OverLay, setOverLay] = useState(false);
   return (
-    <AppShell header={{ height: { base: 50, md: 0 } }} navbar={{ width: 320, breakpoint: "md", collapsed: { mobile: !opened } }} padding="md">
+    <AppShell  header={{ height: { base: 50, md: 0 } }} navbar={{ width: 320, breakpoint: "md", collapsed: { mobile: !opened } }}  px={10}>
       <AppShell.Header hiddenFrom="md" bg={"var(--primary)"}>
         <Flex h="100%" align={"center"} justify={"space-between"} pr={10}>
           <Flex justify={"center"} w={"95%"}>
@@ -170,9 +172,11 @@ export function Layouts() {
         </Flex>
       </AppShell.Navbar>
       <AppShell.Main>
-        <Steppers />
-        <LoadingOverlay loaderProps={{ type: "oval", color: "var(--primary)" }} visible={OverLay} />
-        <Outlet />
+        <ScrollArea  scrollbars="y" m={0}  h={height} type="always">
+          <Steppers />
+          <LoadingOverlay loaderProps={{ type: "oval", color: "var(--primary)" }} visible={OverLay} />
+          <Outlet />
+        </ScrollArea>
       </AppShell.Main>
     </AppShell>
   );
