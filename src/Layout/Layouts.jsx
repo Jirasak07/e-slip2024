@@ -4,6 +4,7 @@ import { IconLogout2, IconWallet } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { NavLink as Nl, Outlet, useNavigate } from "react-router-dom";
 import { menus } from "./MenuData";
+import Steppers from "../Components/Publicc-user/Stepper";
 export function Layouts() {
   const [opened, { toggle }] = useDisclosure();
   const [IndexMenu, setIndexMenu] = useState(0);
@@ -19,7 +20,7 @@ export function Layouts() {
       const menu2 = await menus.findIndex((menu) => menu.type === type);
       const menuu = await menus[menu2];
       const menu = await menuu.data;
-      console.log(localStorage.getItem("type-user-epay"))
+      console.log(localStorage.getItem("type-user-epay"));
       if (menu.length !== 0) {
         const indexmenu = menu.findIndex((menu) => "/testslip" + menu.path === window.location.pathname);
         console.log("/" + window.location.pathname.split("/")[1] + "/" + window.location.pathname.split("/")[2]);
@@ -108,8 +109,8 @@ export function Layouts() {
                         <NavLink
                           color="var(--primary)"
                           variant="filled"
-                          onClick={()=>{
-                            console.log(keymenu)
+                          onClick={() => {
+                            console.log(keymenu);
                           }}
                           active={"/" + window.location.pathname.split("/")[2] === menu.path ? true : false}
                           defaultOpened={"/" + window.location.pathname.split("/")[2] === menu.path ? true : false}
@@ -169,6 +170,7 @@ export function Layouts() {
         </Flex>
       </AppShell.Navbar>
       <AppShell.Main>
+        <Steppers />
         <LoadingOverlay loaderProps={{ type: "oval", color: "var(--primary)" }} visible={OverLay} />
         <Outlet />
       </AppShell.Main>
