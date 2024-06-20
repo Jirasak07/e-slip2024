@@ -199,7 +199,7 @@ export const menus = [
     data: [
       {
         title: "รายงานและข้อมูล",
-        path: "/report",
+        path: "/report-plan",
         icon: <IconReport />,
         sub: [
           // {

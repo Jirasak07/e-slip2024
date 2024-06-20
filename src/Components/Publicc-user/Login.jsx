@@ -102,7 +102,7 @@ function Login() {
                   } else if (data[0].admin_type === "hr") {
                     nav("/manage-user/user");
                   } else if (data[0].admin_type === "plan") {
-                    nav("/report");
+                    nav("/report-plan");
                   }
                   // nav("/");
                 });
