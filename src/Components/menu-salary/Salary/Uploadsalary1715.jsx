@@ -522,7 +522,48 @@ function Uploadsalary1715() {
         console.log(initialValues.year)
         console.log(initialValues.month)
         console.log(initialValues.idbudget)
-        if (DataTablelist.length !== 0) {
+      
+       
+        //  if (DataTablelist.length === 477) {
+
+       if (DataTablelist.length !== 0) {
+        Swal.fire({
+            title: "กรุณากรอกรหัสความปลอดภัย",
+            input: "password",
+            inputAttributes: {
+              autocapitalize: "off"
+            },
+            showCancelButton: true,
+            confirmButtonText: "ยืนยัน",
+            showLoaderOnConfirm: true,
+            // preConfirm: async (login) => {
+            //   try {
+            //   if (login ==='1234') {
+            //     return true
+            //   }
+            //   } catch (error) {
+            //     Swal.showValidationMessage(`
+            //       Request failed: ${error}
+            //     `);
+            //   }
+            // },
+          //  allowOutsideClick: () => !Swal.isLoading()
+          }).then((result) => {
+            console.log(result)
+            if (result.isConfirmed && result.value === 'lovekpru') {
+            //   Swal.fire({
+            //     title: `${result.value.login}'s avatar`,
+            //     imageUrl: result.value.avatar_url
+            //   });
+                Swal.fire({
+                title: 'ระบบปลดล็อคถูกต้อง',
+                icon: 'success',
+               // confirmButtonText: 'ตกลง',
+               showConfirmButton:false,timer:1000,timerProgressBar:true
+            }).then((result) => {
+
+
+
             console.log('ok')
             //logทั้งหมด
             const form = DataTablelist
@@ -559,8 +600,8 @@ function Uploadsalary1715() {
                                                                 idpayslip_revenue: '15',
                                                                 check: form,
                                                             }).then((res) => {
-                                                                            //ค่าตกเบิก01
-                                                                            const form = Databackpay01
+                                                                            //ค่าตกเบิก1715
+                                                                            const form = Databackpay1715
                                                                             axios.post(API + "/index/Addrevenueforid", {
                                                                                 month: initialValues.month,
                                                                                 year: initialValues.year,
@@ -568,8 +609,8 @@ function Uploadsalary1715() {
                                                                                 idpayslip_revenue: '99',
                                                                                 check: form,
                                                                             }).then((res) => {
-                                                                                       //ค่าตกเบิก1715
-                                                                                        const form = Databackpay1715
+                                                                                       //ค่าตกเบิก01
+                                                                                        const form = Databackpay01
                                                                                         axios.post(API + "/index/Addrevenueforid", {
                                                                                             month: initialValues.month,
                                                                                             year: initialValues.year,
@@ -598,6 +639,23 @@ function Uploadsalary1715() {
 
 
 
+
+//ปิดaleart
+            })
+        }else{
+               Swal.fire({
+                title: 'รหัสความปลอดภัยไม่ถูกต้อง',
+                icon: 'error',
+                confirmButtonText: 'ตกลง',
+            }).then((result) => {
+                
+            })
+        }
+      
+      });
+
+
+
         }else{
             Swal.fire({
                         title: 'กรุณาอัพโหลดไฟล์เงินเดือน',
@@ -606,8 +664,12 @@ function Uploadsalary1715() {
                     }).then((result) => {
                         
                     })
+
+
+
+         
         }
-        
+
 
         // const form = Tablelist
       
@@ -734,6 +796,7 @@ function Uploadsalary1715() {
                     <input type='file' onChange={(e) => Readfile(e)} />
                     <p className="mt-5">รายการนำเข้า {DataTablelist.length} รายการ</p>
 
+                 
                     <form onSubmit={formSearch.onSubmit(submitdata)}>
                                <Button type="submit"   leftSection={<IconFolderUp />}>
                                     นำเข้าข้อมูล 
