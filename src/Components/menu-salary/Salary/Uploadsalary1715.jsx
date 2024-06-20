@@ -51,11 +51,6 @@ function Uploadsalary1715() {
             field: "history_salary_salary",
             minimal: "lg",
         },
-        {
-            label: "เงินตอบแทนพิเศษ",
-            field: "compensation",
-            minimal: "lg",
-        },
          {
             label: "เงินเดือน1.7/1.5",
             field: "history_salary_salary1715",
@@ -86,6 +81,16 @@ function Uploadsalary1715() {
             field: "backpay1715",
             minimal: "lg",
         },
+        {
+            label: "เงินตกเบิก01",
+            field: "backpay01",
+            minimal: "lg",
+        },
+        {
+            label: "เงินตอบแทนพิเศษ",
+            field: "compensation",
+            minimal: "lg",
+        },
        
     ];
 
@@ -101,6 +106,13 @@ function Uploadsalary1715() {
     //const [Dataexpenditurelist, setDataexpenditurelist] = useState([]);
     const [Tablelist, setTablelist] = useState([]);
     const [Salarylist, setSalarylist] = useState([]);
+
+    const [DataTablelist, setDataTablelist] = useState([]);//alldate
+
+      const [Datacompensation, setDatacompensation] = useState([]);//ค่าตอบแทนพิเศษ
+      const [Databackpay, setDataDatabackpay] = useState([]);//ตกเบิก
+      const [Databackpay01, setDataDatabackpay01] = useState([]);//ตกเบิก01
+      const [Databackpay1715, setDataDatabackpay1715] = useState([]);//ตกเบิก1715
 
     //const [file, setFile] = useState<File | null>(null);
     const [file, setFile] = useState([]);
@@ -195,8 +207,8 @@ function Uploadsalary1715() {
                     customers_name: i.customers_name,
                     customers_lname: i.customers_lname,
                     history_salary_salary: i.history_salary_salary,
-                    history_salary_salary1: '',
-                    history_salary_salary2: '',
+                    history_salary_salary1: '00.00',
+                    history_salary_salary2: '00.00',
                     history_salary_salary3: ''
                 }
             )
@@ -340,6 +352,7 @@ function Uploadsalary1715() {
                 const json = xlsx.utils.sheet_to_json(worksheet);
                 console.log(json);
 
+
                 function round(number, num_digits) {
                     const decimalPlaces = 2;
                     const result = number.toFixed(decimalPlaces);
@@ -347,8 +360,13 @@ function Uploadsalary1715() {
                     const factor = Math.pow(10, num_digits);
                     const result1 = Math.round(result * factor) / factor;
                     return result1.toFixed(decimalPlaces);
+                }
 
-                  }
+                function round2(number) {
+                    const decimalPlaces = 2;
+                    const result = number.toFixed(decimalPlaces);
+                    return result;
+                }
 
                // const myArray = [];
                setLoadTable(false);
@@ -360,29 +378,57 @@ function Uploadsalary1715() {
                     customers_pname: i.คำนำหน้า,
                     customers_name: i.ชื่อ,
                     customers_lname: i.นามสกุล,
-                    history_salary_salary: i.เงินเดือนบัจจุบัน,
-                    compensation:i.เงินตอบแทนพิเศษ,
+                    history_salary_salary: i.เงินเดือนบัจจุบัน.toFixed(2),
                     history_salary_salary1715:i.customers_type === '4' ?
                      i.customers_line === '1' ? round(i.เงินเดือนบัจจุบัน*1.7/1.6,-1) :
                      round(i.เงินเดือนบัจจุบัน*1.5/1.4,-1) 
-                    :i.เงินเดือนบัจจุบัน,
+                    :'0.00',
                     history_salary_salary01:i.customers_type === '4' ?
-                    i.customers_line === '1' ? (round(i.เงินเดือนบัจจุบัน*1.7/1.6,-1)-i.เงินเดือนบัจจุบัน) :
-                    (round(i.เงินเดือนบัจจุบัน*1.5/1.4,-1) - i.เงินเดือนบัจจุบัน)
-                   :'',
-                    promotionmoney: i.เงินเลื่อนขั้น,
+                    i.customers_line === '1' ? (round(i.เงินเดือนบัจจุบัน*1.7/1.6,-1)-i.เงินเดือนบัจจุบัน).toFixed(2) :
+                    (round(i.เงินเดือนบัจจุบัน*1.5/1.4,-1) - i.เงินเดือนบัจจุบัน).toFixed(2)
+                   :'0.00',
+                    promotionmoney: i.เงินเลื่อนขั้น.toFixed(2),
                     numberofmonths: i.จำนวนเดือนตกเบิก,
-                    backpay: i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก,//ตกเบิก
+                    backpay: i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก === 0 || i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก === '' ? '0.00' : i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก,//ตกเบิก
                     backpay1715: i.customers_type === '4' ?
                     i.customers_line === '1' ?   round((i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.7/1.6,-1):  round((i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.5/1.4,-1)
-                   
-
-                    :''//ตกเบิก1715
+                    :'0.00',//ตกเบิก1715
+                    backpay01: i.customers_type === '4' ?
+                    i.customers_line === '1' ?   (round((i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.7/1.6,-1))-(i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)  :  (round((i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.5/1.4,-1))-(i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก) 
+                    :'0.00',//ตกเบิก01
+                    compensation: i.เงินตอบแทนพิเศษ === 0 || i.เงินตอบแทนพิเศษ === '' ? '0.00' : i.เงินตอบแทนพิเศษ
                     
                     
                 }));
 
-            
+                //Addhistorysalaryincrease  --logทั้งหมด
+                //Addhistorysalarymonth   --เพิ่มเงินเดือนปกติและ 1.7/1.5
+                //Addrevenueforid --เพิ่มรายรับid 20 15 99 100
+ 
+                 //filter ค่าตอบแทนพิเศษ id = '20'
+                 const compensation = myArray.filter((salary) => salary.compensation > 0 || salary.compensation !== '')
+                // console.log(compensation)
+                 setDatacompensation(compensation)
+
+                 //filter ตกเบิกปกติ id = '15'
+                 const backpay = myArray.filter((salary) => salary.backpay > 0 || salary.backpay !== '')
+                // console.log(backpay)
+                 setDataDatabackpay(backpay)
+
+                 //filter ตกเบิกปกติ0.1 id = '99'
+                 const backpay01 = myArray.filter((salary) => salary.backpay01 > 0 || salary.backpay01 !== '')
+                // console.log(backpay01)
+                 setDataDatabackpay01(backpay01)
+
+                 //filter ตกเบิกปกติ 1.7/1.5 id = '100'
+                 const backpay1715 = myArray.filter((salary) => salary.backpay1715 > 0 || salary.backpay1715 !== '')
+                // console.log(backpay1715)
+                 setDataDatabackpay1715(backpay1715)
+
+
+
+                setDataTablelist(myArray)
+  
                 //ใช้โชว์ข้อมูล
                 setTablelist({
                     columns: column,
@@ -391,28 +437,32 @@ function Uploadsalary1715() {
                             no: key + 1,
                             customers_citizent: i.เลขบัตร,
                             customers_type: i.customers_type,
-                            customers_line: i.customers_line,
+                            customers_line: i.customers_line === '1'?<Text c="blue">สายวิชาการ</Text>:<Text c="red.9">สายสนับสนุน</Text>,
                             customers_pname: i.คำนำหน้า,
                             customers_name: i.ชื่อ,
                             customers_lname: i.นามสกุล,
-                            history_salary_salary: i.เงินเดือนบัจจุบัน,
-                            compensation:i.เงินตอบแทนพิเศษ,
+                            history_salary_salary: <Text c="teal.8"><NumberFormatter thousandSeparator value={i.เงินเดือนบัจจุบัน} decimalScale={2} /></Text> ,
                             history_salary_salary1715:i.customers_type === '4' ?
                             i.customers_line === '1' ? <NumberFormatter thousandSeparator value={round(i.เงินเดือนบัจจุบัน*1.7/1.6,-1)} decimalScale={2} /> :
                             <NumberFormatter thousandSeparator value={round(i.เงินเดือนบัจจุบัน*1.5/1.4,-1) } decimalScale={2}/>
-                            :<NumberFormatter thousandSeparator value={i.เงินเดือนบัจจุบัน  } decimalScale={2}/>,
+                            :'-',
 
                             history_salary_salary01:i.customers_type === '4' ?
                             i.customers_line === '1' ? <NumberFormatter thousandSeparator value={(round(i.เงินเดือนบัจจุบัน*1.7/1.6,-1)-i.เงินเดือนบัจจุบัน)} decimalScale={2} /> :
                             <NumberFormatter thousandSeparator value={(round(i.เงินเดือนบัจจุบัน*1.5/1.4,-1)-i.เงินเดือนบัจจุบัน) } decimalScale={2}/>
-                            :'',
+                            :'-',
 
                             promotionmoney: i.เงินเลื่อนขั้น,
                             numberofmonths: i.จำนวนเดือนตกเบิก,
                             backpay: <NumberFormatter thousandSeparator value={i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก} decimalScale={2}/>,//ตกเบิก
                             backpay1715: i.customers_type === '4' ?
                             i.customers_line === '1' ? <NumberFormatter thousandSeparator value={round((i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.7/1.6,-1 )} decimalScale={2}/>:<NumberFormatter thousandSeparator value={round((i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.5/1.4,-1)} decimalScale={2}/>
-                           :''//ตกเบิก1715
+                           :'-',//ตกเบิก1715
+                           backpay01: i.customers_type === '4' ?
+                           i.customers_line === '1' ? <NumberFormatter thousandSeparator value={(round((i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.7/1.6,-1))-(i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก) } decimalScale={2}/>:<NumberFormatter thousandSeparator value={(round((i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก)*1.5/1.4,-1))-(i.เงินเลื่อนขั้น*i.จำนวนเดือนตกเบิก) } decimalScale={2}/>
+                          :'-',//ตกเบิก1715
+
+                           compensation:<NumberFormatter thousandSeparator value={i.เงินตอบแทนพิเศษ} decimalScale={2} />,
 
                         })),
                     ],
@@ -470,25 +520,112 @@ function Uploadsalary1715() {
     const submitdata = (initialValues) => {
      
         console.log(initialValues.year)
+        console.log(initialValues.month)
+        console.log(initialValues.idbudget)
+        if (DataTablelist.length !== 0) {
+            console.log('ok')
+            //logทั้งหมด
+            const form = DataTablelist
+             axios.post(API + "/index/Addhistorysalaryincrease", {
+                 month: initialValues.month,
+                 year: initialValues.year,
+                 idbudget: initialValues.idbudget,
+                 user_update: localStorage.getItem("employee_id"),
+                 check: form,
+            }).then((res) => {
+                         //เงินเดือนปกติและ 1.7/1.5
+                        const form = DataTablelist
+                        axios.post(API + "/index/Addhistorysalarymonth", {
+                            month: initialValues.month,
+                            year: initialValues.year,
+                            idbudget: initialValues.idbudget,
+                            check: form,
+                        }).then((res) => {
+                                        //ค่าตอบแทนพิเศษ
+                                        const form = Datacompensation
+                                        axios.post(API + "/index/Addrevenueforid", {
+                                            month: initialValues.month,
+                                            year: initialValues.year,
+                                            idbudget: initialValues.idbudget,
+                                            idpayslip_revenue: '20',
+                                            check: form,
+                                        }).then((res) => {
+                                                          //ค่าตกเบิกปกติ
+                                                            const form = Databackpay
+                                                            axios.post(API + "/index/Addrevenueforid", {
+                                                                month: initialValues.month,
+                                                                year: initialValues.year,
+                                                                idbudget: initialValues.idbudget,
+                                                                idpayslip_revenue: '15',
+                                                                check: form,
+                                                            }).then((res) => {
+                                                                            //ค่าตกเบิก01
+                                                                            const form = Databackpay01
+                                                                            axios.post(API + "/index/Addrevenueforid", {
+                                                                                month: initialValues.month,
+                                                                                year: initialValues.year,
+                                                                                idbudget: initialValues.idbudget,
+                                                                                idpayslip_revenue: '99',
+                                                                                check: form,
+                                                                            }).then((res) => {
+                                                                                       //ค่าตกเบิก1715
+                                                                                        const form = Databackpay1715
+                                                                                        axios.post(API + "/index/Addrevenueforid", {
+                                                                                            month: initialValues.month,
+                                                                                            year: initialValues.year,
+                                                                                            idbudget: initialValues.idbudget,
+                                                                                            idpayslip_revenue: '100',
+                                                                                            check: form,
+                                                                                        }).then((res) => {
+                                                                                                   Swal.fire({
+                                                                                                        title: 'อัพเดทข้อมูลสำเร็จ',
+                                                                                                        icon: 'success',
+                                                                                                        confirmButtonText: 'ตกลง',
+                                                                                                    }).then((result) => {
+                                                                                                        
+                                                                                                    })
+                                                                                        }) 
+                                                                                            
+                                                                            
+                                                                            })           
+                                                            
+                                                            })         
+                                        
+                                        })   
+                        })
+            
+             })
 
-        const form = Tablelist
-       // console.log(value.values)
-        console.log(Tablelist)
-        axios.post(API + "/index/Addhistorysalarymonth", {
-            month: initialValues.month,
-            year: initialValues.year,
-            check: form,
-        }).then((res) => {
+
+
+        }else{
             Swal.fire({
-                title: 'อัพเดทข้อมูลสำเร็จ',
-                icon: 'success',
-                confirmButtonText: 'ตกลง',
-            }).then((result) => {
-               
+                        title: 'กรุณาอัพโหลดไฟล์เงินเดือน',
+                        icon: 'warning',
+                        confirmButtonText: 'ตกลง',
+                    }).then((result) => {
+                        
+                    })
+        }
+        
+
+        // const form = Tablelist
+      
+        // console.log(Tablelist)
+        // axios.post(API + "/index/Addhistorysalarymonth", {
+        //     month: initialValues.month,
+        //     year: initialValues.year,
+        //     check: form,
+        // }).then((res) => {
+        //     Swal.fire({
+        //         title: 'อัพเดทข้อมูลสำเร็จ',
+        //         icon: 'success',
+        //         confirmButtonText: 'ตกลง',
+        //     }).then((result) => {
                 
-            })
-            console.log(res.data)
-        })
+        //     })
+        //     console.log(res.data)
+        // })
 
 
     };
@@ -595,7 +732,7 @@ function Uploadsalary1715() {
                 <Paper pt={20} shadow="xl" p="xl">
                     <p>นำเข้าข้อมูลเงินเดือน</p>
                     <input type='file' onChange={(e) => Readfile(e)} />
-                    <p className="mt-5">รายการนำเข้า {Tablelist.length} รายการ</p>
+                    <p className="mt-5">รายการนำเข้า {DataTablelist.length} รายการ</p>
 
                     <form onSubmit={formSearch.onSubmit(submitdata)}>
                                <Button type="submit"   leftSection={<IconFolderUp />}>

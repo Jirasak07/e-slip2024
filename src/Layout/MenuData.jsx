@@ -24,7 +24,7 @@ import {
 
 export const menus = [
   {
-    type: "1",
+    type: "super",
     data: [
       // {
       //   title: "หน้าหลัก",
@@ -195,4 +195,53 @@ export const menus = [
       },
     ],
   },
+
+
+  {
+    type: "plan",
+    data: [
+      {
+        title: "รายงานและข้อมูล",
+        path: "/report",
+        icon: <IconReport />,
+        sub: [
+          {
+            title: "รายงานรายจ่ายแยกประเภท",
+            path: "/report/expenditure-type",
+            icon: <IconTrendingDown />,
+          },
+          {
+            title: "รายงานรายรับแยกประเภท",
+            path: "/report/revenue-type",
+            icon: <IconTrendingUp />,
+          },
+         
+        ],
+      },
+    ],
+  },
+
+  {
+    type: "hr",
+    data: [
+      {
+        title: "จัดการบุคลากร",
+        path: "/manage-user",
+        icon: <IconUserCog />,
+        sub: [
+          {
+            title: "ข้อมูลบุคลากร",
+            path: "/manage-user/user",
+            icon: <IconUser />,
+          },
+          // {
+          //   title: "KTB Corporate Online",
+          //   path: "/manage-user/ktb",
+          //   icon: <IconBuildingBank />,
+          // },
+        ],
+      },
+    ],
+  },
+  
 ];
