@@ -1,4 +1,4 @@
-import { Badge, Button, Container, Paper, Select, SimpleGrid, Flex, NumberFormatter, Grid, FileButton, Group } from "@mantine/core";
+import { Badge, Button, Container, Paper, Select, SimpleGrid, Flex, NumberFormatter, Grid, FileButton, Group, LoadingOverlay } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { IconSearch, IconPrinter, IconDownload, IconFolderUp } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
@@ -131,16 +131,7 @@ function Uploadsalary1715() {
                 key: "customers_citizent",
                 width: 20
             },
-            // {
-            //     header: "history_salary_year",
-            //     key: "history_salary_year",
-            //     width: 20,
-            // },
-            // {
-            //     header: "history_salary_month",
-            //     key: "history_salary_month",
-            //     width: 20,
-            // },
+         
             {
                 header: "customers_type",
                 key: "customers_type",
@@ -151,11 +142,7 @@ function Uploadsalary1715() {
                 key: "customers_line",
                 width: 20,
             },
-            // {
-            //     header: "idbudget",
-            //     key: "idbudget",
-            //     width: 20,
-            // },
+          
             {
                 header: "คำนำหน้า",
                 key: "customers_pname",
@@ -198,11 +185,9 @@ function Uploadsalary1715() {
             sheet.addRow(
                 {
                     customers_citizent: i.customers_citizent,
-                    // history_salary_year: i.history_salary_year,
-                    // history_salary_month: i.history_salary_month,
+        
                     customers_type: i.customers_type,
                     customers_line: i.customers_line,
-                    // idbudget: i.idbudget,
                     customers_pname: i.customers_pname,
                     customers_name: i.customers_name,
                     customers_lname: i.customers_lname,
@@ -216,7 +201,7 @@ function Uploadsalary1715() {
 
 
         workbook.xlsx.writeBuffer().then(data => {
-            //  const sdfg = `dd${formSearch.getInputProps("year").toString}.xlsx`;
+  
             const blob = new Blob([data], {
                 type: "application/vnd.openxmlformats-officedocument.spreadsheet.sheet",
             });
@@ -224,7 +209,7 @@ function Uploadsalary1715() {
             const anchor = document.createElement('a');
             anchor.href = url;
             anchor.download = 'ข้อมูลเงินเดือน.xlsx';
-            // anchor.download = sdfg;
+    
             anchor.click();
             window.URL.revokeObjectURL(url);
         })
@@ -516,16 +501,12 @@ function Uploadsalary1715() {
         });
 
     }
-
+const [LoadSubmit, setLoadSubmit] = useState(false);
     const submitdata = (initialValues) => {
      
         console.log(initialValues.year)
         console.log(initialValues.month)
         console.log(initialValues.idbudget)
-      
-       
-        //  if (DataTablelist.length === 477) {
-
        if (DataTablelist.length !== 0) {
         Swal.fire({
             title: "กรุณากรอกรหัสความปลอดภัย",
@@ -536,32 +517,15 @@ function Uploadsalary1715() {
             showCancelButton: true,
             confirmButtonText: "ยืนยัน",
             showLoaderOnConfirm: true,
-            // preConfirm: async (login) => {
-            //   try {
-            //   if (login ==='1234') {
-            //     return true
-            //   }
-            //   } catch (error) {
-            //     Swal.showValidationMessage(`
-            //       Request failed: ${error}
-            //     `);
-            //   }
-            // },
-          //  allowOutsideClick: () => !Swal.isLoading()
           }).then((result) => {
             console.log(result)
             if (result.isConfirmed && result.value === 'lovekpru') {
-            //   Swal.fire({
-            //     title: `${result.value.login}'s avatar`,
-            //     imageUrl: result.value.avatar_url
-            //   });
                 Swal.fire({
                 title: 'ระบบปลดล็อคถูกต้อง',
                 icon: 'success',
-               // confirmButtonText: 'ตกลง',
                showConfirmButton:false,timer:1000,timerProgressBar:true
             }).then((result) => {
-
+setLoadSubmit(true)
 
 
             console.log('ok')
@@ -618,6 +582,7 @@ function Uploadsalary1715() {
                                                                                             idpayslip_revenue: '100',
                                                                                             check: form,
                                                                                         }).then((res) => {
+                                                                                            setLoadSubmit(false)
                                                                                                    Swal.fire({
                                                                                                         title: 'อัพเดทข้อมูลสำเร็จ',
                                                                                                         icon: 'success',
@@ -741,8 +706,9 @@ function Uploadsalary1715() {
         },
     });
     return (
-        <>
+        <> <LoadingOverlay visible={LoadSubmit}  loaderProps={{type:"dots"}} />
             <Container p={0} bg={"white"} fluid>
+               
                 <Badge color="var(--primary)" variant="light" size="md" radius={8}>
                     นำเข้าข้อมูลเงินเดือน
                 </Badge>
