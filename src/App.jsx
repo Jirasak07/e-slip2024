@@ -85,6 +85,10 @@ function App() {
             path="/report-plan"
             element={<Reportexpenditure />}
           />
+          <Route
+            path="/report-plan2"
+            element={<Reportrevenue />}
+          />
           <Route path="/report/ipay" element={<Reportipay />} />
           <Route path="/report/salary" element={<Reportshowsalaryopen />} />
           <Route

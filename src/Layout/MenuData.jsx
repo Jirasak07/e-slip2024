@@ -198,21 +198,18 @@ export const menus = [
     type: "plan",
     data: [
       {
-        title: "รายงานและข้อมูล",
+        title: "รายงานและข้อมูลรายจ่าย",
         path: "/report-plan",
         icon: <IconReport />,
         sub: [
-          // {
-          //   title: "รายงานรายจ่ายแยกประเภท",
-          //   path: "/report/expenditure-type",
-          //   icon: <IconTrendingDown />,
-          // },
-          // {
-          //   title: "รายงานรายรับแยกประเภท",
-          //   path: "/report/revenue-type",
-          //   icon: <IconTrendingUp />,
-          // },
          
+        ],
+      },
+      {
+        title: "รายงานและข้อมูลรายรับ",
+        path: "/report-plan2",
+        icon: <IconReport />,
+        sub: [
         ],
       },
     ],
