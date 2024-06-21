@@ -186,11 +186,11 @@ function Officer() {
   const Fetchcc = () => {
     FetchData(formSearch.values.customer_type_id);
   };
-  const { height, width } = useViewportSize();
+  // const { height, width } = useViewportSize();
   return (
     <>
       <LoadingOverlay visible={OverLayLoad} loaderProps={{ type: "dots", color: "var(--primary)" }} overlayProps={{ radius: "sm", blur: 1 }} />
-      <Container px={0} bg={"white"}  maw={width}>
+      <Container fluid px={0} bg={"white"}>
         <Badge color="var(--primary)" variant="light" size="md" radius={8}>
           ข้อมูลบุคลากร
         </Badge>
@@ -201,23 +201,25 @@ function Officer() {
             })}
           >
             <Flex direction={{ base: "column", md: "row" }} gap={10}>
-              <Select searchable miw={300} withAsterisk label="ประเภทบุคลากร" {...formSearch.getInputProps("customer_type_id")} data={DataSelectTypeCustomer} />
-              <Flex mt={{ base: 0, md: 33 }}>
-                <SimpleGrid w="100%" cols={{ base: 1, sm: 3 }}>
-                  <Button w={{ base: null, sm: "100%" }} color="var(--primary)" type="submit" leftSection={<IconSearch />}>
-                    ค้นหา
-                  </Button>
-                  <Button onClick={() => UpdateUserAdd()} leftSection={<IconRefresh />} variant="light" color="var(--success)">
-                    อัพเดทบุคลากรเพิ่มใหม่
-                  </Button>
-                  <Button onClick={() => UpdateStatusUserOut()} leftSection={<IconUserCancel />} variant="light" color="var(--danger)">
-                    อัพเดทสถานะบุคลากรลาออก
-                  </Button>
-                  <SimpleGrid>
-                    <ManageOfficer />
-                  </SimpleGrid>
-                </SimpleGrid>
-              </Flex>
+              <SimpleGrid w="100%" cols={{ base: 1, sm: 3, md: 4 }}>
+                <Select searchable withAsterisk label="ประเภทบุคลากร" {...formSearch.getInputProps("customer_type_id")} data={DataSelectTypeCustomer} />
+                {/* <Flex mt={{ base: 0, md: 33 }}> */}
+
+                <Button w={{ base: null, sm: "100%" }} color="var(--primary)" type="submit" leftSection={<IconSearch />}>
+                  ค้นหา
+                </Button>
+                <Button onClick={() => UpdateUserAdd()} leftSection={<IconRefresh />} variant="light" color="var(--success)">
+                  อัพเดทบุคลากรเพิ่มใหม่
+                </Button>
+                <Button onClick={() => UpdateStatusUserOut()} leftSection={<IconUserCancel />} variant="light" color="var(--danger)">
+                  อัพเดทสถานะบุคลากรลาออก
+                </Button>
+                {/* <SimpleGrid>
+                 
+                  </SimpleGrid> */}
+                <ManageOfficer />
+              </SimpleGrid>
+              {/* </Flex> */}
             </Flex>
           </form>
         </Paper>
@@ -227,9 +229,9 @@ function Officer() {
         <Paper mt={10}>
           <Badge variant="light">รายการบุคลากร</Badge>
         </Paper>
-        <Paper  shadow="md" p={10} mt={10}>
-          {LoadTable ? <SkeletonTable /> : <MDBDataTableV5 responsiveMd striped searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ" searchTop searchBottom={false} data={TableUser} noRecordsFoundLabel="ไม่พบรายการ" />}
-        </Paper>
+        {/* <Paper m={0} shadow="md" p={0} mt={10}> */}
+        {LoadTable ? <SkeletonTable /> : <MDBDataTableV5 responsiveMd striped searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ" searchTop searchBottom={false} data={TableUser} noRecordsFoundLabel="ไม่พบรายการ" />}
+        {/* </Paper> */}
       </Container>
     </>
   );

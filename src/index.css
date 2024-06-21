@@ -5,8 +5,8 @@ body {
   margin: 0 !important;
   /* font-size: 0.8vw !important; */
 }
-*{
-  font-size: clamp(10px,2vw,16px) !important;
+* {
+  font-size: clamp(10px, 2vw, 16px) !important;
 }
 :root {
   --primary: #002855 !important;
@@ -54,11 +54,14 @@ button:focus {
 .pointers {
   cursor: pointer !important;
 }
-.tabler-icon{
-/* color: #002855;
+.tabler-icon {
+  /* color: #002855;
  */
- /* width: 100%; */
- /* height: 100%; */
- width: clamp(14px,2vw,20px) !important ;
- max-height: 30px;
+  /* width: 100%; */
+  /* height: 100%; */
+  width: clamp(14px, 2vw, 20px) !important ;
+  max-height: 30px;
+}
+.d-flex.w-100.justify-content-end {
+  justify-content: center !important;
 }

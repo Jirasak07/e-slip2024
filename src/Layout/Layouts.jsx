@@ -47,11 +47,11 @@ export function Layouts() {
     Fetch();
   }, []);
   const { height, width } = useViewportSize();
-  console.log(height)
+  console.log(height);
   const [LoadLogout, setLoadLogout] = useState(false);
   const [OverLay, setOverLay] = useState(false);
   return (
-    <AppShell  header={{ height: { base: 50, md: 0 } }} navbar={{ width: 320, breakpoint: "md", collapsed: { mobile: !opened } }}  px={10}>
+    <AppShell padding={30}  header={{ height: { base: 50, md: 0 } }} navbar={{ width: 300, breakpoint: "md", collapsed: { mobile: !opened } }}>
       <AppShell.Header hiddenFrom="md" bg={"var(--primary)"}>
         <Flex h="100%" align={"center"} justify={"space-between"} pr={10}>
           <Flex justify={"center"} w={"95%"}>
@@ -171,12 +171,12 @@ export function Layouts() {
           </ScrollArea>{" "}
         </Flex>
       </AppShell.Navbar>
-      <AppShell.Main>
-        <ScrollArea  scrollbars="y" m={0}  h={height} type="always">
-          <Steppers />
-          <LoadingOverlay loaderProps={{ type: "oval", color: "var(--primary)" }} visible={OverLay} />
-          <Outlet />
-        </ScrollArea>
+      <AppShell.Main >
+        {/* <ScrollArea  scrollbars="xy" m={0}  h={height} type="always"> */}
+        <Steppers />
+        <LoadingOverlay loaderProps={{ type: "oval", color: "var(--primary)" }} visible={OverLay} />
+        <Outlet />
+        {/* </ScrollArea> */}
       </AppShell.Main>
     </AppShell>
   );

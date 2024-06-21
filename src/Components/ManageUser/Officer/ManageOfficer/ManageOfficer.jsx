@@ -94,7 +94,7 @@ function ManageOfficer() {
     FetchStatusCustomer();
   }, []);
   return (
-    <div>
+    <>
       <Button
         onClick={() => {
           open();
@@ -152,7 +152,7 @@ function ManageOfficer() {
           </SimpleGrid>
         </form>
       </Modal>
-    </div>
+    </>
   );
 }
 
