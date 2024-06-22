@@ -1,6 +1,6 @@
-import { Button, Flex, Grid, Modal, Select, SimpleGrid, TextInput } from "@mantine/core";
+import { Button, Flex, Grid, Modal, Select, SimpleGrid, TextInput, UnstyledButton, rem } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconDeviceFloppy, IconUserPlus } from "@tabler/icons-react";
+import { IconDeviceFloppy, IconSettings, IconUserPlus } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useEffect } from "react";
 import { API } from "../../../Config/ConfigApi";
@@ -22,13 +22,13 @@ function ManageOfficer() {
       customers_type: "",
       customers_status: "",
     },
-    validate: { 
-      customer_type_id: isNotEmpty("") ,
-      customer_status_id: isNotEmpty("") ,
-      customers_citizent: isNotEmpty("") ,
-      customers_pname: isNotEmpty("") ,
-      customers_name: isNotEmpty("") ,
-      customers_lname: isNotEmpty("") ,
+    validate: {
+      customer_type_id: isNotEmpty(""),
+      customer_status_id: isNotEmpty(""),
+      customers_citizent: isNotEmpty(""),
+      customers_pname: isNotEmpty(""),
+      customers_name: isNotEmpty(""),
+      customers_lname: isNotEmpty(""),
     },
   });
   const FetchTypeCustomer = (params) => {
@@ -96,11 +96,13 @@ function ManageOfficer() {
   return (
     <>
       <Button
+        variant="transparent"
         onClick={() => {
           open();
         }}
-        leftSection={<IconUserPlus />}
-        color="green"
+        // leftSection={<IconUserPlus />}
+        color="gray"
+        leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}
       >
         เพิ่มบุคลากรใหม่
       </Button>
@@ -132,18 +134,8 @@ function ManageOfficer() {
                 <TextInput label="นามสกุล" {...form.getInputProps("customers_lname")} />
               </Grid.Col>
             </Grid>
-            <Select searchable
-              data={form.values.DATA_TYPE_USER}
-              {...form.getInputProps("customer_type_id")}
-              allowDeselect={false}
-              label="เลือกประเภทบุคลากร"
-            />
-            <Select searchable
-              data={form.values.DATA_STATUS_USER}
-              {...form.getInputProps("customer_status_id")}
-              allowDeselect={false}
-              label="สถานะการทำงาน"
-            />
+            <Select searchable data={form.values.DATA_TYPE_USER} {...form.getInputProps("customer_type_id")} allowDeselect={false} label="เลือกประเภทบุคลากร" />
+            <Select searchable data={form.values.DATA_STATUS_USER} {...form.getInputProps("customer_status_id")} allowDeselect={false} label="สถานะการทำงาน" />
             <Flex justify={"flex-end"} pt={10}>
               <Button type="submit" color="green.6" leftSection={<IconDeviceFloppy />}>
                 บันทึกข้อมูล

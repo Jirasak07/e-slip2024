@@ -1,5 +1,5 @@
-import { Badge, Box, Button, Container, Flex, LoadingOverlay, Paper, Select, SimpleGrid, Text } from "@mantine/core";
-import { IconRefresh, IconSearch, IconUserCancel } from "@tabler/icons-react";
+import { ActionIcon, Badge, Box, Button, Container, Flex, LoadingOverlay, Menu, Paper, Select, SimpleGrid, Text, Tooltip, rem } from "@mantine/core";
+import { IconMenu, IconRefresh, IconSearch, IconSettings, IconUserCancel } from "@tabler/icons-react";
 import axios from "axios";
 import { MDBDataTableV5 } from "mdbreact";
 import { useEffect, useState } from "react";
@@ -201,24 +201,26 @@ function Officer() {
             })}
           >
             <Flex direction={{ base: "column", md: "row" }} gap={10}>
-              <SimpleGrid w="100%" cols={{ base: 1, sm: 3, md: 4 }}>
-                <Select searchable withAsterisk label="ประเภทบุคลากร" {...formSearch.getInputProps("customer_type_id")} data={DataSelectTypeCustomer} />
-                {/* <Flex mt={{ base: 0, md: 33 }}> */}
-
-                <Button w={{ base: null, sm: "100%" }} color="var(--primary)" type="submit" leftSection={<IconSearch />}>
+              <Flex w="100%">
+                <Select maw={400} w={{ base: null, sm: "100%" }} searchable withAsterisk label="ประเภทบุคลากร" {...formSearch.getInputProps("customer_type_id")} data={DataSelectTypeCustomer} />
+                <Button maw={200} w={{ base: null, sm: "100%" }} mt={{ base: 0, sm: 33, md: 33 }} color="var(--primary)" type="submit" leftSection={<IconSearch />}>
                   ค้นหา
                 </Button>
-                <Button onClick={() => UpdateUserAdd()} leftSection={<IconRefresh />} variant="light" color="var(--success)">
-                  อัพเดทบุคลากรเพิ่มใหม่
-                </Button>
-                <Button onClick={() => UpdateStatusUserOut()} leftSection={<IconUserCancel />} variant="light" color="var(--danger)">
-                  อัพเดทสถานะบุคลากรลาออก
-                </Button>
-                {/* <SimpleGrid>
-                 
-                  </SimpleGrid> */}
+                <Tooltip label="อัพเดทบุคลากรเพิ่มใหม่">
+                  <ActionIcon size={"lg"} mt={{ base: 0, sm: 0, md: 33 }} onClick={() => UpdateUserAdd()} color="var(--success)">
+                    <IconRefresh />
+                  </ActionIcon>
+                </Tooltip>
+                <Tooltip label="อัพเดทสถานะบุคลากรลาออก">
+                  <ActionIcon size={"lg"} mt={{ base: 0, sm: 0, md: 33 }} onClick={() => UpdateStatusUserOut()} color="var(--danger)">
+                    <IconUserCancel />
+                  </ActionIcon>
+                </Tooltip>
+                {/* <Button  mt={{base: 0, sm: 0, md: 33}}  leftSection={<IconUserCancel />} variant="light" color="var(--danger)">
+                  
+                </Button> */}
                 <ManageOfficer />
-              </SimpleGrid>
+              </Flex>
               {/* </Flex> */}
             </Flex>
           </form>
