@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { NavLink as Nl, Outlet, useNavigate } from "react-router-dom";
 import { menus } from "./MenuData";
 import Steppers from "../Components/Publicc-user/Stepper";
+import axios from "axios";
+import { API } from "../Components/Config/ConfigApi";
 export function Layouts() {
   const [opened, { toggle }] = useDisclosure();
   const [IndexMenu, setIndexMenu] = useState(0);
@@ -42,6 +44,8 @@ export function Layouts() {
       console.log(error);
     }
   };
+  
+
   useEffect(() => {
     // const menu2 = menus.findIndex((menu) => menu.type === localStorage.getItem("bee"));
     Fetch();
@@ -51,11 +55,11 @@ export function Layouts() {
   const [LoadLogout, setLoadLogout] = useState(false);
   const [OverLay, setOverLay] = useState(false);
   return (
-    <AppShell padding={30}  header={{ height: { base: 50, md: 0 } }} navbar={{ width: 300, breakpoint: "md", collapsed: { mobile: !opened } }}>
+    <AppShell padding={30} header={{ height: { base: 50, md: 0 } }} navbar={{ width: 300, breakpoint: "md", collapsed: { mobile: !opened } }}>
       <AppShell.Header hiddenFrom="md" bg={"var(--primary)"}>
         <Flex h="100%" align={"center"} justify={"space-between"} pr={10}>
           <Flex justify={"center"} w={"95%"}>
-            <IconWallet color="white" /> <Text c="white">PAY-SLIP KPRU</Text>
+            <IconWallet color="white" /> <Text c="white">E-Pay Slip Online KPRU</Text>
           </Flex>
           <Burger color="white" opened={opened} onClick={toggle} hiddenFrom="md" size="md" />
         </Flex>
@@ -66,11 +70,11 @@ export function Layouts() {
           <Flex pb={0} mih={50} align={"flex-end"} justify={"center"} gap={10}>
             <IconWallet stroke={2} size={30} color="var(--primary)" />{" "}
             <Text fw={600} fz={20} c="var(--primary)">
-              PAY-SLIP KPRU
+              E-Pay Slip Online KPRU
             </Text>
           </Flex>
           <Flex justify={"center"}>
-            <Text c="teal">ระบบเงินเดือน</Text>
+            <Text c="teal">ระบบออกใบสลิปเงินเดือน</Text>
           </Flex>
 
           <Flex></Flex>
@@ -171,9 +175,9 @@ export function Layouts() {
           </ScrollArea>{" "}
         </Flex>
       </AppShell.Navbar>
-      <AppShell.Main >
+      <AppShell.Main>
         {/* <ScrollArea  scrollbars="xy" m={0}  h={height} type="always"> */}
-        <Steppers />
+        <Steppers  />
         <LoadingOverlay loaderProps={{ type: "oval", color: "var(--primary)" }} visible={OverLay} />
         <Outlet />
         {/* </ScrollArea> */}

@@ -177,7 +177,7 @@ function Login() {
               </SimpleGrid>
             </Flex>{" "}
           </form>
-          <Flex justify={"center"}>
+          {/* <Flex justify={"center"}>
             <Box w={"100%"} maw={300}>
               <Flex pt={5} gap={10} direction={"column"} align={"start"}>
                 <Badge variant="light" color="orange" radius={4}>
@@ -188,7 +188,7 @@ function Login() {
                 </>
               </Flex>
             </Box>
-          </Flex>
+          </Flex> */}
         </Paper>
       </Flex>
     </Container>
