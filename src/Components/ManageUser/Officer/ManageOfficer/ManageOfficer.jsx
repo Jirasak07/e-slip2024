@@ -1,4 +1,4 @@
-import { Button, Flex, Grid, Modal, Select, SimpleGrid, TextInput, UnstyledButton, rem } from "@mantine/core";
+import { ActionIcon, Button, Flex, Grid, Modal, Select, SimpleGrid, TextInput, Tooltip, UnstyledButton, rem } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconDeviceFloppy, IconSettings, IconUserPlus } from "@tabler/icons-react";
 import axios from "axios";
@@ -95,17 +95,21 @@ function ManageOfficer() {
   }, []);
   return (
     <>
-      <Button
-        variant="transparent"
-        onClick={() => {
-          open();
-        }}
-        // leftSection={<IconUserPlus />}
-        color="gray"
-        leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}
-      >
-        เพิ่มบุคลากรใหม่
-      </Button>
+      <Tooltip label="เพิ่มบุคลากรใหม่">
+        <ActionIcon
+          // variant="transparent"
+          onClick={() => {
+            open();
+          }}
+          // leftSection={<IconUserPlus />}
+          color="green"
+          size={"lg"}
+          mt={{ base: 0, sm: 0, md: 33 }}
+        >
+          <IconUserPlus />
+        </ActionIcon>
+      </Tooltip>
+
       <Modal
         size={"lg"}
         title="เพิ่มบุคลากรใหม่"

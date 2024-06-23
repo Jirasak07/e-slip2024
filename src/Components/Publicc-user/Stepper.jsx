@@ -1,6 +1,6 @@
-import { Stepper, Button, Group, Paper, LoadingOverlay } from "@mantine/core";
+import { Stepper,  Paper, LoadingOverlay } from "@mantine/core";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { API } from "../Config/ConfigApi";
 
 function Steppers({ val }) {
@@ -45,7 +45,6 @@ function Steppers({ val }) {
         <Stepper.Step label="กจ" description="นำเข้าข้อมูลบุคลากรและเงินเดือน"></Stepper.Step>
         <Stepper.Step label="การเงิน" description="จัดทำเงินเดือน"></Stepper.Step>
         <Stepper.Step label="เสร็จสิ้น" description="เปิดให้พิมพ์เงินเดือน"></Stepper.Step>
-        {/* <Stepper.Completed>Completed, click back button to get to previous step</Stepper.Completed> */}
       </Stepper>
     </Paper>
   );

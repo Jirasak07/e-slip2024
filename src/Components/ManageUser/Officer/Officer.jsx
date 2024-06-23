@@ -201,11 +201,12 @@ function Officer() {
             })}
           >
             <Flex direction={{ base: "column", md: "row" }} gap={10}>
-              <Flex w="100%">
+              <Flex gap={5} w="100%">
                 <Select maw={400} w={{ base: null, sm: "100%" }} searchable withAsterisk label="ประเภทบุคลากร" {...formSearch.getInputProps("customer_type_id")} data={DataSelectTypeCustomer} />
                 <Button maw={200} w={{ base: null, sm: "100%" }} mt={{ base: 0, sm: 33, md: 33 }} color="var(--primary)" type="submit" leftSection={<IconSearch />}>
                   ค้นหา
                 </Button>
+                <ManageOfficer />{" "}
                 <Tooltip label="อัพเดทบุคลากรเพิ่มใหม่">
                   <ActionIcon size={"lg"} mt={{ base: 0, sm: 0, md: 33 }} onClick={() => UpdateUserAdd()} color="var(--success)">
                     <IconRefresh />
@@ -216,12 +217,7 @@ function Officer() {
                     <IconUserCancel />
                   </ActionIcon>
                 </Tooltip>
-                {/* <Button  mt={{base: 0, sm: 0, md: 33}}  leftSection={<IconUserCancel />} variant="light" color="var(--danger)">
-                  
-                </Button> */}
-                <ManageOfficer />
-              </Flex>
-              {/* </Flex> */}
+              </Flex>{" "}
             </Flex>
           </form>
         </Paper>
