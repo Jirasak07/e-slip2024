@@ -44,7 +44,6 @@ export function Layouts() {
       console.log(error);
     }
   };
-  
 
   useEffect(() => {
     // const menu2 = menus.findIndex((menu) => menu.type === localStorage.getItem("bee"));
@@ -76,14 +75,13 @@ export function Layouts() {
           <Flex justify={"center"}>
             <Text c="teal">ระบบออกใบสลิปเงินเดือน</Text>
           </Flex>
-
-          <Flex></Flex>
+          <Divider my={"md"} variant="dashed" size={"sm"} />
         </Flex>
         <Flex direction={"column"} justify={"space-between"}>
           <ScrollArea h={"90dvh"} type="always">
             {" "}
             <Flex direction={"column"} pb={10}>
-              <Flex direction={"column"} pt={20} gap={10} px={10}>
+              <Flex direction={"column"} pt={0} gap={10} px={10}>
                 {" "}
                 <Flex justify={"flex-start"} gap={5} align={"center"}>
                   <Avatar color="var(--primary)" size={"md"}>
@@ -177,7 +175,7 @@ export function Layouts() {
       </AppShell.Navbar>
       <AppShell.Main>
         {/* <ScrollArea  scrollbars="xy" m={0}  h={height} type="always"> */}
-        <Steppers  />
+        <Steppers />
         <LoadingOverlay loaderProps={{ type: "oval", color: "var(--primary)" }} visible={OverLay} />
         <Outlet />
         {/* </ScrollArea> */}

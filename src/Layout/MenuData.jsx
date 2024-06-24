@@ -60,12 +60,12 @@ export const menus = [
             icon: <IconPigMoney />,
           },
           {
-            title: "อัพโหลดหนังสือรับรองภาษี",
+            title: "อัพโหลดหนังสือรับรองภาษี ขรก/ลูกจ้างประจำ",
             path: "/manage-salary/upload-tax",
             icon: <IconReceiptTax />,
           },
           {
-            title: "อัพโหลดสลิปขรก.ประจำ/ลูกจ้างประจำ",
+            title: "อัพโหลดสลิป ขรก/ลูกจ้างประจำ",
             path: "/manage-salary/upload50",
             icon: <IconReceipt2 />,
           },

@@ -48,6 +48,7 @@ function Officer() {
     columns: columns,
     rows: [],
   });
+
   const FetchTypeCustomer = (params) => {
     axios.get(API + "/index/showcustomertype").then((res) => {
       const data = res.data;
