@@ -55,12 +55,17 @@ export const menus = [
         icon: <IconCoins />,
         sub: [
           {
+            title: "จัดการเงินเดือน",
+            path: "/manage-salary/salary",
+            icon: <IconPigMoney />,
+          },
+          {
             title: "อัพโหลดหนังสือรับรองภาษี",
             path: "/manage-salary/upload-tax",
             icon: <IconReceiptTax />,
           },
           {
-            title: "อัพโหลดสลิป",
+            title: "อัพโหลดสลิปขรก.ประจำ/ลูกจ้างประจำ",
             path: "/manage-salary/upload50",
             icon: <IconReceipt2 />,
           },
@@ -69,11 +74,7 @@ export const menus = [
           //   path: "/manage-salary/customer-50",
           //   icon: <IconReceipt2 />,
           // },
-          {
-            title: "จัดการเงินเดือน",
-            path: "/manage-salary/salary",
-            icon: <IconPigMoney />,
-          },
+    
           {
             title: "เพิ่มรายรับตามประเภท",
             path: "/manage-salary/add-revenue-fromtype",
