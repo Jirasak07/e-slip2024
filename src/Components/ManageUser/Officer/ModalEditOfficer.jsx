@@ -97,7 +97,6 @@ function ModalEditOfficer({ customerid,fn }) {
             Submit(value);
           })}
         >
-          {customerid}
           <SimpleGrid>
             <TextInput
               {...formEmploy.getInputProps("customers_citizent")}
@@ -112,8 +111,7 @@ function ModalEditOfficer({ customerid,fn }) {
               <Select searchable
                 data={DataSelectTypeCustomer}
                 {...formEmploy.getInputProps("customer_type_id")}
-                readOnly
-                disabled
+                
                 label="ประเภท"
               />
               <Select searchable

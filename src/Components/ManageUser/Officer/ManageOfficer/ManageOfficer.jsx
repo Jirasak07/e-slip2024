@@ -82,6 +82,7 @@ function ManageOfficer() {
     formData.append("customers_lname", e.customers_lname);
     formData.append("customers_type", e.customer_type_id);
     formData.append("customers_status", e.customer_status_id);
+    formData.append("customer_budget", e.customer_budget);
     axios.post(API + "/index/AddNewCustomers", formData).then((res) => {
       console.log(res.data);
       const data = res.data;
