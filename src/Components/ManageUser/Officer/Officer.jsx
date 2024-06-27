@@ -184,6 +184,8 @@ function Officer() {
       }
     });
   };
+
+  
   const Fetchcc = () => {
     FetchData(formSearch.values.customer_type_id);
   };

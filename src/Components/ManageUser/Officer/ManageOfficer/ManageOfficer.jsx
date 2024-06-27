@@ -1,8 +1,8 @@
-import { ActionIcon, Button, Flex, Grid, Modal, Select, SimpleGrid, TextInput, Tooltip, UnstyledButton, rem } from "@mantine/core";
+import { ActionIcon, Button, Flex, Grid, Modal, Select, SimpleGrid, TextInput, Tooltip,  } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconDeviceFloppy, IconSearch, IconSettings, IconUserPlus } from "@tabler/icons-react";
+import { IconDeviceFloppy, IconSearch,  IconUserPlus } from "@tabler/icons-react";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { API } from "../../../Config/ConfigApi";
 import { isNotEmpty, useForm } from "@mantine/form";
 import Swal from "sweetalert2";
@@ -14,7 +14,7 @@ function ManageOfficer() {
       DATA_TYPE_USER: [],
       DATA_STATUS_USER: [],
       DATA_TYPE_BUDGET: [],
-      customer_type_id: "1",
+      customer_type_id: "0",
       customer_status_id: "1",
       customers_citizent: "",
       customers_pname: "",
@@ -37,12 +37,14 @@ function ManageOfficer() {
   const FetchBudget = (params) => {
     axios.get(API + "/index/showBudget").then((res) => {
       const data = res.data;
+      setLL(false)
       if (data.length !== 0) {
         //   setLoadTable(false);
         const select = data.map((i) => ({
           value: i.idbudget,
           label: i.namebudget,
         }));
+
         form.setValues({ DATA_TYPE_BUDGET: select });
       }
     });
@@ -103,18 +105,34 @@ function ManageOfficer() {
       }
     });
   };
-
+  const FindEmp = (params) => {
+    axios
+      .post(API + "/index/findEmp", {
+        citizen: form.values.customers_citizent,
+      })
+      .then((res) => {
+        const data = res.data;
+        if (data.length > 0) {
+          form.setValues({ customers_name: data[0].first_name_tha, customers_lname: data[0].last_name_tha, customers_pname: data[0].prename_full_tha,  customers_status: data[0].work_status_id,customer_type_id:data[0].employee_type_id });
+        }
+      });
+  };
+  const [LL, setLL] = useState(false);
   useEffect(() => {
+    setLL(true)
     FetchTypeCustomer();
     FetchStatusCustomer();
     FetchBudget();
+    
   }, []);
   return (
     <>
       <Tooltip label="เพิ่มบุคลากรใหม่">
         <ActionIcon
+        loading={LL}
           onClick={() => {
-            open();
+            {form.values.DATA_TYPE_USER.length  >0 ? open():<></>}
+            
           }}
           color="green"
           size={"lg"}
@@ -142,23 +160,23 @@ function ManageOfficer() {
           <SimpleGrid>
             <Grid>
               <Grid.Col span={8}>
-                <TextInput  label="รหัสประจำตัวประชาชน" {...form.getInputProps("customers_citizent")} />
+                <TextInput label="รหัสประจำตัวประชาชน" {...form.getInputProps("customers_citizent")} />
               </Grid.Col>
               <Grid.Col span={4}>
-                <ActionIcon color="var(--primary)" size={"lg"} mt={32}>
+                <ActionIcon onClick={FindEmp} color="var(--primary)" size={"lg"} mt={32}>
                   <IconSearch stroke={1.5} />
                 </ActionIcon>
               </Grid.Col>
             </Grid>
             <Grid>
               <Grid.Col span={2}>
-                <TextInput label="คำนำหน้า" {...form.getInputProps("customers_pname")} disabled />
+                <TextInput label="คำนำหน้า" {...form.getInputProps("customers_pname")}  />
               </Grid.Col>
               <Grid.Col span={5}>
-                <TextInput label="ชื่อ" {...form.getInputProps("customers_name")} disabled />
+                <TextInput label="ชื่อ" {...form.getInputProps("customers_name")}  />
               </Grid.Col>
               <Grid.Col span={5}>
-                <TextInput label="นามสกุล" {...form.getInputProps("customers_lname")} disabled />
+                <TextInput label="นามสกุล" {...form.getInputProps("customers_lname")}  />
               </Grid.Col>
             </Grid>
             <Select searchable data={form.values.DATA_TYPE_USER} {...form.getInputProps("customer_type_id")} allowDeselect={false} label="เลือกประเภทบุคลากร" />
