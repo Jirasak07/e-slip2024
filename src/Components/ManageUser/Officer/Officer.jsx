@@ -207,7 +207,7 @@ function Officer() {
                 <Button maw={200} w={{ base: null, sm: "100%" }} mt={{ base: 0, sm: 33, md: 33 }} color="var(--primary)" type="submit" leftSection={<IconSearch />}>
                   ค้นหา
                 </Button>
-                <ManageOfficer />{" "}
+                <ManageOfficer />
                 <Tooltip label="อัพเดทบุคลากรเพิ่มใหม่">
                   <ActionIcon size={"lg"} mt={{ base: 0, sm: 0, md: 33 }} onClick={() => UpdateUserAdd()} color="var(--success)">
                     <IconRefresh />

@@ -1,7 +1,7 @@
-import { Badge, Box, Button, Container, Divider, Flex, Image, LoadingOverlay, Paper, SimpleGrid, Text, TextInput } from "@mantine/core";
-import React, { useEffect, useState } from "react";
+import { Button, Container, Divider, Flex, Image, LoadingOverlay, Paper, SimpleGrid, Text, TextInput } from "@mantine/core";
+import { useEffect, useState } from "react";
 import Logo from "../../assets/image/kpru.png";
-import browser from "../../assets/image/browser.png";
+// import browser from "../../assets/image/browser.png";
 import { IconKey } from "@tabler/icons-react";
 import { useForm } from "@mantine/form";
 import { useNavigate } from "react-router-dom";
@@ -121,30 +121,6 @@ function Login() {
             });
         }
       });
-
-    // setTimeout(() => {
-    //   setLoadingButton(false);
-    //   formlogin.reset();
-    //   Swal.fire({
-    //     icon: "success",
-    //     title: "ยินดีต้อนรับ",
-    //     showConfirmButton: false,
-    //     timer: 1200,
-    //     timerProgressBar: true,
-    //   }).then((res) => {
-    //     setOverLay(true);
-    //     setTimeout(() => {
-    //       setOverLay(false);
-    //       if (v.username === "b") {
-    //         localStorage.setItem("type-user-epay", "2");
-    //         nav("/user-salary");
-    //       } else {
-    //         localStorage.setItem("type-user-epay", "1");
-    //         nav("/main-page");
-    //       }
-    //     }, 900);
-    //   });
-    // }, 1200);
   };
 
   return (
@@ -155,7 +131,7 @@ function Login() {
           <Flex pt={15} align={"center"} direction={"column"} justify={"center"}>
             <Image src={Logo} maw={80} />
             <Text c={"var(--primary)"} fz={20} fw={600} ff={"Kanit"}>
-              E-Pay Slip Online KPRU
+              E-PaySlip Online KPRU
             </Text>
             <Text c={"var(--secondary)"} fz={14} fw={500} ff={"Kanit"}>
               ระบบออกใบสลิปเงินเดือน

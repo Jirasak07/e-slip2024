@@ -1,6 +1,6 @@
 import { ActionIcon, Button, Flex, Grid, Modal, Select, SimpleGrid, TextInput, Tooltip, UnstyledButton, rem } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconDeviceFloppy, IconSettings, IconUserPlus } from "@tabler/icons-react";
+import { IconDeviceFloppy, IconSearch, IconSettings, IconUserPlus } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { API } from "../../../Config/ConfigApi";
@@ -43,8 +43,7 @@ function ManageOfficer() {
           value: i.idbudget,
           label: i.namebudget,
         }));
-        form.setValues({ DATA_TYPE_USER: select });
-      
+        form.setValues({ DATA_TYPE_BUDGET: select });
       }
     });
   };
@@ -56,7 +55,6 @@ function ManageOfficer() {
           value: i.customer_type_id,
           label: i.customer_type_name,
         }));
-        // setDataSelectTypeCustomer(menu);
         form.setValues({ DATA_TYPE_USER: menu });
       }
     });
@@ -115,11 +113,9 @@ function ManageOfficer() {
     <>
       <Tooltip label="เพิ่มบุคลากรใหม่">
         <ActionIcon
-          // variant="transparent"
           onClick={() => {
             open();
           }}
-          // leftSection={<IconUserPlus />}
           color="green"
           size={"lg"}
           mt={{ base: 0, sm: 0, md: 33 }}
@@ -144,21 +140,30 @@ function ManageOfficer() {
           })}
         >
           <SimpleGrid>
-            <TextInput label="รหัสประจำตัวประชาชน" {...form.getInputProps("customers_citizent")} />
+            <Grid>
+              <Grid.Col span={8}>
+                <TextInput  label="รหัสประจำตัวประชาชน" {...form.getInputProps("customers_citizent")} />
+              </Grid.Col>
+              <Grid.Col span={4}>
+                <ActionIcon color="var(--primary)" size={"lg"} mt={32}>
+                  <IconSearch stroke={1.5} />
+                </ActionIcon>
+              </Grid.Col>
+            </Grid>
             <Grid>
               <Grid.Col span={2}>
-                <TextInput label="คำนำหน้า" {...form.getInputProps("customers_pname")} />
+                <TextInput label="คำนำหน้า" {...form.getInputProps("customers_pname")} disabled />
               </Grid.Col>
               <Grid.Col span={5}>
-                <TextInput label="ชื่อ" {...form.getInputProps("customers_name")} />
+                <TextInput label="ชื่อ" {...form.getInputProps("customers_name")} disabled />
               </Grid.Col>
               <Grid.Col span={5}>
-                <TextInput label="นามสกุล" {...form.getInputProps("customers_lname")} />
+                <TextInput label="นามสกุล" {...form.getInputProps("customers_lname")} disabled />
               </Grid.Col>
             </Grid>
             <Select searchable data={form.values.DATA_TYPE_USER} {...form.getInputProps("customer_type_id")} allowDeselect={false} label="เลือกประเภทบุคลากร" />
             <Select searchable data={form.values.DATA_STATUS_USER} {...form.getInputProps("customer_status_id")} allowDeselect={false} label="สถานะการทำงาน" />
-            <Select searchable data={form.values.DATA_TYPE_BUDGET} {...form.getInputProps("customer_budget")} allowDeselect={false} label="สถานะการทำงาน" />
+            <Select searchable data={form.values.DATA_TYPE_BUDGET} {...form.getInputProps("customer_budget")} allowDeselect={false} label="ประเภทงบประมาณ" />
             <Flex justify={"flex-end"} pt={10}>
               <Button type="submit" color="green.6" leftSection={<IconDeviceFloppy />}>
                 บันทึกข้อมูล
