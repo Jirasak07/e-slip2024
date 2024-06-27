@@ -136,7 +136,7 @@ function ManageOfficer() {
           }}
           color="green"
           size={"lg"}
-          mt={{ base: 0, sm: 0, md: 33 }}
+          mt={{ base: 0, sm: 33, md: 33 }}
         >
           <IconUserPlus />
         </ActionIcon>

@@ -211,12 +211,12 @@ function Officer() {
                 </Button>
                 <ManageOfficer />
                 <Tooltip label="อัพเดทบุคลากรเพิ่มใหม่">
-                  <ActionIcon size={"lg"} mt={{ base: 0, sm: 0, md: 33 }} onClick={() => UpdateUserAdd()} color="var(--success)">
+                  <ActionIcon size={"lg"} mt={{ base: 0, sm: 33, md: 33 }} onClick={() => UpdateUserAdd()} color="var(--success)">
                     <IconRefresh />
                   </ActionIcon>
                 </Tooltip>
                 <Tooltip label="อัพเดทสถานะบุคลากรลาออก">
-                  <ActionIcon size={"lg"} mt={{ base: 0, sm: 0, md: 33 }} onClick={() => UpdateStatusUserOut()} color="var(--danger)">
+                  <ActionIcon size={"lg"} mt={{ base: 0, sm: 33, md: 33 }} onClick={() => UpdateStatusUserOut()} color="var(--danger)">
                     <IconUserCancel />
                   </ActionIcon>
                 </Tooltip>
