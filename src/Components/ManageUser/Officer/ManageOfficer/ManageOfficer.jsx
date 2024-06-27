@@ -151,12 +151,12 @@ function ManageOfficer() {
           close();
         }}
       >
-        <form
+        {/* <form
           action=""
           onSubmit={form.onSubmit((val) => {
             Save(val);
           })}
-        >
+        > */}
           <SimpleGrid>
             <Grid>
               <Grid.Col span={8}>
@@ -183,12 +183,12 @@ function ManageOfficer() {
             <Select searchable data={form.values.DATA_STATUS_USER} {...form.getInputProps("customer_status_id")} allowDeselect={false} label="สถานะการทำงาน" />
             <Select searchable data={form.values.DATA_TYPE_BUDGET} {...form.getInputProps("customer_budget")} allowDeselect={false} label="ประเภทงบประมาณ" />
             <Flex justify={"flex-end"} pt={10}>
-              <Button type="submit" color="green.6" leftSection={<IconDeviceFloppy />}>
+              <Button onClick={()=>{Save(form.values);}} type="submit" color="green.6" leftSection={<IconDeviceFloppy />}>
                 บันทึกข้อมูล
               </Button>
             </Flex>
           </SimpleGrid>
-        </form>
+        {/* </form> */}
       </Modal>
     </>
   );
