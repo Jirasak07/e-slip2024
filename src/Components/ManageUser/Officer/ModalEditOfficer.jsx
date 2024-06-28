@@ -11,7 +11,7 @@ function ModalEditOfficer({ customerid, fn }) {
   const [opened, { open, close }] = useDisclosure(false);
   const [DataSelectTypeCustomer, setDataSelectTypeCustomer] = useState([]);
   const [DataStatus, setDataStatus] = useState([]);
-  const [DataBudjet, setDataBudjet] = useState([]);
+  const [DataBudget, setDataBudget] = useState([]);
   const formEmploy = useForm({
     initialValues: {
       customers_citizent: "",
@@ -19,7 +19,7 @@ function ModalEditOfficer({ customerid, fn }) {
       lname: "",
       customer_type_id: "",
       customer_status_id: "",
-      customer_budjet_id: "",
+      customer_budget_id: "",
     },
     validate: {
       customer_status_id: isNotEmpty("ว่าง"),
@@ -27,12 +27,12 @@ function ModalEditOfficer({ customerid, fn }) {
       lname: isNotEmpty("ว่าง"),
       customer_type_id: isNotEmpty("ว่าง"),
       customers_citizent: isNotEmpty("ว่าง"),
-      customer_budjet_id: isNotEmpty("ว่าง"),
+      customer_budget_id: isNotEmpty("ว่าง"),
     },
   });
-  const FetchTypeCustomer = (params) => {
-    axios.get(API + "/index/showcustomertype").then((res) => {
-      const data = res.data;
+  const FetchTypeCustomer = async () => {
+  const fetch = await  axios.get(API + "/index/showcustomertype")
+      const data = fetch.data;
       if (data.length !== 0) {
         const menu = data.map((i) => ({
           value: i.customer_type_id,
@@ -40,11 +40,10 @@ function ModalEditOfficer({ customerid, fn }) {
         }));
         setDataSelectTypeCustomer(menu);
       }
-    });
   };
-  const FetchStatusCustomer = (params) => {
-    axios.get(API + "/index/showstatuswork").then((res) => {
-      const data = res.data;
+  const FetchStatusCustomer = async () => {
+ const fetch =await  axios.get(API + "/index/showstatuswork")
+      const data = fetch.data;
       if (data.length !== 0) {
         const menu = data.map((i) => ({
           value: i.customer_status_id,
@@ -52,40 +51,40 @@ function ModalEditOfficer({ customerid, fn }) {
         }));
         setDataStatus(menu);
       }
-    });
+
   };
 
-  const FetchDataEmploy = (params) => {
-    axios.get(API + "/index/showcustomerdetail/" + customerid).then((res) => {
-      const data = res.data;
+  const FetchDataEmploy = async () => {
+ const fetch = await  axios.get(API + "/index/showcustomerdetail/" + customerid)
+      const data = fetch.data;
       if (data.length !== 0) {
         const value = data[0];
         formEmploy.setValues({
           customer_status_id: value.customers_status,
           customer_type_id: value.customers_type,
-          customer_budjet_id: value.customers_type,
+          customer_budget_id: value.customers_budget,
           fname: value.customers_pname + value.customers_name,
           lname: value.customers_lname,
         });
       }
-    });
   };
-  const FetchBudget = () => {
-    axios.get(API + "/index/showBudget").then((res) => {
-      const data = res.data;
-      if (data.length !== 0) {
-        const select = data.map((i) => ({
-          value: i.idbudget,
-          label: i.namebudget,
-        }));
-        setDataBudjet(select);
-      }
-    });
+  const FetchBudget = async () => {
+    const fetch = await axios.get(API + "/index/showBudget");
+    const data = fetch.data;
+    if (data.length !== 0) {
+      const select = data.map((i) => ({
+        value: i.idbudget,
+        label: i.namebudget,
+      }));
+      setDataBudget(select);
+    }
   };
   const Submit = (value) => {
     const frmData = new FormData();
     frmData.append("customer_status_id", value.customer_status_id);
     frmData.append("customers_citizent", value.customers_citizent);
+    frmData.append("customers_type_id", value.customer_type_id);
+    frmData.append("customers_budget_id", value.customer_budget_id);
     axios.post(API + "/index/updatestatuswork", frmData).then((res) => {
       if (res.data === "200") {
         Swal.fire({
@@ -121,7 +120,7 @@ function ModalEditOfficer({ customerid, fn }) {
               <Select searchable data={DataStatus} {...formEmploy.getInputProps("customer_status_id")} allowDeselect={false} label="สถานะ" />
             </SimpleGrid>
             <SimpleGrid cols={2}>
-              <Select searchable data={DataBudjet} {...formEmploy.getInputProps("customer_budjet_id")} label="ประเภท" />
+              <Select searchable data={DataBudget} {...formEmploy.getInputProps("customer_budget_id")} label="ประเภท" />
             </SimpleGrid>
           </SimpleGrid>
           <Flex justify={"flex-end"} pt={10} gap={5}>

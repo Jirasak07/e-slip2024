@@ -1,6 +1,6 @@
 import { Badge, Button, Container, Paper, Select, SimpleGrid, Flex, NumberFormatter, Grid, FileButton, Group, LoadingOverlay } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
-import { IconSearch, IconPrinter, IconDownload, IconFolderUp } from "@tabler/icons-react";
+import { IconSearch, IconPrinter, IconDownload, IconFolderUp, IconFile } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
 import { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
@@ -13,6 +13,7 @@ import ExcelJs from "exceljs";
 import * as xlsx from "xlsx";
 
 function Uploadsalary1715() {
+  const [files, setFiles] = useState(null);
   const column = [
     {
       label: "#",
@@ -311,8 +312,9 @@ function Uploadsalary1715() {
   const Readfile = (e) => {
     setLoadTable(true);
 
-    e.preventDefault();
-    if (e.target.files) {
+    // e.preventDefault();
+    if (e) {
+      // if (e.target.files) {
       const reader = new FileReader();
       reader.onload = (e) => {
         const data = e.target.result;
@@ -461,7 +463,8 @@ function Uploadsalary1715() {
 
         //setTablelist(json);
       };
-      reader.readAsArrayBuffer(e.target.files[0]);
+      // reader.readAsArrayBuffer(e.target.files[0]);
+      reader.readAsArrayBuffer(e);
     }
   };
 
@@ -604,7 +607,14 @@ function Uploadsalary1715() {
                                       title: "อัพเดทข้อมูลสำเร็จ",
                                       icon: "success",
                                       confirmButtonText: "ตกลง",
-                                    }).then((result) => {});
+                                    }).then((result) => {
+                                      // setTablelist({
+                                      //   columns: column,
+                                      //   rows: [],
+                                      // });
+                                      setSalarylist([]);
+                                      window.location.reload();
+                                    });
                                   });
                               });
                           });
@@ -694,7 +704,7 @@ function Uploadsalary1715() {
   return (
     <>
       {" "}
-      <LoadingOverlay visible={LoadSubmit} loaderProps={{ type: "dots" }} />
+      <LoadingOverlay pos={"fixed"} visible={LoadSubmit} loaderProps={{ type: "dots" }} />
       <Container p={0} bg={"white"} fluid>
         <Badge color="var(--primary)" variant="light" size="md" radius={8}>
           นำเข้าข้อมูลเงินเดือน
@@ -752,9 +762,29 @@ function Uploadsalary1715() {
         </Paper>
 
         <hr />
-        <Paper pt={20} shadow="xl" p="xl">
+        <Paper pt={20} shadow="none" p="xl">
           <p>นำเข้าข้อมูลเงินเดือน</p>
-          <input type="file" onChange={(e) => Readfile(e)} />
+          <Group justify="start">
+            <FileButton onChange={Readfile} accept="xlsx">
+              {(props) => (
+                <Button leftSection={<IconFile />} color="violet" {...props}>
+                  เลือกไฟล์ที่นำเข้า
+                </Button>
+              )}
+            </FileButton>
+            <form onSubmit={formSearch.onSubmit(submitdata)}>
+              <Button disabled={DataTablelist.length === 0} type="submit" leftSection={<IconFolderUp />}>
+                นำเข้าข้อมูล
+              </Button>
+            </form>
+          </Group>
+
+          {files && (
+            <Text size="sm" ta="center" mt="sm">
+              ไฟล์ที่เลือก : {files.name}
+            </Text>
+          )}
+          {/* <input type="file" onChange={(e) => Readfile(e)} /> */}
           <p className="mt-5">รายการนำเข้า {DataTablelist.length} รายการ</p>
           <Grid justify="center">
             <Grid.Col span={4}>
@@ -764,11 +794,6 @@ function Uploadsalary1715() {
             </Grid.Col>
           </Grid>
           {LoadTable ? <SkeletonTable /> : <MDBDataTableV5 data={Tablelist} responsive striped searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ" barReverse searchTop searchBottom={false} noRecordsFoundLabel="ไม่พบรายการ" />}
-          <form onSubmit={formSearch.onSubmit(submitdata)}>
-            <Button disabled={DataTablelist.length === 0} type="submit" leftSection={<IconFolderUp />}>
-              นำเข้าข้อมูล
-            </Button>
-          </form>
         </Paper>
       </Container>
     </>

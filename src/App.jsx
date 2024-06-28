@@ -29,6 +29,7 @@ import Upload50 from "./Components/menu-salary/Upload/Upload50";
 import UploadTax from "./Components/menu-salary/Upload/UploadTax";
 import UploadTavi50ForAllCustomer from "./Components/menu-salary/Upload/UploadTavi50ForAllCustomer";
 import Uploadsalary1715 from "./Components/menu-salary/Salary/Uploadsalary1715";
+import HistoryImport from "./Components/menu-salary/Salary/HistoryImport";
 
 
 function App() {
@@ -102,6 +103,7 @@ function App() {
            <Route path="/user-salary" element={<User />} />
            <Route path="/form-receive-money" element={<KTBForm />} />
            <Route path="/manage-salary/import-export1715" element={<Uploadsalary1715 />} />
+           <Route path="/manage-salary/import-history" element={<HistoryImport />} />
         </Route>
       </Routes>
     </>

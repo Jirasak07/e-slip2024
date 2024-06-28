@@ -5,6 +5,7 @@ import {
   IconCoin,
   IconCoins,
   IconFileTypeXls,
+  IconHistoryToggle,
   IconPigMoney,
   IconPlaylistAdd,
   IconPrinter,
@@ -89,6 +90,11 @@ export const menus = [
             title: "นำเข้าและส่งออกข้อมูลเงินเดือน",
             path: "/manage-salary/import-export1715",
             icon: <IconReportMoney />,
+          },
+          {
+            title: "ประวัติการนำเข้าข้อมูลเงินเดือน",
+            path: "/manage-salary/import-history",
+            icon: <IconHistoryToggle />,
           },
           // {
           //   title: "อัพเดตข้อมูลรายจ่ายเดือนก่อนหน้า",
