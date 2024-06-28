@@ -174,9 +174,8 @@ export function Layouts() {
         </Flex>
       </AppShell.Navbar>
       <AppShell.Main>
-        {/* <ScrollArea  scrollbars="xy" m={0}  h={height} type="always"> */}
+        <LoadingOverlay pos={"fixed"} h={"100dvh"} loaderProps={{ type: "oval", color: "var(--primary)" }} visible={OverLay} /> {/* <ScrollArea  scrollbars="xy" m={0}  h={height} type="always"> */}
         <Steppers />
-        <LoadingOverlay loaderProps={{ type: "oval", color: "var(--primary)" }} visible={OverLay} />
         <Outlet />
         {/* </ScrollArea> */}
       </AppShell.Main>

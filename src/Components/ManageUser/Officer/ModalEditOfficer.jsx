@@ -7,10 +7,11 @@ import { API } from "../../Config/ConfigApi";
 import { isNotEmpty, useForm } from "@mantine/form";
 import Swal from "sweetalert2";
 
-function ModalEditOfficer({ customerid,fn }) {
+function ModalEditOfficer({ customerid, fn }) {
   const [opened, { open, close }] = useDisclosure(false);
   const [DataSelectTypeCustomer, setDataSelectTypeCustomer] = useState([]);
   const [DataStatus, setDataStatus] = useState([]);
+  const [DataBudjet, setDataBudjet] = useState([]);
   const formEmploy = useForm({
     initialValues: {
       customers_citizent: "",
@@ -18,6 +19,7 @@ function ModalEditOfficer({ customerid,fn }) {
       lname: "",
       customer_type_id: "",
       customer_status_id: "",
+      customer_budjet_id: "",
     },
     validate: {
       customer_status_id: isNotEmpty("ว่าง"),
@@ -25,6 +27,7 @@ function ModalEditOfficer({ customerid,fn }) {
       lname: isNotEmpty("ว่าง"),
       customer_type_id: isNotEmpty("ว่าง"),
       customers_citizent: isNotEmpty("ว่าง"),
+      customer_budjet_id: isNotEmpty("ว่าง"),
     },
   });
   const FetchTypeCustomer = (params) => {
@@ -54,37 +57,47 @@ function ModalEditOfficer({ customerid,fn }) {
 
   const FetchDataEmploy = (params) => {
     axios.get(API + "/index/showcustomerdetail/" + customerid).then((res) => {
-
       const data = res.data;
       if (data.length !== 0) {
         const value = data[0];
         formEmploy.setValues({
           customer_status_id: value.customers_status,
           customer_type_id: value.customers_type,
+          customer_budjet_id: value.customers_type,
           fname: value.customers_pname + value.customers_name,
           lname: value.customers_lname,
         });
       }
     });
   };
-
+  const FetchBudget = () => {
+    axios.get(API + "/index/showBudget").then((res) => {
+      const data = res.data;
+      if (data.length !== 0) {
+        const select = data.map((i) => ({
+          value: i.idbudget,
+          label: i.namebudget,
+        }));
+        setDataBudjet(select);
+      }
+    });
+  };
   const Submit = (value) => {
     const frmData = new FormData();
     frmData.append("customer_status_id", value.customer_status_id);
     frmData.append("customers_citizent", value.customers_citizent);
     axios.post(API + "/index/updatestatuswork", frmData).then((res) => {
-     
-      if(res.data === "200"){
+      if (res.data === "200") {
         Swal.fire({
-          icon:'success',
-          title:'อัพเดทเสร็จสิ้น',
-          timer:1200,
-          timerProgressBar:true,
-          showConfirmButton:false
-        }).then((res)=>{
-          fn()
-          close()
-        })
+          icon: "success",
+          title: "อัพเดทเสร็จสิ้น",
+          timer: 1200,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        }).then((res) => {
+          fn();
+          close();
+        });
       }
     });
   };
@@ -98,28 +111,17 @@ function ModalEditOfficer({ customerid,fn }) {
           })}
         >
           <SimpleGrid>
-            <TextInput
-              {...formEmploy.getInputProps("customers_citizent")}
-              disabled
-              label="เลขบัตรประชาชน/รหัสพนักงาน"
-            />
+            <TextInput {...formEmploy.getInputProps("customers_citizent")} disabled label="เลขบัตรประชาชน/รหัสพนักงาน" />
             <SimpleGrid cols={2}>
               <TextInput {...formEmploy.getInputProps("fname")} readOnly label="ชื่อ" />
               <TextInput {...formEmploy.getInputProps("lname")} readOnly label="นามสกุล" />
             </SimpleGrid>
             <SimpleGrid cols={2}>
-              <Select searchable
-                data={DataSelectTypeCustomer}
-                {...formEmploy.getInputProps("customer_type_id")}
-                
-                label="ประเภท"
-              />
-              <Select searchable
-                data={DataStatus}
-                {...formEmploy.getInputProps("customer_status_id")}
-                allowDeselect={false}
-                label="สถานะ"
-              />
+              <Select searchable data={DataSelectTypeCustomer} {...formEmploy.getInputProps("customer_type_id")} label="ประเภท" />
+              <Select searchable data={DataStatus} {...formEmploy.getInputProps("customer_status_id")} allowDeselect={false} label="สถานะ" />
+            </SimpleGrid>
+            <SimpleGrid cols={2}>
+              <Select searchable data={DataBudjet} {...formEmploy.getInputProps("customer_budjet_id")} label="ประเภท" />
             </SimpleGrid>
           </SimpleGrid>
           <Flex justify={"flex-end"} pt={10} gap={5}>
@@ -140,6 +142,7 @@ function ModalEditOfficer({ customerid,fn }) {
           FetchStatusCustomer();
           FetchTypeCustomer();
           FetchDataEmploy();
+          FetchBudget();
           open();
         }}
         leftSection={<IconEdit />}

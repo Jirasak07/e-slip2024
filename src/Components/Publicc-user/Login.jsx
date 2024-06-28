@@ -124,10 +124,10 @@ function Login() {
   };
 
   return (
-    <Container fluid w={"100dvw"} h={"100dvh"}>
+    <Container fluid w={"100dvw"} h={"100dvh"} px={0}>
       <LoadingOverlay visible={OverLay} loaderProps={{ color: "var(--primary)", type: "dots" }} overlayProps={{ blur: 1 }} />
-      <Flex align={"center"} direction={"column"} h={"100%"} justify={"center"}>
-        <Paper shadow={"lg"} withBorder h={550} w={"clamp(350px,95vw,600px)"}>
+      <Flex bg={{base:"white",sm:"gray.3"}} align={"center"} direction={"column"} h={"100%"} justify={"center"}>
+        <Paper shadow={"lg"} withBorder h={550} w={"clamp(350px,95vw,500px)"}>
           <Flex pt={15} align={"center"} direction={"column"} justify={"center"}>
             <Image src={Logo} maw={80} />
             <Text c={"var(--primary)"} fz={20} fw={600} ff={"Kanit"}>
@@ -145,26 +145,14 @@ function Login() {
           >
             <Flex pt={15} align={"center"} direction={"column"} justify={"center"}>
               <SimpleGrid w={"100%"} maw={300}>
-                <TextInput name="Username" label="ชื่อผู้ใช้" {...formlogin.getInputProps("username")} />
-                <TextInput name="Password" type="password" label="รหัสผ่าน" {...formlogin.getInputProps("password")} />
+                <TextInput name="Username" label="ชื่อผู้ใช้/username" {...formlogin.getInputProps("username")} />
+                <TextInput name="Password" type="password" label="รหัสผ่าน/password" {...formlogin.getInputProps("password")} />
                 <Button loading={LoadingButton} loaderProps={{ type: "dots" }} type="submit" leftSection={<IconKey />} color="var(--primary)">
                   เข้าสู่ระบบ
                 </Button>
               </SimpleGrid>
             </Flex>{" "}
           </form>
-          {/* <Flex justify={"center"}>
-            <Box w={"100%"} maw={300}>
-              <Flex pt={5} gap={10} direction={"column"} align={"start"}>
-                <Badge variant="light" color="orange" radius={4}>
-                  supported browser
-                </Badge>{" "}
-                <>
-                  <Image src={browser} w={80} />
-                </>
-              </Flex>
-            </Box>
-          </Flex> */}
         </Paper>
       </Flex>
     </Container>
