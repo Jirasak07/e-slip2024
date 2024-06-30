@@ -186,7 +186,7 @@ function Uploadsalary1715() {
         history_salary_salary: i.history_salary_salary,
         history_salary_salary1: "00.00",
         history_salary_salary2: "00.00",
-        history_salary_salary3: "",
+        history_salary_salary3: "0",
       })
     );
 

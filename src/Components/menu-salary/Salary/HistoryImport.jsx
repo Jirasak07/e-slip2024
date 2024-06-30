@@ -1,12 +1,85 @@
-import { Button, Grid, Select } from "@mantine/core";
-import { IconSearch } from "@tabler/icons-react";
+import { Button, Container, Grid, NumberFormatter, Select, Text } from "@mantine/core";
+import { IconSearch, IconSettings } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
 import { isNotEmpty, useForm } from "@mantine/form";
+import { MDBDataTableV5 } from "mdbreact";
+import EditIncrease from "./EditIncrease";
 
 function HistoryImport() {
   const [DataYear, setDataYear] = useState([]);
+  const column = [
+    {
+      label: "เลขบัตร",
+      field: "customers_citizent",
+      minimal: "lg",
+    },
+    {
+      label: "สายงาน",
+      field: "customers_line",
+      minimal: "lg",
+    },
+    {
+      label: "ชื่อ-นามสกุล",
+      field: "customers_name",
+      minimal: "lg",
+    },
+    {
+      label: "เงินเดือนปัจจุบัน",
+      field: "history_salary_salary",
+      minimal: "lg",
+    },
+    {
+      label: "เงินเดือน1.7/1.5",
+      field: "history_salary_salary1715",
+      minimal: "lg",
+    },
+    {
+      label: "เงินเดือน 0.1",
+      field: "history_salary_salary01",
+      minimal: "lg",
+    },
+    {
+      label: "เงินเลื่อนขั้น",
+      field: "promotionmoney",
+      minimal: "lg",
+    },
+    {
+      label: "จำนวนเดือนตกเบิก",
+      field: "numberofmonths",
+      minimal: "lg",
+    },
+    {
+      label: "เงินตกเบิก",
+      field: "backpay",
+      minimal: "lg",
+    },
+    {
+      label: "เงินตกเบิก1.7/1.5",
+      field: "backpay1715",
+      minimal: "lg",
+    },
+    {
+      label: "เงินตกเบิก01",
+      field: "backpay01",
+      minimal: "lg",
+    },
+    {
+      label: "เงินตอบแทนพิเศษ",
+      field: "compensation",
+      minimal: "lg",
+    },
+    {
+      label: <IconSettings />,
+      field: "manage",
+      minimal: "lg",
+    },
+  ];
+  const [Table, setTable] = useState({
+    columns: column,
+    rows: [],
+  });
   const selectmount = [
     {
       value: "01",
@@ -91,37 +164,76 @@ function HistoryImport() {
       });
     }, 400);
   };
-    const [DataBudget, setDataBudget] = useState([]);
+  const [DataBudget, setDataBudget] = useState([]);
   const FetchTypeshowBudget = () => {
     // setTimeout(() => {
-      axios.get(API + "/index/showBudget").then((res) => {
-        //    console.log(res.data);
-        const data = res.data;
-        if (data.length !== 0) {
-          const select = data.map((i) => ({
-            value: i.idbudget,
-            label: i.namebudget,
-          }));
-          setDataBudget(select);
-        }
-      });
+    axios.get(API + "/index/showBudget").then((res) => {
+      //    console.log(res.data);
+      const data = res.data;
+      if (data.length !== 0) {
+        const select = data.map((i) => ({
+          value: i.idbudget,
+          label: i.namebudget,
+        }));
+        setDataBudget(select);
+      }
+    });
     // }, 400);
   };
   useEffect(() => {
     FetchYear();
-    FetchTypeshowBudget()
+    FetchTypeshowBudget();
   }, []);
-const Sub = (value) => {
-  console.log(value)
-}
+  const Sub = (value) => {
+    axios
+      .post(API + "/index/historyuploadsalary1715", {
+        data: value,
+      })
+      .then((res) => {
+        const data = res.data;
+        console.log(data);
+        if (data.length > 0) {
+          setTable({
+            columns: column,
+            rows: [
+              ...data.map((i) => ({
+                customers_citizent: i.customers_citizent,
+                customers_type: i.customers_type,
+                customers_line: i.customers_line === "1" ? <Text c="blue">สายวิชาการ</Text> : <Text c="red.9">สายสนับสนุน</Text>,
+                customers_name: i.customers_pname + "" + i.customers_name + " " + i.customers_lname,
+                history_salary_salary: (
+                  <Text c="teal.8">
+                    <NumberFormatter thousandSeparator value={i.history_salary_salary} decimalScale={2} />
+                  </Text>
+                ),
+                history_salary_salary1715: i.history_salary_salary1715,
+                history_salary_salary01: i.history_salary_salary01,
+
+                promotionmoney: i.promotionmoney,
+                numberofmonths: i.numberofmonths,
+                backpay: i.backpay,
+                backpay1715: i.backpay1715, //ตกเบิก1715
+                backpay01: i.backpay01, //ตกเบิก1715
+                compensation: <NumberFormatter thousandSeparator value={i.compensation} decimalScale={2} />,
+                manage: (
+                  <>
+                    <EditIncrease data={i} />
+                  </>
+                ),
+              })),
+            ],
+          });
+        }
+      });
+  };
 
   return (
-    <>
+    <Container  fluid p={0}>
       <form
-      onSubmit={formSearch.onSubmit((v) => {
-        Sub(v);
-        // console.log(v);
-      })}
+        onSubmit={formSearch.onSubmit((v) => {
+          Sub(v);
+          // console.log(v);
+        })}
       >
         <Grid gutter={{ base: 5, xs: "md", md: "xl", xl: 50 }}>
           <Grid.Col span={2}>
@@ -146,7 +258,9 @@ const Sub = (value) => {
           </Grid.Col>
         </Grid>
       </form>
-    </>
+
+      <MDBDataTableV5 responsive  data={Table} />
+    </Container>
   );
 }
 

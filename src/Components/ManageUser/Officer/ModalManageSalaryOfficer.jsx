@@ -8,7 +8,7 @@ import { API } from "../../Config/ConfigApi";
 import ModalEditSalary from "./DetailSalaryOfficer/ModalEditSalary";
 import ModalDeleteSalary from "./DetailSalaryOfficer/ModalDeleteSalary";
 
-function ModalManageSalaryOfficer({ citizenid,customer_type_id }) {
+function ModalManageSalaryOfficer({ citizenid,customer_type_id,customers_line }) {
   const [Open, setOpen] = useState(false);
   const column = [
     {
@@ -161,6 +161,8 @@ function ModalManageSalaryOfficer({ citizenid,customer_type_id }) {
                     year={i.history_salary_year}
                     month={i.history_salary_month}
                     fetch={Fetchh}
+                    customers_type={i.customers_type}
+                    customers_line={i.customers_line}
                   />
                   <ModalDeleteSalary />
                 </Flex>
@@ -224,6 +226,7 @@ const Fetchh = (params) => {
                 idbudget={IdBudget}
                 citizenid={citizenid}
                 customers_type={customer_type_id}
+                customers_line={customers_line}
                 fetch={Fetchh}
               />
             </Flex>
