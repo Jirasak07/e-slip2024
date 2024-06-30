@@ -18,7 +18,7 @@ function HistoryImport() {
     {
       label: "สายงาน",
       field: "customers_line",
-      minimal: "lg",
+      minimal: "sm",
     },
     {
       label: "ชื่อ-นามสกุล",
@@ -28,52 +28,52 @@ function HistoryImport() {
     {
       label: "เงินเดือนปัจจุบัน",
       field: "history_salary_salary",
-      minimal: "lg",
+      minimal: "sm",
     },
     {
       label: "เงินเดือน1.7/1.5",
       field: "history_salary_salary1715",
-      minimal: "lg",
+      minimal: "sm",
     },
     {
       label: "เงินเดือน 0.1",
       field: "history_salary_salary01",
-      minimal: "lg",
+      minimal: "sm",
     },
     {
       label: "เงินเลื่อนขั้น",
       field: "promotionmoney",
-      minimal: "lg",
+      minimal: "sm",
     },
     {
       label: "จำนวนเดือนตกเบิก",
       field: "numberofmonths",
-      minimal: "lg",
+      minimal: "sm",
     },
     {
       label: "เงินตกเบิก",
       field: "backpay",
-      minimal: "lg",
+      minimal: "sm",
     },
     {
       label: "เงินตกเบิก1.7/1.5",
       field: "backpay1715",
-      minimal: "lg",
+      minimal: "sm",
     },
     {
       label: "เงินตกเบิก01",
       field: "backpay01",
-      minimal: "lg",
+      minimal: "sm",
     },
     {
       label: "เงินตอบแทนพิเศษ",
       field: "compensation",
-      minimal: "lg",
+      minimal: "sm",
     },
     {
       label: <IconSettings />,
       field: "manage",
-      minimal: "lg",
+      minimal: "sm",
     },
   ];
   const [Table, setTable] = useState({
@@ -187,7 +187,7 @@ function HistoryImport() {
   const Sub = (value) => {
     axios
       .post(API + "/index/historyuploadsalary1715", {
-        data: value,
+        idbudget: value.idbudget, month: value.month, year: value.year
       })
       .then((res) => {
         const data = res.data;
@@ -217,7 +217,7 @@ function HistoryImport() {
                 compensation: <NumberFormatter thousandSeparator value={i.compensation} decimalScale={2} />,
                 manage: (
                   <>
-                    <EditIncrease Fetch={Fetch} data={i} />
+                    <EditIncrease Fetch={Fetch} data={i} name={i.customers_pname + "" + i.customers_name + " " + i.customers_lname} />
                   </>
                 ),
               })),

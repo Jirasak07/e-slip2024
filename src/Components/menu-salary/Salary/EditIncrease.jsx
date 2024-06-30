@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { API } from "../../Config/ConfigApi";
 import axios from "axios";
 
-function EditIncrease({ data, Fetch }) {
+function EditIncrease({ data, Fetch, name }) {
   const [opened, { open, close }] = useDisclosure();
   const formEdit = useForm({
     initialValues: {
@@ -269,13 +269,14 @@ function EditIncrease({ data, Fetch }) {
       <Button onClick={GetData} size="xs" color="orange">
         แก้ไข
       </Button>
-      <Drawer opened={opened} position={"right"} onClose={close} title="แก้ไขข้อมูลนำเข้าเงินเดือน">
+      <Drawer size={"lg"} opened={opened} position={"right"} onClose={close} title="แก้ไขข้อมูลนำเข้าเงินเดือน">
         <form
           onSubmit={formEdit.onSubmit((value) => {
             Submit(value);
           })}
         >
           <Paper>
+            {name} {data.history_salary_month + "/" + data.history_salary_year}
             <NumberInput label="เงินเดือนบัจจุบัน" onChange={SalaryChane} value={formEdit.values.history_salary_salary} />
             <TextInput label="เงินเดือนบัจจุบัน 1.7/1.5" {...formEdit.getInputProps("history_salary_salary1715")} disabled />
             <TextInput label="เงินเดือนบัจจุบัน 0.1" {...formEdit.getInputProps("history_salary_salary01")} disabled />

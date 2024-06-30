@@ -175,6 +175,12 @@ export const menus = [
             path: "/report/tax",
             icon: <IconReceiptTax />,
           },
+          {
+            title: "รายการเงินเดือนผลรวม 0.1",
+            path: "/report/report-salary01",
+            icon: <IconReportMoney />,
+            sub: [],
+          },
           // {
           //   title: "วิธีการแยกไฟล์ PDF",
           //   path: "/report/pdf",

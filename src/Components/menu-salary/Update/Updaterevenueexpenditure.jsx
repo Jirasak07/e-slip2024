@@ -330,6 +330,7 @@ function Updaterevenueexpenditure() {
             </SimpleGrid>
           </Paper>
         </Flex>
+        ไม่รวมเงินตอบแทนพิเศษ(20),ตกเบิกเงินเดือน(15),ตกเบิกเงินเดือน 1.7/1.5(99),ตกเบิกเงินเดือน 0.1(100)
       </Container>
     </>
   );
