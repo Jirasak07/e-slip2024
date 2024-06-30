@@ -95,6 +95,8 @@ function ModalAddSalary({ Month, YearSelect, DataYear, DataMonth, DataBudget,Las
             {...form.getInputProps("idbudget")}
           />
           <NumberInput {...form.getInputProps("salary")} thousandSeparator suffix=" ฿" label="เงินเดือนล่าสุด" />
+        <TextInput disabled label="เงินเดือน 1.5/1.7" />
+        <TextInput disabled label="เงินเดือนล่าสุด" />
         </SimpleGrid>{" "}
         <Flex justify={"flex-end"} py={10}>
           <Button type="submit" color="var(--success)" leftSection={<IconDeviceFloppy />}>

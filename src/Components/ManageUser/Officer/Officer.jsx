@@ -102,7 +102,7 @@ function Officer() {
                 ),
               manage: (
                 <Flex direction={"row"} gap={5}>
-                  {i.customer_type_id}
+                  {/* {i.customer_type_id} */}
                   <ModalEditOfficer customerid={i.customers_citizent} fn={Fetchcc} />
                   <ModalManageBankOfficer citizenid={i.customers_citizent} name={i.customers_pname + i.customers_name + " " + i.customers_lname} /> <ModalManageSalaryOfficer customer_type_id={i.customers_type} citizenid={i.customers_citizent} />
                 </Flex>

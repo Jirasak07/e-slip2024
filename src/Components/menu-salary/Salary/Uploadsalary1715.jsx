@@ -333,11 +333,11 @@ function Uploadsalary1715() {
           return result1.toFixed(decimalPlaces);
         }
 
-        function round2(number) {
-          const decimalPlaces = 2;
-          const result = number.toFixed(decimalPlaces);
-          return result;
-        }
+        // function round2(number) {
+        //   const decimalPlaces = 2;
+        //   const result = number.toFixed(decimalPlaces);
+        //   return result;
+        // }
 
         // const myArray = [];
         setLoadTable(false);
@@ -348,11 +348,11 @@ function Uploadsalary1715() {
           customers_pname: i.คำนำหน้า,
           customers_name: i.ชื่อ,
           customers_lname: i.นามสกุล,
-          history_salary_salary: i.เงินเดือนบัจจุบัน.toFixed(2),
+          history_salary_salary:  parseFloat(i.เงินเดือนบัจจุบัน).toFixed(2),
           history_salary_salary1715: i.customers_type === "4" ? (i.customers_line === "1" ? round((i.เงินเดือนบัจจุบัน * 1.7) / 1.6, -1) : round((i.เงินเดือนบัจจุบัน * 1.5) / 1.4, -1)) : "0.00",
           history_salary_salary01:
             i.customers_type === "4" ? (i.customers_line === "1" ? (round((i.เงินเดือนบัจจุบัน * 1.7) / 1.6, -1) - i.เงินเดือนบัจจุบัน).toFixed(2) : (round((i.เงินเดือนบัจจุบัน * 1.5) / 1.4, -1) - i.เงินเดือนบัจจุบัน).toFixed(2)) : "0.00",
-          promotionmoney: i.เงินเลื่อนขั้น.toFixed(2),
+          promotionmoney: parseFloat(i.เงินเลื่อนขั้น).toFixed(2),
           numberofmonths: i.จำนวนเดือนตกเบิก,
           backpay: i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก === 0 || i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก === "" ? "0.00" : i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก, //ตกเบิก
           backpay1715: i.customers_type === "4" ? (i.customers_line === "1" ? round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.7) / 1.6, -1) : round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.5) / 1.4, -1)) : "0.00", //ตกเบิก1715
@@ -362,7 +362,7 @@ function Uploadsalary1715() {
                 ? round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.7) / 1.6, -1) - i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก
                 : round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.5) / 1.4, -1) - i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก
               : "0.00", //ตกเบิก01
-          compensation: i.เงินตอบแทนพิเศษ === 0 || i.เงินตอบแทนพิเศษ === "" ? "0.00" : i.เงินตอบแทนพิเศษ,
+          compensation: i.เงินตอบแทนพิเศษ === 0 || i.เงินตอบแทนพิเศษ === ""|| i.เงินตอบแทนพิเศษ === undefined|| i.เงินตอบแทนพิเศษ === null ? "0.00" : i.เงินตอบแทนพิเศษ,
         }));
 
         //Addhistorysalaryincrease  --logทั้งหมด
