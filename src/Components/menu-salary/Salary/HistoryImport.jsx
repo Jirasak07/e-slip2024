@@ -217,15 +217,23 @@ function HistoryImport() {
                 compensation: <NumberFormatter thousandSeparator value={i.compensation} decimalScale={2} />,
                 manage: (
                   <>
-                    <EditIncrease data={i} />
+                    <EditIncrease Fetch={Fetch} data={i} />
                   </>
                 ),
               })),
             ],
           });
+        }else{
+          setTable({
+            columns:column,
+            rows:[]
+          })
         }
       });
   };
+const Fetch  = (params) => {
+  Sub(formSearch.values)
+}
 
   return (
     <Container  fluid p={0}>

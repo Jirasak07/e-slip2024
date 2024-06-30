@@ -1,12 +1,12 @@
-import { Button, Drawer, Flex, NumberInput, Paper, TextInput } from "@mantine/core";
+import { Button, Drawer, Flex, LoadingOverlay, NumberInput, Paper, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
-import React from "react";
+import React, { useState } from "react";
 import Swal from "sweetalert2";
 import { API } from "../../Config/ConfigApi";
 import axios from "axios";
 
-function EditIncrease({ data }) {
+function EditIncrease({ data, Fetch }) {
   const [opened, { open, close }] = useDisclosure();
   const formEdit = useForm({
     initialValues: {
@@ -23,6 +23,7 @@ function EditIncrease({ data }) {
       backpay1715: "",
       backpay01: "",
       compensation: "",
+      idbudget: "",
     },
   });
   const GetData = (params) => {
@@ -41,9 +42,11 @@ function EditIncrease({ data }) {
       backpay01: data.backpay01,
       compensation: data.compensation,
       customers_type: data.customers_type,
+      idbudget: data.idbudget,
     });
     open();
   };
+  const [LoadSubmit, setLoadSubmit] = useState(false);
   const SalaryChane = (salary) => {
     console.log(salary);
     formEdit.setValues({ history_salary_salary: salary });
@@ -114,8 +117,8 @@ function EditIncrease({ data }) {
       formEdit.setValues({ backpay01: 0 });
     }
   };
-  const Submit = (initialValues) => {
-    if (initialValues.length !== 0) {
+  const Submit = (value) => {
+    if (value.length !== 0) {
       Swal.fire({
         title: "กรุณากรอกรหัสความปลอดภัย",
         input: "password",
@@ -135,16 +138,16 @@ function EditIncrease({ data }) {
             timer: 1000,
             timerProgressBar: true,
           }).then((result) => {
-            //   setLoadSubmit(true);
+            setLoadSubmit(true);
 
             console.log("ok");
             //logทั้งหมด
-            const form = initialValues;
+            const form = [value];
             axios
               .post(API + "/index/Addhistorysalaryincrease", {
-                month: initialValues.history_salary_month,
-                year: initialValues.history_salary_year,
-                idbudget: initialValues.idbudget,
+                month: value.history_salary_month,
+                year: value.history_salary_year,
+                idbudget: value.idbudget,
                 user_update: localStorage.getItem("employee_id"),
                 check: form,
               })
@@ -152,26 +155,26 @@ function EditIncrease({ data }) {
                 //เงินเดือนปกติและ 1.7/1.5
                 // const data = [
                 //   {
-                //     history_salary_salary: initialValues.history_salary_salary,
-                //     history_salary_salary01: initialValues.history_salary_salary01,
-                //     history_salary_salary1715: initialValues.history_salary_salary1715,
+                //     history_salary_salary: value.history_salary_salary,
+                //     history_salary_salary01: value.history_salary_salary01,
+                //     history_salary_salary1715: value.history_salary_salary1715,
                 //   },
                 // ];
-                const compensation = initialValues.filter((salary) => salary.compensation > 0 || salary.compensation !== "");
-        
+                const compensation = form.filter((salary) => salary.compensation > 0 || salary.compensation !== "");
+
                 //filter ตกเบิกปกติ id = '15'
-                const backpay = initialValues.filter((salary) => salary.backpay > 0 || salary.backpay !== "");
-        
+                const backpay = form.filter((salary) => salary.backpay > 0 || salary.backpay !== "");
+
                 //filter ตกเบิกปกติ0.1 id = '99'
-                const backpay01 = initialValues.filter((salary) => salary.backpay01 > 0 || salary.backpay01 !== "");
-        
+                const backpay01 = form.filter((salary) => salary.backpay01 > 0 || salary.backpay01 !== "");
+
                 //filter ตกเบิกปกติ 1.7/1.5 id = '100'
-                const backpay1715 = initialValues.filter((salary) => salary.backpay1715 > 0 || salary.backpay1715 !== "");
+                const backpay1715 = form.filter((salary) => salary.backpay1715 > 0 || salary.backpay1715 !== "");
                 axios
                   .post(API + "/index/Addhistorysalarymonth", {
-                    month: initialValues.history_salary_month,
-                    year: initialValues.history_salary_year,
-                    idbudget: initialValues.idbudget,
+                    month: value.history_salary_month,
+                    year: value.history_salary_year,
+                    idbudget: value.idbudget,
                     check: form,
                   })
                   .then((res) => {
@@ -179,9 +182,9 @@ function EditIncrease({ data }) {
                     const form = compensation;
                     axios
                       .post(API + "/index/Addrevenueforid", {
-                        month: initialValues.month,
-                        year: initialValues.year,
-                        idbudget: initialValues.idbudget,
+                        month: value.history_salary_month,
+                        year: value.history_salary_year,
+                        idbudget: value.idbudget,
                         idpayslip_revenue: "20",
                         check: form,
                       })
@@ -190,9 +193,9 @@ function EditIncrease({ data }) {
                         const form = backpay;
                         axios
                           .post(API + "/index/Addrevenueforid", {
-                            month: initialValues.month,
-                            year: initialValues.year,
-                            idbudget: initialValues.idbudget,
+                            month: value.history_salary_month,
+                            year: value.history_salary_year,
+                            idbudget: value.idbudget,
                             idpayslip_revenue: "15",
                             check: form,
                           })
@@ -201,9 +204,9 @@ function EditIncrease({ data }) {
                             const form = backpay1715;
                             axios
                               .post(API + "/index/Addrevenueforid", {
-                                month: initialValues.month,
-                                year: initialValues.year,
-                                idbudget: initialValues.idbudget,
+                                month: value.history_salary_month,
+                                year: value.history_salary_year,
+                                idbudget: value.idbudget,
                                 idpayslip_revenue: "99",
                                 check: form,
                               })
@@ -212,25 +215,27 @@ function EditIncrease({ data }) {
                                 const form = backpay01;
                                 axios
                                   .post(API + "/index/Addrevenueforid", {
-                                    month: initialValues.month,
-                                    year: initialValues.year,
-                                    idbudget: initialValues.idbudget,
+                                    month: value.history_salary_month,
+                                    year: value.history_salary_year,
+                                    idbudget: value.idbudget,
                                     idpayslip_revenue: "100",
                                     check: form,
                                   })
                                   .then((res) => {
-                                    // setLoadSubmit(false);
+                                    setLoadSubmit(false);
                                     Swal.fire({
                                       title: "อัพเดทข้อมูลสำเร็จ",
                                       icon: "success",
                                       confirmButtonText: "ตกลง",
                                     }).then((result) => {
+                                      Fetch();
+                                      close();
                                       // setTablelist({
                                       //   columns: column,
                                       //   rows: [],
                                       // });
-                                    //   setSalarylist([]);
-                                    //   window.location.reload();
+                                      //   setSalarylist([]);
+                                      //   window.location.reload();
                                     });
                                   });
                               });
@@ -260,6 +265,7 @@ function EditIncrease({ data }) {
 
   return (
     <>
+      <LoadingOverlay pos="fixed" w={"100vw"} h={"100vh"} visible={LoadSubmit} />
       <Button onClick={GetData} size="xs" color="orange">
         แก้ไข
       </Button>
