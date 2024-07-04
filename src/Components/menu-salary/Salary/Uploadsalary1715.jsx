@@ -672,6 +672,8 @@ function Uploadsalary1715() {
           //     label: i.name_year_th,
           // }));
           setSalarylist(data);
+        }else{
+          setSalarylist([]);
         }
       });
     }, 400);
