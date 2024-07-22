@@ -245,6 +245,16 @@ export const menus = [
           //   path: "/manage-user/ktb",
           //   icon: <IconBuildingBank />,
           // },
+          {
+            title: "อัพเดตข้อมูลเงินเดือน จากเดือนก่อนหน้า",
+            path: "/manage-salary/update-salary",
+            icon: <IconRefresh />,
+          },
+          {
+            title: "นำเข้าและส่งออกข้อมูลเงินเดือน",
+            path: "/manage-salary/import-export1715",
+            icon: <IconReportMoney />,
+          },
         ],
       },
     ],

@@ -54,7 +54,7 @@ export function Layouts() {
   const [LoadLogout, setLoadLogout] = useState(false);
   const [OverLay, setOverLay] = useState(false);
   return (
-    <AppShell padding={30} header={{ height: { base: 50, md: 0 } }} navbar={{ width: 300, breakpoint: "md", collapsed: { mobile: !opened } }}>
+    <AppShell padding={30} header={{ height: { base: 50, md: 0 } }} navbar={{ width: 350, breakpoint: "md", collapsed: { mobile: !opened } }}>
       <AppShell.Header hiddenFrom="md" bg={"var(--primary)"}>
         <Flex h="100%" align={"center"} justify={"space-between"} pr={10}>
           <Flex justify={"center"} w={"95%"}>
