@@ -70,11 +70,12 @@ function Steppers({ val }) {
             }
           });
         } else if (
-          fname === "u501420120@hotmail.com" ||
-          fname === "namon2211@hotmail.com" ||
-          fname === "prachin2013@hotmail.com" ||
-          fname === "fay_roompink@hotmail.com" ||
-          fname === "prangthip7898@gmail.com"
+          fname === "วรรณภา" ||
+          fname === "นฤมล" ||
+          fname === "ปราจิน" ||
+          fname === "วราภรณ์" ||
+          fname === "จิรศักดิ์" ||
+          fname === "ปรางค์ทิพย์"
         ) {
           const fmdata = new FormData();
           fmdata.append("process_year", year);
