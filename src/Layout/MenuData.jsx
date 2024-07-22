@@ -255,6 +255,11 @@ export const menus = [
             path: "/manage-salary/import-export1715",
             icon: <IconReportMoney />,
           },
+          {
+            title: "ประวัติการนำเข้าข้อมูลเงินเดือน",
+            path: "/manage-salary/import-history",
+            icon: <IconHistoryToggle />,
+          },
         ],
       },
     ],

@@ -1,12 +1,14 @@
-import { Stepper,  Paper, LoadingOverlay } from "@mantine/core";
+import { Stepper, Paper, LoadingOverlay } from "@mantine/core";
 import axios from "axios";
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { API } from "../Config/ConfigApi";
+import Swal from "sweetalert2";
 
 function Steppers({ val }) {
   const [active, setActive] = useState(val);
   const [Load, setLoad] = useState(false);
-  console.log(active);
+  const fname = localStorage.getItem("fname");
+  // console.log(active);
   const Fetch2 = async () => {
     try {
       setLoad(true);
@@ -37,12 +39,83 @@ function Steppers({ val }) {
   useEffect(() => {
     Fetch2();
   }, []);
+  const UpdateHR = () => {
+    const today = new Date();
+    const year = new Date().getFullYear();
+    const months = String(today.getMonth() + 1).padStart(2, "0");
+    // axios.post()
+    Swal.fire({
+      icon: "info",
+      title: "ยืนยันอัพเดทสถานะ",
+      cancelButtonText:"ยกเลิก",
+      showCancelButton:true,
+      confirmButtonText:"ยืนยัน"
+    }).then((res) => {
+      if (res.isConfirmed) {
+        if (fname === "งานบริหารทรัพยากรบุคคลและนิติการ") {
+          const fmdata = new FormData();
+          fmdata.append("process_year", year);
+          fmdata.append("process_month", months);
+          fmdata.append("process_hr", "1");
+          axios.post(API + "/index/updateprocesshr", fmdata).then((res) => {
+            if (res.data === "200") {
+              Swal.fire({
+                icon: "success",
+                title: "success",
+                timer: 1200,
+                showConfirmButton: false,
+              }).then((re) => {
+                Fetch2();
+              });
+            }
+          });
+        } else if (
+          fname === "u501420120@hotmail.com" ||
+          fname === "namon2211@hotmail.com" ||
+          fname === "prachin2013@hotmail.com" ||
+          fname === "fay_roompink@hotmail.com" ||
+          fname === "prangthip7898@gmail.com"
+        ) {
+          const fmdata = new FormData();
+          fmdata.append("process_year", year);
+          fmdata.append("process_month", months);
+          fmdata.append("process_status", "1");
+          axios.post(API + "/index/updateprocessfinance", fmdata).then((res) => {
+            if (res.data === "200") {
+              Swal.fire({
+                icon: "success",
+                title: "success",
+                timer: 1200,
+                showConfirmButton: false,
+              }).then((re) => {
+                Fetch2();
+              });
+            }
+          });
+        }
+      }
+    });
+  };
   return (
     <Paper w={"100%"} maw={800} shadow="none" p={10} mb={10}>
       <LoadingOverlay visible={Load} />
       <label>สถานะการจัดทำ</label>
-      <Stepper color="var(--success)" iconSize={32} size="xs" active={active}>
-        <Stepper.Step label="กจ" description="นำเข้าข้อมูลบุคลากรและเงินเดือน"></Stepper.Step>
+      <Stepper
+        color="var(--success)"
+        iconSize={32}
+        size="xs"
+        active={active}
+        onStepClick={() => {
+          UpdateHR();
+        }}
+      >
+        <Stepper.Step
+          onClick={() => {
+            UpdateHR();
+          }}
+          label="กจ"
+          description="นำเข้าข้อมูลบุคลากรและเงินเดือน"
+        ></Stepper.Step>
         <Stepper.Step label="การเงิน" description="จัดทำเงินเดือน"></Stepper.Step>
         <Stepper.Step label="เสร็จสิ้น" description="เปิดให้พิมพ์เงินเดือน"></Stepper.Step>
       </Stepper>
