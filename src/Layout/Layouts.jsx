@@ -17,7 +17,7 @@ export function Layouts() {
   const Fetch = async () => {
     try {
       if (type === null || type === "" || type === undefined) {
-        nav("/login");
+        // nav("/login");
       }
       const menu2 = await menus.findIndex((menu) => menu.type === type);
       const menuu = await menus[menu2];

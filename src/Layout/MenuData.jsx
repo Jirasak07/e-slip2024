@@ -75,7 +75,7 @@ export const menus = [
           //   path: "/manage-salary/customer-50",
           //   icon: <IconReceipt2 />,
           // },
-    
+
           {
             title: "เพิ่มรายรับตามประเภท",
             path: "/manage-salary/add-revenue-fromtype",
@@ -214,16 +214,13 @@ export const menus = [
         title: "รายงานและข้อมูลรายจ่าย",
         path: "/report-plan",
         icon: <IconReport />,
-        sub: [
-         
-        ],
+        sub: [],
       },
       {
         title: "รายงานและข้อมูลรายรับ",
         path: "/report-plan2",
         icon: <IconReport />,
-        sub: [
-        ],
+        sub: [],
       },
     ],
   },
@@ -260,9 +257,13 @@ export const menus = [
             path: "/manage-salary/import-history",
             icon: <IconHistoryToggle />,
           },
+          {
+            title: "จัดการประเภทงบประมาณ",
+            path: "/manage-funda/budget",
+            icon: <IconCoin />,
+          },
         ],
       },
     ],
   },
-  
 ];
