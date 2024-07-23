@@ -262,6 +262,16 @@ export const menus = [
             path: "/manage-funda/budget",
             icon: <IconCoin />,
           },
+          {
+            title: "เพิ่มรายรับตามประเภท",
+            path: "/manage-salary/add-revenue-fromtype",
+            icon: <IconPlaylistAdd />,
+          },
+          {
+            title: "จัดการประเภทรายรับ",
+            path: "/manage-funda/revenue",
+            icon: <IconTrendingUp />,
+          },
         ],
       },
     ],
