@@ -242,10 +242,22 @@ export const menus = [
           //   path: "/manage-user/ktb",
           //   icon: <IconBuildingBank />,
           // },
+        ],
+      },
+      {
+        title: "จัดการเงินเดือน",
+        path: "/manage-salary",
+        icon: <IconCoins />,
+        sub: [
           {
             title: "อัพเดตข้อมูลเงินเดือน จากเดือนก่อนหน้า",
             path: "/manage-salary/update-salary",
             icon: <IconRefresh />,
+          },
+          {
+            title: "เพิ่มรายรับตามประเภท",
+            path: "/manage-salary/add-revenue-fromtype",
+            icon: <IconPlaylistAdd />,
           },
           {
             title: "นำเข้าและส่งออกข้อมูลเงินเดือนที่ปรับขึ้นใหม่",
@@ -257,15 +269,17 @@ export const menus = [
             path: "/manage-salary/import-history",
             icon: <IconHistoryToggle />,
           },
+        ],
+      },
+      {
+        title: "จัดการข้อมูลพื้นฐาน",
+        path: "/manage-funda",
+        icon: <IconSettings />,
+        sub: [
           {
             title: "จัดการประเภทงบประมาณ",
             path: "/manage-funda/budget",
             icon: <IconCoin />,
-          },
-          {
-            title: "เพิ่มรายรับตามประเภท",
-            path: "/manage-salary/add-revenue-fromtype",
-            icon: <IconPlaylistAdd />,
           },
           {
             title: "จัดการประเภทรายรับ",

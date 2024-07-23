@@ -1,6 +1,26 @@
-import { Badge, Button, Container, Paper, Select, SimpleGrid, Flex, NumberFormatter, Grid, FileButton, Group, LoadingOverlay } from "@mantine/core";
+import {
+  Badge,
+  Button,
+  Container,
+  Paper,
+  Select,
+  SimpleGrid,
+  Flex,
+  NumberFormatter,
+  Grid,
+  FileButton,
+  Group,
+  LoadingOverlay,
+  ActionIcon,
+} from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
-import { IconSearch, IconPrinter, IconDownload, IconFolderUp, IconFile } from "@tabler/icons-react";
+import {
+  IconSearch,
+  IconDownload,
+  IconFolderUp,
+  IconFile,
+  IconQuestionMark,
+} from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
 import { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
@@ -348,21 +368,47 @@ function Uploadsalary1715() {
           customers_pname: i.คำนำหน้า,
           customers_name: i.ชื่อ,
           customers_lname: i.นามสกุล,
-          history_salary_salary:  parseFloat(i.เงินเดือนบัจจุบัน).toFixed(2),
-          history_salary_salary1715: i.customers_type === "4" ? (i.customers_line === "1" ? round((i.เงินเดือนบัจจุบัน * 1.7) / 1.6, -1) : round((i.เงินเดือนบัจจุบัน * 1.5) / 1.4, -1)) : "0.00",
+          history_salary_salary: parseFloat(i.เงินเดือนบัจจุบัน).toFixed(2),
+          history_salary_salary1715:
+            i.customers_type === "4"
+              ? i.customers_line === "1"
+                ? round((i.เงินเดือนบัจจุบัน * 1.7) / 1.6, -1)
+                : round((i.เงินเดือนบัจจุบัน * 1.5) / 1.4, -1)
+              : "0.00",
           history_salary_salary01:
-            i.customers_type === "4" ? (i.customers_line === "1" ? (round((i.เงินเดือนบัจจุบัน * 1.7) / 1.6, -1) - i.เงินเดือนบัจจุบัน).toFixed(2) : (round((i.เงินเดือนบัจจุบัน * 1.5) / 1.4, -1) - i.เงินเดือนบัจจุบัน).toFixed(2)) : "0.00",
+            i.customers_type === "4"
+              ? i.customers_line === "1"
+                ? (round((i.เงินเดือนบัจจุบัน * 1.7) / 1.6, -1) - i.เงินเดือนบัจจุบัน).toFixed(2)
+                : (round((i.เงินเดือนบัจจุบัน * 1.5) / 1.4, -1) - i.เงินเดือนบัจจุบัน).toFixed(2)
+              : "0.00",
           promotionmoney: parseFloat(i.เงินเลื่อนขั้น).toFixed(2),
           numberofmonths: i.จำนวนเดือนตกเบิก,
-          backpay: i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก === 0 || i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก === "" ? "0.00" : i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก, //ตกเบิก
-          backpay1715: i.customers_type === "4" ? (i.customers_line === "1" ? round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.7) / 1.6, -1) : round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.5) / 1.4, -1)) : "0.00", //ตกเบิก1715
+          backpay:
+            i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก === 0 ||
+            i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก === ""
+              ? "0.00"
+              : i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก, //ตกเบิก
+          backpay1715:
+            i.customers_type === "4"
+              ? i.customers_line === "1"
+                ? round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.7) / 1.6, -1)
+                : round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.5) / 1.4, -1)
+              : "0.00", //ตกเบิก1715
           backpay01:
             i.customers_type === "4"
               ? i.customers_line === "1"
-                ? round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.7) / 1.6, -1) - i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก
-                : round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.5) / 1.4, -1) - i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก
+                ? round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.7) / 1.6, -1) -
+                  i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก
+                : round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.5) / 1.4, -1) -
+                  i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก
               : "0.00", //ตกเบิก01
-          compensation: i.เงินตอบแทนพิเศษ === 0 || i.เงินตอบแทนพิเศษ === ""|| i.เงินตอบแทนพิเศษ === undefined|| i.เงินตอบแทนพิเศษ === null ? "0.00" : i.เงินตอบแทนพิเศษ,
+          compensation:
+            i.เงินตอบแทนพิเศษ === 0 ||
+            i.เงินตอบแทนพิเศษ === "" ||
+            i.เงินตอบแทนพิเศษ === undefined ||
+            i.เงินตอบแทนพิเศษ === null
+              ? "0.00"
+              : i.เงินตอบแทนพิเศษ,
         }));
 
         //Addhistorysalaryincrease  --logทั้งหมด
@@ -370,7 +416,9 @@ function Uploadsalary1715() {
         //Addrevenueforid --เพิ่มรายรับid 20 15 99 100
 
         //filter ค่าตอบแทนพิเศษ id = '20'
-        const compensation = myArray.filter((salary) => salary.compensation > 0 || salary.compensation !== "");
+        const compensation = myArray.filter(
+          (salary) => salary.compensation > 0 || salary.compensation !== ""
+        );
         // console.log(compensation)
         setDatacompensation(compensation);
 
@@ -380,12 +428,16 @@ function Uploadsalary1715() {
         setDataDatabackpay(backpay);
 
         //filter ตกเบิกปกติ0.1 id = '99'
-        const backpay01 = myArray.filter((salary) => salary.backpay01 > 0 || salary.backpay01 !== "");
+        const backpay01 = myArray.filter(
+          (salary) => salary.backpay01 > 0 || salary.backpay01 !== ""
+        );
         // console.log(backpay01)
         setDataDatabackpay01(backpay01);
 
         //filter ตกเบิกปกติ 1.7/1.5 id = '100'
-        const backpay1715 = myArray.filter((salary) => salary.backpay1715 > 0 || salary.backpay1715 !== "");
+        const backpay1715 = myArray.filter(
+          (salary) => salary.backpay1715 > 0 || salary.backpay1715 !== ""
+        );
         // console.log(backpay1715)
         setDataDatabackpay1715(backpay1715);
 
@@ -399,7 +451,12 @@ function Uploadsalary1715() {
               no: key + 1,
               customers_citizent: i.เลขบัตร,
               customers_type: i.customers_type,
-              customers_line: i.customers_line === "1" ? <Text c="blue">สายวิชาการ</Text> : <Text c="red.9">สายสนับสนุน</Text>,
+              customers_line:
+                i.customers_line === "1" ? (
+                  <Text c="blue">สายวิชาการ</Text>
+                ) : (
+                  <Text c="red.9">สายสนับสนุน</Text>
+                ),
               customers_pname: i.คำนำหน้า,
               customers_name: i.ชื่อ,
               customers_lname: i.นามสกุล,
@@ -411,9 +468,17 @@ function Uploadsalary1715() {
               history_salary_salary1715:
                 i.customers_type === "4" ? (
                   i.customers_line === "1" ? (
-                    <NumberFormatter thousandSeparator value={round((i.เงินเดือนบัจจุบัน * 1.7) / 1.6, -1)} decimalScale={2} />
+                    <NumberFormatter
+                      thousandSeparator
+                      value={round((i.เงินเดือนบัจจุบัน * 1.7) / 1.6, -1)}
+                      decimalScale={2}
+                    />
                   ) : (
-                    <NumberFormatter thousandSeparator value={round((i.เงินเดือนบัจจุบัน * 1.5) / 1.4, -1)} decimalScale={2} />
+                    <NumberFormatter
+                      thousandSeparator
+                      value={round((i.เงินเดือนบัจจุบัน * 1.5) / 1.4, -1)}
+                      decimalScale={2}
+                    />
                   )
                 ) : (
                   "-"
@@ -422,9 +487,17 @@ function Uploadsalary1715() {
               history_salary_salary01:
                 i.customers_type === "4" ? (
                   i.customers_line === "1" ? (
-                    <NumberFormatter thousandSeparator value={round((i.เงินเดือนบัจจุบัน * 1.7) / 1.6, -1) - i.เงินเดือนบัจจุบัน} decimalScale={2} />
+                    <NumberFormatter
+                      thousandSeparator
+                      value={round((i.เงินเดือนบัจจุบัน * 1.7) / 1.6, -1) - i.เงินเดือนบัจจุบัน}
+                      decimalScale={2}
+                    />
                   ) : (
-                    <NumberFormatter thousandSeparator value={round((i.เงินเดือนบัจจุบัน * 1.5) / 1.4, -1) - i.เงินเดือนบัจจุบัน} decimalScale={2} />
+                    <NumberFormatter
+                      thousandSeparator
+                      value={round((i.เงินเดือนบัจจุบัน * 1.5) / 1.4, -1) - i.เงินเดือนบัจจุบัน}
+                      decimalScale={2}
+                    />
                   )
                 ) : (
                   "-"
@@ -432,13 +505,27 @@ function Uploadsalary1715() {
 
               promotionmoney: i.เงินเลื่อนขั้น,
               numberofmonths: i.จำนวนเดือนตกเบิก,
-              backpay: <NumberFormatter thousandSeparator value={i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก} decimalScale={2} />, //ตกเบิก
+              backpay: (
+                <NumberFormatter
+                  thousandSeparator
+                  value={i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก}
+                  decimalScale={2}
+                />
+              ), //ตกเบิก
               backpay1715:
                 i.customers_type === "4" ? (
                   i.customers_line === "1" ? (
-                    <NumberFormatter thousandSeparator value={round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.7) / 1.6, -1)} decimalScale={2} />
+                    <NumberFormatter
+                      thousandSeparator
+                      value={round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.7) / 1.6, -1)}
+                      decimalScale={2}
+                    />
                   ) : (
-                    <NumberFormatter thousandSeparator value={round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.5) / 1.4, -1)} decimalScale={2} />
+                    <NumberFormatter
+                      thousandSeparator
+                      value={round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.5) / 1.4, -1)}
+                      decimalScale={2}
+                    />
                   )
                 ) : (
                   "-"
@@ -446,15 +533,31 @@ function Uploadsalary1715() {
               backpay01:
                 i.customers_type === "4" ? (
                   i.customers_line === "1" ? (
-                    <NumberFormatter thousandSeparator value={round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.7) / 1.6, -1) - i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก} decimalScale={2} />
+                    <NumberFormatter
+                      thousandSeparator
+                      value={
+                        round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.7) / 1.6, -1) -
+                        i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก
+                      }
+                      decimalScale={2}
+                    />
                   ) : (
-                    <NumberFormatter thousandSeparator value={round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.5) / 1.4, -1) - i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก} decimalScale={2} />
+                    <NumberFormatter
+                      thousandSeparator
+                      value={
+                        round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.5) / 1.4, -1) -
+                        i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก
+                      }
+                      decimalScale={2}
+                    />
                   )
                 ) : (
                   "-"
                 ), //ตกเบิก1715
 
-              compensation: <NumberFormatter thousandSeparator value={i.เงินตอบแทนพิเศษ} decimalScale={2} />,
+              compensation: (
+                <NumberFormatter thousandSeparator value={i.เงินตอบแทนพิเศษ} decimalScale={2} />
+              ),
             })),
           ],
         });
@@ -662,20 +765,30 @@ function Uploadsalary1715() {
   const Fetchshowhistorysalarylist = (value) => {
     // setLoadTable(true);
     setTimeout(() => {
-      axios.get(API + "/index/showhistorysalarylist/" + value.year + "/" + value.month + "/" + value.idbudget).then((res) => {
-        // console.log(res.data);
-        const data = res.data;
-        if (data.length !== 0) {
-          // setLoadTable(false);
-          // const select = data.map((i) => ({
-          //     value: i.name_year,
-          //     label: i.name_year_th,
-          // }));
-          setSalarylist(data);
-        }else{
-          setSalarylist([]);
-        }
-      });
+      axios
+        .get(
+          API +
+            "/index/showhistorysalarylist/" +
+            value.year +
+            "/" +
+            value.month +
+            "/" +
+            value.idbudget
+        )
+        .then((res) => {
+          // console.log(res.data);
+          const data = res.data;
+          if (data.length !== 0) {
+            // setLoadTable(false);
+            // const select = data.map((i) => ({
+            //     value: i.name_year,
+            //     label: i.name_year_th,
+            // }));
+            setSalarylist(data);
+          } else {
+            setSalarylist([]);
+          }
+        });
     }, 400);
   };
 
@@ -689,7 +802,10 @@ function Uploadsalary1715() {
   const formSearch = useForm({
     initialValues: {
       idbudget: "",
-      month: (new Date().getMonth().toString().length === 1 ? "0" + new Date().getMonth() : new Date().getMonth()).toString(),
+      month: (new Date().getMonth().toString().length === 1
+        ? "0" + new Date().getMonth()
+        : new Date().getMonth()
+      ).toString(),
       year: new Date().getFullYear().toString(),
       //    type: "",
       //  yearend: (new Date().getFullYear()).toString(),
@@ -721,13 +837,28 @@ function Uploadsalary1715() {
           >
             <Grid gutter={{ base: 5, xs: "md", md: "xl", xl: 50 }}>
               <Grid.Col span={2}>
-                <Select searchable data={DataBudget} {...formSearch.getInputProps("idbudget")} label="งบประมาณ" />
+                <Select
+                  searchable
+                  data={DataBudget}
+                  {...formSearch.getInputProps("idbudget")}
+                  label="งบประมาณ"
+                />
               </Grid.Col>
               <Grid.Col span={2}>
-                <Select searchable label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
+                <Select
+                  searchable
+                  label="เดือน"
+                  data={selectmount}
+                  {...formSearch.getInputProps("month")}
+                />
               </Grid.Col>
               <Grid.Col span={2}>
-                <Select searchable label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
+                <Select
+                  searchable
+                  label="ปี"
+                  data={DataYear}
+                  {...formSearch.getInputProps("year")}
+                />
                 {/* <Select searchable label="เลือกเดือนที่จะนำข้อมูลเข้า " data={selectmount} {...formSearch.getInputProps("monthend")}  />
                                 <Select searchable label="ปี" data={DataYear} {...formSearch.getInputProps("yearend")} mt={10} /> */}
               </Grid.Col>
@@ -775,12 +906,20 @@ function Uploadsalary1715() {
               )}
             </FileButton>
             <form onSubmit={formSearch.onSubmit(submitdata)}>
-              <Button disabled={DataTablelist.length === 0} type="submit" leftSection={<IconFolderUp />}>
+              <Button
+                disabled={DataTablelist.length === 0}
+                type="submit"
+                leftSection={<IconFolderUp />}
+              >
                 นำเข้าข้อมูล
               </Button>
             </form>
           </Group>
-
+          <ActionIcon onClick={()=>{
+            window.open("http://git.kpru.ac.th/FrontEnd_Salary/public/uploads/money.xlsx")
+          }} size={"xs"}>
+            <IconQuestionMark />
+          </ActionIcon>
           {files && (
             <Text size="sm" ta="center" mt="sm">
               ไฟล์ที่เลือก : {files.name}
@@ -795,7 +934,20 @@ function Uploadsalary1715() {
                                 </FileButton> */}
             </Grid.Col>
           </Grid>
-          {LoadTable ? <SkeletonTable /> : <MDBDataTableV5 data={Tablelist} responsive striped searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ" barReverse searchTop searchBottom={false} noRecordsFoundLabel="ไม่พบรายการ" />}
+          {LoadTable ? (
+            <SkeletonTable />
+          ) : (
+            <MDBDataTableV5
+              data={Tablelist}
+              responsive
+              striped
+              searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ"
+              barReverse
+              searchTop
+              searchBottom={false}
+              noRecordsFoundLabel="ไม่พบรายการ"
+            />
+          )}
         </Paper>
       </Container>
     </>
