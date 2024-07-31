@@ -267,7 +267,7 @@ const Fetch  = (params) => {
         </Grid>
       </form>
 
-      <MDBDataTableV5 responsive  data={Table} />
+      <MDBDataTableV5 entries={100} responsive  data={Table} />
     </Container>
   );
 }

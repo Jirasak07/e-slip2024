@@ -214,7 +214,7 @@ import ModalEditExpenditure from "./ModalEditExpenditure";
               <SkeletonTable />
             ) : (
               <MDBDataTableV5
-                data={Expenditure}
+                data={Expenditure} entries={100}
                 responsive
                 striped
                 searchLabel="ค้นหาจากชื่อรายการ"

@@ -214,7 +214,7 @@ function Revenue() {
           {LoadTable ? (
             <SkeletonTable />
           ) : (
-            <MDBDataTableV5
+            <MDBDataTableV5 entries={100}
               data={DataRevenue}
               responsive
               striped

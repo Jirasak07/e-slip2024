@@ -305,7 +305,7 @@ function AddExpenditure() {
           {LoadTable ? (
             <SkeletonTable />
           ) : (
-            <MDBDataTableV5
+            <MDBDataTableV5 entries={100}
               data={TableSalary}
               responsive
               striped

@@ -410,7 +410,7 @@ function Reportrevenue() {
               </Text>
             </Flex>
           </Paper>
-          {LoadTable ? <SkeletonTable /> : <MDBDataTableV5 data={Tablelist} responsive striped searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ" barReverse searchTop searchBottom={false} noRecordsFoundLabel="ไม่พบรายการ" />}
+          {LoadTable ? <SkeletonTable /> : <MDBDataTableV5 entries={100} data={Tablelist} responsive striped searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ" barReverse searchTop searchBottom={false} noRecordsFoundLabel="ไม่พบรายการ" />}
         </Paper>
       </Container>
     </>

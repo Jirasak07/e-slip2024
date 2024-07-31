@@ -168,10 +168,10 @@ function Officer() {
     FetchCustomerlist();
   }, []);
 
-  const UpdateUserAdd = (params) => {
+  const UpdateUserAdd = () => {
     Swal.fire({
       icon: "info",
-      title: "ยืนยันอัพเดทบุคลากรใหม่",
+      title: "ยืนยันอัพเดทชื่อ-นามสกุล บุคลากร",
       confirmButtonText: "ยืนยัน",
       confirmButtonColor: "var(--success)",
       showCancelButton: true,
@@ -181,13 +181,29 @@ function Officer() {
       if (res.isConfirmed === true) {
         setOverLayLoad(true);
         setTimeout(() => {
-          setOverLayLoad(false);
+          UpdateNameUser();
         }, 1200);
       }
     });
   };
-
-  const UpdateStatusUserOut = (params) => {
+  const UpdateNameUser = async () => {
+    try {
+      const fetch = await axios.get(API + "/administator/updatenameFromMis");
+      const response = fetch.data;
+      console.log(response);
+      if (response === "success") {
+        setOverLayLoad(false);
+        Swal.fire({
+          title: "อัพเดทข้อมูลสำเร็จ",
+          icon: "success",
+          confirmButtonText: "ตกลง",
+        }).then((result) => {});
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const UpdateStatusUserOut = () => {
     Swal.fire({
       icon: "warning",
       title: "ยืนยันอัพเดทสถานะบุคลากรลาออก",
@@ -231,6 +247,9 @@ function Officer() {
         visible={OverLayLoad}
         loaderProps={{ type: "dots", color: "var(--primary)" }}
         overlayProps={{ radius: "sm", blur: 1 }}
+        pos={"fixed"}
+        h={"100dvh"}
+
       />
       <Container fluid px={0} bg={"white"}>
         <Badge color="var(--primary)" variant="light" size="md" radius={8}>
@@ -264,7 +283,7 @@ function Officer() {
                   ค้นหา
                 </Button>
                 <ManageOfficer />
-                <Tooltip label="อัพเดทบุคลากรเพิ่มใหม่">
+                <Tooltip label="อัพเดทชื่อ-นามสกุล บุคลากร">
                   <ActionIcon
                     size={"lg"}
                     mt={{ base: 0, sm: 33, md: 33 }}
@@ -300,6 +319,7 @@ function Officer() {
         ) : (
           <MDBDataTableV5
             responsiveMd
+            entries={100}
             striped
             searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ"
             searchTop

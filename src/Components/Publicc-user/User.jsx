@@ -298,7 +298,7 @@ function User() {
                 <MDBDataTableV5
                   data={TableSalary}
                   entriesOptions={[5, 6, 10, 15, 50, 100, 150, 200, 300, 500]}
-                  entries={6}
+                  entries={100}
                   responsive
                   searchTop={true}
                   searchBottom={false}

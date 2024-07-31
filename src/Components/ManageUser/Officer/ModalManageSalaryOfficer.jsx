@@ -234,7 +234,7 @@ const Fetchh = (params) => {
           </SimpleGrid>
         </Paper>
         <Paper>
-          <MDBDataTableV5 responsive data={Table} />
+          <MDBDataTableV5 responsive data={Table} entries={100} />
         </Paper>
       </Modal>
     </>

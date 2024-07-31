@@ -91,7 +91,7 @@ function ModalManageBankOfficer({ name, citizenid }) {
           <ModalAddBank fetch={FetchBank} customers_citizent={citizenid} />
         </Flex>
 
-        <MDBDataTableV5 striped responsive data={{ columns: col, rows: RowTatble }} />
+        <MDBDataTableV5  entries={100}striped responsive data={{ columns: col, rows: RowTatble }} />
       </Modal>
     </>
   );

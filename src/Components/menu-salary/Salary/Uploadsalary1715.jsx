@@ -1015,7 +1015,7 @@ setNametype(text)
           ) : (
             <MDBDataTableV5
               data={Tablelist}
-              responsive
+              responsive entries={100}
               striped
               searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ"
               barReverse

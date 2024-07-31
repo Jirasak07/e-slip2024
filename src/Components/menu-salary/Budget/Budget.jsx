@@ -78,7 +78,7 @@ componentDidMount() {
         <Badge color="var(--primary)" size='lg'  variant='light'>จัดการงบประมาณ</Badge>
        
         <p className='text-right'> <ModaladdBudget/></p>
-        <MDBDataTableV5 hover entriesOptions={[5, 20, 25]} entries={5} pagesAmount={4} data={ddd} searchTop searchBottom={false}  className='mt-2' />
+        <MDBDataTableV5 hover entriesOptions={[5, 20, 25]} entries={100} pagesAmount={4} data={ddd} searchTop searchBottom={false}  className='mt-2' />
         
       </div>
     )

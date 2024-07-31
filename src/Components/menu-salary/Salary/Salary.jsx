@@ -321,7 +321,7 @@ function Salary() {
             </Text>
           </Flex>
         </Paper>
-        <Paper pt={20}>{LoadTable ? <SkeletonTable /> : <MDBDataTableV5 data={TableSalary} responsive striped searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ" barReverse searchTop searchBottom={false} noRecordsFoundLabel="ไม่พบรายการ" />}</Paper>
+        <Paper pt={20}>{LoadTable ? <SkeletonTable /> : <MDBDataTableV5 entries={100} data={TableSalary} responsive striped searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ" barReverse searchTop searchBottom={false} noRecordsFoundLabel="ไม่พบรายการ" />}</Paper>
       </Container>
       {/* <Button onClick={()=>{ExcelExport()}} color="green" >ExcelExport</Button> */}
     </>

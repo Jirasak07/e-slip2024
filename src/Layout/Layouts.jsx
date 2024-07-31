@@ -1,4 +1,17 @@
-import { AppShell, Avatar, Badge, Burger, Button, Divider, Flex, LoadingOverlay, NavLink, Paper, ScrollArea, Text } from "@mantine/core";
+import {
+  AppShell,
+  Avatar,
+  Badge,
+  Burger,
+  Button,
+  Divider,
+  Flex,
+  LoadingOverlay,
+  NavLink,
+  Paper,
+  ScrollArea,
+  Text,
+} from "@mantine/core";
 import { useDisclosure, useViewportSize } from "@mantine/hooks";
 import { IconLogout2, IconWallet } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
@@ -24,14 +37,30 @@ export function Layouts() {
       const menu = await menuu.data;
       console.log(localStorage.getItem("type-user-epay"));
       if (menu.length !== 0) {
-        const indexmenu = menu.findIndex((menu) => "/testslip" + menu.path === window.location.pathname);
-        console.log("/" + window.location.pathname.split("/")[1] + "/" + window.location.pathname.split("/")[2]);
+        const indexmenu = menu.findIndex(
+          (menu) => "/testslip" + menu.path === window.location.pathname
+        );
+        console.log(
+          "/" +
+            window.location.pathname.split("/")[1] +
+            "/" +
+            window.location.pathname.split("/")[2]
+        );
         if (indexmenu === -1) {
-          const indexmenus = menu.findIndex((menu) => "/testslip" + menu.path === "/" + window.location.pathname.split("/")[1] + "/" + window.location.pathname.split("/")[2]);
+          const indexmenus = menu.findIndex(
+            (menu) =>
+              "/testslip" + menu.path ===
+              "/" +
+                window.location.pathname.split("/")[1] +
+                "/" +
+                window.location.pathname.split("/")[2]
+          );
           if (indexmenus === -1) {
             nav("/login");
           } else {
-            const indexsub = menu[indexmenus].sub.findIndex((sub) => "/testslip" + sub.path === window.location.pathname);
+            const indexsub = menu[indexmenus].sub.findIndex(
+              (sub) => "/testslip" + sub.path === window.location.pathname
+            );
             setIndexMenu(indexmenus);
             setINdexSub(indexsub);
           }
@@ -44,17 +73,32 @@ export function Layouts() {
       console.log(error);
     }
   };
+  const UpdateNameUser = async () => {
+    try {
+      const fetch = await axios.get(API + "/administator/updatenameFromMis");
+      const response = fetch.data;
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
+    UpdateNameUser()
     // const menu2 = menus.findIndex((menu) => menu.type === localStorage.getItem("bee"));
     Fetch();
   }, []);
+
   const { height, width } = useViewportSize();
   console.log(height);
   const [LoadLogout, setLoadLogout] = useState(false);
   const [OverLay, setOverLay] = useState(false);
   return (
-    <AppShell padding={30} header={{ height: { base: 50, md: 0 } }} navbar={{ width: 350, breakpoint: "md", collapsed: { mobile: !opened } }}>
+    <AppShell
+      padding={30}
+      header={{ height: { base: 50, md: 0 } }}
+      navbar={{ width: 350, breakpoint: "md", collapsed: { mobile: !opened } }}
+    >
       <AppShell.Header hiddenFrom="md" bg={"var(--primary)"}>
         <Flex h="100%" align={"center"} justify={"space-between"} pr={10}>
           <Flex justify={"center"} w={"95%"}>
@@ -85,7 +129,9 @@ export function Layouts() {
                 {" "}
                 <Flex justify={"flex-start"} gap={5} align={"center"}>
                   <Avatar color="var(--primary)" size={"md"}>
-                    {localStorage.getItem("fname") !== null ? localStorage.getItem("fname").substring(0, 1) : ""}
+                    {localStorage.getItem("fname") !== null
+                      ? localStorage.getItem("fname").substring(0, 1)
+                      : ""}
                   </Avatar>
                   <Badge variant="white" color="var(--primary)" size="lg" radius={8}>
                     {localStorage.getItem("fname") + " " + localStorage.getItem("lname")}
@@ -116,8 +162,16 @@ export function Layouts() {
                           onClick={() => {
                             console.log(keymenu);
                           }}
-                          active={"/" + window.location.pathname.split("/")[2] === menu.path ? true : false}
-                          defaultOpened={"/" + window.location.pathname.split("/")[2] === menu.path ? true : false}
+                          active={
+                            "/" + window.location.pathname.split("/")[2] === menu.path
+                              ? true
+                              : false
+                          }
+                          defaultOpened={
+                            "/" + window.location.pathname.split("/")[2] === menu.path
+                              ? true
+                              : false
+                          }
                           label={menu.title}
                           key={keymenu}
                           leftSection={menu.icon}
@@ -174,7 +228,13 @@ export function Layouts() {
         </Flex>
       </AppShell.Navbar>
       <AppShell.Main>
-        <LoadingOverlay pos={"fixed"} h={"100dvh"} loaderProps={{ type: "oval", color: "var(--primary)" }} visible={OverLay} /> {/* <ScrollArea  scrollbars="xy" m={0}  h={height} type="always"> */}
+        <LoadingOverlay
+          pos={"fixed"}
+          h={"100dvh"}
+          loaderProps={{ type: "oval", color: "var(--primary)" }}
+          visible={OverLay}
+        />{" "}
+        {/* <ScrollArea  scrollbars="xy" m={0}  h={height} type="always"> */}
         <Steppers />
         <Outlet />
         {/* </ScrollArea> */}
