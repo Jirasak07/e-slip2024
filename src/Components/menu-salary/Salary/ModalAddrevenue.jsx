@@ -1,5 +1,21 @@
-import { Button, Flex, LoadingOverlay, Modal, NumberInput, Select, SimpleGrid, TextInput } from "@mantine/core";
-import { IconChartBubble, IconCoin, IconDeviceFloppy, IconEdit, IconPlaylistAdd } from "@tabler/icons-react";
+import {
+  Button,
+  Center,
+  Flex,
+  LoadingOverlay,
+  Modal,
+  NumberInput,
+  Select,
+  SimpleGrid,
+  TextInput,
+} from "@mantine/core";
+import {
+  IconChartBubble,
+  IconCoin,
+  IconDeviceFloppy,
+  IconEdit,
+  IconPlaylistAdd,
+} from "@tabler/icons-react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
@@ -10,7 +26,7 @@ import { Grid } from "@mantine/core";
 import { Text } from "@mantine/core";
 import { Divider } from "@mantine/core";
 
-function ModalAddrevenue({ year, month, citizent, type, idbudget,fn }) {
+function ModalAddrevenue({ year, month, citizent, type, idbudget, fn, cname }) {
   const [openModal, setopenModal] = useState(false);
   const [OverLay, setOverLay] = useState(false);
   const [DataTypeEmploy, setDataTypeEmploy] = useState([]);
@@ -33,21 +49,23 @@ function ModalAddrevenue({ year, month, citizent, type, idbudget,fn }) {
   });
   const Fetchdata = () => {
     setTimeout(() => {
-      axios.get(API + "/index/showrevenueallid/" + year + "/" + month + "/" + citizent + "/" + type).then((res) => {
-        console.log(res.data);
-        const data = res.data;
-        formEditExpenditure.setValues({
-          check: data,
+      axios
+        .get(API + "/index/showrevenueallid/" + year + "/" + month + "/" + citizent + "/" + type)
+        .then((res) => {
+          console.log(res.data);
+          const data = res.data;
+          formEditExpenditure.setValues({
+            check: data,
+          });
+          console.log(month);
+          setopenModal(true);
+          setDataCheck(data);
         });
-        console.log(month);
-        setopenModal(true);
-        setDataCheck(data);
-      });
     }, 400);
   };
   const [BtnLoad, setBtnLoad] = useState(false);
   const UpdateExpenditure = (value) => {
-    setBtnLoad(true)
+    setBtnLoad(true);
     const form = formEditExpenditure.values;
     axios
       .post(API + "/index/AddRevenueForPersons", {
@@ -59,7 +77,7 @@ function ModalAddrevenue({ year, month, citizent, type, idbudget,fn }) {
         check: form.check,
       })
       .then((res) => {
-        setBtnLoad(false)
+        setBtnLoad(false);
         if (res.data === "200") {
           Swal.fire({
             icon: "success",
@@ -68,7 +86,7 @@ function ModalAddrevenue({ year, month, citizent, type, idbudget,fn }) {
             timerProgressBar: true,
             showConfirmButton: false,
           }).then((res) => {
-            fn()
+            fn();
             setopenModal(false);
           });
         }
@@ -124,6 +142,10 @@ function ModalAddrevenue({ year, month, citizent, type, idbudget,fn }) {
         title="เพิ่มรายรับ"
       >
         <LoadingOverlay visible={BtnLoad} loaderProps={{ type: "dots" }} />
+        <Center>
+          <Text>{cname} {month} / {year} </Text>
+        </Center>
+
         <form
           onSubmit={formEditExpenditure.onSubmit((value) => {
             UpdateExpenditure(value);
@@ -139,7 +161,7 @@ function ModalAddrevenue({ year, month, citizent, type, idbudget,fn }) {
                 </Grid.Col>
                 <Grid.Col span={4}>
                   <TextInput
-                  type="number"
+                    type="number"
                     rightSection={<IconCoin />}
                     rightSectionPointerEvents="none"
                     suffix=" ฿"
@@ -156,7 +178,7 @@ function ModalAddrevenue({ year, month, citizent, type, idbudget,fn }) {
 
           <Flex justify={"flex-end"} py={10} gap={10} px={0}>
             <Button
-            loading={BtnLoad}
+              loading={BtnLoad}
               onClick={() => {
                 UpdateExpenditure();
               }}

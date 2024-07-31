@@ -77,12 +77,12 @@ export const menus = [
           // },
 
           {
-            title: "เพิ่มรายรับตามประเภท",
+            title: "แก้ไขรายรับตามประเภท",
             path: "/manage-salary/add-revenue-fromtype",
             icon: <IconPlaylistAdd />,
           },
           {
-            title: "เพิ่มรายจ่ายตามประเภท",
+            title: "แก้ไขรายจ่ายตามประเภท",
             path: "/manage-salary/add-expenses-fromtype",
             icon: <IconPlaylistAdd />,
           },
@@ -255,7 +255,7 @@ export const menus = [
             icon: <IconRefresh />,
           },
           {
-            title: "เพิ่มรายรับตามประเภท",
+            title: "แก้ไขรายรับตามประเภท",
             path: "/manage-salary/add-revenue-fromtype",
             icon: <IconPlaylistAdd />,
           },

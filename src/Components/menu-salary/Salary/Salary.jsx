@@ -233,8 +233,8 @@ function Salary() {
               ),
               manage: (
                 <Flex direction={"row"} gap={5}>
-                  <ModalAddrevenue fn={See} idbudget={i.idbudget} year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type} />
-                  <ModalExpenditure fn={See} idbudget={i.idbudget} year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type} />
+                  <ModalAddrevenue cname={i.customers_pname + i.customers_name + " " + i.customers_lname} fn={See} idbudget={i.idbudget} year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type} />
+                  <ModalExpenditure cname={i.customers_pname + i.customers_name + " " + i.customers_lname} fn={See} idbudget={i.idbudget} year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type} />
                   <Button
                     onClick={() => {
                       window.open(API + "/PDF/SalarySlip.php?id=" + (parseInt(i.customers_citizent) + 33) + "&year=" + i.history_salary_year + "&month=" + i.history_salary_month + "&type=" + i.customers_type);

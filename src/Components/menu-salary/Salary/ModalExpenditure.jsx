@@ -1,4 +1,4 @@
-import { Button, Flex, LoadingOverlay, Modal, NumberInput, ScrollArea, Select, SimpleGrid, TextInput } from "@mantine/core";
+import { Button, Center, Flex, LoadingOverlay, Modal, NumberInput, ScrollArea, Select, SimpleGrid, TextInput } from "@mantine/core";
 import { IconCoin, IconDeviceFloppy, IconEdit, IconPlaylistAdd } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -10,7 +10,7 @@ import { Grid } from "@mantine/core";
 import { Text } from "@mantine/core";
 import { Divider, Table } from "@mantine/core";
 
-function ModalExpenditure({ year, month, citizent, type,idbudget,fn }) {
+function ModalExpenditure({ year, month, citizent, type,idbudget,fn,cname }) {
   const [openModal, setopenModal] = useState(false);
   const [OverLay, setOverLay] = useState(false);
   const [DataTypeEmploy, setDataTypeEmploy] = useState([]);
@@ -140,7 +140,10 @@ function ModalExpenditure({ year, month, citizent, type,idbudget,fn }) {
         closeOnClickOutside={false}
         title="เพิ่มรายจ่าย"
         size={"xl"}
-      >
+      >  <Center>
+      <Text>{cname} {month} / {year} </Text>
+    </Center>
+
         <LoadingOverlay visible={BtnLoad} loaderProps={{ type: "dots" }} />
         <form
           onSubmit={formEditExpenditure.onSubmit((value) => {
