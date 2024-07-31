@@ -12,6 +12,7 @@ import {
   Group,
   LoadingOverlay,
   ActionIcon,
+  MultiSelect
 } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import {
@@ -131,6 +132,11 @@ function Uploadsalary1715() {
   const [Databackpay01, setDataDatabackpay01] = useState([]); //ตกเบิก01
   const [Databackpay1715, setDataDatabackpay1715] = useState([]); //ตกเบิก1715
 
+
+ const [NameBudget, setNameBudget] = useState("");
+ const [Namemount, setNamemount] = useState("");
+ const [Nameyear, setNameyear] = useState("");
+ const [Nametype, setNametype] = useState("");
   //const [file, setFile] = useState<File | null>(null);
   const [file, setFile] = useState([]);
 
@@ -138,8 +144,38 @@ function Uploadsalary1715() {
     const workbook = new ExcelJs.Workbook();
     const sheet = workbook.addWorksheet("Mysheet");
     sheet.properties.defaultRowHeight = 15;
+    sheet.getCell('H1').fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: "a9dfbf" },
+      bgColor: { argb: "FF0000FF" },
+     };
+     sheet.getCell('I1').fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: "a9dfbf" },
+      bgColor: { argb: "FF0000FF" },
+     };
+     sheet.getCell('J1').fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: "a9dfbf" },
+      bgColor: { argb: "FF0000FF" },
+     };
+     sheet.getCell('K1').fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: "a9dfbf" },
+      bgColor: { argb: "FF0000FF" },
+     };
+   
 
     sheet.columns = [
+      {
+        header: "เลขที่ตำแหน่ง",
+        key: "customers_positionnumber",
+        width: 20,
+      },
       {
         header: "เลขบัตร",
         key: "customers_citizent",
@@ -191,11 +227,13 @@ function Uploadsalary1715() {
         header: "จำนวนเดือนตกเบิก",
         key: "history_salary_salary3",
         width: 20,
+
       },
     ];
 
     Salarylist.map((i) =>
       sheet.addRow({
+        customers_positionnumber: i.customers_positionnumber,
         customers_citizent: i.customers_citizent,
 
         customers_type: i.customers_type,
@@ -217,8 +255,8 @@ function Uploadsalary1715() {
       const url = window.URL.createObjectURL(blob);
       const anchor = document.createElement("a");
       anchor.href = url;
-      anchor.download = "ข้อมูลเงินเดือน.xlsx";
-
+      anchor.download = "ข้อมูลเงินเดือนงบ"+NameBudget+"-ประเภท"+Nametype+"-ปี "+Nameyear+"-เดือน "+Namemount+".xlsx";
+      DataYear
       anchor.click();
       window.URL.revokeObjectURL(url);
     });
@@ -763,7 +801,26 @@ function Uploadsalary1715() {
   };
 
   const Fetchshowhistorysalarylist = (value) => {
+
+
+    setNameBudget(value.idbudget)
+    setNamemount(value.month)
+    setNameyear(value.year)
+   
     // setLoadTable(true);
+    console.log(value.customertype)
+    let text = ""
+    value.customertype.forEach((i,k) => {
+     if((k+1) === value.customertype.length ){
+      text += "'"+i+"'";
+     }else{
+      text += "'"+i+"',";
+     }
+      
+    });
+console.log(text)
+setNametype(text)
+
     setTimeout(() => {
       axios
         .get(
@@ -773,7 +830,9 @@ function Uploadsalary1715() {
             "/" +
             value.month +
             "/" +
-            value.idbudget
+            value.idbudget+
+            "/" +
+            text
         )
         .then((res) => {
           // console.log(res.data);
@@ -862,6 +921,23 @@ function Uploadsalary1715() {
                 {/* <Select searchable label="เลือกเดือนที่จะนำข้อมูลเข้า " data={selectmount} {...formSearch.getInputProps("monthend")}  />
                                 <Select searchable label="ปี" data={DataYear} {...formSearch.getInputProps("yearend")} mt={10} /> */}
               </Grid.Col>
+              <Grid.Col span={2}>
+              <MultiSelect
+                label="ประเภทพนักงาน"
+                placeholder="เลือกประเภทพนักงาน"
+                data={[
+                  { value: '1', label: 'ลูกจ้างชั่วคราว' },
+                  { value: '2', label: 'ลูกจ้างประจำ' },
+                  { value: '3', label: 'พนักงานราชการ' },
+                  { value: '4', label: 'พนักงานมหาวิทยาลัย' },
+                  { value: '5', label: 'อาจารย์ประจำตามสัญญาจ้าง' },
+                  { value: '6', label: 'ข้าราชการ/ข้าราชการพลเรือน' },
+                  { value: '7', label: 'อาจารย์ต่างชาติ' },
+                  { value: '8', label: 'บุคลากรภายนอก' },
+                ]}
+                {...formSearch.getInputProps("customertype")}
+              />
+      </Grid.Col>
               {/* <Grid.Col span={4}>
                                  <Select searchable label="ประเภทรายจ่าย" data={Dataexpenditurelist} {...formSearch.getInputProps("type")}  />
                                
