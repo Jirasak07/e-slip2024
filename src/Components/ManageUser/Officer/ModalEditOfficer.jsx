@@ -7,7 +7,7 @@ import { API } from "../../Config/ConfigApi";
 import { isNotEmpty, useForm } from "@mantine/form";
 import Swal from "sweetalert2";
 
-function ModalEditOfficer({ customerid, fn }) {
+function ModalEditOfficer({ customerid, fn,cname }) {
   const [opened, { open, close }] = useDisclosure(false);
   const [DataSelectTypeCustomer, setDataSelectTypeCustomer] = useState([]);
   const [DataStatus, setDataStatus] = useState([]);

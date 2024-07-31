@@ -8,7 +8,7 @@ import { API } from "../../Config/ConfigApi";
 import ModalEditSalary from "./DetailSalaryOfficer/ModalEditSalary";
 import ModalDeleteSalary from "./DetailSalaryOfficer/ModalDeleteSalary";
 
-function ModalManageSalaryOfficer({ citizenid,customer_type_id,customers_line }) {
+function ModalManageSalaryOfficer({ citizenid,customer_type_id,customers_line,cname }) {
   const [Open, setOpen] = useState(false);
   const column = [
     {
@@ -202,6 +202,7 @@ const Fetchh = (params) => {
         title="จัดการเงินเดือน"
       >
         <Paper>
+        <Text fw={700}  fz={20} >{citizenid} : {cname} </Text>  
           <SimpleGrid cols={3}>
             <Select searchable
               allowDeselect={false}

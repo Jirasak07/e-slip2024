@@ -1,5 +1,28 @@
-import { ActionIcon, Badge, Box, Button, Container, Flex, LoadingOverlay, Menu, Paper, Select, SimpleGrid, Text, Tooltip, VisuallyHidden, rem } from "@mantine/core";
-import { IconHeart, IconMenu, IconRefresh, IconSearch, IconSettings, IconUserCancel } from "@tabler/icons-react";
+import {
+  ActionIcon,
+  Badge,
+  Box,
+  Button,
+  Container,
+  Flex,
+  LoadingOverlay,
+  Menu,
+  Paper,
+  Select,
+  SimpleGrid,
+  Text,
+  Tooltip,
+  VisuallyHidden,
+  rem,
+} from "@mantine/core";
+import {
+  IconHeart,
+  IconMenu,
+  IconRefresh,
+  IconSearch,
+  IconSettings,
+  IconUserCancel,
+} from "@tabler/icons-react";
 import axios from "axios";
 import { MDBDataTableV5 } from "mdbreact";
 import { useEffect, useState } from "react";
@@ -103,8 +126,21 @@ function Officer() {
               manage: (
                 <Flex direction={"row"} gap={5}>
                   {/* {i.customer_type_id} */}
-                  <ModalEditOfficer customerid={i.customers_citizent} fn={Fetchcc} />
-                  <ModalManageBankOfficer citizenid={i.customers_citizent} name={i.customers_pname + i.customers_name + " " + i.customers_lname} /> <ModalManageSalaryOfficer customers_line={i.customers_line} customer_type_id={i.customers_type} citizenid={i.customers_citizent} />
+                  <ModalEditOfficer
+                    customerid={i.customers_citizent}
+                    fn={Fetchcc}
+                    cname={i.customers_pname + i.customers_name + " " + i.customers_lname}
+                  />
+                  <ModalManageBankOfficer
+                    citizenid={i.customers_citizent}
+                    name={i.customers_pname + i.customers_name + " " + i.customers_lname}
+                  />{" "}
+                  <ModalManageSalaryOfficer
+                    customers_line={i.customers_line}
+                    customer_type_id={i.customers_type}
+                    citizenid={i.customers_citizent}
+                    cname={i.customers_pname + i.customers_name + " " + i.customers_lname}
+                  />
                 </Flex>
               ),
             })),
@@ -185,14 +221,17 @@ function Officer() {
     });
   };
 
-  
   const Fetchcc = () => {
     FetchData(formSearch.values.customer_type_id);
   };
   // const { height, width } = useViewportSize();
   return (
     <>
-      <LoadingOverlay visible={OverLayLoad} loaderProps={{ type: "dots", color: "var(--primary)" }} overlayProps={{ radius: "sm", blur: 1 }} />
+      <LoadingOverlay
+        visible={OverLayLoad}
+        loaderProps={{ type: "dots", color: "var(--primary)" }}
+        overlayProps={{ radius: "sm", blur: 1 }}
+      />
       <Container fluid px={0} bg={"white"}>
         <Badge color="var(--primary)" variant="light" size="md" radius={8}>
           ข้อมูลบุคลากร
@@ -205,18 +244,43 @@ function Officer() {
           >
             <Flex direction={{ base: "column", md: "row" }} gap={10}>
               <Flex gap={5} w="100%">
-                <Select maw={400} w={{ base: null, sm: "100%" }} searchable withAsterisk label="ประเภทบุคลากร" {...formSearch.getInputProps("customer_type_id")} data={DataSelectTypeCustomer} />
-                <Button maw={200} w={{ base: null, sm: "100%" }} mt={{ base: 0, sm: 33, md: 33 }} color="var(--primary)" type="submit" leftSection={<IconSearch />}>
+                <Select
+                  maw={400}
+                  w={{ base: null, sm: "100%" }}
+                  searchable
+                  withAsterisk
+                  label="ประเภทบุคลากร"
+                  {...formSearch.getInputProps("customer_type_id")}
+                  data={DataSelectTypeCustomer}
+                />
+                <Button
+                  maw={200}
+                  w={{ base: null, sm: "100%" }}
+                  mt={{ base: 0, sm: 33, md: 33 }}
+                  color="var(--primary)"
+                  type="submit"
+                  leftSection={<IconSearch />}
+                >
                   ค้นหา
                 </Button>
                 <ManageOfficer />
                 <Tooltip label="อัพเดทบุคลากรเพิ่มใหม่">
-                  <ActionIcon size={"lg"} mt={{ base: 0, sm: 33, md: 33 }} onClick={() => UpdateUserAdd()} color="var(--success)">
+                  <ActionIcon
+                    size={"lg"}
+                    mt={{ base: 0, sm: 33, md: 33 }}
+                    onClick={() => UpdateUserAdd()}
+                    color="var(--success)"
+                  >
                     <IconRefresh />
                   </ActionIcon>
                 </Tooltip>
                 <Tooltip label="อัพเดทสถานะบุคลากรลาออก">
-                  <ActionIcon size={"lg"} mt={{ base: 0, sm: 33, md: 33 }} onClick={() => UpdateStatusUserOut()} color="var(--danger)">
+                  <ActionIcon
+                    size={"lg"}
+                    mt={{ base: 0, sm: 33, md: 33 }}
+                    onClick={() => UpdateStatusUserOut()}
+                    color="var(--danger)"
+                  >
                     <IconUserCancel />
                   </ActionIcon>
                 </Tooltip>
@@ -231,7 +295,19 @@ function Officer() {
           <Badge variant="light">รายการบุคลากร</Badge>
         </Paper>
         {/* <Paper m={0} shadow="md" p={0} mt={10}> */}
-        {LoadTable ? <SkeletonTable /> : <MDBDataTableV5 responsiveMd striped searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ" searchTop searchBottom={false} data={TableUser} noRecordsFoundLabel="ไม่พบรายการ" />}
+        {LoadTable ? (
+          <SkeletonTable />
+        ) : (
+          <MDBDataTableV5
+            responsiveMd
+            striped
+            searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ"
+            searchTop
+            searchBottom={false}
+            data={TableUser}
+            noRecordsFoundLabel="ไม่พบรายการ"
+          />
+        )}
         {/* </Paper> */}
       </Container>
     </>
