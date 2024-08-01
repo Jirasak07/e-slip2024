@@ -114,7 +114,7 @@ function Steppers({ val }) {
           onClick={() => {
             UpdateHR();
           }}
-          label="กจ"
+          label="บค."
           description="นำเข้าข้อมูลบุคลากรและเงินเดือน"
         ></Stepper.Step>
         <Stepper.Step label="การเงิน" description="จัดทำเงินเดือน"></Stepper.Step>

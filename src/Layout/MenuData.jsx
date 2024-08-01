@@ -237,11 +237,6 @@ export const menus = [
             path: "/manage-user/user",
             icon: <IconUser />,
           },
-          // {
-          //   title: "KTB Corporate Online",
-          //   path: "/manage-user/ktb",
-          //   icon: <IconBuildingBank />,
-          // },
         ],
       },
       {
@@ -254,11 +249,7 @@ export const menus = [
             path: "/manage-salary/update-salary",
             icon: <IconRefresh />,
           },
-          {
-            title: "แก้ไขรายรับตามประเภท",
-            path: "/manage-salary/add-revenue-fromtype",
-            icon: <IconPlaylistAdd />,
-          },
+     
           {
             title: "นำเข้าและส่งออกข้อมูลเงินเดือนที่ปรับขึ้นใหม่",
             path: "/manage-salary/import-export1715",
@@ -268,6 +259,11 @@ export const menus = [
             title: "ประวัติการนำเข้าข้อมูลเงินเดือนที่ปรับขึ้นใหม่",
             path: "/manage-salary/import-history",
             icon: <IconHistoryToggle />,
+          },
+          {
+            title: "แก้ไขรายรับตามประเภท",
+            path: "/manage-salary/add-revenue-fromtype",
+            icon: <IconPlaylistAdd />,
           },
         ],
       },
