@@ -17,7 +17,7 @@ export default function ModaladdBudget() {
 
             const datafrm = new FormData(); //สร้างฟอร์มสำหรับการส่งข้อมูล
             datafrm.append("namebudget", initialValues.name);
-            datafrm.append("levelbudget", initialValues.levelbudget);
+            // datafrm.append("levelbudget", initialValues.levelbudget);
       
             axios.post(API+"/index/InsertBudget",datafrm,{
               headers: {
@@ -61,14 +61,14 @@ export default function ModaladdBudget() {
 
         <Box maw={340} mx="auto">
             <form onSubmit={form.onSubmit(submitdata)}>
-              <NumberInput
+              {/* <NumberInput
                 mt="sm"
                 label="รหัสงบประมาณ"
                 placeholder="levelbudget"
                 min={0}
                 max={99}
                 {...form.getInputProps('levelbudget')}
-              />
+              /> */}
                 <TextInput label="ชื่องบประมาณ" placeholder="ชื่องบประมาณ" {...form.getInputProps('name')} />
               <Button type="submit" mt="sm">
                 เพิ่ม
