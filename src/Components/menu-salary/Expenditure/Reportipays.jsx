@@ -336,6 +336,8 @@ function Reportipay() {
           //  setLoadTable(false);
 
           setDataTotalsummary(res.data);
+        }else{
+          setDataTotalsummary([]);
         }
       });
 
