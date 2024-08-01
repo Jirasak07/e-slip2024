@@ -23,6 +23,7 @@ function ManageOfficer() {
       customers_type: "",
       customers_status: "",
       customers_budget: "",
+      position_number: "",
     },
     validate: {
       customer_type_id: isNotEmpty(""),
@@ -83,6 +84,7 @@ function ManageOfficer() {
     formData.append("customers_type", e.customer_type_id);
     formData.append("customers_status", e.customer_status_id);
     formData.append("customers_budget", e.customer_budget);
+    formData.append("position_number", e.position_number);
     axios.post(API + "/index/AddNewCustomers", formData).then((res) => {
       console.log(res.data);
       const data = res.data;
@@ -187,7 +189,9 @@ function ManageOfficer() {
               <TextInput label="นามสกุล" {...form.getInputProps("customers_lname")} />
             </Grid.Col>
           </Grid>
+        
           <Select searchable data={form.values.DATA_TYPE_USER} {...form.getInputProps("customer_type_id")} allowDeselect={false} label="เลือกประเภทบุคลากร" />
+          <TextInput  label="เลขที่ตำแหน่ง (ว่างได้)" {...form.getInputProps("position_number")} />
           <Select searchable data={form.values.DATA_STATUS_USER} {...form.getInputProps("customer_status_id")} allowDeselect={false} label="สถานะการทำงาน" />
           <Select searchable data={form.values.DATA_TYPE_BUDGET} {...form.getInputProps("customer_budget")} allowDeselect={false} label="ประเภทงบประมาณ" />
           <Flex justify={"flex-end"} pt={10}>
