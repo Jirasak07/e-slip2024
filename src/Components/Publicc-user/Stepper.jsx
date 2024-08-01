@@ -43,8 +43,22 @@ function Steppers({ val }) {
     const today = new Date();
     const year = new Date().getFullYear();
     const months = String(today.getMonth() + 1).padStart(2, "0");
-    const monthsuccess = String(today.getMonth() + 2).padStart(2, "0");
     // axios.post()
+
+
+
+
+  
+    // สร้างวัตถุ Date ใหม่
+    const todaynxt = new Date();
+  
+    // สร้างสำเนาของวันนี้เพื่อหลีกเลี่ยงการเปลี่ยนแปลงวัตถุเดิม
+    const nextMonth = new Date(todaynxt);
+    
+    // เพิ่มเดือนถัดไป
+    nextMonth.setMonth(todaynxt.getMonth() + 1);
+  
+
     Swal.fire({
       icon: "info",
       title: "ยืนยันอัพเดทสถานะ",
@@ -63,6 +77,26 @@ function Steppers({ val }) {
             fname === "ปรางค์ทิพย์"
           ){
             ////success
+            const fmdata = new FormData();
+            const yearnxt = nextMonth.getFullYear();
+            const monthnxt = nextMonth.getMonth() + 1;
+            fmdata.append("process_year", year);
+            fmdata.append("process_month", months);
+            fmdata.append("process_status", "1");
+            fmdata.append("year_new", yearnxt);
+            fmdata.append("month_new", monthnxt);
+            axios.post(API + "/index/updateprocessSuccess", fmdata).then((res)=>{
+              if (res.data === "200") {
+                Swal.fire({
+                  icon: "success",
+                  title: "success",
+                  timer: 1200,
+                  showConfirmButton: false,
+                }).then((re) => {
+                  Fetch2();
+                });
+              }
+            })
           }
         }else{
            if (fname === "งานบริหารทรัพยากรบุคคลและนิติการ") {
