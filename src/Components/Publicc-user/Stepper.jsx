@@ -43,6 +43,7 @@ function Steppers({ val }) {
     const today = new Date();
     const year = new Date().getFullYear();
     const months = String(today.getMonth() + 1).padStart(2, "0");
+    const monthsuccess = String(today.getMonth() + 2).padStart(2, "0");
     // axios.post()
     Swal.fire({
       icon: "info",
@@ -52,7 +53,19 @@ function Steppers({ val }) {
       confirmButtonText:"ยืนยัน"
     }).then((res) => {
       if (res.isConfirmed) {
-        if (fname === "งานบริหารทรัพยากรบุคคลและนิติการ") {
+        if(active >= 2){
+          if (
+            fname === "วรรณภา" ||
+            fname === "นฤมล" ||
+            fname === "ปราจิน" ||
+            fname === "วราภรณ์" ||
+            fname === "จิรศักดิ์" ||
+            fname === "ปรางค์ทิพย์"
+          ){
+            ////success
+          }
+        }else{
+           if (fname === "งานบริหารทรัพยากรบุคคลและนิติการ") {
           const fmdata = new FormData();
           fmdata.append("process_year", year);
           fmdata.append("process_month", months);
@@ -94,6 +107,8 @@ function Steppers({ val }) {
             }
           });
         }
+        }
+       
       }
     });
   };
@@ -111,9 +126,6 @@ function Steppers({ val }) {
         }}
       >
         <Stepper.Step
-          onClick={() => {
-            UpdateHR();
-          }}
           label="บค."
           description="นำเข้าข้อมูลบุคลากรและเงินเดือน"
         ></Stepper.Step>
