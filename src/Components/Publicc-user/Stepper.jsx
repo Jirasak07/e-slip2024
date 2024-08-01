@@ -80,11 +80,12 @@ function Steppers({ val }) {
             const fmdata = new FormData();
             const yearnxt = nextMonth.getFullYear();
             const monthnxt = nextMonth.getMonth() + 1;
+            const monthssss = String(monthnxt).padStart(2, "0");
             fmdata.append("process_year", year);
             fmdata.append("process_month", months);
             fmdata.append("process_status", "1");
             fmdata.append("year_new", yearnxt);
-            fmdata.append("month_new", monthnxt);
+            fmdata.append("month_new", monthssss);
             axios.post(API + "/index/updateprocessSuccess", fmdata).then((res)=>{
               if (res.data === "200") {
                 Swal.fire({
