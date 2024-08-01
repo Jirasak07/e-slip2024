@@ -24,7 +24,7 @@ export default function ModaleditBudget(props) {
     const datafrm = new FormData(); //สร้างฟอร์มสำหรับการส่งข้อมูล
     datafrm.append("idbudget", props.idbudget);
     datafrm.append("namebudget", initialValues.name);
-    datafrm.append("levelbudget", initialValues.levelbudget);
+    // datafrm.append("levelbudget", initialValues.levelbudget);
 
     axios
       .post(API + "/index/updateBudget", datafrm, {
@@ -65,7 +65,7 @@ export default function ModaleditBudget(props) {
     //  console.log(props.idbudget);
 
     form.setFieldValue("name", props.namebudget);
-    form.setFieldValue("levelbudget", props.levelbudget);
+    // form.setFieldValue("levelbudget", props.levelbudget);
   }, []);
 
   return (
@@ -74,14 +74,14 @@ export default function ModaleditBudget(props) {
         <Box maw={340} mx="auto">
           <form onSubmit={form.onSubmit(submitdata)}>
         
-            <NumberInput
+            {/* <NumberInput
               mt="sm"
               label="รหัสงบประมาณ"
               placeholder="levelbudget"
               min={0}
               max={99}
               {...form.getInputProps("levelbudget")}
-            />
+            /> */}
                 <TextInput label="ชื่องบประมาณ" placeholder="ชื่องบประมาณ" {...form.getInputProps("name")} />
             <Button type="submit" color="orange" mt="sm">
               เพิ่มแก้ไข

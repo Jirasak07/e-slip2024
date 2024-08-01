@@ -48,11 +48,11 @@ componentDidMount() {
             field: 'namebudget',
             width: 200,
           },
-          {
-            label: 'level',
-            field: 'levelbudget',
-            width: 200,
-          },
+          // {
+          //   label: 'level',
+          //   field: 'levelbudget',
+          //   width: 200,
+          // },
           {
             label: 'จัดการ',
             field: 'levelbudget1',
@@ -64,7 +64,7 @@ componentDidMount() {
           {
              name: <>{i+1}</>,
              namebudget: data.namebudget,
-             levelbudget: data.levelbudget,
+            //  levelbudget: data.levelbudget,
              levelbudget1: <><ModaleditBudget idbudget={data.idbudget} namebudget={data.namebudget} levelbudget={data.levelbudget} getshowBudget={this.getshowBudget} /></>,
           }
          )
