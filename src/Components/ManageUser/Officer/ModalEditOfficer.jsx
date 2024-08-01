@@ -20,6 +20,7 @@ function ModalEditOfficer({ customerid, fn,cname }) {
       customer_type_id: "",
       customer_status_id: "",
       customer_budget_id: "",
+      customers_positionnumber:""
     },
     validate: {
       customer_status_id: isNotEmpty("ว่าง"),
@@ -65,6 +66,7 @@ function ModalEditOfficer({ customerid, fn,cname }) {
           customer_budget_id: value.customers_budget,
           fname: value.customers_pname + value.customers_name,
           lname: value.customers_lname,
+          customers_positionnumber:value.customers_positionnumber
         });
       }
   };
@@ -85,6 +87,7 @@ function ModalEditOfficer({ customerid, fn,cname }) {
     frmData.append("customers_citizent", value.customers_citizent);
     frmData.append("customers_type_id", value.customer_type_id);
     frmData.append("customers_budget_id", value.customer_budget_id);
+    frmData.append("customers_positionnumber", value.customers_positionnumber);
     axios.post(API + "/index/updatestatuswork", frmData).then((res) => {
       if (res.data === "200") {
         Swal.fire({
@@ -117,6 +120,7 @@ function ModalEditOfficer({ customerid, fn,cname }) {
             </SimpleGrid>
             <SimpleGrid cols={2}>
               <Select searchable data={DataSelectTypeCustomer} {...formEmploy.getInputProps("customer_type_id")} label="ประเภท" />
+              <TextInput {...formEmploy.getInputProps("customers_positionnumber")} label="เลที่ตำแหน่ง" />
               <Select searchable data={DataStatus} {...formEmploy.getInputProps("customer_status_id")} allowDeselect={false} label="สถานะ" />
             </SimpleGrid>
             <SimpleGrid cols={2}>
