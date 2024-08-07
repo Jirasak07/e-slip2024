@@ -217,7 +217,7 @@ function Salary() {
           "/" +
           value.year +
           "/" +
-          value.month
+          value.month+"/"+value.idbudget
       )
       .then((res) => {
         const data = res.data;
@@ -324,16 +324,33 @@ function Salary() {
   useEffect(() => {
     FetchTypeEmploy();
     FetchYear();
+    FetchBudget();
   }, []);
 
+  const FetchBudget = (params) => {
+    axios.get(API + "/index/showBudget").then((res) => {
+      const data = res.data;
+      if (data.length !== 0) {
+        //   setLoadTable(false);
+        const select = data.map((i) => ({
+          value: i.idbudget,
+          label: i.namebudget,
+        }));
+
+        formSearch.setValues({ DATABUDGET: select });
+      }
+    });
+  };
   const formSearch = useForm({
     initialValues: {
       type_employ: "",
+      idbudget: "",
       month: (new Date().getMonth().toString().length === 1
         ? "0" + new Date().getMonth()
         : new Date().getMonth()
       ).toString(),
       year: new Date().getFullYear().toString(),
+      DATABUDGET: [],
     },
 
     validate: {
@@ -356,6 +373,12 @@ function Salary() {
             })}
           >
             <SimpleGrid cols={{ base: 2, md: 4 }}>
+              <Select
+                searchable
+                data={formSearch.values.DATABUDGET}
+                {...formSearch.getInputProps("idbudget")}
+                label="ประเภทงบประมาณ"
+              />
               <Select
                 searchable
                 data={DataTypeEmploy}
