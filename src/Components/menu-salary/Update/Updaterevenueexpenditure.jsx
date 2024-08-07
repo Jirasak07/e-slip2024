@@ -173,7 +173,15 @@ function Updaterevenueexpenditure() {
 
     setTimeout(() => {
       axios
-        .get(API + "/index/showhistoryrevenueorexpenditure/" + value.year + "/" + value.month + "/" + value.type_employ)
+        .get(
+          API +
+            "/index/showhistoryrevenueorexpenditure/" +
+            value.year +
+            "/" +
+            value.month +
+            "/" +
+            value.type_employ
+        )
         .then((res) => {
           setOverLay(false);
           console.log(res.data);
@@ -182,13 +190,15 @@ function Updaterevenueexpenditure() {
             setLoadTable(false);
 
             setDatarevenue(res.data);
+          } else {
+            setDatarevenue([]);
           }
         });
     }, 400);
   };
 
   const submitdata = (value) => {
-    setOverLay(true)
+    setOverLay(true);
     // console.log(value.type_employ);
     // console.log(value.month);
     // console.log(value.year);
@@ -205,7 +215,7 @@ function Updaterevenueexpenditure() {
         check: form,
       })
       .then((res) => {
-        setOverLay(false)
+        setOverLay(false);
         Swal.fire({
           title: "อัพเดทข้อมูลสำเร็จ",
           icon: "success",
@@ -229,13 +239,13 @@ function Updaterevenueexpenditure() {
     initialValues: {
       type_employ: "",
       month: (new Date().getMonth().toString().length === 1
-        ? "0" + (new Date().getMonth())
+        ? "0" + new Date().getMonth()
         : new Date().getMonth()
       ).toString(),
       year: new Date().getFullYear().toString(),
       monthend: (new Date().getMonth().toString().length === 1
-      ? "0" + (new Date().getMonth() + 1)
-      : new Date().getMonth() + 1
+        ? "0" + (new Date().getMonth() + 1)
+        : new Date().getMonth() + 1
       ).toString(),
       yearend: new Date().getFullYear().toString(),
     },
@@ -255,7 +265,6 @@ function Updaterevenueexpenditure() {
         <Badge color="var(--primary)" variant="light" size="md" radius={8}>
           อัพเดทข้อมูล รายรับ-รายจ่าย จากเดือนก่อนหน้า
         </Badge>
-
         <form
           onSubmit={formSearch.onSubmit((v) => {
             searchdata(v);
@@ -264,7 +273,8 @@ function Updaterevenueexpenditure() {
           <Flex justify={"center"}>
             <Paper mt={20} mb={20} maw={900} w={"100%"}>
               <SimpleGrid>
-                <Select searchable
+                <Select
+                  searchable
                   allowDeselect={false}
                   data={DataTypeEmploy}
                   {...formSearch.getInputProps("type_employ")}
@@ -272,26 +282,40 @@ function Updaterevenueexpenditure() {
                 />
               </SimpleGrid>
               <SimpleGrid cols={2} pt={15}>
-                <Select searchable
+                <Select
+                  searchable
                   allowDeselect={false}
                   label="เลือกเดือนที่จะใช้ข้อมูลเข้าเดือนใหม่"
                   data={selectmount}
                   {...formSearch.getInputProps("month")}
                 />
-                <Select searchable allowDeselect={false} label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
+                <Select
+                  searchable
+                  allowDeselect={false}
+                  label="ปี"
+                  data={DataYear}
+                  {...formSearch.getInputProps("year")}
+                />
               </SimpleGrid>
               <Flex justify={"center"} my={"xl"}>
                 <IconArrowDown />
               </Flex>
 
               <SimpleGrid cols={2}>
-                <Select searchable
+                <Select
+                  searchable
                   allowDeselect={false}
                   label="เลือกเดือนที่จะนำข้อมูลเข้า "
                   data={selectmount}
                   {...formSearch.getInputProps("monthend")}
                 />
-                <Select searchable allowDeselect={false} label="ปี" data={DataYear} {...formSearch.getInputProps("yearend")} />
+                <Select
+                  searchable
+                  allowDeselect={false}
+                  label="ปี"
+                  data={DataYear}
+                  {...formSearch.getInputProps("yearend")}
+                />
               </SimpleGrid>
               <SimpleGrid>
                 <Button w={"100%"} type="submit" mt={33} leftSection={<IconSearch />}>
@@ -307,16 +331,13 @@ function Updaterevenueexpenditure() {
               <Text size="xl">
                 พบข้อมูลรายรับ/รายจ่าย จำนวน : <IconArrowDown />{" "}
               </Text>
-              <Paper shadow="sm" p={10} maw={200} >
+              <Paper shadow="sm" p={10} maw={200}>
                 <Flex justify={"center"} align={"center"} gap={10}>
-                     <Text fz={"50px"} c={"green"}>
-                  <NumberFormatter thousandSeparator value={Datarevenue.length} />
-                </Text> 
-              <Text size="md"  >
-                รายการ
-                </Text>  
+                  <Text fz={"50px"} c={"green"}>
+                    <NumberFormatter thousandSeparator value={Datarevenue.length} />
+                  </Text>
+                  <Text size="md">รายการ</Text>
                 </Flex>
-              
               </Paper>
               <Button
                 disabled={Datarevenue.length != 0 ? false : true}
@@ -330,7 +351,8 @@ function Updaterevenueexpenditure() {
             </SimpleGrid>
           </Paper>
         </Flex>
-        ไม่รวมเงินตอบแทนพิเศษ(20),ตกเบิกเงินเดือน(15),ตกเบิกเงินเดือน 1.7/1.5(99),ตกเบิกเงินเดือน 0.1(100)
+        ไม่รวมเงินตอบแทนพิเศษ(20),ตกเบิกเงินเดือน(15),ตกเบิกเงินเดือน 1.7/1.5(99),ตกเบิกเงินเดือน
+        0.1(100)
       </Container>
     </>
   );
