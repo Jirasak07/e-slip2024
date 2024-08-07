@@ -12,7 +12,7 @@ import {
   Group,
   LoadingOverlay,
   ActionIcon,
-  MultiSelect
+  MultiSelect,
 } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import {
@@ -132,11 +132,10 @@ function Uploadsalary1715() {
   const [Databackpay01, setDataDatabackpay01] = useState([]); //ตกเบิก01
   const [Databackpay1715, setDataDatabackpay1715] = useState([]); //ตกเบิก1715
 
-
- const [NameBudget, setNameBudget] = useState("");
- const [Namemount, setNamemount] = useState("");
- const [Nameyear, setNameyear] = useState("");
- const [Nametype, setNametype] = useState("");
+  const [NameBudget, setNameBudget] = useState("");
+  const [Namemount, setNamemount] = useState("");
+  const [Nameyear, setNameyear] = useState("");
+  const [Nametype, setNametype] = useState("");
   //const [file, setFile] = useState<File | null>(null);
   const [file, setFile] = useState([]);
 
@@ -144,31 +143,30 @@ function Uploadsalary1715() {
     const workbook = new ExcelJs.Workbook();
     const sheet = workbook.addWorksheet("Mysheet");
     sheet.properties.defaultRowHeight = 15;
-    sheet.getCell('H1').fill = {
+    sheet.getCell("H1").fill = {
       type: "pattern",
       pattern: "solid",
       fgColor: { argb: "a9dfbf" },
       bgColor: { argb: "FF0000FF" },
-     };
-     sheet.getCell('I1').fill = {
+    };
+    sheet.getCell("I1").fill = {
       type: "pattern",
       pattern: "solid",
       fgColor: { argb: "a9dfbf" },
       bgColor: { argb: "FF0000FF" },
-     };
-     sheet.getCell('J1').fill = {
+    };
+    sheet.getCell("J1").fill = {
       type: "pattern",
       pattern: "solid",
       fgColor: { argb: "a9dfbf" },
       bgColor: { argb: "FF0000FF" },
-     };
-     sheet.getCell('K1').fill = {
+    };
+    sheet.getCell("K1").fill = {
       type: "pattern",
       pattern: "solid",
       fgColor: { argb: "a9dfbf" },
       bgColor: { argb: "FF0000FF" },
-     };
-   
+    };
 
     sheet.columns = [
       {
@@ -227,7 +225,6 @@ function Uploadsalary1715() {
         header: "จำนวนเดือนตกเบิก",
         key: "history_salary_salary3",
         width: 20,
-
       },
     ];
 
@@ -255,8 +252,17 @@ function Uploadsalary1715() {
       const url = window.URL.createObjectURL(blob);
       const anchor = document.createElement("a");
       anchor.href = url;
-      anchor.download = "ข้อมูลเงินเดือนงบ"+NameBudget+"-ประเภท"+Nametype+"-ปี "+Nameyear+"-เดือน "+Namemount+".xlsx";
-      DataYear
+      anchor.download =
+        "ข้อมูลเงินเดือนงบ" +
+        NameBudget +
+        "-ประเภท" +
+        Nametype +
+        "-ปี " +
+        Nameyear +
+        "-เดือน " +
+        Namemount +
+        ".xlsx";
+      DataYear;
       anchor.click();
       window.URL.revokeObjectURL(url);
     });
@@ -343,7 +349,7 @@ function Uploadsalary1715() {
             value: i.revenue_name,
             label: i.revenue_name,
           }));
-          setDataexpenditurelist(select);
+          // setDataexpenditurelist(select);
         }
       });
     }, 400);
@@ -381,7 +387,6 @@ function Uploadsalary1715() {
         const worksheet = workbook.Sheets[sheetName];
         const json = xlsx.utils.sheet_to_json(worksheet);
         console.log(json);
-
         function round(number, num_digits) {
           const decimalPlaces = 2;
           const result = number.toFixed(decimalPlaces);
@@ -408,14 +413,14 @@ function Uploadsalary1715() {
           customers_lname: i.นามสกุล,
           history_salary_salary: parseFloat(i.เงินเดือนบัจจุบัน).toFixed(2),
           history_salary_salary1715:
-            i.customers_type === "4"
-              ? i.customers_line === "1"
+          i.customers_type === "4" ||  i.customers_type === 4
+             ? i.customers_line === 1 || i.customers_line === "1"
                 ? round((i.เงินเดือนบัจจุบัน * 1.7) / 1.6, -1)
                 : round((i.เงินเดือนบัจจุบัน * 1.5) / 1.4, -1)
               : "0.00",
           history_salary_salary01:
-            i.customers_type === "4"
-              ? i.customers_line === "1"
+                          i.customers_type === "4" ||  i.customers_type === 4
+             ? i.customers_line === 1 || i.customers_line === "1"
                 ? (round((i.เงินเดือนบัจจุบัน * 1.7) / 1.6, -1) - i.เงินเดือนบัจจุบัน).toFixed(2)
                 : (round((i.เงินเดือนบัจจุบัน * 1.5) / 1.4, -1) - i.เงินเดือนบัจจุบัน).toFixed(2)
               : "0.00",
@@ -427,14 +432,14 @@ function Uploadsalary1715() {
               ? "0.00"
               : i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก, //ตกเบิก
           backpay1715:
-            i.customers_type === "4"
-              ? i.customers_line === "1"
+                          i.customers_type === "4" ||  i.customers_type === 4
+             ? i.customers_line === 1 || i.customers_line === "1"
                 ? round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.7) / 1.6, -1)
                 : round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.5) / 1.4, -1)
               : "0.00", //ตกเบิก1715
           backpay01:
-            i.customers_type === "4"
-              ? i.customers_line === "1"
+                          i.customers_type === "4" ||  i.customers_type === 4
+             ? i.customers_line === 1 || i.customers_line === "1"
                 ? round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.7) / 1.6, -1) -
                   i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก
                 : round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.5) / 1.4, -1) -
@@ -490,7 +495,7 @@ function Uploadsalary1715() {
               customers_citizent: i.เลขบัตร,
               customers_type: i.customers_type,
               customers_line:
-                i.customers_line === "1" ? (
+                i.customers_line === 1  || i.customers_line === "1" ? (
                   <Text c="blue">สายวิชาการ</Text>
                 ) : (
                   <Text c="red.9">สายสนับสนุน</Text>
@@ -504,11 +509,11 @@ function Uploadsalary1715() {
                 </Text>
               ),
               history_salary_salary1715:
-                i.customers_type === "4" ? (
-                  i.customers_line === "1" ? (
+                              i.customers_type === "4" ||  i.customers_type === 4 ?(
+                  i.customers_line === 1 || i.customers_line === "1" ? (
                     <NumberFormatter
                       thousandSeparator
-                      value={round((i.เงินเดือนบัจจุบัน * 1.7) / 1.6, -1)}
+                      value={round((parseFloat(i.เงินเดือนบัจจุบัน) * 1.7) / 1.6, -1)}
                       decimalScale={2}
                     />
                   ) : (
@@ -523,8 +528,8 @@ function Uploadsalary1715() {
                 ),
 
               history_salary_salary01:
-                i.customers_type === "4" ? (
-                  i.customers_line === "1" ? (
+                              i.customers_type === "4" ||  i.customers_type === 4 ?(
+                  i.customers_line === 1 || i.customers_line === "1" ? (
                     <NumberFormatter
                       thousandSeparator
                       value={round((i.เงินเดือนบัจจุบัน * 1.7) / 1.6, -1) - i.เงินเดือนบัจจุบัน}
@@ -551,11 +556,11 @@ function Uploadsalary1715() {
                 />
               ), //ตกเบิก
               backpay1715:
-                i.customers_type === "4" ? (
-                  i.customers_line === "1" ? (
+                              i.customers_type === "4" ||  i.customers_type === 4 ?(
+                  i.customers_line ===  1 ? (
                     <NumberFormatter
                       thousandSeparator
-                      value={round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.7) / 1.6, -1)}
+                      value={round((Number(i.เงินเลื่อนขั้น) * Number(i.จำนวนเดือนตกเบิก) * 1.7) / 1.6, -1)}
                       decimalScale={2}
                     />
                   ) : (
@@ -569,8 +574,8 @@ function Uploadsalary1715() {
                   "-"
                 ), //ตกเบิก1715
               backpay01:
-                i.customers_type === "4" ? (
-                  i.customers_line === "1" ? (
+                              i.customers_type === "4" ||  i.customers_type === 4 ?(
+                  i.customers_line ===  1 ? (
                     <NumberFormatter
                       thousandSeparator
                       value={
@@ -801,25 +806,22 @@ function Uploadsalary1715() {
   };
 
   const Fetchshowhistorysalarylist = (value) => {
+    setNameBudget(value.idbudget);
+    setNamemount(value.month);
+    setNameyear(value.year);
 
-
-    setNameBudget(value.idbudget)
-    setNamemount(value.month)
-    setNameyear(value.year)
-   
     // setLoadTable(true);
-    console.log(value.customertype)
-    let text = ""
-    value.customertype.forEach((i,k) => {
-     if((k+1) === value.customertype.length ){
-      text += "'"+i+"'";
-     }else{
-      text += "'"+i+"',";
-     }
-      
+    console.log(value.customertype);
+    let text = "";
+    value.customertype.forEach((i, k) => {
+      if (k + 1 === value.customertype.length) {
+        text += "'" + i + "'";
+      } else {
+        text += "'" + i + "',";
+      }
     });
-console.log(text)
-setNametype(text)
+    console.log(text);
+    setNametype(text);
 
     setTimeout(() => {
       axios
@@ -830,7 +832,7 @@ setNametype(text)
             "/" +
             value.month +
             "/" +
-            value.idbudget+
+            value.idbudget +
             "/" +
             text
         )
@@ -922,22 +924,22 @@ setNametype(text)
                                 <Select searchable label="ปี" data={DataYear} {...formSearch.getInputProps("yearend")} mt={10} /> */}
               </Grid.Col>
               <Grid.Col span={2}>
-              <MultiSelect
-                label="ประเภทพนักงาน"
-                placeholder="เลือกประเภทพนักงาน"
-                data={[
-                  { value: '1', label: 'ลูกจ้างชั่วคราว' },
-                  { value: '2', label: 'ลูกจ้างประจำ' },
-                  { value: '3', label: 'พนักงานราชการ' },
-                  { value: '4', label: 'พนักงานมหาวิทยาลัย' },
-                  { value: '5', label: 'อาจารย์ประจำตามสัญญาจ้าง' },
-                  { value: '6', label: 'ข้าราชการ/ข้าราชการพลเรือน' },
-                  { value: '7', label: 'อาจารย์ต่างชาติ' },
-                  { value: '8', label: 'บุคลากรภายนอก' },
-                ]}
-                {...formSearch.getInputProps("customertype")}
-              />
-      </Grid.Col>
+                <MultiSelect
+                  label="ประเภทพนักงาน"
+                  placeholder="เลือกประเภทพนักงาน"
+                  data={[
+                    { value: "1", label: "ลูกจ้างชั่วคราว" },
+                    { value: "2", label: "ลูกจ้างประจำ" },
+                    { value: "3", label: "พนักงานราชการ" },
+                    { value: "4", label: "พนักงานมหาวิทยาลัย" },
+                    { value: "5", label: "อาจารย์ประจำตามสัญญาจ้าง" },
+                    { value: "6", label: "ข้าราชการ/ข้าราชการพลเรือน" },
+                    { value: "7", label: "อาจารย์ต่างชาติ" },
+                    { value: "8", label: "บุคลากรภายนอก" },
+                  ]}
+                  {...formSearch.getInputProps("customertype")}
+                />
+              </Grid.Col>
               {/* <Grid.Col span={4}>
                                  <Select searchable label="ประเภทรายจ่าย" data={Dataexpenditurelist} {...formSearch.getInputProps("type")}  />
                                
@@ -991,9 +993,12 @@ setNametype(text)
               </Button>
             </form>
           </Group>
-          <ActionIcon onClick={()=>{
-            window.open("http://git.kpru.ac.th/FrontEnd_Salary/public/uploads/money.xlsx")
-          }} size={"xs"}>
+          <ActionIcon
+            onClick={() => {
+              window.open("http://git.kpru.ac.th/FrontEnd_Salary/public/uploads/money.xlsx");
+            }}
+            size={"xs"}
+          >
             <IconQuestionMark />
           </ActionIcon>
           {files && (
@@ -1015,7 +1020,8 @@ setNametype(text)
           ) : (
             <MDBDataTableV5
               data={Tablelist}
-              responsive entries={100}
+              responsive
+              entries={100}
               striped
               searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ"
               barReverse

@@ -70,7 +70,7 @@ const SalaryChane = (salary) => {
     const result1 = Math.round(result * factor) / factor;
     return result1.toFixed(decimalPlaces);
   }
-  // i.customers_type === "4" ? (i.customers_line === "1" ? round((i.เงินเดือนบัจจุบัน * 1.7) / 1.6, -1) : round((i.เงินเดือนบัจจุบัน * 1.5) / 1.4, -1)) : "0.00",
+  // i.customers_type === "4" ? (i.customers_line ===  1 ? round((i.เงินเดือนบัจจุบัน * 1.7) / 1.6, -1) : round((i.เงินเดือนบัจจุบัน * 1.5) / 1.4, -1)) : "0.00",
   if(customers_type === "4"){
     if(customers_line === "1"){
       const money = round((salary*1.7)/1.6,-1);
