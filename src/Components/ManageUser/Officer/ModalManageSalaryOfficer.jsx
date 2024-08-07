@@ -1,4 +1,13 @@
-import { Button, Flex, Modal, NumberFormatter, Paper, Select, SimpleGrid, Text } from "@mantine/core";
+import {
+  Button,
+  Flex,
+  Modal,
+  NumberFormatter,
+  Paper,
+  Select,
+  SimpleGrid,
+  Text,
+} from "@mantine/core";
 import { IconCoin, IconSearch } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
 import React, { useState } from "react";
@@ -8,7 +17,7 @@ import { API } from "../../Config/ConfigApi";
 import ModalEditSalary from "./DetailSalaryOfficer/ModalEditSalary";
 import ModalDeleteSalary from "./DetailSalaryOfficer/ModalDeleteSalary";
 
-function ModalManageSalaryOfficer({ citizenid,customer_type_id,customers_line,cname }) {
+function ModalManageSalaryOfficer({ citizenid, customer_type_id, customers_line, cname }) {
   const [Open, setOpen] = useState(false);
   const column = [
     {
@@ -102,7 +111,6 @@ function ModalManageSalaryOfficer({ citizenid,customer_type_id,customers_line,cn
     // setLoadTable(true);
     setTimeout(() => {
       axios.get(API + "/index/showyear").then((res) => {
-
         const data = res.data;
         if (data.length !== 0) {
           // setLoadTable(false);
@@ -135,10 +143,9 @@ function ModalManageSalaryOfficer({ citizenid,customer_type_id,customers_line,cn
     axios.get(API + "/index/showhistorysalary/" + citizenid + "/" + YearNow).then((res) => {
       const data = res.data;
       if (data.length !== 0) {
+        setLastSalary(data[data.length - 1].history_salary_salary);
+        setIdBudget(data[data.length - 1].idbudget);
 
-        setLastSalary(data[data.length-1].history_salary_salary)
-        setIdBudget(data[data.length-1].idbudget)
-        
         setTable({
           columns: column,
           rows: [
@@ -146,7 +153,9 @@ function ModalManageSalaryOfficer({ citizenid,customer_type_id,customers_line,cn
               no: key + 1,
               year: parseInt(i.history_salary_year) + 543,
               month: (selectmount.find((val) => val.value === i.history_salary_month) || {}).label,
-              salary: <NumberFormatter thousandSeparator value={i.history_salary_salary} suffix=" ฿" />,
+              salary: (
+                <NumberFormatter thousandSeparator value={i.history_salary_salary} suffix=" ฿" />
+              ),
               budget: (
                 <Text fz={14} c={i.namebudget === null ? "var(--danger)" : "blue"}>
                   {i.namebudget === null ? "ไม่ได้ระบุ" : i.namebudget}{" "}
@@ -164,7 +173,15 @@ function ModalManageSalaryOfficer({ citizenid,customer_type_id,customers_line,cn
                     customers_type={i.customers_type}
                     customers_line={i.customers_line}
                   />
-                  <ModalDeleteSalary />
+                  <ModalDeleteSalary
+                    customers_citizent={i.customers_citizent}
+                    history_salary_year={i.history_salary_year}
+                    history_salary_month={i.history_salary_month}
+                    customers_type={i.customers_type}
+                    idbudget={i.idbudget}
+                    history_salary_salary={i.history_salary_salary}
+                    Fetchh={Fetchh}
+                  />
                 </Flex>
               ),
             })),
@@ -173,9 +190,9 @@ function ModalManageSalaryOfficer({ citizenid,customer_type_id,customers_line,cn
       }
     });
   };
-const Fetchh = (params) => {
-  FetchHistorySalary() 
-}
+  const Fetchh = (params) => {
+    FetchHistorySalary();
+  };
 
   return (
     <>
@@ -202,9 +219,12 @@ const Fetchh = (params) => {
         title="จัดการเงินเดือน"
       >
         <Paper>
-        <Text fw={700}  fz={20} >{citizenid} : {cname} </Text>  
+          <Text fw={700} fz={20}>
+            {citizenid} : {cname}{" "}
+          </Text>
           <SimpleGrid cols={3}>
-            <Select searchable
+            <Select
+              searchable
               allowDeselect={false}
               label="เลือกปี"
               value={YearNow}

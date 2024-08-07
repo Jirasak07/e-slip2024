@@ -5,7 +5,7 @@ function ModalDeleteOfficer() {
   return (
     <>
       <Button leftSection={<IconTrash />} size="xs" color="var(--danger)">
-        ลบ
+        
       </Button>
     </>
   );
