@@ -1,4 +1,13 @@
-import { Badge, Button, Container, Paper, Select, SimpleGrid, Flex, NumberFormatter } from "@mantine/core";
+import {
+  Badge,
+  Button,
+  Container,
+  Paper,
+  Select,
+  SimpleGrid,
+  Flex,
+  NumberFormatter,
+} from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { IconSearch, IconPrinter } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
@@ -200,67 +209,116 @@ function Salary() {
 
   const submitdata = (value) => {
     setLoadTable(true);
-    axios.get(API + "/index/showrevenueandexpenditure/" + value.type_employ + "/" + value.year + "/" + value.month).then((res) => {
-      const data = res.data;
-      if (data.lenth !== 0) {
-        setTableSalary({
-          columns: column,
-          rows: [
-            ...data.map((i, key) => ({
-              no: key + 1,
-              citizen: i.customers_citizent,
-              name: i.customers_pname + i.customers_name + " " + i.customers_lname,
-              type_employ: i.customer_type_name,
-              salary: (
-                <Text c="teal.8">
-                  <NumberFormatter thousandSeparator value={i.history_salary_salary} />
-                </Text>
-              ),
-              revenue: (
-                <Text c="blue">
-                  <NumberFormatter thousandSeparator value={i.revenue} />
-                </Text>
-              ),
-              expenses: (
-                <Text c="red.9">
-                  <NumberFormatter thousandSeparator value={i.expenditure} />
-                </Text>
-              ),
-              total: (
-                <Text c="dark.9">
-                  <NumberFormatter thousandSeparator value={i.salary_true} />
-                </Text>
-              ),
-              manage: (
-                <Flex direction={"row"} gap={5}>
-                  <ModalAddrevenue cname={i.customers_pname + i.customers_name + " " + i.customers_lname} fn={See} idbudget={i.idbudget} year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type} />
-                  <ModalExpenditure cname={i.customers_pname + i.customers_name + " " + i.customers_lname} fn={See} idbudget={i.idbudget} year={i.history_salary_year} month={i.history_salary_month} citizent={i.customers_citizent} type={i.customers_type} />
-                  <Button
-                    onClick={() => {
-                      window.open(API + "/PDF/SalarySlip.php?id=" + (parseInt(i.customers_citizent) + 33) + "&year=" + i.history_salary_year + "&month=" + i.history_salary_month + "&type=" + i.customers_type);
-                    }}
-                    color="var(--info)"
-                    leftSection={<IconPrinter />}
-                    size="xs"
-                  >
-                    พิมพ์
-                  </Button>
-                </Flex>
-              ),
-            })),
-          ],
-        });
-      }
-      setLoadTable(false);
-      const expenditure = data.reduce((sum, current) => (sum = sum + Number(current.expenditure)), 0);
-      const revenue = data.reduce((sum, current) => (sum = sum + Number(current.revenue)), 0);
-      const history_salary_salary = data.reduce((sum, current) => (sum = sum + Number(current.history_salary_salary)), 0);
-      const salary_true = data.reduce((sum, current) => (sum = sum + Number(current.salary_true)), 0);
-      setExpenditure_true(expenditure);
-      setRevenue_true(revenue);
-      setHistory_salary(history_salary_salary);
-      setSalary_true(salary_true);
-    });
+    axios
+      .get(
+        API +
+          "/index/showrevenueandexpenditure/" +
+          value.type_employ +
+          "/" +
+          value.year +
+          "/" +
+          value.month
+      )
+      .then((res) => {
+        const data = res.data;
+        if (data.lenth !== 0) {
+          setTableSalary({
+            columns: column,
+            rows: [
+              ...data.map((i, key) => ({
+                no: key + 1,
+                citizen: i.customers_citizent,
+                name: i.customers_pname + i.customers_name + " " + i.customers_lname,
+                type_employ: i.customer_type_name,
+                salary: (
+                  <Text c="teal.8">
+                    <NumberFormatter thousandSeparator value={i.history_salary_salary} />
+                  </Text>
+                ),
+                revenue: (
+                  <Text c="blue">
+                    <NumberFormatter thousandSeparator value={i.revenue} />
+                  </Text>
+                ),
+                expenses: (
+                  <Text c="red.9">
+                    <NumberFormatter thousandSeparator value={i.expenditure} />
+                  </Text>
+                ),
+                total: (
+                  <Text c="dark.9">
+                    <NumberFormatter thousandSeparator value={i.salary_true} />
+                  </Text>
+                ),
+                manage: (
+                  <Flex direction={"row"} gap={5}>
+                    <ModalAddrevenue
+                      cname={i.customers_pname + i.customers_name + " " + i.customers_lname}
+                      fn={See}
+                      idbudget={i.idbudget}
+                      year={i.history_salary_year}
+                      month={i.history_salary_month}
+                      citizent={i.customers_citizent}
+                      type={i.customers_type}
+                    />
+                    <ModalExpenditure
+                      cname={i.customers_pname + i.customers_name + " " + i.customers_lname}
+                      fn={See}
+                      idbudget={i.idbudget}
+                      year={i.history_salary_year}
+                      month={i.history_salary_month}
+                      citizent={i.customers_citizent}
+                      type={i.customers_type}
+                    />
+                    <Button
+                      onClick={() => {
+                        window.open(
+                          API +
+                            "/PDF/SalarySlip.php?id=" +
+                            (parseInt(i.customers_citizent) + 33) +
+                            "&year=" +
+                            i.history_salary_year +
+                            "&month=" +
+                            i.history_salary_month +
+                            "&type=" +
+                            i.customers_type
+                        );
+                      }}
+                      color="var(--info)"
+                      leftSection={<IconPrinter />}
+                      size="xs"
+                    >
+                      พิมพ์
+                    </Button>
+                  </Flex>
+                ),
+              })),
+            ],
+          });
+        }
+        setLoadTable(false);
+        const expenditure = data.reduce(
+          (sum, current) => (sum = sum + Number(current.expenditure)),
+          0
+        );
+        const revenue = data.reduce((sum, current) => (sum = sum + Number(current.revenue)), 0);
+        const history_salary_salary = data.reduce(
+          (sum, current) => (sum = sum + Number(current.history_salary_salary)),
+          0
+        );
+        const salary_true = data.reduce(
+          (sum, current) => (sum = sum + Number(current.salary_true)),
+          0
+        );
+        let formattedNumber = Math.floor(expenditure * 100) / 100;
+        let formattedrevenue = Math.floor(revenue * 100) / 100;
+        let formattedhistory_salary_salary = Math.floor(history_salary_salary * 100) / 100;
+        let formattedsalary_true = Math.floor(salary_true * 100) / 100;
+        setExpenditure_true(formattedNumber.toFixed(2));
+        setRevenue_true(formattedrevenue.toFixed(2));
+        setHistory_salary(formattedhistory_salary_salary.toFixed(2));
+        setSalary_true(formattedsalary_true.toFixed(2));
+      });
   };
 
   useEffect(() => {
@@ -271,7 +329,10 @@ function Salary() {
   const formSearch = useForm({
     initialValues: {
       type_employ: "",
-      month: (new Date().getMonth().toString().length === 1 ? "0" + new Date().getMonth() : new Date().getMonth()).toString(),
+      month: (new Date().getMonth().toString().length === 1
+        ? "0" + new Date().getMonth()
+        : new Date().getMonth()
+      ).toString(),
       year: new Date().getFullYear().toString(),
     },
 
@@ -295,8 +356,18 @@ function Salary() {
             })}
           >
             <SimpleGrid cols={{ base: 2, md: 4 }}>
-              <Select searchable data={DataTypeEmploy} {...formSearch.getInputProps("type_employ")} label="ประเภทบุคลากร" />
-              <Select searchable label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
+              <Select
+                searchable
+                data={DataTypeEmploy}
+                {...formSearch.getInputProps("type_employ")}
+                label="ประเภทบุคลากร"
+              />
+              <Select
+                searchable
+                label="เดือน"
+                data={selectmount}
+                {...formSearch.getInputProps("month")}
+              />
               <Select searchable label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
               <Button type="submit" mt={33} color="var(--primary)" leftSection={<IconSearch />}>
                 ค้นหา
@@ -308,20 +379,39 @@ function Salary() {
           {}
           <Flex justify={"flex-end"} gap={10} direction={"column"} align={"flex-end"}>
             <Text c={"teal.9"} size="md">
-              รวมเงินเดือน : <NumberFormatter value={History_salary} thousandSeparator suffix=" ฿" />
+              รวมเงินเดือน :{" "}
+              <NumberFormatter value={History_salary} thousandSeparator suffix=" ฿" />
             </Text>
             <Text c={"blue"} size="md">
               รวมรายรับ : <NumberFormatter value={Revenue_true} thousandSeparator suffix=" ฿" />
             </Text>
             <Text c={"red.9"} size="md">
-              รวมรายจ่าย : <NumberFormatter value={Expenditure_true} thousandSeparator suffix=" ฿" />
+              รวมรายจ่าย :{" "}
+              <NumberFormatter value={Expenditure_true} thousandSeparator suffix=" ฿" />
             </Text>
-            <Text  size="md">
-              รวมเงินเดือนสุทธิ : <NumberFormatter value={Salary_true} thousandSeparator suffix=" ฿" />
+            <Text size="md">
+              รวมเงินเดือนสุทธิ :{" "}
+              <NumberFormatter value={Salary_true} thousandSeparator suffix=" ฿" />
             </Text>
           </Flex>
         </Paper>
-        <Paper pt={20}>{LoadTable ? <SkeletonTable /> : <MDBDataTableV5 entries={100} data={TableSalary} responsive striped searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ" barReverse searchTop searchBottom={false} noRecordsFoundLabel="ไม่พบรายการ" />}</Paper>
+        <Paper pt={20}>
+          {LoadTable ? (
+            <SkeletonTable />
+          ) : (
+            <MDBDataTableV5
+              entries={100}
+              data={TableSalary}
+              responsive
+              striped
+              searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ"
+              barReverse
+              searchTop
+              searchBottom={false}
+              noRecordsFoundLabel="ไม่พบรายการ"
+            />
+          )}
+        </Paper>
       </Container>
       {/* <Button onClick={()=>{ExcelExport()}} color="green" >ExcelExport</Button> */}
     </>

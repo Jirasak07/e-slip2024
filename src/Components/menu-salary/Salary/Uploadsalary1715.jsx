@@ -112,6 +112,88 @@ function Uploadsalary1715() {
       minimal: "lg",
     },
   ];
+  const columns = [
+    {
+      label: "#",
+      field: "no",
+      minimal: "lg",
+    },
+    {
+      label: "เลขบัตร",
+      field: "customers_citizent",
+      minimal: "lg",
+    },
+    {
+      label: "สายงาน",
+      field: "customers_line",
+      minimal: "lg",
+    },
+    {
+      label: "คำนำหน้า",
+      field: "customers_pname",
+      minimal: "lg",
+    },
+    {
+      label: "ชื่อ",
+      field: "customers_name",
+      minimal: "lg",
+    },
+    {
+      label: "นามสกุล",
+      field: "customers_lname",
+      minimal: "lg",
+    },
+    {
+      label: "เงินเดือนปัจจุบัน",
+      field: "history_salary_salary",
+      minimal: "lg",
+    },
+    {
+      label: "เงินเดือน1.7/1.5",
+      field: "history_salary_salary1715",
+      minimal: "lg",
+    },
+    {
+      label: "เงินเดือน 0.1",
+      field: "history_salary_salary01",
+      minimal: "lg",
+    },
+    {
+      label: "เงินเลื่อนขั้น",
+      field: "promotionmoney",
+      minimal: "lg",
+    },
+    {
+      label: "จำนวนเดือนตกเบิก",
+      field: "numberofmonths",
+      minimal: "lg",
+    },
+    {
+      label: "เงินตกเบิก",
+      field: "backpay",
+      minimal: "lg",
+    },
+    {
+      label: "เงินตกเบิก1.7/1.5",
+      field: "backpay1715",
+      minimal: "lg",
+    },
+    {
+      label: "เงินตกเบิก01",
+      field: "backpay01",
+      minimal: "lg",
+    },
+    {
+      label: "เงินตอบแทนพิเศษ",
+      field: "compensation",
+      minimal: "lg",
+    },
+    {
+      label: "ค่าเช่าบ้าน",
+      field: "chao",
+      minimal: "lg",
+    },
+  ];
 
   const [TableSalary, setTableSalary] = useState({
     columns: column,
@@ -131,6 +213,7 @@ function Uploadsalary1715() {
   const [Databackpay, setDataDatabackpay] = useState([]); //ตกเบิก
   const [Databackpay01, setDataDatabackpay01] = useState([]); //ตกเบิก01
   const [Databackpay1715, setDataDatabackpay1715] = useState([]); //ตกเบิก1715
+  const [DataChao, setDataDataChao] = useState([]); //ค่าเช้าบ้าน
 
   const [NameBudget, setNameBudget] = useState("");
   const [Namemount, setNamemount] = useState("");
@@ -413,14 +496,14 @@ function Uploadsalary1715() {
           customers_lname: i.นามสกุล,
           history_salary_salary: parseFloat(i.เงินเดือนบัจจุบัน).toFixed(2),
           history_salary_salary1715:
-          i.customers_type === "4" ||  i.customers_type === 4
-             ? i.customers_line === 1 || i.customers_line === "1"
+            i.customers_type === "4" || i.customers_type === 4
+              ? i.customers_line === 1 || i.customers_line === "1"
                 ? round((i.เงินเดือนบัจจุบัน * 1.7) / 1.6, -1)
                 : round((i.เงินเดือนบัจจุบัน * 1.5) / 1.4, -1)
               : "0.00",
           history_salary_salary01:
-                          i.customers_type === "4" ||  i.customers_type === 4
-             ? i.customers_line === 1 || i.customers_line === "1"
+            i.customers_type === "4" || i.customers_type === 4
+              ? i.customers_line === 1 || i.customers_line === "1"
                 ? (round((i.เงินเดือนบัจจุบัน * 1.7) / 1.6, -1) - i.เงินเดือนบัจจุบัน).toFixed(2)
                 : (round((i.เงินเดือนบัจจุบัน * 1.5) / 1.4, -1) - i.เงินเดือนบัจจุบัน).toFixed(2)
               : "0.00",
@@ -432,14 +515,14 @@ function Uploadsalary1715() {
               ? "0.00"
               : i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก, //ตกเบิก
           backpay1715:
-                          i.customers_type === "4" ||  i.customers_type === 4
-             ? i.customers_line === 1 || i.customers_line === "1"
+            i.customers_type === "4" || i.customers_type === 4
+              ? i.customers_line === 1 || i.customers_line === "1"
                 ? round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.7) / 1.6, -1)
                 : round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.5) / 1.4, -1)
               : "0.00", //ตกเบิก1715
           backpay01:
-                          i.customers_type === "4" ||  i.customers_type === 4
-             ? i.customers_line === 1 || i.customers_line === "1"
+            i.customers_type === "4" || i.customers_type === 4
+              ? i.customers_line === 1 || i.customers_line === "1"
                 ? round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.7) / 1.6, -1) -
                   i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก
                 : round((i.เงินเลื่อนขั้น * i.จำนวนเดือนตกเบิก * 1.5) / 1.4, -1) -
@@ -452,6 +535,7 @@ function Uploadsalary1715() {
             i.เงินตอบแทนพิเศษ === null
               ? "0.00"
               : i.เงินตอบแทนพิเศษ,
+          chao: i.ค่าเช่าบ้าน,
         }));
 
         //Addhistorysalaryincrease  --logทั้งหมด
@@ -484,18 +568,28 @@ function Uploadsalary1715() {
         // console.log(backpay1715)
         setDataDatabackpay1715(backpay1715);
 
+        //////////////////////////////////////////////////////////////
+
+        const DataChaos = myArray.filter(
+          (salary) =>
+            (salary.chao > 0 || salary.chao !== "") &&
+            (salary.customers_type === "7" || salary.customers_type === 7)
+        );
+        // console.log(backpay1715)
+        setDataDataChao(DataChaos);
+
         setDataTablelist(myArray);
 
         //ใช้โชว์ข้อมูล
         setTablelist({
-          columns: column,
+          columns: DataChaos.length > 0 ? columns : column,
           rows: [
             ...json.map((i, key) => ({
               no: key + 1,
               customers_citizent: i.เลขบัตร,
               customers_type: i.customers_type,
               customers_line:
-                i.customers_line === 1  || i.customers_line === "1" ? (
+                i.customers_line === 1 || i.customers_line === "1" ? (
                   <Text c="blue">สายวิชาการ</Text>
                 ) : (
                   <Text c="red.9">สายสนับสนุน</Text>
@@ -509,7 +603,7 @@ function Uploadsalary1715() {
                 </Text>
               ),
               history_salary_salary1715:
-                              i.customers_type === "4" ||  i.customers_type === 4 ?(
+                i.customers_type === "4" || i.customers_type === 4 ? (
                   i.customers_line === 1 || i.customers_line === "1" ? (
                     <NumberFormatter
                       thousandSeparator
@@ -528,7 +622,7 @@ function Uploadsalary1715() {
                 ),
 
               history_salary_salary01:
-                              i.customers_type === "4" ||  i.customers_type === 4 ?(
+                i.customers_type === "4" || i.customers_type === 4 ? (
                   i.customers_line === 1 || i.customers_line === "1" ? (
                     <NumberFormatter
                       thousandSeparator
@@ -556,11 +650,14 @@ function Uploadsalary1715() {
                 />
               ), //ตกเบิก
               backpay1715:
-                              i.customers_type === "4" ||  i.customers_type === 4 ?(
-                  i.customers_line ===  1 ? (
+                i.customers_type === "4" || i.customers_type === 4 ? (
+                  i.customers_line === 1 ? (
                     <NumberFormatter
                       thousandSeparator
-                      value={round((Number(i.เงินเลื่อนขั้น) * Number(i.จำนวนเดือนตกเบิก) * 1.7) / 1.6, -1)}
+                      value={round(
+                        (Number(i.เงินเลื่อนขั้น) * Number(i.จำนวนเดือนตกเบิก) * 1.7) / 1.6,
+                        -1
+                      )}
                       decimalScale={2}
                     />
                   ) : (
@@ -574,8 +671,8 @@ function Uploadsalary1715() {
                   "-"
                 ), //ตกเบิก1715
               backpay01:
-                              i.customers_type === "4" ||  i.customers_type === 4 ?(
-                  i.customers_line ===  1 ? (
+                i.customers_type === "4" || i.customers_type === 4 ? (
+                  i.customers_line === 1 ? (
                     <NumberFormatter
                       thousandSeparator
                       value={
@@ -601,6 +698,7 @@ function Uploadsalary1715() {
               compensation: (
                 <NumberFormatter thousandSeparator value={i.เงินตอบแทนพิเศษ} decimalScale={2} />
               ),
+              chao: i.ค่าเช่าบ้าน,
             })),
           ],
         });
@@ -748,19 +846,46 @@ function Uploadsalary1715() {
                                     check: form,
                                   })
                                   .then((res) => {
-                                    setLoadSubmit(false);
-                                    Swal.fire({
-                                      title: "อัพเดทข้อมูลสำเร็จ",
-                                      icon: "success",
-                                      confirmButtonText: "ตกลง",
-                                    }).then((result) => {
-                                      // setTablelist({
-                                      //   columns: column,
-                                      //   rows: [],
-                                      // });
-                                      setSalarylist([]);
-                                      window.location.reload();
-                                    });
+                                    if (DataChao.length > 0) {
+                                      const form = DataChao;
+                                      axios
+                                        .post(API + "/index/Addrevenueforid", {
+                                          month: initialValues.month,
+                                          year: initialValues.year,
+                                          idbudget: initialValues.idbudget,
+                                          idpayslip_revenue: "50",
+                                          check: form,
+                                        })
+                                        .then((res) => {
+                                          setLoadSubmit(false);
+                                          Swal.fire({
+                                            title: "อัพเดทข้อมูลสำเร็จ",
+                                            icon: "success",
+                                            confirmButtonText: "ตกลง",
+                                          }).then((result) => {
+                                            // setTablelist({
+                                            //   columns: column,
+                                            //   rows: [],
+                                            // });
+                                            setSalarylist([]);
+                                            window.location.reload();
+                                          });
+                                        });
+                                    } else {
+                                      setLoadSubmit(false);
+                                      Swal.fire({
+                                        title: "อัพเดทข้อมูลสำเร็จ",
+                                        icon: "success",
+                                        confirmButtonText: "ตกลง",
+                                      }).then((result) => {
+                                        // setTablelist({
+                                        //   columns: column,
+                                        //   rows: [],
+                                        // });
+                                        setSalarylist([]);
+                                        window.location.reload();
+                                      });
+                                    }
                                   });
                               });
                           });
@@ -978,14 +1103,24 @@ function Uploadsalary1715() {
           <Group justify="start">
             <FileButton onChange={Readfile} accept="xlsx">
               {(props) => (
-                <Button leftSection={<IconFile />} color="violet" {...props}>
+                <Button
+                  disabled={Salarylist.length === 0}
+                  leftSection={<IconFile />}
+                  color="violet"
+                  {...props}
+                >
                   เลือกไฟล์ที่นำเข้า
                 </Button>
               )}
             </FileButton>
             <form onSubmit={formSearch.onSubmit(submitdata)}>
               <Button
-                disabled={DataTablelist.length === 0}
+                disabled={
+                  DataTablelist.length === 0 ||
+                  formSearch.values.idbudget === "" ||
+                  formSearch.values.month === "" ||
+                  formSearch.values.year === ""
+                }
                 type="submit"
                 leftSection={<IconFolderUp />}
               >
@@ -993,14 +1128,6 @@ function Uploadsalary1715() {
               </Button>
             </form>
           </Group>
-          <ActionIcon
-            onClick={() => {
-              window.open("http://git.kpru.ac.th/FrontEnd_Salary/public/uploads/money.xlsx");
-            }}
-            size={"xs"}
-          >
-            <IconQuestionMark />
-          </ActionIcon>
           {files && (
             <Text size="sm" ta="center" mt="sm">
               ไฟล์ที่เลือก : {files.name}

@@ -245,6 +245,11 @@ export const menus = [
         icon: <IconCoins />,
         sub: [
           {
+            title: "จัดการเงินเดือน",
+            path: "/manage-salary/salary",
+            icon: <IconPigMoney />,
+          },
+          {
             title: "อัพเดตข้อมูลเงินเดือน จากเดือนก่อนหน้า",
             path: "/manage-salary/update-salary",
             icon: <IconRefresh />,

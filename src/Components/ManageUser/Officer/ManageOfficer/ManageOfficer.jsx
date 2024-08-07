@@ -161,12 +161,12 @@ function ManageOfficer() {
           close();
         }}
       >
-        {/* <form
+        <form
           action=""
           onSubmit={form.onSubmit((val) => {
             Save(val);
           })}
-        > */}
+        >
         <SimpleGrid>
           <Grid>
             <Grid.Col span={8}>
@@ -207,7 +207,7 @@ function ManageOfficer() {
             </Button>
           </Flex>
         </SimpleGrid>
-        {/* </form> */}
+        </form>
       </Modal>
     </>
   );
