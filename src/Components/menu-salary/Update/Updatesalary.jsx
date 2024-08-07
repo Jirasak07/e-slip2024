@@ -192,7 +192,7 @@ function Updatesalary() {
         const form = Datasalarystart
         console.log(value.values)
         console.log(form)
-        axios.post(API+"/index/Addhistorysalarymonth",{
+        axios.post(API+"/index/updatehistorysalarymonthtomount",{
           month:value.values.monthend,
           year:value.values.yearend,
           check: form,
