@@ -111,7 +111,14 @@ function Uploadsalary1715() {
       field: "compensation",
       minimal: "lg",
     },
+    {
+      label: "ตกเบิกเงินตอบแทนพิเศษ",
+      field: "compensation2",
+      minimal: "lg",
+    },
   ];
+
+
   const columns = [
     {
       label: "#",
@@ -210,6 +217,7 @@ function Uploadsalary1715() {
   const [DataTablelist, setDataTablelist] = useState([]); //alldate
 
   const [Datacompensation, setDatacompensation] = useState([]); //ค่าตอบแทนพิเศษ
+  const [Datacompensation2, setDatacompensation2] = useState([]); //ค่าตอบแทนพิเศษ
   const [Databackpay, setDataDatabackpay] = useState([]); //ตกเบิก
   const [Databackpay01, setDataDatabackpay01] = useState([]); //ตกเบิก01
   const [Databackpay1715, setDataDatabackpay1715] = useState([]); //ตกเบิก1715
@@ -308,7 +316,9 @@ function Uploadsalary1715() {
         header: "จำนวนเดือนตกเบิก",
         key: "history_salary_salary3",
         width: 20,
-      },
+      }
+
+      
     ];
 
     Salarylist.map((i) =>
@@ -536,6 +546,13 @@ function Uploadsalary1715() {
               ? "0.00"
               : i.เงินตอบแทนพิเศษ,
           chao: i.ค่าเช่าบ้าน,
+          compensation2:
+          i.เงินตอบแทนพิเศษ === 0 ||
+          i.เงินตอบแทนพิเศษ === "" ||
+          i.เงินตอบแทนพิเศษ === undefined ||
+          i.เงินตอบแทนพิเศษ === null
+            ? "0.00"
+            : i.เงินตอบแทนพิเศษ*i.จำนวนเดือนตกเบิก,
         }));
 
         //Addhistorysalaryincrease  --logทั้งหมด
@@ -579,6 +596,14 @@ function Uploadsalary1715() {
         setDataDataChao(DataChaos);
 
         setDataTablelist(myArray);
+
+
+         //filter ตกเบิกค่าตอบแทนพิเศษ id = '44'
+         const compensation2 = myArray.filter(
+          (salary) => salary.compensation2 > 0 || salary.compensation2 !== ""
+        );
+        // console.log(compensation)
+        setDatacompensation2(compensation2);
 
         //ใช้โชว์ข้อมูล
         setTablelist({
@@ -699,6 +724,9 @@ function Uploadsalary1715() {
                 <NumberFormatter thousandSeparator value={i.เงินตอบแทนพิเศษ} decimalScale={2} />
               ),
               chao: i.ค่าเช่าบ้าน,
+              compensation2: (
+                <NumberFormatter thousandSeparator value={i.เงินตอบแทนพิเศษ*i.จำนวนเดือนตกเบิก} decimalScale={2} />
+              ),
             })),
           ],
         });
@@ -872,19 +900,37 @@ function Uploadsalary1715() {
                                           });
                                         });
                                     } else {
-                                      setLoadSubmit(false);
-                                      Swal.fire({
-                                        title: "อัพเดทข้อมูลสำเร็จ",
-                                        icon: "success",
-                                        confirmButtonText: "ตกลง",
-                                      }).then((result) => {
-                                        // setTablelist({
-                                        //   columns: column,
-                                        //   rows: [],
-                                        // });
-                                        setSalarylist([]);
-                                        window.location.reload();
-                                      });
+
+                                                //ตกเบิกค่าตอบแทนพิเศษ
+                                                const form = Datacompensation2;
+                                                axios
+                                                  .post(API + "/index/Addrevenueforid", {
+                                                    month: initialValues.month,
+                                                    year: initialValues.year,
+                                                    idbudget: initialValues.idbudget,
+                                                    idpayslip_revenue: "44",
+                                                    check: form,
+                                                  })
+                                                  .then((res) => { 
+
+                                                          setLoadSubmit(false);
+                                                        Swal.fire({
+                                                          title: "อัพเดทข้อมูลสำเร็จ",
+                                                          icon: "success",
+                                                          confirmButtonText: "ตกลง",
+                                                        }).then((result) => {
+                                                          // setTablelist({
+                                                          //   columns: column,
+                                                          //   rows: [],
+                                                          // });
+                                                          setSalarylist([]);
+                                                          window.location.reload();
+                                                        });
+                                                  });
+
+
+
+                                                 
                                     }
                                   });
                               });
