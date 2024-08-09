@@ -15,12 +15,19 @@ import { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { Text } from "@mantine/core";
+import { Text,Grid  } from "@mantine/core";
 import SkeletonTable from "../../Publicc-user/SkeletonTable";
 import ModalAddrevenue from "./ModalAddrevenue";
 import ModalExpenditure from "./ModalExpenditure";
 import React from "react";
 import ExcelJs from "exceljs";
+import {
+  IconChartBubble,
+  IconCoin,
+  IconDeviceFloppy,
+  IconEdit,
+  IconPlaylistAdd,
+} from "@tabler/icons-react";
 function Salary() {
   const [Expenditure_true, setExpenditure_true] = useState(0);
   const [Revenue_true, setRevenue_true] = useState(0);
@@ -117,6 +124,8 @@ function Salary() {
   const [DataTypeEmploy, setDataTypeEmploy] = useState([]);
   const [DataYear, setDataYear] = useState([]);
 
+  const [Datatype, setDatatype] = useState([]);
+
   const selectmount = [
     {
       value: "01",
@@ -173,7 +182,10 @@ function Salary() {
     setTimeout(() => {
       axios.get(API + "/index/showcustomertype").then((res) => {
         //    console.log(res.data);
+
+      
         const data = res.data;
+         
         if (data.length !== 0) {
           setLoadTable(false);
           const select = data.map((i) => ({
@@ -185,6 +197,64 @@ function Salary() {
       });
     }, 400);
   };
+
+
+
+  const Updatetypesave = (value) => {
+   // setBtnLoad(true);
+    const form = Datatype;
+    axios.post(API + "/index/Addrevenuefortype", {
+        type_employ: value.type_employ,
+        year: value.year,
+        month: value.month,
+        idbudget: value.idbudget,
+        check: form,
+      })
+      .then((res) => {
+       // setBtnLoad(false);
+        if (res.data === "200") {
+          Swal.fire({
+            icon: "success",
+            title: "อัพเดท ประกันสังคมเสร็จสิ้น",
+            timer: 1200,
+            timerProgressBar: true,
+            showConfirmButton: false,
+          }).then((res) => {
+           
+           
+          });
+        }
+        console.log(res.data);
+      });
+  };
+
+  const Updatetypesavejk = (value) => {
+    // setBtnLoad(true);
+     const form = Datatype;
+     axios.post(API + "/index/Addrevenuefortypekj", {
+         type_employ: value.type_employ,
+         year: value.year,
+         month: value.month,
+         idbudget: value.idbudget,
+         check: form,
+       })
+       .then((res) => {
+        // setBtnLoad(false);
+         if (res.data === "200") {
+           Swal.fire({
+             icon: "success",
+             title: "อัพเดท ก.ส.จ เสร็จสิ้น",
+             timer: 1200,
+             timerProgressBar: true,
+             showConfirmButton: false,
+           }).then((res) => {
+            
+            
+           });
+         }
+         console.log(res.data);
+       });
+   };
 
   const FetchYear = () => {
     // setLoadTable(true);
@@ -207,6 +277,11 @@ function Salary() {
     submitdata(formSearch.values);
   };
 
+
+
+
+
+
   const submitdata = (value) => {
     setLoadTable(true);
     axios
@@ -221,6 +296,8 @@ function Salary() {
       )
       .then((res) => {
         const data = res.data;
+        setDatatype(data);
+
         if (data.lenth !== 0) {
           setTableSalary({
             columns: column,
@@ -400,7 +477,65 @@ function Salary() {
         </Paper>
         <Paper p={10} shadow="none">
           {}
-          <Flex justify={"flex-end"} gap={10} direction={"column"} align={"flex-end"}>
+         
+                 <Grid>
+      <Grid.Col span={6}>
+
+      </Grid.Col>
+      <Grid.Col span={3}>
+        {Datatype.length > 0 ?<>
+           <form
+            onSubmit={formSearch.onSubmit((v) => {
+              Updatetypesave(v);
+              // console.log(v);
+            })}
+          >
+            <Button
+              leftSection={<IconDeviceFloppy />}
+              color="var(--success)"
+              type="submit"
+            >
+              อัพเดทประกันสังคม
+            </Button>
+            </form>
+        </>:<> <Button
+              leftSection={<IconDeviceFloppy />}
+              color="var(--success)"
+              type="submit"
+              disabled
+            >
+              อัพเดทประกันสังคม
+            </Button></>}
+   
+            {Datatype.length > 0 ?<>
+               <form
+            onSubmit={formSearch.onSubmit((v) => {
+              Updatetypesavejk(v);
+              // console.log(v);
+            })}
+          >
+            <Button
+              leftSection={<IconDeviceFloppy />}
+              color="var(--purpel)"
+              type="submit"
+            >
+              อัพเดท ก.ส.จ
+            </Button>
+            </form>
+            </>:<>
+            <Button
+              leftSection={<IconDeviceFloppy />}
+              color="var(--purpel)"
+              type="submit"
+              disabled
+            >
+              อัพเดท ก.ส.จ
+            </Button>
+            </>}
+         
+      </Grid.Col>
+      <Grid.Col span={3}>
+      <Flex justify={"flex-end"} gap={10} direction={"column"} align={"flex-end"}>
             <Text c={"teal.9"} size="md">
               รวมเงินเดือน :{" "}
               <NumberFormatter value={History_salary} thousandSeparator suffix=" ฿" />
@@ -416,7 +551,10 @@ function Salary() {
               รวมเงินเดือนสุทธิ :{" "}
               <NumberFormatter value={Salary_true} thousandSeparator suffix=" ฿" />
             </Text>
+
           </Flex>
+      </Grid.Col>
+    </Grid>
         </Paper>
         <Paper pt={20}>
           {LoadTable ? (
