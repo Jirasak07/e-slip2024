@@ -1,9 +1,9 @@
 import {
-  IconBadgeAr,
   IconBell,
   IconBuildingBank,
   IconCoin,
   IconCoins,
+  IconExchange,
   IconFileTypeXls,
   IconHistoryToggle,
   IconPigMoney,
@@ -60,6 +60,7 @@ export const menus = [
             path: "/manage-salary/salary",
             icon: <IconPigMoney />,
           },
+        
           {
             title: "อัพโหลดหนังสือรับรองภาษี ขรก/ลูกจ้างประจำ",
             path: "/manage-salary/upload-tax",
@@ -90,6 +91,11 @@ export const menus = [
             title: "นำเข้าและส่งออกข้อมูลเงินเดือน",
             path: "/manage-salary/import-export1715",
             icon: <IconReportMoney />,
+          },
+          {
+            title: "นำเข้ารายจ่ายบุคลากร",
+            path: "/manage-salary/import-expend",
+            icon: <IconExchange />,
           },
           {
             title: "ประวัติการนำเข้าข้อมูลเงินเดือน",

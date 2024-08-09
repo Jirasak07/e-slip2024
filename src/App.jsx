@@ -31,6 +31,7 @@ import UploadTavi50ForAllCustomer from "./Components/menu-salary/Upload/UploadTa
 import Uploadsalary1715 from "./Components/menu-salary/Salary/Uploadsalary1715";
 import HistoryImport from "./Components/menu-salary/Salary/HistoryImport";
 import Report01 from "./Components/menu-salary/Report/Report01";
+import ImportExpend from "./Components/menu-salary/Salary/ImportExpend";
 
 
 function App() {
@@ -72,6 +73,10 @@ function App() {
           <Route
             path="/manage-salary/update-salary"
             element={<Updatesalary />}
+          />
+          <Route
+            path="/manage-salary/import-expend"
+            element={<ImportExpend />}
           />
 
           {/* /////////////////////////////////////////////////////////////////// */}

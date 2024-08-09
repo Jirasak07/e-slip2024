@@ -84,7 +84,7 @@ export function Layouts() {
   };
 
   useEffect(() => {
-    UpdateNameUser()
+    UpdateNameUser();
     // const menu2 = menus.findIndex((menu) => menu.type === localStorage.getItem("bee"));
     Fetch();
   }, []);
@@ -235,7 +235,7 @@ export function Layouts() {
           visible={OverLay}
         />{" "}
         {/* <ScrollArea  scrollbars="xy" m={0}  h={height} type="always"> */}
-        <Steppers />
+        {localStorage.getItem("type-user-epay") === "2" ? <> </> : <Steppers />}
         <Outlet />
         {/* </ScrollArea> */}
       </AppShell.Main>
