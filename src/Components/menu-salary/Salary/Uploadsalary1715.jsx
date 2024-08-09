@@ -1034,7 +1034,7 @@ function Uploadsalary1715() {
   const formSearch = useForm({
     initialValues: {
       idbudget: "",
-      customertype:"",
+      // customertype:"",
       month: (new Date().getMonth().toString().length === 1
         ? "0" + new Date().getMonth()
         : new Date().getMonth()
@@ -1165,7 +1165,6 @@ function Uploadsalary1715() {
                 disabled={
                   formSearch.values.idbudget === "" ||
                   formSearch.values.month === "" ||
-                  formSearch.values.customertype === "" ||
                   formSearch.values.year === ""
                 }
                 type="submit"
