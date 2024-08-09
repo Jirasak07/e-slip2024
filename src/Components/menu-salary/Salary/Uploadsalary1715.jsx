@@ -1151,7 +1151,11 @@ function Uploadsalary1715() {
             <FileButton onChange={Readfile} accept="xlsx">
               {(props) => (
                 <Button
-                  disabled={Salarylist.length === 0}
+                disabled={
+                  formSearch.values.idbudget === "" ||
+                  formSearch.values.month === "" ||
+                  formSearch.values.year === ""
+                }
                   leftSection={<IconFile />}
                   color="violet"
                   {...props}
