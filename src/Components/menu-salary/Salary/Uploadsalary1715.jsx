@@ -1034,6 +1034,7 @@ function Uploadsalary1715() {
   const formSearch = useForm({
     initialValues: {
       idbudget: "",
+      customertype:"",
       month: (new Date().getMonth().toString().length === 1
         ? "0" + new Date().getMonth()
         : new Date().getMonth()
@@ -1162,9 +1163,9 @@ function Uploadsalary1715() {
             <form onSubmit={formSearch.onSubmit(submitdata)}>
               <Button
                 disabled={
-                  DataTablelist.length === 0 ||
                   formSearch.values.idbudget === "" ||
                   formSearch.values.month === "" ||
+                  formSearch.values.customertype === "" ||
                   formSearch.values.year === ""
                 }
                 type="submit"
