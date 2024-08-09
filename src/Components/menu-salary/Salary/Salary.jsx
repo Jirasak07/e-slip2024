@@ -334,7 +334,7 @@ function Salary() {
         //   setLoadTable(false);
         const select = data.map((i) => ({
           value: i.idbudget,
-          label: i.namebudget,
+          label: i.namebudget+" ( "+i.idbudget+" ) ",
         }));
 
         formSearch.setValues({ DATABUDGET: select });

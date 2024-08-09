@@ -270,7 +270,7 @@ function Reportipay() {
           setLoadTable(false);
           const select = data.map((i) => ({
             value: i.idbudget,
-            label: i.namebudget,
+            label: i.namebudget+" ( "+i.idbudget+" ) ",
           }));
           setDataBudget(select);
         }

@@ -16,7 +16,7 @@ function ModalAddRevenue({ revenue_name_title, revenue_name, budget_id, citiid, 
         //   setLoadTable(false);
         const select = data.map((i) => ({
           value: i.idbudget,
-          label: i.namebudget,
+          label: i.namebudget+" ( "+i.idbudget+" ) ",
         }));
         setSelectDataBudget(select);
       }

@@ -29,7 +29,7 @@ function ModalEditSalary({ total, idbudget, citizenid, year, month,fetch,custome
         //   setLoadTable(false);
         const select = data.map((i) => ({
           value: i.idbudget,
-          label: i.namebudget,
+          label: i.namebudget+" ( "+i.idbudget+" ) ",
         }));
         setSelectDataBudget(select);
       }

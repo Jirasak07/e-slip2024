@@ -173,7 +173,7 @@ function HistoryImport() {
       if (data.length !== 0) {
         const select = data.map((i) => ({
           value: i.idbudget,
-          label: i.namebudget,
+          label: i.namebudget+" ( "+i.idbudget+" ) ",
         }));
         setDataBudget(select);
       }

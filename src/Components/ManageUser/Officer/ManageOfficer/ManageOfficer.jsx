@@ -43,7 +43,7 @@ function ManageOfficer() {
         //   setLoadTable(false);
         const select = data.map((i) => ({
           value: i.idbudget,
-          label: i.namebudget,
+          label: i.namebudget+" ( "+i.idbudget+" ) ",
         }));
 
         form.setValues({ DATA_TYPE_BUDGET: select });
