@@ -457,12 +457,11 @@ function Updaterevenueexpenditure() {
           </Flex>
         </form>
         <Paper pt={20}>
-          <Center>
             <SimpleGrid cols={1}>
               <Text fz="h1">
                 พบข้อมูลรายรับ/รายจ่าย จำนวน : <IconArrowDown />
               </Text>
-              <Paper shadow="sm" p={10} >
+              <Paper shadow="sm" p={10}>
                 <Flex justify={"center"} align={"center"} gap={10}>
                   <Text fz={"150"} lh={1} c={"green"}>
                     <NumberFormatter thousandSeparator value={Datarevenue.length} />
@@ -474,13 +473,14 @@ function Updaterevenueexpenditure() {
                 disabled={Datarevenue.length != 0 ? false : true}
                 onClick={() => submitdata(formSearch)}
                 mt={33}
-                leftSection={<IconSearch />}
-                color="var(--purpel)"
+                color="violet.8"
+                size="lg"
+                h={110}
+                fz={90}
               >
-                อัพเดท
+                อัพเดทรายรับ/รายจ่าย
               </Button>
             </SimpleGrid>
-          </Center>
         </Paper>
         ไม่รวมเงินตอบแทนพิเศษ(20),ตกเบิกเงินเดือน(15),ตกเบิกเงินเดือน 1.7/1.5(99),ตกเบิกเงินเดือน
         0.1(100)
