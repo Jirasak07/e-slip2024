@@ -11,6 +11,7 @@ import {
   LoadingOverlay,
   MultiSelect,
   Checkbox,
+  Center,
 } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { IconSearch, IconPrinter, IconArrowDown } from "@tabler/icons-react";
@@ -168,7 +169,7 @@ function Updaterevenueexpenditure() {
   };
   const [OverLay, setOverLay] = useState(false);
   const searchdata = (value) => {
-    // setOverLay(true);
+    setOverLay(true);
     console.log(value.type_employ);
     console.log(value.month);
     console.log(value.year);
@@ -287,12 +288,12 @@ function Updaterevenueexpenditure() {
         label: i.revenue_name,
         value: i.revenue_id,
       }));
-    
-      const dataaaaaaa  = [];
-      da.forEach((i)=>{
-        dataaaaaaa.push(i.revenue_id)
-      })
-        formSearch.setValues({ REVENUEDATA: menu,REVENUECON:dataaaaaaa });
+
+      const dataaaaaaa = [];
+      da.forEach((i) => {
+        dataaaaaaa.push(i.revenue_id);
+      });
+      formSearch.setValues({ REVENUEDATA: menu, REVENUECON: dataaaaaaa });
     });
   };
   const EXPEN = () => {
@@ -306,35 +307,32 @@ function Updaterevenueexpenditure() {
         label: i.expenditure_name,
         value: i.expenditure_id,
       }));
-      const dataaaaaaa  = [];
-      da.forEach((i)=>{
-        dataaaaaaa.push(i.expenditure_id)
-      })
-        formSearch.setValues({EXPENDITUREDATA: menu,EXPENDCON:dataaaaaaa });
+      const dataaaaaaa = [];
+      da.forEach((i) => {
+        dataaaaaaa.push(i.expenditure_id);
+      });
+      formSearch.setValues({ EXPENDITUREDATA: menu, EXPENDCON: dataaaaaaa });
     });
   };
+
   const ChangConre = (id) => {
     const data = formSearch.values.REVENUECON;
-    console.log(data)
+
+    // Check if the id is already in the array
+    const index = data.indexOf(id);
+
+    if (index !== -1) {
+      // If id is found, remove it
+      data.splice(index, 1);
+    } else {
+      // If id is not found, add it
+      data.push(id);
+    }
+
+    // Update the form values
+    formSearch.setValues({ REVENUECON: data });
+    console.log(formSearch.values.REVENUECON);
   };
-  // const ChangConre = (id) => {
-  //   const data = formSearch.values.REVENUECON;
-
-  //   // Check if the id is already in the array
-  //   const index = data.indexOf(id);
-
-  //   if (index !== -1) {
-  //     // If id is found, remove it
-  //     data.splice(index, 1);
-  //   } else {
-  //     // If id is not found, add it
-  //     data.push(id);
-  //   }
-
-  //   // Update the form values
-  //   formSearch.setValues({ REVENUECON: data });
-  //   console.log(formSearch.values.REVENUECON);
-  // };
   const ChangConex = (id) => {
     const data = formSearch.values.EXPENDCON;
 
@@ -362,18 +360,10 @@ function Updaterevenueexpenditure() {
       EXPEN();
     }
   }, [formSearch.values.type_employ]);
-  const Checkkexpen = (id) => {
-    const ids = formSearch.values.REVENUECON.findIndex((val)=>val === id)
-   if(ids !== -1){
-    return false
-   }else{
-    return true
-   }
-  }
-  
+
   return (
     <>
-      <LoadingOverlay visible={OverLay} />
+      <LoadingOverlay h={"100vh"} pos={"fixed"} visible={OverLay} />
       <Container p={0} bg={"white"} fluid>
         <Badge color="var(--primary)" variant="light" size="md" radius={8}>
           อัพเดทข้อมูล รายรับ-รายจ่าย จากเดือนก่อนหน้า
@@ -384,7 +374,7 @@ function Updaterevenueexpenditure() {
           })}
         >
           <Flex justify={"center"}>
-            <Paper mt={20} mb={20} maw={900} w={"100%"}>
+            <Paper mt={20} mb={20} w={"100%"}>
               <SimpleGrid>
                 <Select
                   searchable
@@ -405,23 +395,19 @@ function Updaterevenueexpenditure() {
                       label={i.label}
                       key={k}
                       onChange={() => ChangConre(i.value)}
+                      checked={formSearch.values.REVENUECON.includes(i.value)}
                     />
                   ))}
                 </Paper>
-                {/* <MultiSelect
-                  {...formSearch.getInputProps("EXPENDCON")}
-                  label="รายจ่าย"
-                  data={formSearch.values.EXPENDITUREDATA}
-                /> */}
                 <Paper shadow="sm" p={20}>
                   <Text>รายการรายจ่าย</Text>
                   {formSearch.values.EXPENDITUREDATA.map((i, k) => (
                     <Checkbox
                       value={formSearch.values.EXPENDCON}
-                      checked={()=>{Checkkexpen(i.value)}}
                       label={i.label}
                       key={k}
                       onChange={() => ChangConex(i.value)}
+                      checked={formSearch.values.EXPENDCON.includes(i.value)}
                     />
                   ))}
                 </Paper>
@@ -470,15 +456,15 @@ function Updaterevenueexpenditure() {
             </Paper>
           </Flex>
         </form>
-        <Flex justify={"center"}>
-          <Paper maw={900} w={"100%"} pt={20}>
+        <Paper pt={20}>
+          <Center>
             <SimpleGrid cols={1}>
-              <Text size="xl">
-                พบข้อมูลรายรับ/รายจ่าย จำนวน : <IconArrowDown />{" "}
+              <Text fz="h1">
+                พบข้อมูลรายรับ/รายจ่าย จำนวน : <IconArrowDown />
               </Text>
-              <Paper shadow="sm" p={10} maw={200}>
+              <Paper shadow="sm" p={10} >
                 <Flex justify={"center"} align={"center"} gap={10}>
-                  <Text fz={"50px"} c={"green"}>
+                  <Text fz={"150"} lh={1} c={"green"}>
                     <NumberFormatter thousandSeparator value={Datarevenue.length} />
                   </Text>
                   <Text size="md">รายการ</Text>
@@ -494,8 +480,8 @@ function Updaterevenueexpenditure() {
                 อัพเดท
               </Button>
             </SimpleGrid>
-          </Paper>
-        </Flex>
+          </Center>
+        </Paper>
         ไม่รวมเงินตอบแทนพิเศษ(20),ตกเบิกเงินเดือน(15),ตกเบิกเงินเดือน 1.7/1.5(99),ตกเบิกเงินเดือน
         0.1(100)
       </Container>
