@@ -34,6 +34,9 @@ export function Layouts() {
       }
       const menu2 = await menus.findIndex((menu) => menu.type === type);
       const menuu = await menus[menu2];
+      if(menuu === undefined ){
+        nav("/login");
+      }
       const menu = await menuu.data;
       console.log(localStorage.getItem("type-user-epay"));
       if (menu.length !== 0) {
@@ -90,7 +93,6 @@ export function Layouts() {
   }, []);
 
   const { height, width } = useViewportSize();
-  console.log(height);
   const [LoadLogout, setLoadLogout] = useState(false);
   const [OverLay, setOverLay] = useState(false);
   return (

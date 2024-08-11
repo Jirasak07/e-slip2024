@@ -278,16 +278,27 @@ function Updaterevenueexpenditure() {
     },
   });
   const REVE = () => {
+    // formSearch.setValues({ EXPENDITUREDATA: [] });
+    formSearch.setValues({ REVENUEDATA: [] });
+    formSearch.setValues({ REVENUECON: [] });
     axios.get(API + "/index/showrevenues/" + formSearch.values.type_employ).then((res) => {
       const da = res.data;
       const menu = da.map((i) => ({
         label: i.revenue_name,
         value: i.revenue_id,
       }));
-      formSearch.setValues({ REVENUEDATA: menu });
+    
+      const dataaaaaaa  = [];
+      da.forEach((i)=>{
+        dataaaaaaa.push(i.revenue_id)
+      })
+        formSearch.setValues({ REVENUEDATA: menu,REVENUECON:dataaaaaaa });
     });
   };
   const EXPEN = () => {
+    formSearch.setValues({ EXPENDITUREDATA: [] });
+    formSearch.setValues({ EXPENDCON: [] });
+    // formSearch.setValues({ REVENUEDATA: [] });
     axios.get(API + "/index/showexpenditure/" + formSearch.values.type_employ).then((res) => {
       console.log(res.data);
       const da = res.data;
@@ -295,28 +306,35 @@ function Updaterevenueexpenditure() {
         label: i.expenditure_name,
         value: i.expenditure_id,
       }));
-      formSearch.setValues({ EXPENDITUREDATA: menu });
-      // formSearch.setValues({EXPENDITUREDATA:})
+      const dataaaaaaa  = [];
+      da.forEach((i)=>{
+        dataaaaaaa.push(i.expenditure_id)
+      })
+        formSearch.setValues({EXPENDITUREDATA: menu,EXPENDCON:dataaaaaaa });
     });
   };
   const ChangConre = (id) => {
     const data = formSearch.values.REVENUECON;
-
-    // Check if the id is already in the array
-    const index = data.indexOf(id);
-
-    if (index !== -1) {
-      // If id is found, remove it
-      data.splice(index, 1);
-    } else {
-      // If id is not found, add it
-      data.push(id);
-    }
-
-    // Update the form values
-    formSearch.setValues({ REVENUECON: data });
-    console.log(formSearch.values.REVENUECON);
+    console.log(data)
   };
+  // const ChangConre = (id) => {
+  //   const data = formSearch.values.REVENUECON;
+
+  //   // Check if the id is already in the array
+  //   const index = data.indexOf(id);
+
+  //   if (index !== -1) {
+  //     // If id is found, remove it
+  //     data.splice(index, 1);
+  //   } else {
+  //     // If id is not found, add it
+  //     data.push(id);
+  //   }
+
+  //   // Update the form values
+  //   formSearch.setValues({ REVENUECON: data });
+  //   console.log(formSearch.values.REVENUECON);
+  // };
   const ChangConex = (id) => {
     const data = formSearch.values.EXPENDCON;
 
@@ -344,6 +362,15 @@ function Updaterevenueexpenditure() {
       EXPEN();
     }
   }, [formSearch.values.type_employ]);
+  const Checkkexpen = (id) => {
+    const ids = formSearch.values.REVENUECON.findIndex((val)=>val === id)
+   if(ids !== -1){
+    return false
+   }else{
+    return true
+   }
+  }
+  
   return (
     <>
       <LoadingOverlay visible={OverLay} />
@@ -391,6 +418,7 @@ function Updaterevenueexpenditure() {
                   {formSearch.values.EXPENDITUREDATA.map((i, k) => (
                     <Checkbox
                       value={formSearch.values.EXPENDCON}
+                      checked={()=>{Checkkexpen(i.value)}}
                       label={i.label}
                       key={k}
                       onChange={() => ChangConex(i.value)}
