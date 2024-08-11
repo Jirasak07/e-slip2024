@@ -348,7 +348,7 @@ function Reportipay() {
           "/" +
           value.month +
           "/" +
-          value.idbudget
+          value.idbudget+"/"+""
       )
       .then((res) => {
         console.log(res.data);
