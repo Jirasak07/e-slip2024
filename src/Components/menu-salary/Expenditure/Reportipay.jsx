@@ -12,6 +12,7 @@ import {
   ThemeIcon,
   rem,
   Table,
+  MultiSelect,
 } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { IconSearch, IconPrinter, IconCircleCheck, IconCircleDashed } from "@tabler/icons-react";
@@ -310,7 +311,14 @@ function Reportipay() {
     // console.log(value.idbudget);
     // console.log(value.month);
     // console.log(value.year);
-
+    let text1 = "";
+    value.typeuser.forEach((i, k) => {
+      if (k + 1 === value.typeuser.length) {
+        text1 += "'" + i + "'";
+      } else {
+        text1 += "'" + i + "',";
+      }
+    });
     axios
       .get(
         API +
@@ -319,7 +327,9 @@ function Reportipay() {
           "/" +
           value.month +
           "/" +
-          value.idbudget
+          value.idbudget +
+          "/" +
+          text1
       )
       .then((res) => {
         console.log(res.data);
@@ -341,7 +351,7 @@ function Reportipay() {
           "/" +
           value.idbudget +
           "/" +
-          ""
+          text1
       )
       .then((res) => {
         console.log(res.data);
@@ -415,7 +425,7 @@ function Reportipay() {
     FetchTypeshowBudget();
     FetchTshowexpenditurelist();
     FetchYear();
-    FetchTypeCustomer()
+    FetchTypeCustomer();
   }, []);
 
   const formSearch = useForm({
@@ -475,11 +485,11 @@ function Reportipay() {
                   {...formSearch.getInputProps("idbudget")}
                   label="งบประมาณ"
                 />
-                <Select
+                <MultiSelect
                   searchable
-                  data={DataBudget}
-                  {...formSearch.getInputProps("idbudget")}
-                  label="งบประมาณ"
+                  data={formSearch.values.datatypeuser}
+                  {...formSearch.getInputProps("typeuser")}
+                  label="ประเภทบุคลากร"
                 />
               </Grid.Col>
             </Grid>
