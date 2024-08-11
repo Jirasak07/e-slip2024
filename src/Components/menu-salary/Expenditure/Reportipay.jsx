@@ -14,12 +14,7 @@ import {
   Table,
 } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
-import {
-  IconSearch,
-  IconPrinter,
-  IconCircleCheck,
-  IconCircleDashed,
-} from "@tabler/icons-react";
+import { IconSearch, IconPrinter, IconCircleCheck, IconCircleDashed } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
 import { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
@@ -129,15 +124,12 @@ function Reportipay() {
         Dataipay.expenditure_name !== "ธนาคารกรุงไทย" &&
         Dataipay.expenditure_name !== "ธนาคารกรุงเทพ"
     ).reduce((sum, currentItem) => (sum = sum + Number(currentItem.sum)), 0);
-    
+
     const sumout = Dataipay.filter(
       (Dataipay) =>
         Dataipay.expenditure_name !== "ธนาคารกรุงไทย" &&
         Dataipay.expenditure_name !== "ธนาคารกรุงเทพ"
-    ).reduce(
-      (sumout, currentItem) => (sumout = sumout + Number(currentItem.sumout)),
-      0
-    );
+    ).reduce((sumout, currentItem) => (sumout = sumout + Number(currentItem.sumout)), 0);
     const total = sum + sumout;
 
     sheet.addRow({
@@ -178,8 +170,7 @@ function Reportipay() {
     const sumrevenue = Datarevenueipay.filter(
       (Datarevenueipay) => Datarevenueipay.revenue_name !== "null"
     ).reduce(
-      (sumrevenue, currentItem) =>
-        (sumrevenue = sumrevenue + Number(currentItem.sumrevenue)),
+      (sumrevenue, currentItem) => (sumrevenue = sumrevenue + Number(currentItem.sumrevenue)),
       0
     );
 
@@ -271,7 +262,7 @@ function Reportipay() {
           setLoadTable(false);
           const select = data.map((i) => ({
             value: i.idbudget,
-            label: i.namebudget+" ( "+i.idbudget+" ) ",
+            label: i.namebudget + " ( " + i.idbudget + " ) ",
           }));
           setDataBudget(select);
         }
@@ -348,7 +339,9 @@ function Reportipay() {
           "/" +
           value.month +
           "/" +
-          value.idbudget+"/"+""
+          value.idbudget +
+          "/" +
+          ""
       )
       .then((res) => {
         console.log(res.data);
@@ -360,8 +353,7 @@ function Reportipay() {
           // console.log((res.data.reduce((a,v) =>  a = a + v.totalfinal , 0 )))
 
           const total = res.data.reduce(
-            (total, currentItem) =>
-              (total = total + Number(currentItem.totalfinal)),
+            (total, currentItem) => (total = total + Number(currentItem.totalfinal)),
             0
           );
           console.log(total);
@@ -370,13 +362,7 @@ function Reportipay() {
 
     axios
       .get(
-        API +
-          "/index/showrevenuelistipay/" +
-          value.year +
-          "/" +
-          value.month +
-          "/" +
-          value.idbudget
+        API + "/index/showrevenuelistipay/" + value.year + "/" + value.month + "/" + value.idbudget
       )
       .then((res) => {
         console.log(res.data);
@@ -389,35 +375,47 @@ function Reportipay() {
       });
   };
 
-  const submitdata = (value) => {
-    const form = Datasalarystart;
-    console.log(value.values);
-    console.log(form);
-    axios
-      .post(API + "/index/Addhistorysalarymonth", {
-        month: value.values.monthend,
-        year: value.values.yearend,
-        check: form,
-      })
-      .then((res) => {
-        Swal.fire({
-          title: "อัพเดทข้อมูลสำเร็จ",
-          icon: "success",
-          // showCancelButton: true,
-          confirmButtonText: "ตกลง",
-          // cancelButtonText: 'No, keep it'
-        }).then((result) => {
-          //  this.toggle();
-          // close();
-        });
-        console.log(res.data);
-      });
+  // const submitdata = (value) => {
+  //   const form = Datasalarystart;
+  //   console.log(value.values);
+  //   console.log(form);
+  //   axios
+  //     .post(API + "/index/Addhistorysalarymonth", {
+  //       month: value.values.monthend,
+  //       year: value.values.yearend,
+  //       check: form,
+  //     })
+  //     .then((res) => {
+  //       Swal.fire({
+  //         title: "อัพเดทข้อมูลสำเร็จ",
+  //         icon: "success",
+  //         // showCancelButton: true,
+  //         confirmButtonText: "ตกลง",
+  //         // cancelButtonText: 'No, keep it'
+  //       }).then((result) => {
+  //         //  this.toggle();
+  //         // close();
+  //       });
+  //       console.log(res.data);
+  //     });
+  // };
+  const FetchTypeCustomer = (params) => {
+    axios.get(API + "/index/showcustomertype").then((res) => {
+      const data = res.data;
+      if (data.length !== 0) {
+        const menu = data.map((i) => ({
+          value: i.customer_type_id,
+          label: i.customer_type_name,
+        }));
+        formSearch.setValues({ datatypeuser: menu });
+      }
+    });
   };
-
   useEffect(() => {
     FetchTypeshowBudget();
     FetchTshowexpenditurelist();
     FetchYear();
+    FetchTypeCustomer()
   }, []);
 
   const formSearch = useForm({
@@ -428,6 +426,8 @@ function Reportipay() {
         : new Date().getMonth()
       ).toString(),
       year: new Date().getFullYear().toString(),
+      typeuser: [],
+      datatypeuser: [],
     },
 
     validate: {
@@ -438,7 +438,7 @@ function Reportipay() {
   });
 
   const rows = DataTotalsummary.map((element) => (
-    <Table.Tr key={element.bankname} >
+    <Table.Tr key={element.bankname}>
       <Table.Td>{element.bank_name}</Table.Td>
       <Table.Td>{element.MonneyFull}</Table.Td>
       <Table.Td>
@@ -469,7 +469,14 @@ function Reportipay() {
           >
             <Grid>
               <Grid.Col span={8}>
-                <Select searchable
+                <Select
+                  searchable
+                  data={DataBudget}
+                  {...formSearch.getInputProps("idbudget")}
+                  label="งบประมาณ"
+                />
+                <Select
+                  searchable
                   data={DataBudget}
                   {...formSearch.getInputProps("idbudget")}
                   label="งบประมาณ"
@@ -478,14 +485,16 @@ function Reportipay() {
             </Grid>
             <Grid gutter={{ base: 5, xs: "md", md: "xl", xl: 50 }}>
               <Grid.Col span={4}>
-                <Select searchable
+                <Select
+                  searchable
                   label="เดือน"
                   data={selectmount}
                   {...formSearch.getInputProps("month")}
                 />
               </Grid.Col>
               <Grid.Col span={4}>
-                <Select searchable
+                <Select
+                  searchable
                   label="ปี"
                   data={DataYear}
                   {...formSearch.getInputProps("year")}
@@ -504,9 +513,7 @@ function Reportipay() {
         <Paper pt={20} shadow="xl" p="xl">
           <Grid justify="center">
             <Grid.Col span={8}>
-              <Text size="xl">
-                พบข้อมูลเงินเดือน {DataTotalsummary.length} รายการ
-              </Text>
+              <Text size="xl">พบข้อมูลเงินเดือน {DataTotalsummary.length} รายการ</Text>
 
               <List
                 spacing="xs"
@@ -515,9 +522,7 @@ function Reportipay() {
                 center
                 icon={
                   <ThemeIcon color="teal" size={24} radius="xl">
-                    <IconCircleCheck
-                      style={{ width: rem(16), height: rem(16) }}
-                    />
+                    <IconCircleCheck style={{ width: rem(16), height: rem(16) }} />
                   </ThemeIcon>
                 }
               >
