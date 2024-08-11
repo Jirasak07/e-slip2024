@@ -9,6 +9,8 @@ import {
   NumberFormatter,
   Grid,
   LoadingOverlay,
+  MultiSelect,
+  Checkbox,
 } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { IconSearch, IconPrinter, IconArrowDown } from "@tabler/icons-react";
@@ -166,22 +168,37 @@ function Updaterevenueexpenditure() {
   };
   const [OverLay, setOverLay] = useState(false);
   const searchdata = (value) => {
-    setOverLay(true);
+    // setOverLay(true);
     console.log(value.type_employ);
     console.log(value.month);
     console.log(value.year);
-
+    const value2 = value;
+    let text1 = "";
+    value2.EXPENDCON.forEach((i, k) => {
+      if (k + 1 === value2.EXPENDCON.length) {
+        text1 += "'" + i + "'";
+      } else {
+        text1 += "'" + i + "',";
+      }
+    });
+    let text2 = "";
+    value2.REVENUECON.forEach((i, k) => {
+      if (k + 1 === value2.REVENUECON.length) {
+        text2 += "'" + i + "'";
+      } else {
+        text2 += "'" + i + "',";
+      }
+    });
     setTimeout(() => {
+      // const
       axios
-        .get(
-          API +
-            "/index/showhistoryrevenueorexpenditure/" +
-            value.year +
-            "/" +
-            value.month +
-            "/" +
-            value.type_employ
-        )
+        .post(API + "/index/showhistoryrevenueorexpenditure", {
+          revenue: text2,
+          expenditure: text1,
+          year: value.year,
+          month: value.month,
+          type_employ: value.type_employ,
+        })
         .then((res) => {
           setOverLay(false);
           console.log(res.data);
@@ -197,8 +214,8 @@ function Updaterevenueexpenditure() {
     }, 400);
   };
 
-  const submitdata = (value) => {
-    setOverLay(true);
+  const submitdata = (valuess) => {
+    // setOverLay(true);
     // console.log(value.type_employ);
     // console.log(value.month);
     // console.log(value.year);
@@ -206,28 +223,26 @@ function Updaterevenueexpenditure() {
     // console.log(value.yearend);
 
     const form = Datarevenue;
-    console.log(value.values);
-    console.log(form);
-    axios
-      .post(API + "/index/Addhistoryrevenueorexpenditure", {
-        month: value.values.monthend,
-        year: value.values.yearend,
-        check: form,
-      })
-      .then((res) => {
-        setOverLay(false);
-        Swal.fire({
-          title: "อัพเดทข้อมูลสำเร็จ",
-          icon: "success",
-          // showCancelButton: true,
-          confirmButtonText: "ตกลง",
-          // cancelButtonText: 'No, keep it'
-        }).then((result) => {
-          //  this.toggle();
-          // close();
-        });
-        console.log(res.data);
-      });
+    // axios
+    //   .post(API + "/index/Addhistoryrevenueorexpenditure", {
+    //     month: value.values.monthend,
+    //     year: value.values.yearend,
+    //     check: form,
+    //   })
+    //   .then((res) => {
+    //     setOverLay(false);
+    //     Swal.fire({
+    //       title: "อัพเดทข้อมูลสำเร็จ",
+    //       icon: "success",
+    //       // showCancelButton: true,
+    //       confirmButtonText: "ตกลง",
+    //       // cancelButtonText: 'No, keep it'
+    //     }).then((result) => {
+    //       //  this.toggle();
+    //       // close();
+    //     });
+    //     console.log(res.data);
+    //   });
   };
 
   useEffect(() => {
@@ -248,6 +263,10 @@ function Updaterevenueexpenditure() {
         : new Date().getMonth() + 1
       ).toString(),
       yearend: new Date().getFullYear().toString(),
+      REVENUEDATA: [],
+      EXPENDITUREDATA: [],
+      REVENUECON: [],
+      EXPENDCON: [],
     },
 
     validate: {
@@ -258,6 +277,73 @@ function Updaterevenueexpenditure() {
       yearend: isNotEmpty("กรุณาเลือกปี"),
     },
   });
+  const REVE = () => {
+    axios.get(API + "/index/showrevenues/" + formSearch.values.type_employ).then((res) => {
+      const da = res.data;
+      const menu = da.map((i) => ({
+        label: i.revenue_name,
+        value: i.revenue_id,
+      }));
+      formSearch.setValues({ REVENUEDATA: menu });
+    });
+  };
+  const EXPEN = () => {
+    axios.get(API + "/index/showexpenditure/" + formSearch.values.type_employ).then((res) => {
+      console.log(res.data);
+      const da = res.data;
+      const menu = da.map((i) => ({
+        label: i.expenditure_name,
+        value: i.expenditure_id,
+      }));
+      formSearch.setValues({ EXPENDITUREDATA: menu });
+      // formSearch.setValues({EXPENDITUREDATA:})
+    });
+  };
+  const ChangConre = (id) => {
+    const data = formSearch.values.REVENUECON;
+
+    // Check if the id is already in the array
+    const index = data.indexOf(id);
+
+    if (index !== -1) {
+      // If id is found, remove it
+      data.splice(index, 1);
+    } else {
+      // If id is not found, add it
+      data.push(id);
+    }
+
+    // Update the form values
+    formSearch.setValues({ REVENUECON: data });
+    console.log(formSearch.values.REVENUECON);
+  };
+  const ChangConex = (id) => {
+    const data = formSearch.values.EXPENDCON;
+
+    // Check if the id is already in the array
+    const index = data.indexOf(id);
+
+    if (index !== -1) {
+      // If id is found, remove it
+      data.splice(index, 1);
+    } else {
+      // If id is not found, add it
+      data.push(id);
+    }
+
+    // Update the form values
+    formSearch.setValues({ EXPENDCON: data });
+    console.log(formSearch.values.EXPENDCON);
+  };
+
+  useEffect(() => {
+    formSearch.setValues({ EXPENDITUREDATA: [] });
+    formSearch.setValues({ REVENUEDATA: [] });
+    if (formSearch.values.type_employ !== "") {
+      REVE();
+      EXPEN();
+    }
+  }, [formSearch.values.type_employ]);
   return (
     <>
       <LoadingOverlay visible={OverLay} />
@@ -280,6 +366,37 @@ function Updaterevenueexpenditure() {
                   {...formSearch.getInputProps("type_employ")}
                   label="ประเภทบุคลากร"
                 />
+              </SimpleGrid>
+
+              <SimpleGrid cols={2} mt={15}>
+                <Paper shadow="sm" p={20}>
+                  {" "}
+                  <Text>รายการรายรับ</Text>
+                  {formSearch.values.REVENUEDATA.map((i, k) => (
+                    <Checkbox
+                      value={formSearch.values.REVENUECON}
+                      label={i.label}
+                      key={k}
+                      onChange={() => ChangConre(i.value)}
+                    />
+                  ))}
+                </Paper>
+                {/* <MultiSelect
+                  {...formSearch.getInputProps("EXPENDCON")}
+                  label="รายจ่าย"
+                  data={formSearch.values.EXPENDITUREDATA}
+                /> */}
+                <Paper shadow="sm" p={20}>
+                  <Text>รายการรายจ่าย</Text>
+                  {formSearch.values.EXPENDITUREDATA.map((i, k) => (
+                    <Checkbox
+                      value={formSearch.values.EXPENDCON}
+                      label={i.label}
+                      key={k}
+                      onChange={() => ChangConex(i.value)}
+                    />
+                  ))}
+                </Paper>
               </SimpleGrid>
               <SimpleGrid cols={2} pt={15}>
                 <Select

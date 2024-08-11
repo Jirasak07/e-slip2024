@@ -32,6 +32,7 @@ import Uploadsalary1715 from "./Components/menu-salary/Salary/Uploadsalary1715";
 import HistoryImport from "./Components/menu-salary/Salary/HistoryImport";
 import Report01 from "./Components/menu-salary/Report/Report01";
 import ImportExpend from "./Components/menu-salary/Salary/ImportExpend";
+import Report1715 from "./Components/menu-salary/Report/Report1715";
 
 
 function App() {
@@ -107,6 +108,7 @@ function App() {
           <Route path="/report/tax" element={<Home />} />
           <Route path="/report/pdf" element={<HowToPDF />} />
           <Route path="/report/report-salary01" element={<Report01 />} />
+          <Route path="/report/report-salary1715" element={<Report1715 />} />
           {/* /////////////////////////////////////////////////////////////////////////////// */}
            <Route path="/user-salary" element={<User />} />
 
