@@ -215,35 +215,35 @@ function Updaterevenueexpenditure() {
     }, 400);
   };
 
-  const submitdata = (valuess) => {
-    // setOverLay(true);
-    // console.log(value.type_employ);
-    // console.log(value.month);
-    // console.log(value.year);
-    // console.log(value.monthend);
-    // console.log(value.yearend);
+  const submitdata = (value) => {
+    setOverLay(true);
+    console.log(value.type_employ);
+    console.log(value.month);
+    console.log(value.year);
+    console.log(value.monthend);
+    console.log(value.yearend);
 
     const form = Datarevenue;
-    // axios
-    //   .post(API + "/index/Addhistoryrevenueorexpenditure", {
-    //     month: value.values.monthend,
-    //     year: value.values.yearend,
-    //     check: form,
-    //   })
-    //   .then((res) => {
-    //     setOverLay(false);
-    //     Swal.fire({
-    //       title: "อัพเดทข้อมูลสำเร็จ",
-    //       icon: "success",
-    //       // showCancelButton: true,
-    //       confirmButtonText: "ตกลง",
-    //       // cancelButtonText: 'No, keep it'
-    //     }).then((result) => {
-    //       //  this.toggle();
-    //       // close();
-    //     });
-    //     console.log(res.data);
-    //   });
+    axios
+      .post(API + "/index/Addhistoryrevenueorexpenditure", {
+        month: value.values.monthend,
+        year: value.values.yearend,
+        check: form,
+      })
+      .then((res) => {
+        setOverLay(false);
+        Swal.fire({
+          title: "อัพเดทข้อมูลสำเร็จ",
+          icon: "success",
+          // showCancelButton: true,
+          confirmButtonText: "ตกลง",
+          // cancelButtonText: 'No, keep it'
+        }).then((result) => {
+           this.toggle();
+          close();
+        });
+        console.log(res.data);
+      });
   };
 
   useEffect(() => {
