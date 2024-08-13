@@ -92,11 +92,11 @@ export const menus = [
             path: "/manage-salary/import-export1715",
             icon: <IconReportMoney />,
           },
-          {
-            title: "นำเข้ารายจ่ายบุคลากร",
-            path: "/manage-salary/import-expend",
-            icon: <IconExchange />,
-          },
+          // {
+          //   title: "นำเข้ารายจ่ายบุคลากร",
+          //   path: "/manage-salary/import-expend",
+          //   icon: <IconExchange />,
+          // },
           {
             title: "ประวัติการนำเข้าข้อมูลเงินเดือน",
             path: "/manage-salary/import-history",

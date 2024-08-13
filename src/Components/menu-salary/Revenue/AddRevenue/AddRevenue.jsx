@@ -1,4 +1,13 @@
-import { Badge, Button, Container, NumberFormatter, Paper, Select, SimpleGrid } from "@mantine/core";
+import {
+  Badge,
+  Button,
+  Container,
+  Flex,
+  NumberFormatter,
+  Paper,
+  Select,
+  SimpleGrid,
+} from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { IconSearch } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
@@ -186,7 +195,8 @@ function AddRevenue() {
                 no: key + 1,
                 citizen: i.customers_citizent,
                 name: i.customers_pname + i.customers_name + " " + i.customers_lname,
-                type_employ: (DataTypeEmploy.find((val) => val.value === i.customers_type) || {}).label,
+                type_employ: (DataTypeEmploy.find((val) => val.value === i.customers_type) || {})
+                  .label,
                 revenue: (
                   <Text c="green" fz={14}>
                     {i.revenue_name}
@@ -214,21 +224,50 @@ function AddRevenue() {
                       payslip_status_out={i.payslip_status_out}
                       revenue_name={i.revenue_name}
                       revenue_name_title={
-                        i.revenue_name + "  " + i.customers_pname + i.customers_name + " " + i.customers_lname
+                        i.revenue_name +
+                        "  " +
+                        i.customers_pname +
+                        i.customers_name +
+                        " " +
+                        i.customers_lname
                       }
                       Serch={Serch}
                       payslip_year={i.payslip_year}
-                      
                     />
                   </>
                 ),
               })),
             ],
           });
+          const total = data.reduce(
+            (sum, current) => (sum = sum + Number(current.payslip_total)),
+            0
+          );
+          let totals = Math.floor(total * 100) / 100;
+          setTotal(totals);
         }
         setLoadTable(false);
+
+        // const revenue = data.reduce((sum, current) => (sum = sum + Number(current.revenue)), 0);
+        // const history_salary_salary = data.reduce(
+        //   (sum, current) => (sum = sum + Number(current.history_salary_salary)),
+        //   0
+        // );
+        // const salary_true = data.reduce(
+        //   (sum, current) => (sum = sum + Number(current.salary_true)),
+        //   0
+        // );
+        // let formattedNumber = Math.floor(expenditure * 100) / 100;
+        // let formattedrevenue = Math.floor(revenue * 100) / 100;
+        // let formattedhistory_salary_salary = Math.floor(history_salary_salary * 100) / 100;
+        // let formattedsalary_true = Math.floor(salary_true * 100) / 100;
+        // setExpenditure_true(formattedNumber.toFixed(2));
+        // setRevenue_true(formattedrevenue.toFixed(2));
+        // setHistory_salary(formattedhistory_salary_salary.toFixed(2));
+        // setSalary_true(formattedsalary_true.toFixed(2));
       });
   };
+  const [Total, setTotal] = useState(0);
   useEffect(() => {
     FetchTypeEmploy();
     FetchYear();
@@ -268,8 +307,9 @@ function AddRevenue() {
               // console.log(v);
             })}
           >
-            <SimpleGrid cols={{base:1,md:4,sm:2}}>
-              <Select searchable
+            <SimpleGrid cols={{ base: 1, md: 4, sm: 2 }}>
+              <Select
+                searchable
                 allowDeselect={false}
                 data={DataTypeEmploy}
                 value={formSearch.values.type_employ}
@@ -284,15 +324,28 @@ function AddRevenue() {
                 }}
                 label="ประเภทบุคลากร"
               />
-              <Select searchable
+              <Select
+                searchable
                 allowDeselect={false}
                 label="ประเภทรายรับ"
                 data={SelectDatarevenue}
                 {...formSearch.getInputProps("revenue_id")}
               />
-           <SimpleGrid cols={{base:1,sm:2}}>
-                <Select searchable allowDeselect={false} label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
-                <Select searchable allowDeselect={false} label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
+              <SimpleGrid cols={{ base: 1, sm: 2 }}>
+                <Select
+                  searchable
+                  allowDeselect={false}
+                  label="เดือน"
+                  data={selectmount}
+                  {...formSearch.getInputProps("month")}
+                />
+                <Select
+                  searchable
+                  allowDeselect={false}
+                  label="ปี"
+                  data={DataYear}
+                  {...formSearch.getInputProps("year")}
+                />
               </SimpleGrid>
 
               <Button type="submit" mt={33} leftSection={<IconSearch />}>
@@ -301,11 +354,23 @@ function AddRevenue() {
             </SimpleGrid>
           </form>
         </Paper>
+        <Paper p={10}>
+          <Flex justify={"flex-end"}>
+            <Text px={10} fz={20} my={10}>
+              ยอดรวม{" "}
+              <Badge fz={20} radius={4} size="md" color="green" variant="light">
+                <NumberFormatter value={Total} thousandSeparator />
+              </Badge>{" "}
+              บาท
+            </Text>
+          </Flex>
+        </Paper>
         <Paper pt={20}>
           {LoadTable ? (
             <SkeletonTable />
           ) : (
-            <MDBDataTableV5 entries={100}
+            <MDBDataTableV5
+              entries={100}
               data={TableSalary}
               responsive
               striped

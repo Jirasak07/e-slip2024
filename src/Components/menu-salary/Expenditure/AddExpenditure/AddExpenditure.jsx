@@ -1,4 +1,4 @@
-import { Badge, Button, Container, NumberFormatter, Paper, Select, SimpleGrid } from "@mantine/core";
+import { Badge, Button, Container, Flex, NumberFormatter, Paper, Select, SimpleGrid } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { IconSearch } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
@@ -224,10 +224,17 @@ function AddExpenditure() {
               })),
             ],
           });
+          const total = data.reduce(
+            (sum, current) => (sum = sum + Number(current.payslip_total)),
+            0
+          );
+          let totals = Math.floor(total * 100) / 100;
+          setTotal(totals);
         }
         setLoadTable(false);
       });
   };
+  const [Total, setTotal] = useState(0);
   useEffect(() => {
     FetchTypeEmploy();
     FetchYear();
@@ -300,6 +307,17 @@ function AddExpenditure() {
               </Button>
             </SimpleGrid>
           </form>
+        </Paper>
+        <Paper p={10}>
+          <Flex justify={"flex-end"}>
+            <Text px={10} fz={20} my={10}>
+              ยอดรวม{" "}
+              <Badge fz={20} radius={4} size="md" color="green" variant="light">
+                <NumberFormatter value={Total} thousandSeparator />
+              </Badge>{" "}
+              บาท
+            </Text>
+          </Flex>
         </Paper>
         <Paper pt={20}>
           {LoadTable ? (
