@@ -1,6 +1,18 @@
-import { Button, Container, Flex, Grid, LoadingOverlay, NumberFormatter, Paper, Select, SimpleGrid, Text } from "@mantine/core";
+import {
+  Button,
+  Container,
+  Flex,
+  Grid,
+  LoadingOverlay,
+  NumberFormatter,
+  Paper,
+  Select,
+  SimpleGrid,
+  Text,
+} from "@mantine/core";
+import ExcelJs from "exceljs";
 import { isNotEmpty, useForm } from "@mantine/form";
-import { IconSearch } from "@tabler/icons-react";
+import { IconFileSpreadsheet, IconSearch } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
@@ -56,10 +68,75 @@ function Report1715() {
       label: "ธันวาคม",
     },
   ];
+  const column = [
+    {
+      label: "เลขบัตร",
+      field: "customers_citizent",
+      minimal: "lg",
+    },
+    {
+      label: "สายงาน",
+      field: "customers_line",
+      minimal: "sm",
+    },
+    {
+      label: "ชื่อ-นามสกุล",
+      field: "customers_name",
+      minimal: "lg",
+    },
+    {
+      label: "เงินเดือนปัจจุบัน",
+      field: "history_salary_salary",
+      minimal: "sm",
+    },
+    {
+      label: "เงินเดือน1.7/1.5",
+      field: "history_salary_salary1715",
+      minimal: "sm",
+    },
+    {
+      label: "เงินเดือน 0.1",
+      field: "history_salary_salary01",
+      minimal: "sm",
+    },
+    {
+      label: "เงินเลื่อนขั้น",
+      field: "promotionmoney",
+      minimal: "sm",
+    },
+    {
+      label: "จำนวนเดือนตกเบิก",
+      field: "numberofmonths",
+      minimal: "sm",
+    },
+    {
+      label: "เงินตกเบิก",
+      field: "backpay",
+      minimal: "sm",
+    },
+    {
+      label: "เงินตกเบิก1.7/1.5",
+      field: "backpay1715",
+      minimal: "sm",
+    },
+    {
+      label: "เงินตกเบิก01",
+      field: "backpay01",
+      minimal: "sm",
+    },
+    {
+      label: "เงินตอบแทนพิเศษ",
+      field: "compensation",
+      minimal: "sm",
+    },
+  ];
   const formSearch = useForm({
     initialValues: {
       idbudget: "",
-      month: (new Date().getMonth().toString().length === 1 ? "0" + new Date().getMonth() : new Date().getMonth()).toString(),
+      month: (new Date().getMonth().toString().length === 1
+        ? "0" + new Date().getMonth()
+        : new Date().getMonth()
+      ).toString(),
       year: new Date().getFullYear().toString(),
       data: [],
       //    type: "",
@@ -73,7 +150,7 @@ function Report1715() {
     },
   });
   const Sub = (value) => {
-    setLoad(true)
+    setLoad(true);
     axios
       .post(API + "/index/Show1715", {
         idbudget: value.idbudget,
@@ -81,7 +158,7 @@ function Report1715() {
         year: value.year,
       })
       .then((res) => {
-        setLoad(false)
+        setLoad(false);
         formSearch.setValues({ data: res.data });
       });
   };
@@ -112,7 +189,7 @@ function Report1715() {
       if (data.length !== 0) {
         const select = data.map((i) => ({
           value: i.idbudget,
-          label: i.namebudget+" ( "+i.idbudget+" ) ",
+          label: i.namebudget + " ( " + i.idbudget + " ) ",
         }));
         setDataBudget(select);
       }
@@ -124,9 +201,141 @@ function Report1715() {
     FetchYear();
     FetchTypeshowBudget();
   }, []);
+
+  const ExcelExport = () => {
+    axios
+      .post(API + "/index/historyuploadsalary1715", {
+        idbudget: formSearch.values.idbudget,
+        month: formSearch.values.month,
+        year: formSearch.values.year,
+      })
+      .then((res) => {
+        const workbook = new ExcelJs.Workbook();
+        const sheet = workbook.addWorksheet("Mysheet");
+        sheet.properties.defaultRowHeight = 20;
+        sheet.columns = [
+          {
+            header: "เลขบัตร",
+            key: "customers_citizent",
+            width: 20,
+          },
+          {
+            header: "สายงาน",
+            key: "customers_line",
+            width: 20,
+          },
+
+          {
+            header: "ชื่อ-นามสกุล",
+            key: "customers_name",
+            width: 20,
+          },
+          {
+            header: "เงินเดือนปัจจุบัน",
+            key: "history_salary_salary",
+            width: 20,
+          },
+
+          {
+            header: "เงินเดือน1.7/1.5",
+            key: "history_salary_salary1715",
+            width: 20,
+          },
+          {
+            header: "เงินเดือน 0.1",
+            key: "history_salary_salary01",
+            width: 20,
+          },
+          {
+            header: "เงินเลื่อนขั้น",
+            key: "promotionmoney",
+            width: 20,
+          },
+          {
+            header: "จำนวนเดือนตกเบิก",
+            key: "numberofmonths",
+            width: 20,
+          },
+          {
+            header: "เงินตกเบิก",
+            key: "backpay",
+            width: 20,
+          },
+          {
+            header: "เงินตกเบิก1.7/1.5",
+            key: "backpay1715",
+            width: 20,
+          },
+          {
+            header: "เงินตกเบิก01",
+            key: "backpay01",
+            width: 20,
+          },
+          {
+            header: "เงินตอบแทนพิเศษ",
+            key: "compensation",
+            width: 20,
+          },
+        ];
+        const data = res.data;
+        data.map((i, rowIndex) => {
+          const rowNumber = rowIndex +2 ;
+          sheet.addRow({
+            customers_citizent: i.customers_citizent,
+            customers_line: i.customers_line === "1" ? "สายวิชาการ" : "สายสนับสนุน",
+            customers_name: i.customers_pname + i.customers_name + " " + i.customers_lname,
+            history_salary_salary: i.history_salary_salary,
+            history_salary_salary1715: i.history_salary_salary1715,
+            history_salary_salary01: i.history_salary_salary01,
+            promotionmoney: i.promotionmoney,
+            numberofmonths: i.numberofmonths,
+            backpay: i.backpay,
+            backpay1715: i.backpay1715,
+            backpay01: i.backpay01,
+            compensation: i.compensation,
+          });
+          sheet.getCell(rowNumber, 1).fill = {
+            type: "pattern",
+            pattern: "solid",
+            fgColor: { argb: "BC6C25" }, // เปลี่ยนเป็นสีที่ต้องการ เช่น สีเหลือง
+          };
+          sheet.getCell(rowNumber, 2).fill = {
+            type: "pattern",
+            pattern: "solid",
+            fgColor: { argb: "BC6C25" },
+          };
+          for (let col = 1; col <= 3; col++) {
+            sheet.getCell(rowNumber, col).fill = {
+              type: "pattern",
+              pattern: "solid",
+              fgColor: { argb: "c7f9cc" },
+            };
+            sheet.getCell(1, col).fill = {
+              type: "pattern",
+              pattern: "solid",
+              fgColor: { argb: "38b000" },
+            };
+          }
+          
+        });
+
+        workbook.xlsx.writeBuffer().then((data) => {
+          const blob = new Blob([data], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheet.sheet",
+          });
+          const url = window.URL.createObjectURL(blob);
+          const anchor = document.createElement("a");
+          anchor.href = url;
+          anchor.download = "รายงาน1-7/1-5.xlsx";
+          DataYear;
+          anchor.click();
+          window.URL.revokeObjectURL(url);
+        });
+      });
+  };
   return (
     <Container fluid p={0}>
-        <LoadingOverlay visible={Load} w={"100vw"} h={"100vh"}  pos={"fixed"}/>
+      <LoadingOverlay visible={Load} w={"100vw"} h={"100vh"} pos={"fixed"} />
       <form
         onSubmit={formSearch.onSubmit((v) => {
           Sub(v);
@@ -135,10 +344,20 @@ function Report1715() {
       >
         <Grid gutter={{ base: 5, xs: "md", md: "xl", xl: 50 }}>
           <Grid.Col span={2}>
-            <Select searchable label="งบประมาณ" data={DataBudget} {...formSearch.getInputProps("idbudget")} />
+            <Select
+              searchable
+              label="งบประมาณ"
+              data={DataBudget}
+              {...formSearch.getInputProps("idbudget")}
+            />
           </Grid.Col>
           <Grid.Col span={2}>
-            <Select searchable label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
+            <Select
+              searchable
+              label="เดือน"
+              data={selectmount}
+              {...formSearch.getInputProps("month")}
+            />
           </Grid.Col>
           <Grid.Col span={2}>
             <Select searchable label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
@@ -153,6 +372,18 @@ function Report1715() {
             <Button type="submit" mt={33} leftSection={<IconSearch />}>
               ค้นหา
             </Button>
+            <Button
+              onClick={() => {
+                ExcelExport();
+              }}
+              disabled={formSearch.values.data.length === 0}
+              color="green.9"
+              ml={5}
+              mt={33}
+              leftSection={<IconFileSpreadsheet />}
+            >
+              Export
+            </Button>
           </Grid.Col>
         </Grid>
       </form>
@@ -163,14 +394,22 @@ function Report1715() {
               <Text>ยอดสุทธิเงินเดือน 1.7/1.5 </Text>
               <Text c={"green"} fz={30}>
                 {" "}
-                <NumberFormatter thousandSeparator suffix=" ฿" value={formSearch.values.data[0].sum01} />
+                <NumberFormatter
+                  thousandSeparator
+                  suffix=" ฿"
+                  value={formSearch.values.data[0].sum01}
+                />
               </Text>
             </Paper>
             <Paper withBorder p={20} shadow="lg">
-              <Text>ยอดสุทธิเงินเดือนตกเบิก 1.7/1.5  </Text>
+              <Text>ยอดสุทธิเงินเดือนตกเบิก 1.7/1.5 </Text>
               <Text c="blue" fz={30}>
                 {" "}
-                <NumberFormatter thousandSeparator suffix=" ฿" value={formSearch.values.data[0].backpay01} />{" "}
+                <NumberFormatter
+                  thousandSeparator
+                  suffix=" ฿"
+                  value={formSearch.values.data[0].backpay01}
+                />{" "}
               </Text>
             </Paper>
           </>

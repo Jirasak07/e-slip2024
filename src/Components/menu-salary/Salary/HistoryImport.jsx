@@ -199,7 +199,7 @@ function HistoryImport() {
               ...data.map((i) => ({
                 customers_citizent: i.customers_citizent,
                 customers_type: i.customers_type,
-                customers_line: i.customers_line ===  1 ? <Text c="blue">สายวิชาการ</Text> : <Text c="red.9">สายสนับสนุน</Text>,
+                customers_line: i.customers_line ===  1 || i.customers_line ===  '1' ? <Text c="blue">สายวิชาการ</Text> : <Text c="red.9">สายสนับสนุน</Text>,
                 customers_name: i.customers_pname + "" + i.customers_name + " " + i.customers_lname,
                 history_salary_salary: (
                   <Text c="teal.8">
