@@ -308,10 +308,8 @@ function Reportipay() {
   };
 
   const searchdata = (value) => {
-    // console.log(value.idbudget);
-    // console.log(value.month);
-    // console.log(value.year);
     let text1 = "";
+
     value.typeuser.forEach((i, k) => {
       if (k + 1 === value.typeuser.length) {
         text1 += "'" + i + "'";
@@ -319,6 +317,7 @@ function Reportipay() {
         text1 += "'" + i + "',";
       }
     });
+    formSearch.setValues({ textuser: text1 });
     axios
       .get(
         API +
@@ -372,7 +371,15 @@ function Reportipay() {
 
     axios
       .get(
-        API + "/index/showrevenuelistipay/" + value.year + "/" + value.month + "/" + value.idbudget
+        API +
+          "/index/showrevenuelistipay/" +
+          value.year +
+          "/" +
+          value.month +
+          "/" +
+          value.idbudget +
+          "/" +
+          text1
       )
       .then((res) => {
         console.log(res.data);
@@ -438,6 +445,7 @@ function Reportipay() {
       year: new Date().getFullYear().toString(),
       typeuser: [],
       datatypeuser: [],
+      textuser: "",
     },
 
     validate: {
@@ -458,6 +466,7 @@ function Reportipay() {
           idbudget={formSearch.values.idbudget}
           bank_id={element.bank_id}
           bank_name={element.bank_name}
+          typeuser={formSearch.values.textuser}
         />
       </Table.Td>
     </Table.Tr>

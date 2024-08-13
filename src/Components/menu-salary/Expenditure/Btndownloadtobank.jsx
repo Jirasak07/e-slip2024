@@ -7,7 +7,7 @@ import { isNotEmpty, useForm } from "@mantine/form";
 import Swal from "sweetalert2";
 import ExcelJs from 'exceljs'
 
-function Btndownloadtobank({ FetchExpenditure, expenditure_id, year, month, idbudget, bank_id, bank_name }) {
+function Btndownloadtobank({ FetchExpenditure, expenditure_id, year, month, idbudget, bank_id, bank_name,typeuser }) {
   const [openModal, setopenModal] = useState(false);
   const [OverLay, setOverLay] = useState(false);
   const [Dataexport, setDataexport] = useState(false);
@@ -107,7 +107,7 @@ function Btndownloadtobank({ FetchExpenditure, expenditure_id, year, month, idbu
 
   const FetchData = () => {
 
-     axios.get(API + "/index/showrevenueexporttobank/"+year+"/"+month+"/"+idbudget+"/"+bank_id)
+     axios.get(API + "/index/showrevenueexporttobank/"+year+"/"+month+"/"+idbudget+"/"+bank_id+"/"+typeuser)
       .then((res) => {
         const data = res.data;
         console.log(data);
