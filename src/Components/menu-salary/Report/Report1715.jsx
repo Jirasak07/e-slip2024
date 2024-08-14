@@ -204,7 +204,7 @@ function Report1715() {
 
   const ExcelExport = () => {
     axios
-      .post(API + "/index/historyuploadsalary1715", {
+      .post(API + "/index/historyuploadsalary1715s", {
         idbudget: formSearch.values.idbudget,
         month: formSearch.values.month,
         year: formSearch.values.year,
