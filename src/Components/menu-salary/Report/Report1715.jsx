@@ -246,40 +246,10 @@ function Report1715() {
             key: "history_salary_salary01",
             width: 20,
           },
-          {
-            header: "เงินเลื่อนขั้น",
-            key: "promotionmoney",
-            width: 20,
-          },
-          {
-            header: "จำนวนเดือนตกเบิก",
-            key: "numberofmonths",
-            width: 20,
-          },
-          {
-            header: "เงินตกเบิก",
-            key: "backpay",
-            width: 20,
-          },
-          {
-            header: "เงินตกเบิก1.7/1.5",
-            key: "backpay1715",
-            width: 20,
-          },
-          {
-            header: "เงินตกเบิก01",
-            key: "backpay01",
-            width: 20,
-          },
-          {
-            header: "เงินตอบแทนพิเศษ",
-            key: "compensation",
-            width: 20,
-          },
         ];
         const data = res.data;
         data.map((i, rowIndex) => {
-          const rowNumber = rowIndex +2 ;
+          const rowNumber = rowIndex + 2;
           sheet.addRow({
             customers_citizent: i.customers_citizent,
             customers_line: i.customers_line === "1" ? "สายวิชาการ" : "สายสนับสนุน",
@@ -316,7 +286,6 @@ function Report1715() {
               fgColor: { argb: "38b000" },
             };
           }
-          
         });
 
         workbook.xlsx.writeBuffer().then((data) => {
