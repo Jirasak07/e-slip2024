@@ -21,6 +21,8 @@ import Steppers from "../Components/Publicc-user/Stepper";
 import axios from "axios";
 import { API } from "../Components/Config/ConfigApi";
 export function Layouts() {
+  const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
+  const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
   const [opened, { toggle }] = useDisclosure();
   const [IndexMenu, setIndexMenu] = useState(0);
   const [INdexSub, setINdexSub] = useState(0);
@@ -99,19 +101,23 @@ export function Layouts() {
     <AppShell
       padding={30}
       header={{ height: { base: 50, md: 0 } }}
-      navbar={{ width: 350, breakpoint: "md", collapsed: { mobile: !opened } }}
+      navbar={{ width: 350, breakpoint: "md",  collapsed: { mobile: !mobileOpened, desktop: !desktopOpened }, }}
     >
       <AppShell.Header hiddenFrom="md" bg={"var(--primary)"}>
         <Flex h="100%" align={"center"} justify={"space-between"} pr={10}>
           <Flex justify={"center"} w={"95%"}>
             <IconWallet color="white" /> <Text c="white">E-Pay Slip Online KPRU</Text>
           </Flex>
-          <Burger color="white" opened={opened} onClick={toggle} hiddenFrom="md" size="md" />
+          <Burger color="white" opened={mobileOpened} onClick={toggleMobile} hiddenFrom="md" size="sm" />
+          <Burger opened={desktopOpened} onClick={toggleDesktop} visibleFrom="md" size="sm" />
         </Flex>
       </AppShell.Header>
+      <Burger opened={desktopOpened} onClick={toggleDesktop} color="white" bg={"blue.9"}  size="md" pos={"fixed"} />
       <AppShell.Navbar>
         {" "}
-        <Flex visibleFrom="md" direction={"column"}>
+        <Flex visibleFrom="md" direction={"column"}> <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
+        <Burger opened={desktopOpened} onClick={toggleDesktop} visibleFrom="sm" color="white" bg={"blue.9"} size="md" />
+       
           <Flex pb={0} mih={50} align={"flex-end"} justify={"center"} gap={10}>
             <IconWallet stroke={2} size={30} color="var(--primary)" />{" "}
             <Text fw={600} fz={20} c="var(--primary)">

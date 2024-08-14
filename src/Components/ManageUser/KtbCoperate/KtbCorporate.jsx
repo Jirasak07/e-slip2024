@@ -158,6 +158,7 @@ function KtbCorporate() {
         </Paper>
         <Paper pt={20}>
           <MDBDataTableV5
+          maxHeight={"50dvh"}
             noRecordsFoundLabel="ไม่พบรายการ"
             responsive
             striped

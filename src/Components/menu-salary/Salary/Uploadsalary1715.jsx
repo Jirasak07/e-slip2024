@@ -1197,6 +1197,7 @@ function Uploadsalary1715() {
           ) : (
             <MDBDataTableV5
               data={Tablelist}
+              // maxHeight={"80dvh"}
               responsive
               entries={100}
               striped

@@ -561,7 +561,8 @@ function Salary() {
             <SkeletonTable />
           ) : (
             <MDBDataTableV5
-              entries={100}
+              // entries={100}
+
               data={TableSalary}
               responsive
               striped
