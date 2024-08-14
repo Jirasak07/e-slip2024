@@ -18,7 +18,7 @@ function ModalAddBank({ customers_citizent,fetch }) {
       select_bank_type: [],
     },
     validate: {
-      account_number: (value) => (/^\d{3}-\d{1,5}-\d{5}-\d{1,7}$/.test(value) ? null : 'รูปแบบไม่ถูกต้อง'),
+      account_number: isNotEmpty("กรุณาเพิ่มข้อมูล"),
       customers_citizent:isNotEmpty("กรุณาเพิ่มข้อมูล"),
       account_type:isNotEmpty("กรุณาเพิ่มข้อมูล"),
       statusbank:isNotEmpty("กรุณาเพิ่มข้อมูล"),
