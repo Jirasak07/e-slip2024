@@ -7,26 +7,26 @@ import ExcelJs from "exceljs";
 import * as xlsx from "xlsx";
 function ImportExpend() {
   const staticArray = [
-    {
-      header: "เลขที่ตำแหน่ง",
-      key: "customers_positionnumber",
-      width: 20,
-    },
+    // {
+    //   header: "เลขที่ตำแหน่ง",
+    //   key: "customers_positionnumber",
+    //   width: 20,
+    // },
     {
       header: "เลขบัตร",
       key: "customers_citizent",
       width: 20,
     },
-    {
-      header: "customers_type",
-      key: "customers_type",
-      width: 20,
-    },
-    {
-      header: "customers_line",
-      key: "customers_line",
-      width: 20,
-    },
+    // {
+    //   header: "customers_type",
+    //   key: "customers_type",
+    //   width: 20,
+    // },
+    // {
+    //   header: "customers_line",
+    //   key: "customers_line",
+    //   width: 20,
+    // },
     {
       header: "คำนำหน้า",
       key: "customers_pname",
@@ -58,9 +58,9 @@ function ImportExpend() {
         const head = value.header;
         head.unshift(...staticArray)
         sheets[key] = workbook.addWorksheet(`${value.label}`);
-        sheets[key].properties.defaultRowHeight = 15;
+        sheets[key].properties.defaultRowHeight = 20;
         sheets[key].columns = head;
-        const columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+        const columns = ['A', 'B', 'C', 'D', 'E'];
 
         // Assuming Rws column is column 'I' (change 'I' to the actual column if different)
         const rwsColumn = 'I';
@@ -84,6 +84,8 @@ function ImportExpend() {
             columns.forEach(column => {
               const cell = `${column}${rowNumber}`;
               const cellRef = sheets[key].getCell(cell);
+              const cell2 = `${column}${1}`;
+              const cellRefs = sheets[key].getCell(cell);
               cellRef.fill = {
                   type: "pattern",
                   pattern: "solid",
