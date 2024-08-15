@@ -63,7 +63,7 @@ function ImportExpend() {
         const columns = ['A', 'B', 'C', 'D', 'E'];
 
         // Assuming Rws column is column 'I' (change 'I' to the actual column if different)
-        const rwsColumn = 'I';
+        // const rwsColumn = 'I';
     
         const customers = value.customers;
         
@@ -85,14 +85,23 @@ function ImportExpend() {
               const cell = `${column}${rowNumber}`;
               const cellRef = sheets[key].getCell(cell);
               const cell2 = `${column}${1}`;
-              const cellRefs = sheets[key].getCell(cell);
+              const cellRefs = sheets[key].getCell(cell2);
               cellRef.fill = {
                   type: "pattern",
                   pattern: "solid",
-                  fgColor: { argb: 'a9dfbf' },
+                  fgColor: { argb: 'e5e5e5' },
                   bgColor: { argb: "FFFFFF" } // Set a default background color if needed
               };
-  
+              cellRefs.fill = {
+                  type: "pattern",
+                  pattern: "solid",
+                  fgColor: { argb: '005f73' },
+                  bgColor: { argb: "FFFFFF" } // Set a default background color if needed
+              };
+              cellRefs.font = {
+                color: { argb: 'FFFFFF' } // เปลี่ยนสีข้อความเป็นสีขาว
+            };
+
               cellRef.border = {
                   top: { style: 'thin', color: { argb: '00000000' } }, // Set your desired border color
                   left: { style: 'thin', color: { argb: '00000000' } },
