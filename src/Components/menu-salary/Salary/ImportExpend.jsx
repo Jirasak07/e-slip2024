@@ -335,37 +335,62 @@ function ImportExpend() {
     const jamnual = sheetsData.length;
     let i = 1;
     sheetsData.forEach((sheet) => {
-      console.log(sheet)
+      // console.log(sheet)
       const typeuser = sheet.label;
       let crecord = sheet.data.length;
       let j = 1;
       sheet.data.forEach((record) => {
+        const citizent = record["เลขบัตร"];
+        const budget = record["ประเภทงบประมาณ"];
+
         // วนลูปผ่านคีย์ทั้งหมดในแต่ละ record
         Object.keys(record).forEach((key) => {
           const value = record[key];
           const label = key;
-          if (i === jamnual && crecord === j) {
-            // console.log(label);
-            // console.log(value);
-            // console.log(typeuser);
-            Swal.fire({
-              icon: "success",
-              title: "Success",
-              showConfirmButton: false,
-              timer: 1200,
-              timerProgressBar: true,
-            });
-          } else {
-            // console.log(value);
-            // console.log(label);
+          if (
+            label !== "เลขบัตร" &&
+            label !== "คำนำหน้า" &&
+            label !== "ชื่อ" &&
+            label !== "นามสกุล" &&
+            label !== "ประเภทงบประมาณ" &&
+            label !== "ประเภทงบประมาณ"
+          ) {
+            axios
+              .post(API + "/uploadfile/uploadexpenditure", {
+                typeuser: typeuser,
+                payslip_citizent: citizent,
+                idbudget: budget,
+                label: label,
+                value: value,
+              })
+              .then((res) => {
+                if (res.data === "success") {
+                  if (i === jamnual && crecord === j) {
+                    console.log(typeuser);
+                    console.log(citizent);
+                    console.log(budget);
+                    console.log(label);
+                    console.log(value);
+                    Swal.fire({
+                      icon: "success",
+                      title: "Success",
+                      showConfirmButton: false,
+                      timer: 1200,
+                      timerProgressBar: true,
+                    });
+                  }
+                } else {
+                  console.log(res);
+                }
+              });
           }
         });
+
         j++;
       });
 
       i++;
     });
-    console.log(jamnual);
   };
 
   return (
