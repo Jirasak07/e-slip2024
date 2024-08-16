@@ -331,22 +331,22 @@ function ImportExpend() {
     }
   };
 
-  const Test = (params) => {
-    // const data = Object.values(sheetsData);
-    // console.log(sheetsData);
+  const Test = () => {
     const jamnual = sheetsData.length;
     let i = 1;
     sheetsData.forEach((sheet) => {
-      const label = sheet.label;
-      console.log(label);
+      const typeuser = sheet.label;
+      let crecord = sheet.data.length;
+      let j = 1;
       sheet.data.forEach((record) => {
         // วนลูปผ่านคีย์ทั้งหมดในแต่ละ record
         Object.keys(record).forEach((key) => {
           const value = record[key];
           const label = key;
-          if (i === jamnual) {
-            console.log(value);
+          if (i === jamnual && crecord === j) {
             console.log(label);
+            console.log(value);
+            // console.log(typeuser);
             Swal.fire({
               icon: "success",
               title: "Success",
@@ -355,10 +355,11 @@ function ImportExpend() {
               timerProgressBar: true,
             });
           } else {
-            console.log(value);
-            console.log(label);
+            // console.log(value);
+            // console.log(label);
           }
         });
+        j++;
       });
 
       i++;
