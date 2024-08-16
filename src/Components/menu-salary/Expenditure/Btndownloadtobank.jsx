@@ -100,6 +100,7 @@ function Btndownloadtobank({ FetchExpenditure, expenditure_id, year, month, idbu
         anchor.download = (bank_name+"-"+year+"-"+month+"-"+idbudget+".xlsx");
         anchor.click();
         window.URL.revokeObjectURL(url);
+        setDataexport([])
     })
 
 }
