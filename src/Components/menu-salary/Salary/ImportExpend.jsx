@@ -1,4 +1,14 @@
-import { Button, Container, FileInput, LoadingOverlay, Paper, Select, SimpleGrid, Stack } from "@mantine/core";
+import {
+  Button,
+  Container,
+  FileInput,
+  LoadingOverlay,
+  Paper,
+  Select,
+  SimpleGrid,
+  Stack,
+  Text,
+} from "@mantine/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
@@ -383,9 +393,9 @@ function ImportExpend() {
         showConfirmButton: false,
         timer: 1200,
         timerProgressBar: true,
-      })
-      setFile(null)
-      setSheetsData([])
+      });
+      setFile(null);
+      setSheetsData([]);
     } else {
       console.log("object");
     }
@@ -415,13 +425,14 @@ function ImportExpend() {
   });
   return (
     <Container fluid p={0}>
-      <LoadingOverlay visible={LLLLLL} pos={"fixed"}  />
+      <LoadingOverlay visible={LLLLLL} pos={"fixed"} />
       <Paper p={20} shadow="xl" radius={12} withBorder>
         <form
           onSubmit={form.onSubmit((value) => {
             FetchData(value);
           })}
         >
+          <Text my={"md"}>เลือกปีและเดือนที่ต้องการดาวน์โหลด</Text>
           <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }}>
             <Select data={form.values.DATAYEAR} label="ปี" {...form.getInputProps("year")} />
             <Select data={form.values.DATAMONTH} label="เดือน" {...form.getInputProps("month")} />
@@ -454,6 +465,7 @@ function ImportExpend() {
             CheckingConfirmed(value);
           })}
         >
+          <Text my={"md"}>เลือกปีและเดือนที่ต้องการนำเข้าโหลด</Text>
           <SimpleGrid cols={3} maw={600}>
             <Select
               data={formsend.values.DATAYEAR}
@@ -466,7 +478,7 @@ function ImportExpend() {
               {...formsend.getInputProps("month")}
             />
             <Button disabled={sheetsData.length === 0} mt={32} loading={LLLLLL} type="submit">
-              บันทึก
+              นำเข้ารายจ่ายบุคลากร
             </Button>
           </SimpleGrid>
         </form>
