@@ -364,21 +364,19 @@ function ImportExpend() {
                 value: value,
               })
               .then((res) => {
-                if (res.data === "success") {
-                  if (i === jamnual && crecord === j) {
-                    console.log(typeuser);
-                    console.log(citizent);
-                    console.log(budget);
-                    console.log(label);
-                    console.log(value);
-                    Swal.fire({
-                      icon: "success",
-                      title: "Success",
-                      showConfirmButton: false,
-                      timer: 1200,
-                      timerProgressBar: true,
-                    });
-                  }
+                if (i === jamnual && crecord === j && res.data === "success") {
+                  console.log(typeuser);
+                  console.log(citizent);
+                  console.log(budget);
+                  console.log(label);
+                  console.log(value);
+                  Swal.fire({
+                    icon: "success",
+                    title: "Success",
+                    showConfirmButton: false,
+                    timer: 1200,
+                    timerProgressBar: true,
+                  });
                 } else {
                   console.log(res);
                 }
