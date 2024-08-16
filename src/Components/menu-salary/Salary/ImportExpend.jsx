@@ -7,7 +7,9 @@ import ExcelJs from "exceljs";
 import * as xlsx from "xlsx";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { IconFileSpreadsheet } from "@tabler/icons-react";
+import Swal from "sweetalert2";
 function ImportExpend() {
+  const [file, setFile] = useState(null);
   const staticArray = [
     {
       header: "เลขบัตร",
@@ -284,6 +286,86 @@ function ImportExpend() {
       });
     }, 400);
   };
+  const [sheetsData, setSheetsData] = useState([]);
+  const handleFileChange = async (selectedFile) => {
+    setFile(selectedFile);
+
+    if (selectedFile) {
+      const workbook = new ExcelJs.Workbook();
+      const fileReader = new FileReader();
+
+      fileReader.onload = async (e) => {
+        const buffer = e.target.result;
+        await workbook.xlsx.load(buffer);
+
+        const allSheetsData = [];
+
+        workbook.eachSheet((worksheet) => {
+          const sheetData = [];
+          let headers = [];
+
+          worksheet.eachRow((row, rowNumber) => {
+            const rowValues = row.values.slice(1); // Remove first empty element
+
+            if (rowNumber === 1) {
+              headers = rowValues; // แถวแรกเป็น header
+            } else {
+              const rowData = {};
+              headers.forEach((header, index) => {
+                rowData[header] = rowValues[index];
+              });
+              sheetData.push(rowData);
+            }
+          });
+
+          allSheetsData.push({
+            label: worksheet.name, // ชื่อ sheet
+            data: sheetData, // ข้อมูลใน sheet
+          });
+        });
+
+        setSheetsData(allSheetsData);
+      };
+
+      fileReader.readAsArrayBuffer(selectedFile);
+    }
+  };
+
+  const Test = (params) => {
+    // const data = Object.values(sheetsData);
+    // console.log(sheetsData);
+    const jamnual = sheetsData.length;
+    let i = 1;
+    sheetsData.forEach((sheet) => {
+      const label = sheet.label;
+      console.log(label);
+      sheet.data.forEach((record) => {
+        // วนลูปผ่านคีย์ทั้งหมดในแต่ละ record
+        Object.keys(record).forEach((key) => {
+          const value = record[key];
+          const label = key;
+          if (i === jamnual) {
+            console.log(value);
+            console.log(label);
+            Swal.fire({
+              icon: "success",
+              title: "Success",
+              showConfirmButton: false,
+              timer: 1200,
+              timerProgressBar: true,
+            });
+          } else {
+            console.log(value);
+            console.log(label);
+          }
+        });
+      });
+
+      i++;
+    });
+    console.log(jamnual);
+  };
+
   return (
     <Container fluid p={0}>
       <Paper p={20} shadow="xl" radius={12} withBorder>
@@ -310,8 +392,15 @@ function ImportExpend() {
         </form>
       </Paper>
       <Paper p={20} shadow="md" my={"md"} withBorder radius={8}>
-        <FileInput/>
+        <FileInput
+          accept=".xlsx"
+          value={file}
+          onChange={handleFileChange}
+          label="เลือกไฟล์ Excel"
+          placeholder="Upload files"
+        />
       </Paper>
+      <Button onClick={Test}>ทดสอบ</Button>
     </Container>
   );
 }
