@@ -335,6 +335,7 @@ function ImportExpend() {
     const jamnual = sheetsData.length;
     let i = 1;
     sheetsData.forEach((sheet) => {
+      console.log(sheet)
       const typeuser = sheet.label;
       let crecord = sheet.data.length;
       let j = 1;
@@ -344,8 +345,8 @@ function ImportExpend() {
           const value = record[key];
           const label = key;
           if (i === jamnual && crecord === j) {
-            console.log(label);
-            console.log(value);
+            // console.log(label);
+            // console.log(value);
             // console.log(typeuser);
             Swal.fire({
               icon: "success",
