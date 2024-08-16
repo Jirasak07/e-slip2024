@@ -1,4 +1,4 @@
-import { Button, Container, FileInput, Paper, Select, SimpleGrid, Stack } from "@mantine/core";
+import { Button, Container, FileInput, LoadingOverlay, Paper, Select, SimpleGrid, Stack } from "@mantine/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
@@ -282,6 +282,7 @@ function ImportExpend() {
             label: i.name_year_th,
           }));
           form.setValues({ DATAYEAR: select });
+          formsend.setValues({ DATAYEAR: select });
         }
       });
     }, 400);
@@ -330,69 +331,91 @@ function ImportExpend() {
       fileReader.readAsArrayBuffer(selectedFile);
     }
   };
-
-  const Test = () => {
+  const [LLLLLL, setLLLLLL] = useState(false);
+  async function processSheets() {
+    setLLLLLL(true);
+    let i = 0;
     const jamnual = sheetsData.length;
-    let i = 1;
-    sheetsData.forEach((sheet) => {
-      // console.log(sheet)
+    for (const sheet of sheetsData) {
       const typeuser = sheet.label;
-      let crecord = sheet.data.length;
-      let j = 1;
-      sheet.data.forEach((record) => {
+
+      for (const record of sheet.data) {
         const citizent = record["เลขบัตร"];
         const budget = record["ประเภทงบประมาณ"];
 
-        // วนลูปผ่านคีย์ทั้งหมดในแต่ละ record
-        Object.keys(record).forEach((key) => {
+        // Iterate over each key in the record
+        for (const key of Object.keys(record)) {
           const value = record[key];
           const label = key;
+
           if (
             label !== "เลขบัตร" &&
             label !== "คำนำหน้า" &&
             label !== "ชื่อ" &&
             label !== "นามสกุล" &&
-            label !== "ประเภทงบประมาณ" &&
             label !== "ประเภทงบประมาณ"
           ) {
-            axios
-              .post(API + "/uploadfile/uploadexpenditure", {
+            try {
+              await axios.post(API + "/uploadfile/uploadexpenditure", {
                 typeuser: typeuser,
                 payslip_citizent: citizent,
                 idbudget: budget,
                 label: label,
                 value: value,
-              })
-              .then((res) => {
-                if (i === jamnual && crecord === j && res.data === "success") {
-                  console.log(typeuser);
-                  console.log(citizent);
-                  console.log(budget);
-                  console.log(label);
-                  console.log(value);
-                  Swal.fire({
-                    icon: "success",
-                    title: "Success",
-                    showConfirmButton: false,
-                    timer: 1200,
-                    timerProgressBar: true,
-                  });
-                } else {
-                  console.log(res);
-                }
+                year: formsend.values.year,
+                month: formsend.values.month,
               });
+              console.log("Data posted successfully");
+            } catch (error) {
+              console.error("Error posting data", error);
+            }
           }
-        });
+        }
+        i++;
+      }
+    }
 
-        j++;
-      });
-
-      i++;
+    if (i === jamnual) {
+      setLLLLLL(false);
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        showConfirmButton: false,
+        timer: 1200,
+        timerProgressBar: true,
+      })
+      setFile(null)
+      setSheetsData([])
+    } else {
+      console.log("object");
+    }
+  }
+  const CheckingConfirmed = () => {
+    Swal.fire({
+      icon: "info",
+      title: "ต้องการบันทึกหรือไม่",
+      showCancelButton: true,
+    }).then((d) => {
+      if (d.isConfirmed === true) {
+        processSheets();
+      }
     });
   };
-
+  const formsend = useForm({
+    initialValues: {
+      year: "",
+      month: "",
+      DATAYEAR: [],
+      DATAMONTH: form.values.DATAMONTH,
+    },
+    validate: {
+      year: isNotEmpty("กรุณาเลือก"),
+      month: isNotEmpty("กรุณาเลือก"),
+    },
+  });
   return (
     <Container fluid p={0}>
+      <LoadingOverlay visible={LLLLLL} pos={"fixed"}  />
       <Paper p={20} shadow="xl" radius={12} withBorder>
         <form
           onSubmit={form.onSubmit((value) => {
@@ -425,7 +448,29 @@ function ImportExpend() {
           placeholder="Upload files"
         />
       </Paper>
-      <Button onClick={Test}>ทดสอบ</Button>
+      <Paper p={20} shadow="lg" withBorder radius={8}>
+        <form
+          onSubmit={formsend.onSubmit((value) => {
+            CheckingConfirmed(value);
+          })}
+        >
+          <SimpleGrid cols={3} maw={600}>
+            <Select
+              data={formsend.values.DATAYEAR}
+              label="ปี"
+              {...formsend.getInputProps("year")}
+            />
+            <Select
+              data={formsend.values.DATAMONTH}
+              label="เดือน"
+              {...formsend.getInputProps("month")}
+            />
+            <Button disabled={sheetsData.length === 0} mt={32} loading={LLLLLL} type="submit">
+              บันทึก
+            </Button>
+          </SimpleGrid>
+        </form>
+      </Paper>
     </Container>
   );
 }
