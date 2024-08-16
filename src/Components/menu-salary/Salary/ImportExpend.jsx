@@ -1,4 +1,4 @@
-import { Button, Container, Paper, Select, SimpleGrid, Stack } from "@mantine/core";
+import { Button, Container, FileInput, Paper, Select, SimpleGrid, Stack } from "@mantine/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
@@ -6,6 +6,7 @@ import ExcelJs from "exceljs";
 //import { read, writeFileXLSX } from "xlsx";
 import * as xlsx from "xlsx";
 import { isNotEmpty, useForm } from "@mantine/form";
+import { IconFileSpreadsheet } from "@tabler/icons-react";
 function ImportExpend() {
   const staticArray = [
     {
@@ -292,16 +293,24 @@ function ImportExpend() {
           })}
         >
           <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }}>
-            {/* <Select label="ประเภท" /> */}
             <Select data={form.values.DATAYEAR} label="ปี" {...form.getInputProps("year")} />
             <Select data={form.values.DATAMONTH} label="เดือน" {...form.getInputProps("month")} />
             <Stack pt={0}>
-              <Button type="submit" mt={32} loading={Load}>
-                sdfgdjkfhglkf
+              <Button
+                leftSection={<IconFileSpreadsheet />}
+                type="submit"
+                mt={32}
+                loading={Load}
+                color="green.9"
+              >
+                ดาวน์โหลดรูปแบบการเพิ่ม
               </Button>
             </Stack>
           </SimpleGrid>
         </form>
+      </Paper>
+      <Paper p={20} shadow="md" my={"md"} withBorder radius={8}>
+        <FileInput/>
       </Paper>
     </Container>
   );
