@@ -363,7 +363,8 @@ function ImportExpend() {
             label !== "คำนำหน้า" &&
             label !== "ชื่อ" &&
             label !== "นามสกุล" &&
-            label !== "ประเภทงบประมาณ"
+            label !== "ประเภทงบประมาณ" &&
+            value !== 0
           ) {
             try {
               await axios.post(API + "/uploadfile/uploadexpenditure", {
@@ -385,7 +386,7 @@ function ImportExpend() {
       }
     }
 
-    if (i === jamnual) {
+    if (i >= jamnual) {
       setLLLLLL(false);
       Swal.fire({
         icon: "success",
