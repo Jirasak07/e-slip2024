@@ -41,6 +41,7 @@ function ModalAddRevenue({ revenue_name_title, revenue_name, budget_id, citiid, 
       payslip_revenue: isNotEmpty("กรุณากรอกข้อมูล"),
     },
   });
+
   const SaverevenueNew = (data) => {
     const frm = new FormData();
     frm.append("payslip_citizent", data.payslip_citizent);

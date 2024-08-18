@@ -18,6 +18,7 @@ import { Text } from "@mantine/core";
 import { API } from "../../../Config/ConfigApi";
 import SkeletonTable from "../../../Publicc-user/SkeletonTable";
 import ModalAddRevenue from "./ModalAddRevenue";
+import ModalAddRevenueDifBudget from "./ModalAddRevenueDifBudget";
 
 function AddRevenue() {
   const column = [
@@ -364,6 +365,15 @@ function AddRevenue() {
               บาท
             </Text>
           </Flex>
+        </Paper>
+        <Paper>
+          <ModalAddRevenueDifBudget
+            customer_type={formSearch.values.type_employ}
+            month={formSearch.values.month}
+            year={formSearch.values.year}
+            DATEMONTH={selectmount}
+            DATAYEAR={DataYear}
+          />
         </Paper>
         <Paper pt={20}>
           {LoadTable ? (

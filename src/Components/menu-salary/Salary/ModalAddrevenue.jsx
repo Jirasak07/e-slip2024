@@ -158,9 +158,11 @@ function ModalAddrevenue({ year, month, citizent, type, idbudget, fn, cname }) {
                 <Grid.Col span={2}></Grid.Col>
                 <Grid.Col span={4}>
                   <Text size="xs">{value.revenue_name}</Text>
+                  <Text size="xs" c={"gray.5"} >{value.namebudget}</Text>
                 </Grid.Col>
                 <Grid.Col span={4}>
                   <TextInput
+            
                     type="number"
                     rightSection={<IconCoin />}
                     rightSectionPointerEvents="none"
