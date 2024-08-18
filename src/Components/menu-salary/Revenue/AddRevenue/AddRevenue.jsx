@@ -271,6 +271,7 @@ function AddRevenue() {
   const [Total, setTotal] = useState(0);
   useEffect(() => {
     FetchTypeEmploy();
+
     FetchYear();
   }, []);
   const Serch = (data) => {
@@ -373,6 +374,7 @@ function AddRevenue() {
             year={formSearch.values.year}
             DATEMONTH={selectmount}
             DATAYEAR={DataYear}
+            DATAEMP={DataTypeEmploy}
           />
         </Paper>
         <Paper pt={20}>
