@@ -27,9 +27,10 @@ function Steppers({ val }) {
       console.log(data);
       if (data.length !== 0) {
         const hr = parseInt(data[0].process_hr);
+        const plan = parseInt(data[0].process_plan);
         const fn = parseInt(data[0].process_finance);
         const fsh = parseInt(data[0].process_finish);
-        setActive(hr + fn + fsh);
+        setActive(hr + fn + plan + fsh);
       }
       setLoad(false);
     } catch (error) {
@@ -45,29 +46,26 @@ function Steppers({ val }) {
     const months = String(today.getMonth() + 1).padStart(2, "0");
     // axios.post()
 
-
-
-
-  
     // สร้างวัตถุ Date ใหม่
     const todaynxt = new Date();
-  
+
     // สร้างสำเนาของวันนี้เพื่อหลีกเลี่ยงการเปลี่ยนแปลงวัตถุเดิม
     const nextMonth = new Date(todaynxt);
-    
+
     // เพิ่มเดือนถัดไป
     nextMonth.setMonth(todaynxt.getMonth() + 1);
-  
 
     Swal.fire({
       icon: "info",
       title: "ยืนยันอัพเดทสถานะ",
-      cancelButtonText:"ยกเลิก",
-      showCancelButton:true,
-      confirmButtonText:"ยืนยัน"
+      cancelButtonText: "ยกเลิก",
+      showCancelButton: true,
+      confirmButtonText: "ยืนยัน",
     }).then((res) => {
-      if (res.isConfirmed) {
-        if(active >= 2){
+      console.log(active)
+      if (res.isConfirmed === true) {
+        console.log(active)
+        if (active === 3) {
           if (
             fname === "วรรณภา" ||
             fname === "นฤมล" ||
@@ -75,7 +73,7 @@ function Steppers({ val }) {
             fname === "วราภรณ์" ||
             fname === "จิรศักดิ์" ||
             fname === "ปรางค์ทิพย์"
-          ){
+          ) {
             ////success
             const fmdata = new FormData();
             const yearnxt = nextMonth.getFullYear();
@@ -86,7 +84,7 @@ function Steppers({ val }) {
             fmdata.append("process_status", "1");
             fmdata.append("year_new", yearnxt);
             fmdata.append("month_new", monthssss);
-            axios.post(API + "/index/updateprocessSuccess", fmdata).then((res)=>{
+            axios.post(API + "/index/updateprocessSuccess", fmdata).then((res) => {
               if (res.data === "200") {
                 Swal.fire({
                   icon: "success",
@@ -97,53 +95,71 @@ function Steppers({ val }) {
                   Fetch2();
                 });
               }
-            })
+            });
           }
-        }else{
-           if (fname === "งานบริหารทรัพยากรบุคคลและนิติการ") {
-          const fmdata = new FormData();
-          fmdata.append("process_year", year);
-          fmdata.append("process_month", months);
-          fmdata.append("process_hr", "1");
-          axios.post(API + "/index/updateprocesshr", fmdata).then((res) => {
-            if (res.data === "200") {
-              Swal.fire({
-                icon: "success",
-                title: "success",
-                timer: 600,
-                showConfirmButton: false,
-              }).then((re) => {
-                Fetch2();
+        } else {
+          if (fname === "งานบริหารทรัพยากรบุคคลและนิติการ") {
+            const fmdata = new FormData();
+            fmdata.append("process_year", year);
+            fmdata.append("process_month", months);
+            fmdata.append("process_hr", "1");
+            axios.post(API + "/index/updateprocesshr", fmdata).then((res) => {
+              if (res.data === "200") {
+                Swal.fire({
+                  icon: "success",
+                  title: "success",
+                  timer: 600,
+                  showConfirmButton: false,
+                }).then((re) => {
+                  Fetch2();
+                });
+              }
+            });
+          } else if (
+            active === 2 &&
+            (fname === "วรรณภา" ||
+              fname === "นฤมล" ||
+              fname === "ปราจิน" ||
+              fname === "วราภรณ์" ||
+              fname === "จิรศักดิ์" ||
+              fname === "ปรางค์ทิพย์")
+          ) {
+            const fmdata = new FormData();
+            fmdata.append("process_year", year);
+            fmdata.append("process_month", months);
+            fmdata.append("process_status", "1");
+            axios.post(API + "/index/updateprocessfinance", fmdata).then((res) => {
+              if (res.data === "200") {
+                Swal.fire({
+                  icon: "success",
+                  title: "success",
+                  timer: 600,
+                  showConfirmButton: false,
+                }).then((re) => {
+                  Fetch2();
+                });
+              }
+            });
+          }else if(active === 1 &&  (
+            fname === "กองนโยบายและแผน")){
+              const fmdata = new FormData();
+              fmdata.append("process_year", year);
+              fmdata.append("process_month", months);
+              fmdata.append("process_status", "1");
+              axios.post(API + "/index/updateprocessplan", fmdata).then((res) => {
+                if (res.data === "200") {
+                  Swal.fire({
+                    icon: "success",
+                    title: "success",
+                    timer: 600,
+                    showConfirmButton: false,
+                  }).then((re) => {
+                    Fetch2();
+                  });
+                }
               });
-            }
-          });
-        } else if (
-          fname === "วรรณภา" ||
-          fname === "นฤมล" ||
-          fname === "ปราจิน" ||
-          fname === "วราภรณ์" ||
-          fname === "จิรศักดิ์" ||
-          fname === "ปรางค์ทิพย์"
-        ) {
-          const fmdata = new FormData();
-          fmdata.append("process_year", year);
-          fmdata.append("process_month", months);
-          fmdata.append("process_status", "1");
-          axios.post(API + "/index/updateprocessfinance", fmdata).then((res) => {
-            if (res.data === "200") {
-              Swal.fire({
-                icon: "success",
-                title: "success",
-                timer: 600,
-                showConfirmButton: false,
-              }).then((re) => {
-                Fetch2();
-              });
-            }
-          });
+          }
         }
-        }
-       
       }
     });
   };
@@ -160,10 +176,8 @@ function Steppers({ val }) {
           UpdateHR();
         }}
       >
-        <Stepper.Step
-          label="บค."
-          description="นำเข้าข้อมูลบุคลากรและเงินเดือน"
-        ></Stepper.Step>
+        <Stepper.Step label="บค." description="นำเข้าข้อมูลบุคลากรและเงินเดือน"></Stepper.Step>
+        <Stepper.Step label="กองแผน" description="กองนโยบายและแผน"></Stepper.Step>
         <Stepper.Step label="การเงิน" description="จัดทำเงินเดือน"></Stepper.Step>
         <Stepper.Step label="เสร็จสิ้น" description="เปิดให้พิมพ์เงินเดือน"></Stepper.Step>
       </Stepper>

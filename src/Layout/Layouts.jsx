@@ -130,7 +130,7 @@ export function Layouts() {
           <Divider my={"md"} variant="dashed" size={"sm"} />
         </Flex>
         <Flex direction={"column"} justify={"space-between"}>
-          <ScrollArea h={"90dvh"} type="always">
+          <ScrollArea h={"80dvh"} type="always">
             {" "}
             <Flex direction={"column"} pb={10}>
               <Flex direction={"column"} pt={0} gap={10} px={10}>

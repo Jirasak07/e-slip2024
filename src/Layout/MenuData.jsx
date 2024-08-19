@@ -240,12 +240,12 @@ export const menus = [
         icon: <IconReportMoney />,
         sub: [],
       },
-      {
-        title: "รายการเงินเดือนผลรวม 1.7 1.5",
-        path: "/report/report-salary1715",
-        icon: <IconReportMoney />,
-        sub: [],
-      },
+      // {
+      //   title: "รายการเงินเดือนผลรวม 1.7 1.5",
+      //   path: "/report/report-salary1715",
+      //   icon: <IconReportMoney />,
+      //   sub: [],
+      // },
     ],
   },
   {
