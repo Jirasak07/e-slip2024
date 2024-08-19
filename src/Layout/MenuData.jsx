@@ -234,6 +234,18 @@ export const menus = [
         icon: <IconReport />,
         sub: [],
       },
+      {
+        title: "รายการเงินเดือนผลรวม 0.1",
+        path: "/report/report-salary01",
+        icon: <IconReportMoney />,
+        sub: [],
+      },
+      {
+        title: "รายการเงินเดือนผลรวม 1.7 1.5",
+        path: "/report/report-salary1715",
+        icon: <IconReportMoney />,
+        sub: [],
+      },
     ],
   },
   {
