@@ -4,15 +4,28 @@ import { useDisclosure } from "@mantine/hooks";
 import axios from "axios";
 import { API } from "../../../Config/ConfigApi";
 import { useEffect } from "react";
-function ModalAddRevenueDifBudget({ DATAEMP, DATAYEAR, DATEMONTH, year, month, customer_type }) {
+import Swal from "sweetalert2";
+function ModalAddRevenueDifBudget({
+  DATAEMP,
+  DATAYEAR,
+  DATEMONTH,
+  years,
+  month,
+  customer_type,
+  revenue,
+  disable,
+  FN,
+}) {
   const [opened, { open, close }] = useDisclosure(false);
   const form = useForm({
     initialValues: {
-      month:
-        (new Date().getMonth() + 1).toString().length === 1
-          ? "0" + (new Date().getMonth() + 1).toString()
-          : (new Date().getMonth() + 1).toString(),
-      year: new Date().getFullYear().toString(),
+      month: "",
+      year: "",
+      // month:
+      //   (new Date().getMonth() + 1).toString().length === 1
+      //     ? "0" + (new Date().getMonth() + 1).toString()
+      //     : (new Date().getMonth() + 1).toString(),
+      // year: new Date().getFullYear().toString(),
       DATEMONTH: DATEMONTH,
       customers_citizent: "",
       idbudget: "",
@@ -24,6 +37,7 @@ function ModalAddRevenueDifBudget({ DATAEMP, DATAYEAR, DATEMONTH, year, month, c
       DATAYEAR: [],
       payslip_total: "",
       DATA_TYPE_BUDGET: [],
+      DATACUSTOMER: [],
     },
     validate: {
       revenue_id: isNotEmpty("กรุณากรอกข้อมูล"),
@@ -78,7 +92,7 @@ function ModalAddRevenueDifBudget({ DATAEMP, DATAYEAR, DATEMONTH, year, month, c
           label: i.revenue_name,
         }));
         form.setValues({ datarevenue: select });
-        form.setValues({ year: year });
+        form.setValues({ year: years });
       }
     });
   };
@@ -98,58 +112,136 @@ function ModalAddRevenueDifBudget({ DATAEMP, DATAYEAR, DATEMONTH, year, month, c
       });
     }, 400);
   };
+  const FetchCustomers = (v) => {
+    axios.get(API + "/index/showcustomer/" + v).then((res) => {
+      const data = res.data;
+      if (data.length !== 0) {
+        const select = data.map((i) => ({
+          value: i.customers_citizent,
+          label: i.customers_pname + i.customers_name + " " + i.customers_lname,
+        }));
+        form.setValues({ DATACUSTOMER: select });
+      }
+    });
+  };
+
   const SendNewRevenue = (val) => {
-    console.log(val);
+    axios
+      .post(API + "/index/addNewRevenue", {
+        idbudget: val.idbudget,
+        year: val.year,
+        month: val.month,
+        customers_citizent: val.customers_citizent,
+        customers_type: val.customers_type,
+        payslip_total: val.payslip_total,
+        revenue_id: val.revenue_id,
+      })
+      .then((res) => {
+        if (res.data === "success") {
+          Swal.fire({
+            icon: "success",
+            title: "เพิ่มสำเร็จ",
+            timer: 1200,
+            timerProgressBar: true,
+            showConfirmButton: false,
+          }).then((success) => {
+            form.reset();
+            close();
+            FN();
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "เพิ่มไม่สำเร็จ",
+          }).then((error) => {
+            console.log(error);
+          });
+        }
+      });
   };
 
   return (
     <div>
-      <Button onClick={open}>เพิ่มรายรับใหม่</Button>
-      <Modal opened={opened} onClose={close}>
+      <Button
+        disabled={disable}
+        onClick={() => {
+          form.setValues({
+            year: years,
+            month: month,
+            revenue_id: revenue,
+            customers_type: customer_type,
+          });
+          Selectrevenue(customer_type);
+          FetchCustomers(customer_type);
+          open();
+        }}
+      >
+        เพิ่มรายรับใหม่
+      </Button>
+      <Modal
+        opened={opened}
+        onClose={() => {
+          form.setValues({customers_citizent:""})
+          close();
+        }}
+      >
         <form
           onSubmit={form.onSubmit((val) => {
             SendNewRevenue(val);
           })}
         >
           <SimpleGrid>
-            <TextInput {...form.getInputProps("customers_citizent")} label={"เลขบัตรประชาชน"} />
             <Select
               searchable
               allowDeselect={false}
               data={form.values.dateTYpe}
-              value={form.values.customers_type}
+              // value={form.values.customers_type}
+              {...form.getInputProps("customers_type")}
               error={form.errors.customers_type}
+              readOnly
               //   {...formSearch.getInputProps("type_employ")}
-              onChange={(val) => {
-                form.setValues({
-                  customers_type: val,
-                  revenue_id: null,
-                });
-                Selectrevenue(val);
-              }}
+              // onChange={(val) => {
+              //   form.setValues({
+              //     customers_type: val,
+              //     revenue_id: null,
+              //   });
+              //   Selectrevenue(val);
+              // }}
               label="ประเภทบุคลากร"
             />{" "}
             <Select
+              readOnly
               searchable
               data={form.values.datarevenue}
               {...form.getInputProps("revenue_id")}
               label={"ประเภทรายรับ"}
             />
+            <Select
+              searchable
+              data={form.values.DATACUSTOMER}
+              {...form.getInputProps("customers_citizent")}
+              label={"ผู้ได้รับ"}
+            />
             <SimpleGrid cols={2}>
-              <Select data={form.values.DATAYEAR} label={"ปี"} {...form.getInputProps("year")} />
-
               <Select
                 data={form.values.DATEMONTH}
                 label={"เดือน"}
+                readOnly
                 {...form.getInputProps("month")}
               />
+              <Select
+                readOnly
+                data={form.values.DATAYEAR}
+                label={"ปี"}
+                {...form.getInputProps("year")}
+              />
             </SimpleGrid>
-            <TextInput label={"จำนวนเงิน"} {...form.getInputProps("payslip_total")} />
             <Select
               data={form.values.DATA_TYPE_BUDGET}
-              label={"ประเภทงบประมาณ"}
+              label={"งบประมาณ"}
               {...form.getInputProps("idbudget")}
             />
+            <TextInput label={"จำนวนเงิน"} {...form.getInputProps("payslip_total")} />
             <Flex justify={"flex-end"}>
               <Button type="submit" color="green">
                 บันทึก

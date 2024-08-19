@@ -173,6 +173,7 @@ function AddRevenue() {
 
   const submitdata = (value) => {
     setLoadTable(true);
+    setAdded(true);
     axios
       .get(
         API +
@@ -189,6 +190,7 @@ function AddRevenue() {
         console.warn(res);
         const data = res.data;
         if (data.lenth !== 0) {
+          setLoadTable(false);
           setTableSalary({
             columns: column,
             rows: [
@@ -246,8 +248,10 @@ function AddRevenue() {
           );
           let totals = Math.floor(total * 100) / 100;
           setTotal(totals);
+        }else{
+
+          setLoadTable(false);
         }
-        setLoadTable(false);
 
         // const revenue = data.reduce((sum, current) => (sum = sum + Number(current.revenue)), 0);
         // const history_salary_salary = data.reduce(
@@ -296,6 +300,11 @@ function AddRevenue() {
       revenue_id: isNotEmpty("กรุณาเลือกประเภทรายรับ"),
     },
   });
+  const [Added, setAdded] = useState(false);
+  const FN = (params) => {
+    submitdata(formSearch.values);
+  };
+
   return (
     <>
       <Container p={0} bg={"white"} fluid>
@@ -333,7 +342,7 @@ function AddRevenue() {
                 data={SelectDatarevenue}
                 {...formSearch.getInputProps("revenue_id")}
               />
-        
+
               <SimpleGrid cols={{ base: 1, sm: 2 }}>
                 <Select
                   searchable
@@ -371,11 +380,14 @@ function AddRevenue() {
         <Paper>
           <ModalAddRevenueDifBudget
             customer_type={formSearch.values.type_employ}
+            revenue={formSearch.values.revenue_id}
             month={formSearch.values.month}
-            year={formSearch.values.year}
+            years={formSearch.values.year}
             DATEMONTH={selectmount}
             DATAYEAR={DataYear}
             DATAEMP={DataTypeEmploy}
+            disable={!Added}
+            FN={FN}
           />
         </Paper>
         <Paper pt={20}>
