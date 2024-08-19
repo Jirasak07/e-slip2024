@@ -392,7 +392,7 @@ function ImportExpend() {
         icon: "success",
         title: "Success",
         showConfirmButton: false,
-        timer: 1200,
+        timer: 600,
         timerProgressBar: true,
       });
       setFile(null);

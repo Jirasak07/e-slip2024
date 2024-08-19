@@ -35,7 +35,7 @@ function ModalDeleteSalary({
               Swal.fire({
                 icon: "success",
                 title: "success",
-                timer: 1200,
+                timer: 600,
                 timerProgressBar: true,
                 showConfirmButton: false,
               }).then((re)=>{

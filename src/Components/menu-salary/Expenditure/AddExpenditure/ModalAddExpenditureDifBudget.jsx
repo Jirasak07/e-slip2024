@@ -5,14 +5,14 @@ import axios from "axios";
 import { API } from "../../../Config/ConfigApi";
 import { useEffect } from "react";
 import Swal from "sweetalert2";
-function ModalAddRevenueDifBudget({
+function ModalAddExpenditureDifBudget({
   DATAEMP,
   DATAYEAR,
   DATEMONTH,
   years,
   month,
   customer_type,
-  revenue,
+  expenditure,
   disable,
   FN,
 }) {
@@ -31,7 +31,7 @@ function ModalAddRevenueDifBudget({
       idbudget: "",
       databudget: "",
       customers_type: customer_type,
-      revenue_id: "",
+      expenditure_id: "",
       datarevenue: [],
       dateTYpe: [],
       DATAYEAR: [],
@@ -40,7 +40,7 @@ function ModalAddRevenueDifBudget({
       DATACUSTOMER: [],
     },
     validate: {
-      revenue_id: isNotEmpty("กรุณากรอกข้อมูล"),
+      expenditure_id: isNotEmpty("กรุณากรอกข้อมูล"),
       customers_citizent: isNotEmpty("กรุณากรอกข้อมูล"),
       customers_type: isNotEmpty("กรุณากรอกข้อมูล"),
       year: isNotEmpty("กรุณากรอกข้อมูล"),
@@ -83,13 +83,13 @@ function ModalAddRevenueDifBudget({
       }
     });
   };
-  const Selectrevenue = (id) => {
-    axios.get(API + "/index/showrevenue/" + id).then((res) => {
+  const SelectExpenditure = (id) => {
+    axios.get(API + "/index/showexpenditure/" + id).then((res) => {
       const data = res.data;
       if (data.length !== 0) {
         const select = data.map((i) => ({
-          value: i.revenue_id,
-          label: i.revenue_name,
+          value: i.expenditure_id,
+          label: i.expenditure_name,
         }));
         form.setValues({ datarevenue: select });
         form.setValues({ year: years });
@@ -118,7 +118,13 @@ function ModalAddRevenueDifBudget({
       if (data.length !== 0) {
         const select = data.map((i) => ({
           value: i.customers_citizent,
-          label: i.customers_pname + i.customers_name + " " + i.customers_lname +" : "+i.customers_citizent,
+          label:
+            i.customers_pname +
+            i.customers_name +
+            " " +
+            i.customers_lname +
+            " : " +
+            i.customers_citizent,
         }));
         form.setValues({ DATACUSTOMER: select });
       }
@@ -127,14 +133,14 @@ function ModalAddRevenueDifBudget({
 
   const SendNewRevenue = (val) => {
     axios
-      .post(API + "/index/addNewRevenue", {
+      .post(API + "/index/addNewExpenditure", {
         idbudget: val.idbudget,
         year: val.year,
         month: val.month,
         customers_citizent: val.customers_citizent,
         customers_type: val.customers_type,
         payslip_total: val.payslip_total,
-        revenue_id: val.revenue_id,
+        expenditure_id: val.expenditure_id,
       })
       .then((res) => {
         if (res.data === "success") {
@@ -168,20 +174,20 @@ function ModalAddRevenueDifBudget({
           form.setValues({
             year: years,
             month: month,
-            revenue_id: revenue,
+            expenditure_id: expenditure,
             customers_type: customer_type,
           });
-          Selectrevenue(customer_type);
+          SelectExpenditure(customer_type);
           FetchCustomers(customer_type);
           open();
         }}
       >
-        เพิ่มรายรับใหม่
+        เพิ่มรายจ่ายใหม่
       </Button>
       <Modal
         opened={opened}
         onClose={() => {
-          form.setValues({customers_citizent:""})
+          form.setValues({ customers_citizent: "" });
           close();
         }}
       >
@@ -205,8 +211,8 @@ function ModalAddRevenueDifBudget({
               readOnly
               searchable
               data={form.values.datarevenue}
-              {...form.getInputProps("revenue_id")}
-              label={"ประเภทรายรับ"}
+              {...form.getInputProps("expenditure_id")}
+              label={"ประเภทรายจ่าย"}
             />
             <Select
               searchable
@@ -246,4 +252,4 @@ function ModalAddRevenueDifBudget({
   );
 }
 
-export default ModalAddRevenueDifBudget;
+export default ModalAddExpenditureDifBudget;

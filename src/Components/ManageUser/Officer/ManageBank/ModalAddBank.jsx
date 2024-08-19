@@ -58,7 +58,7 @@ function ModalAddBank({ customers_citizent,fetch }) {
         Swal.fire({
           icon: "success",
           title: "เพิ่มข้อมูลสำเร็จ",
-          timer: 1200,
+          timer: 600,
           timerProgressBar: true,
           showConfirmButton: false,
         }).then((res) => {

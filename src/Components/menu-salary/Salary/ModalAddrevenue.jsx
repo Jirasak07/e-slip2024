@@ -82,7 +82,7 @@ function ModalAddrevenue({ year, month, citizent, type, idbudget, fn, cname }) {
           Swal.fire({
             icon: "success",
             title: "อัพเดทเสร็จสิ้น",
-            timer: 1200,
+            timer: 600,
             timerProgressBar: true,
             showConfirmButton: false,
           }).then((res) => {

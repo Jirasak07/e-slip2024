@@ -131,7 +131,7 @@ function EditKtb({ user_citizent,fetch }) {
         Swal.fire({
           icon: "success",
           title: "อัพเดทข้อมูลสำเร็จ",
-          timer: 1200,
+          timer: 600,
           timerProgressBar: true,
           showConfirmButton: false,
         }).then((res)=>{

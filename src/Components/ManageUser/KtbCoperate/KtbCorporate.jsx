@@ -67,7 +67,7 @@ function KtbCorporate() {
           toast: true,
           position: "top-end",
           showConfirmButton: false,
-          timer: 1000,
+          timer: 600,
           timerProgressBar: true,
           didOpen: (toast) => {
             toast.onmouseenter = Swal.stopTimer;

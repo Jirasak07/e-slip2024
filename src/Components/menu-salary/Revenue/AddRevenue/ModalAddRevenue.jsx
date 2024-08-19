@@ -30,7 +30,8 @@ function ModalAddRevenue({ revenue_name_title, revenue_name, budget_id, citiid, 
     payslip_total: 0,
     payslip_status_out: "",
     payslip_revenue :"",
-    idbudget:""
+    idbudget:"",
+    idbudgetold:"",
     },
     validate: {
       idbudget: isNotEmpty("กรุณาเลือกงบประมาณที่ใช้"),
@@ -51,12 +52,13 @@ function ModalAddRevenue({ revenue_name_title, revenue_name, budget_id, citiid, 
     frm.append("payslip_status_out", data.payslip_status_out);
     frm.append("payslip_revenue", data.payslip_revenue);
     frm.append("idbudget", data.idbudget);
+    frm.append("idbudgetold", data.idbudgetold);
     axios.post(API+"/index/updatepaysliprevenue",frm).then((res) => {
       if (res.data === "200") {
         Swal.fire({
           icon:'success',
           title:"อัพเดทสำเร็จ",
-          timer:1000,
+          timer: 600,
           timerProgressBar:true,
           showConfirmButton:false
         }).then((res)=>{
@@ -78,7 +80,8 @@ const setForm = () => {
     payslip_total: parseFloat(payslip_total),
     payslip_status_out: payslip_status_out,
     payslip_revenue :revenue_id,
-    idbudget:budget_id
+    idbudget:budget_id,
+    idbudgetold:budget_id,
   })
 }
 

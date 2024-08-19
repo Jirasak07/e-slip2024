@@ -28,7 +28,7 @@ function UploadSlip() {
         Swal.fire({
           icon: "success",
           title: "อัพโหลดสำเร็จ",
-          timer: 1200,
+          timer: 600,
           timerProgressBar: true,
           showConfirmButton: false,
         }).then((res) => {

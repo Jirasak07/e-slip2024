@@ -49,7 +49,7 @@ function Login() {
             title: "ยินดีต้อนรับ",
             text: data[0].prefix_name + data[0].frist_name + " " + data[0].last_name,
             showConfirmButton: false,
-            timer: 1200,
+            timer: 600,
             timerProgressBar: true,
           }).then((res) => {
             localStorage.setItem("citizen", 33 + parseInt(v.username));
@@ -84,7 +84,7 @@ function Login() {
                   title: "ยินดีต้อนรับ",
                   text: data[0].admin_name + " " + data[0].admin_lname,
                   showConfirmButton: false,
-                  timer: 1200,
+                  timer: 600,
                   timerProgressBar: true,
                 }).then((res) => {
                   localStorage.setItem("citizen", data[0].employee_id);
@@ -114,7 +114,7 @@ function Login() {
                   title: "ไม่สามารถเข้าสู่ระบบได้",
                   text: "กรุณาลองใหม่อีกครั้ง",
                   showConfirmButton: false,
-                  timer: 1200,
+                  timer: 600,
                   timerProgressBar: true,
                 }).then((res) => {});
               }

@@ -91,7 +91,7 @@ function Steppers({ val }) {
                 Swal.fire({
                   icon: "success",
                   title: "success",
-                  timer: 1200,
+                  timer: 600,
                   showConfirmButton: false,
                 }).then((re) => {
                   Fetch2();
@@ -110,7 +110,7 @@ function Steppers({ val }) {
               Swal.fire({
                 icon: "success",
                 title: "success",
-                timer: 1200,
+                timer: 600,
                 showConfirmButton: false,
               }).then((re) => {
                 Fetch2();
@@ -134,7 +134,7 @@ function Steppers({ val }) {
               Swal.fire({
                 icon: "success",
                 title: "success",
-                timer: 1200,
+                timer: 600,
                 showConfirmButton: false,
               }).then((re) => {
                 Fetch2();

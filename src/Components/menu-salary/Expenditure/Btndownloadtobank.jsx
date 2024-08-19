@@ -134,7 +134,7 @@ function Btndownloadtobank({ FetchExpenditure, expenditure_id, year, month, idbu
         Swal.fire({
           icon: 'success',
           title: 'อัพเดทข้อมูลรายจ่ายสำเร็จ',
-          timer: 1000,
+          timer: 600,
           timerProgressBar: true,
           showConfirmButton: false
         }).then((res) => {

@@ -139,7 +139,7 @@ function Revenue() {
              Swal.fire({
             icon: "success",
             title: "เพิ่มรายรับใหม่สำเร็จ",
-            timer: 1000,
+            timer: 600,
             timerProgressBar: true,
             showConfirmButton: false,
           }).then((res) => {
@@ -151,7 +151,7 @@ function Revenue() {
             Swal.fire({
               icon:'info',
               title:'เพิ่มไม่สำเร็จ',
-              timer:1000,
+              timer: 600,
               timerProgressBar:true,
               showConfirmButton:false
             }).then((res)=>{

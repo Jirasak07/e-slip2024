@@ -60,7 +60,7 @@ function ModalExpenditure({ year, month, citizent, type,idbudget,fn,cname }) {
         Swal.fire({
           icon: "success",
           title: "อัพเดทสำเร็จ",
-          timer: 1200,
+          timer: 600,
           timerProgressBar: true,
           showConfirmButton: false,
         }).then((res) => {
@@ -83,7 +83,7 @@ function ModalExpenditure({ year, month, citizent, type,idbudget,fn,cname }) {
     //     Swal.fire({
     //       icon:'success',
     //       title:'อัพเดทข้อมูลรายจ่ายสำเร็จ',
-    //       timer:1000,
+    //       timer: 600,
     //       timerProgressBar:true,
     //       showConfirmButton:false
     //     }).then((res)=>{

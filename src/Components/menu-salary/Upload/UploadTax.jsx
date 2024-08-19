@@ -53,7 +53,7 @@ function UploadTax() {
   //     Swal.fire({
   //       icon: "success",
   //       title: "อัพโหลดสำเร็จ",
-  //       timer: 1200,
+  //       timer: 600,
   //       timerProgressBar: true,
   //       showConfirmButton: false,
   //     }).then((res) => {
@@ -172,7 +172,7 @@ function UploadTax() {
               Swal.fire({
                 icon: "success",
                 title: "เพิ่มรายการสำเร็จ",
-                timer: 1200,
+                timer: 600,
                 timerProgressBar: true,
                 showConfirmButton: false,
               }).then((ree) => {

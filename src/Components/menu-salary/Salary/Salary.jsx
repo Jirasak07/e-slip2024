@@ -216,7 +216,7 @@ function Salary() {
           Swal.fire({
             icon: "success",
             title: "อัพเดท ประกันสังคมเสร็จสิ้น",
-            timer: 1200,
+            timer: 600,
             timerProgressBar: true,
             showConfirmButton: false,
           }).then((res) => {
@@ -244,7 +244,7 @@ function Salary() {
            Swal.fire({
              icon: "success",
              title: "อัพเดท ก.ส.จ เสร็จสิ้น",
-             timer: 1200,
+             timer: 600,
              timerProgressBar: true,
              showConfirmButton: false,
            }).then((res) => {

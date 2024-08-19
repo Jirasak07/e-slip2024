@@ -1,4 +1,13 @@
-import { Badge, Button, Container, Flex, NumberFormatter, Paper, Select, SimpleGrid } from "@mantine/core";
+import {
+  Badge,
+  Button,
+  Container,
+  Flex,
+  NumberFormatter,
+  Paper,
+  Select,
+  SimpleGrid,
+} from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { IconSearch } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
@@ -9,6 +18,7 @@ import { Text } from "@mantine/core";
 import { API } from "../../../Config/ConfigApi";
 import SkeletonTable from "../../../Publicc-user/SkeletonTable";
 import ModalAddExpenditure from "./ModalAddExpenditure";
+import ModalAddExpenditureDifBudget from "./ModalAddExpenditureDifBudget";
 
 function AddExpenditure() {
   const column = [
@@ -163,6 +173,7 @@ function AddExpenditure() {
 
   const submitdata = (value) => {
     setLoadTable(true);
+    setAdded(true)
     axios
       .get(
         API +
@@ -176,6 +187,7 @@ function AddExpenditure() {
           value.month
       )
       .then((res) => {
+        setAdded(true)
         console.warn(res);
         const data = res.data;
         if (data.lenth !== 0) {
@@ -186,7 +198,8 @@ function AddExpenditure() {
                 no: key + 1,
                 citizen: i.customers_citizent,
                 name: i.customers_pname + i.customers_name + " " + i.customers_lname,
-                type_employ: (DataTypeEmploy.find((val) => val.value === i.customers_type) || {}).label,
+                type_employ: (DataTypeEmploy.find((val) => val.value === i.customers_type) || {})
+                  .label,
                 expenditure: (
                   <Text c="blue" fz={14}>
                     {i.expenditure_name}
@@ -215,7 +228,12 @@ function AddExpenditure() {
                       payslip_status_out={i.payslip_status_out}
                       payslip_year={i.payslip_year}
                       expend_name_title={
-                        i.expenditure_name + "  " + i.customers_pname + i.customers_name + " " + i.customers_lname
+                        i.expenditure_name +
+                        "  " +
+                        i.customers_pname +
+                        i.customers_name +
+                        " " +
+                        i.customers_lname
                       }
                       Serch={Serch}
                     />
@@ -261,11 +279,15 @@ function AddExpenditure() {
       expenditure_id: isNotEmpty("กรุณาเลือกประเภทรายจ่าย"),
     },
   });
+  const [Added, setAdded] = useState(false);
+  const FN = (params) => {
+    submitdata(formSearch.values);
+  };
   return (
     <>
       <Container p={0} bg={"white"} fluid>
         <Badge color="var(--primary)" variant="light" size="md" radius={8}>
-        เพิ่มรายจ่ายแยกตามประเภท
+          เพิ่มรายจ่ายแยกตามประเภท
         </Badge>
         <Paper mt={20}>
           <form
@@ -274,10 +296,10 @@ function AddExpenditure() {
               // console.log(v);
             })}
           >
- <SimpleGrid cols={{base:1,md:4,sm:2}}>
-              <Select searchable
+            <SimpleGrid cols={{ base: 1, md: 4, sm: 2 }}>
+              <Select
+                searchable
                 allowDeselect={false}
-                
                 data={DataTypeEmploy}
                 value={formSearch.values.type_employ}
                 error={formSearch.errors.type_employ}
@@ -291,15 +313,28 @@ function AddExpenditure() {
                 }}
                 label="ประเภทบุคลากร"
               />
-              <Select searchable
+              <Select
+                searchable
                 allowDeselect={false}
                 label="ประเภทรายจ่าย"
                 data={SelectDataExpend}
                 {...formSearch.getInputProps("expenditure_id")}
               />
- <SimpleGrid cols={{base:1,md:2,sm:2}}>
-                <Select searchable allowDeselect={false} label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
-                <Select searchable allowDeselect={false} label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
+              <SimpleGrid cols={{ base: 1, md: 2, sm: 2 }}>
+                <Select
+                  searchable
+                  allowDeselect={false}
+                  label="เดือน"
+                  data={selectmount}
+                  {...formSearch.getInputProps("month")}
+                />
+                <Select
+                  searchable
+                  allowDeselect={false}
+                  label="ปี"
+                  data={DataYear}
+                  {...formSearch.getInputProps("year")}
+                />
               </SimpleGrid>
 
               <Button type="submit" mt={33} leftSection={<IconSearch />}>
@@ -319,11 +354,25 @@ function AddExpenditure() {
             </Text>
           </Flex>
         </Paper>
+        <Paper>
+          <ModalAddExpenditureDifBudget
+            customer_type={formSearch.values.type_employ}
+            expenditure={formSearch.values.expenditure_id}
+            month={formSearch.values.month}
+            years={formSearch.values.year}
+            DATEMONTH={selectmount}
+            DATAYEAR={DataYear}
+            DATAEMP={DataTypeEmploy}
+            disable={!Added}
+            FN={FN}
+          />
+        </Paper>
         <Paper pt={20}>
           {LoadTable ? (
             <SkeletonTable />
           ) : (
-            <MDBDataTableV5 entries={100}
+            <MDBDataTableV5
+              entries={100}
               data={TableSalary}
               responsive
               striped

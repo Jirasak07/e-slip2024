@@ -41,6 +41,7 @@ function ModalAddExpenditure({
       payslip_status_out: "",
       payslip_expenditure: "",
       idbudget: "",
+      idbudgetold: "",
     },
     validate: {
       idbudget: isNotEmpty("กรุณาเลือกงบประมาณที่ใช้"),
@@ -60,12 +61,13 @@ function ModalAddExpenditure({
     frm.append("payslip_status_out", data.payslip_status_out);
     frm.append("payslip_expenditure", data.payslip_expenditure);
     frm.append("idbudget", data.idbudget);
+    frm.append("idbudgetold", data.idbudgetold);
     axios.post(API+"/index/updatepayslipexpenditure",frm).then((res) => {
       if (res.data === "200") {
         Swal.fire({
           icon:'success',
           title:"อัพเดทสำเร็จ",
-          timer:1000,
+          timer: 600,
           timerProgressBar:true,
           showConfirmButton:false
         }).then((res)=>{
@@ -88,6 +90,7 @@ function ModalAddExpenditure({
       payslip_status_out: payslip_status_out,
       payslip_expenditure: expend_id,
       idbudget: budget_id,
+      idbudgetold: budget_id,
     });
   };
   return (

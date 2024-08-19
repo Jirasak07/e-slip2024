@@ -135,7 +135,7 @@ function EditIncrease({ data, Fetch, name }) {
             title: "ระบบปลดล็อคถูกต้อง",
             icon: "success",
             showConfirmButton: false,
-            timer: 1000,
+            timer: 600,
             timerProgressBar: true,
           }).then((result) => {
             setLoadSubmit(true);

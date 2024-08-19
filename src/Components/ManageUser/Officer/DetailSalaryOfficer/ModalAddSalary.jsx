@@ -36,7 +36,7 @@ function ModalAddSalary({ Month, YearSelect, DataYear, DataMonth, DataBudget, La
         Swal.fire({
           icon: "success",
           title: "เพิ่มข้อมูลเงินเดือนสำเร็จ",
-          timer: 1200,
+          timer: 600,
           timerProgressBar: true,
           showConfirmButton: false,
         }).then((res) => {
@@ -48,7 +48,7 @@ function ModalAddSalary({ Month, YearSelect, DataYear, DataMonth, DataBudget, La
           icon: "warning",
           title: "ไม่สามารถเพิ่มได้",
           text: "มีรายการเงินของเดือนนี้ในระบบแล้ว",
-          timer: 1200,
+          timer: 600,
           timerProgressBar: true,
           showConfirmButton: false,
         }).then((res) => {

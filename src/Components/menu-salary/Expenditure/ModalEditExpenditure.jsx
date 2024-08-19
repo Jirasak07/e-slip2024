@@ -54,7 +54,7 @@ function ModalEditExpenditure({ FetchExpenditure, expenditure_id, selectType }) 
         Swal.fire({
           icon: 'success',
           title: 'อัพเดทข้อมูลรายจ่ายสำเร็จ',
-          timer: 1000,
+          timer: 600,
           timerProgressBar: true,
           showConfirmButton: false
         }).then((res) => {

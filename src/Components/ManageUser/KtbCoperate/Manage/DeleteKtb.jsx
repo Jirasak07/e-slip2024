@@ -24,7 +24,7 @@ function DeleteKtb({ user_citizent, fetch }) {
             Swal.fire({
               icon: "success",
               title: "ลบข้อมูลสำเร็จ",
-              timer: 1200,
+              timer: 600,
               timerProgressBar: true,
               showConfirmButton: false,
             }).then((res) => {

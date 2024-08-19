@@ -54,7 +54,7 @@ function ModalEditRevenue({ FetchRevenue, revenue_id, selectType }) {
       Swal.fire({
         icon:'success',
         title:'อัพเดทข้อมูลรายรับสำเร็จ',
-        timer:1000,
+        timer: 600,
         timerProgressBar:true,
         showConfirmButton:false
       }).then((res)=>{
