@@ -1,5 +1,5 @@
 import { Button, Flex, Modal, Select, SimpleGrid, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { isNotEmpty, useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import axios from "axios";
 import { API } from "../../../Config/ConfigApi";
@@ -8,8 +8,11 @@ function ModalAddRevenueDifBudget({ DATAEMP, DATAYEAR, DATEMONTH, year, month, c
   const [opened, { open, close }] = useDisclosure(false);
   const form = useForm({
     initialValues: {
-      year: "",
-      month: "",
+      month:
+        (new Date().getMonth() + 1).toString().length === 1
+          ? "0" + (new Date().getMonth() + 1).toString()
+          : (new Date().getMonth() + 1).toString(),
+      year: new Date().getFullYear().toString(),
       DATEMONTH: DATEMONTH,
       customers_citizent: "",
       idbudget: "",
@@ -21,6 +24,15 @@ function ModalAddRevenueDifBudget({ DATAEMP, DATAYEAR, DATEMONTH, year, month, c
       DATAYEAR: [],
       payslip_total: "",
       DATA_TYPE_BUDGET: [],
+    },
+    validate: {
+      revenue_id: isNotEmpty("กรุณากรอกข้อมูล"),
+      customers_citizent: isNotEmpty("กรุณากรอกข้อมูล"),
+      customers_type: isNotEmpty("กรุณากรอกข้อมูล"),
+      year: isNotEmpty("กรุณากรอกข้อมูล"),
+      month: isNotEmpty("กรุณากรอกข้อมูล"),
+      payslip_total: isNotEmpty("กรุณากรอกข้อมูล"),
+      idbudget: isNotEmpty("กรุณากรอกข้อมูล"),
     },
   });
   const FetchTypeEmploy = () => {
@@ -86,11 +98,19 @@ function ModalAddRevenueDifBudget({ DATAEMP, DATAYEAR, DATEMONTH, year, month, c
       });
     }, 400);
   };
+  const SendNewRevenue = (val) => {
+    console.log(val);
+  };
+
   return (
     <div>
       <Button onClick={open}>เพิ่มรายรับใหม่</Button>
       <Modal opened={opened} onClose={close}>
-        <form>
+        <form
+          onSubmit={form.onSubmit((val) => {
+            SendNewRevenue(val);
+          })}
+        >
           <SimpleGrid>
             <TextInput {...form.getInputProps("customers_citizent")} label={"เลขบัตรประชาชน"} />
             <Select
@@ -110,15 +130,30 @@ function ModalAddRevenueDifBudget({ DATAEMP, DATAYEAR, DATEMONTH, year, month, c
               label="ประเภทบุคลากร"
             />{" "}
             <Select
+              searchable
               data={form.values.datarevenue}
               {...form.getInputProps("revenue_id")}
-              label={"รายรับ"}
+              label={"ประเภทรายรับ"}
             />
-            <Select data={form.values.DATAYEAR} label={"ปี"} />
-            <Select data={form.values.DATEMONTH} label={"เดือน"} {...form.getInputProps("month")} />
+            <SimpleGrid cols={2}>
+              <Select data={form.values.DATAYEAR} label={"ปี"} {...form.getInputProps("year")} />
+
+              <Select
+                data={form.values.DATEMONTH}
+                label={"เดือน"}
+                {...form.getInputProps("month")}
+              />
+            </SimpleGrid>
             <TextInput label={"จำนวนเงิน"} {...form.getInputProps("payslip_total")} />
+            <Select
+              data={form.values.DATA_TYPE_BUDGET}
+              label={"ประเภทงบประมาณ"}
+              {...form.getInputProps("idbudget")}
+            />
             <Flex justify={"flex-end"}>
-              <Button color="green">บันทึก</Button>
+              <Button type="submit" color="green">
+                บันทึก
+              </Button>
             </Flex>
           </SimpleGrid>
         </form>

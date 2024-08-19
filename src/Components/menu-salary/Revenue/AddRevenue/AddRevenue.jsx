@@ -333,6 +333,7 @@ function AddRevenue() {
                 data={SelectDatarevenue}
                 {...formSearch.getInputProps("revenue_id")}
               />
+        
               <SimpleGrid cols={{ base: 1, sm: 2 }}>
                 <Select
                   searchable
