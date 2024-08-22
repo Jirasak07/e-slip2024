@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { Text,Grid  } from "@mantine/core";
+import { Text, Grid } from "@mantine/core";
 import SkeletonTable from "../../Publicc-user/SkeletonTable";
 import ModalAddrevenue from "./ModalAddrevenue";
 import ModalExpenditure from "./ModalExpenditure";
@@ -176,16 +176,15 @@ function Salary() {
       label: "ธันวาคม",
     },
   ];
-
+  const [Data, setData] = useState([]);
   const FetchTypeEmploy = () => {
     setLoadTable(true);
     setTimeout(() => {
       axios.get(API + "/index/showcustomertype").then((res) => {
         //    console.log(res.data);
 
-      
         const data = res.data;
-         
+
         if (data.length !== 0) {
           setLoadTable(false);
           const select = data.map((i) => ({
@@ -198,12 +197,11 @@ function Salary() {
     }, 400);
   };
 
-
-
   const Updatetypesave = (value) => {
-   // setBtnLoad(true);
+    // setBtnLoad(true);
     const form = Datatype;
-    axios.post(API + "/index/Addrevenuefortype", {
+    axios
+      .post(API + "/index/Addrevenuefortype", {
         type_employ: value.type_employ,
         year: value.year,
         month: value.month,
@@ -211,7 +209,7 @@ function Salary() {
         check: form,
       })
       .then((res) => {
-       // setBtnLoad(false);
+        // setBtnLoad(false);
         if (res.data === "200") {
           Swal.fire({
             icon: "success",
@@ -219,10 +217,7 @@ function Salary() {
             timer: 600,
             timerProgressBar: true,
             showConfirmButton: false,
-          }).then((res) => {
-           
-           
-          });
+          }).then((res) => {});
         }
         console.log(res.data);
       });
@@ -230,31 +225,29 @@ function Salary() {
 
   const Updatetypesavejk = (value) => {
     // setBtnLoad(true);
-     const form = Datatype;
-     axios.post(API + "/index/Addrevenuefortypekj", {
-         type_employ: value.type_employ,
-         year: value.year,
-         month: value.month,
-         idbudget: value.idbudget,
-         check: form,
-       })
-       .then((res) => {
+    const form = Datatype;
+    axios
+      .post(API + "/index/Addrevenuefortypekj", {
+        type_employ: value.type_employ,
+        year: value.year,
+        month: value.month,
+        idbudget: value.idbudget,
+        check: form,
+      })
+      .then((res) => {
         // setBtnLoad(false);
-         if (res.data === "200") {
-           Swal.fire({
-             icon: "success",
-             title: "อัพเดท ก.ส.จ เสร็จสิ้น",
-             timer: 600,
-             timerProgressBar: true,
-             showConfirmButton: false,
-           }).then((res) => {
-            
-            
-           });
-         }
-         console.log(res.data);
-       });
-   };
+        if (res.data === "200") {
+          Swal.fire({
+            icon: "success",
+            title: "อัพเดท ก.ส.จ เสร็จสิ้น",
+            timer: 600,
+            timerProgressBar: true,
+            showConfirmButton: false,
+          }).then((res) => {});
+        }
+        console.log(res.data);
+      });
+  };
 
   const FetchYear = () => {
     // setLoadTable(true);
@@ -277,11 +270,6 @@ function Salary() {
     submitdata(formSearch.values);
   };
 
-
-
-
-
-
   const submitdata = (value) => {
     setLoadTable(true);
     axios
@@ -292,10 +280,13 @@ function Salary() {
           "/" +
           value.year +
           "/" +
-          value.month+"/"+value.idbudget
+          value.month +
+          "/" +
+          value.idbudget
       )
       .then((res) => {
         const data = res.data;
+
         setDatatype(data);
 
         if (data.lenth !== 0) {
@@ -395,6 +386,9 @@ function Salary() {
         setRevenue_true(formattedrevenue.toFixed(2));
         setHistory_salary(formattedhistory_salary_salary.toFixed(2));
         setSalary_true(formattedsalary_true.toFixed(2));
+        const salaryMinus = data.filter((val) => Number(val.salary_true) < 0);
+        console.log(salaryMinus);
+        setData(salaryMinus);
       });
   };
 
@@ -411,7 +405,7 @@ function Salary() {
         //   setLoadTable(false);
         const select = data.map((i) => ({
           value: i.idbudget,
-          label: i.namebudget+" ( "+i.idbudget+" ) ",
+          label: i.namebudget + " ( " + i.idbudget + " ) ",
         }));
 
         formSearch.setValues({ DATABUDGET: select });
@@ -477,85 +471,98 @@ function Salary() {
         </Paper>
         <Paper p={10} shadow="none">
           {}
-         
-                 <Grid>
-      <Grid.Col span={6}>
 
-      </Grid.Col>
-      <Grid.Col span={3}>
-        {Datatype.length > 0 ?<>
-           <form
-            onSubmit={formSearch.onSubmit((v) => {
-              Updatetypesave(v);
-              // console.log(v);
-            })}
-          >
-            <Button
-              leftSection={<IconDeviceFloppy />}
-              color="var(--success)"
-              type="submit"
-            >
-              อัพเดทประกันสังคม
-            </Button>
-            </form>
-        </>:<> <Button
-              leftSection={<IconDeviceFloppy />}
-              color="var(--success)"
-              type="submit"
-              disabled
-            >
-              อัพเดทประกันสังคม
-            </Button></>}
-   
-            {Datatype.length > 0 ?<>
-               <form
-            onSubmit={formSearch.onSubmit((v) => {
-              Updatetypesavejk(v);
-              // console.log(v);
-            })}
-          >
-            <Button
-              leftSection={<IconDeviceFloppy />}
-              color="var(--purpel)"
-              type="submit"
-            >
-              อัพเดท ก.ส.จ
-            </Button>
-            </form>
-            </>:<>
-            <Button
-              leftSection={<IconDeviceFloppy />}
-              color="var(--purpel)"
-              type="submit"
-              disabled
-            >
-              อัพเดท ก.ส.จ
-            </Button>
-            </>}
-         
-      </Grid.Col>
-      <Grid.Col span={3}>
-      <Flex justify={"flex-end"} gap={10} direction={"column"} align={"flex-end"}>
-            <Text c={"teal.9"} size="md">
-              รวมเงินเดือน :{" "}
-              <NumberFormatter value={History_salary} thousandSeparator suffix=" ฿" />
-            </Text>
-            <Text c={"blue"} size="md">
-              รวมรายรับ : <NumberFormatter value={Revenue_true} thousandSeparator suffix=" ฿" />
-            </Text>
-            <Text c={"red.9"} size="md">
-              รวมรายจ่าย :{" "}
-              <NumberFormatter value={Expenditure_true} thousandSeparator suffix=" ฿" />
-            </Text>
-            <Text size="md">
-              รวมเงินเดือนสุทธิ :{" "}
-              <NumberFormatter value={Salary_true} thousandSeparator suffix=" ฿" />
-            </Text>
+          <Grid>
+            <Grid.Col span={6}></Grid.Col>
+            <Grid.Col span={3}>
+              {Datatype.length > 0 ? (
+                <>
+                  <form
+                    onSubmit={formSearch.onSubmit((v) => {
+                      Updatetypesave(v);
+                      // console.log(v);
+                    })}
+                  >
+                    <Button leftSection={<IconDeviceFloppy />} color="var(--success)" type="submit">
+                      อัพเดทประกันสังคม
+                    </Button>
+                  </form>
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <Button
+                    leftSection={<IconDeviceFloppy />}
+                    color="var(--success)"
+                    type="submit"
+                    disabled
+                  >
+                    อัพเดทประกันสังคม
+                  </Button>
+                </>
+              )}
 
-          </Flex>
-      </Grid.Col>
-    </Grid>
+              {Datatype.length > 0 ? (
+                <>
+                  <form
+                    onSubmit={formSearch.onSubmit((v) => {
+                      Updatetypesavejk(v);
+                      // console.log(v);
+                    })}
+                  >
+                    <Button leftSection={<IconDeviceFloppy />} color="var(--purpel)" type="submit">
+                      อัพเดท ก.ส.จ
+                    </Button>
+                  </form>
+                </>
+              ) : (
+                <>
+                  <Button
+                    leftSection={<IconDeviceFloppy />}
+                    color="var(--purpel)"
+                    type="submit"
+                    disabled
+                  >
+                    อัพเดท ก.ส.จ
+                  </Button>
+                </>
+              )}
+            </Grid.Col>
+            <Grid.Col span={3}>
+              <Flex justify={"flex-end"} gap={10} direction={"column"} align={"flex-end"}>
+                <Text c={"teal.9"} size="md">
+                  รวมเงินเดือน :{" "}
+                  <NumberFormatter value={History_salary} thousandSeparator suffix=" ฿" />
+                </Text>
+                <Text c={"blue"} size="md">
+                  รวมรายรับ : <NumberFormatter value={Revenue_true} thousandSeparator suffix=" ฿" />
+                </Text>
+                <Text c={"red.9"} size="md">
+                  รวมรายจ่าย :{" "}
+                  <NumberFormatter value={Expenditure_true} thousandSeparator suffix=" ฿" />
+                </Text>
+                <Text size="md">
+                  รวมเงินเดือนสุทธิ :{" "}
+                  <NumberFormatter value={Salary_true} thousandSeparator suffix=" ฿" />
+                </Text>
+              </Flex>
+            </Grid.Col>
+          </Grid>
         </Paper>
+        {Data.length > 0 && (
+          <Paper p={20}>
+            <Text>รายการติดลบ</Text>
+            <SimpleGrid>
+                    {Data.map((i,key)=>(
+                      <Text c={"red"} key={key} >
+                        {i.customers_pname + i.customers_name +"  "+i.customers_lname} { i.salary_true}
+                      </Text>
+                    ))}
+            </SimpleGrid>
+      
+          </Paper>
+        )}
+
         <Paper pt={20}>
           {LoadTable ? (
             <SkeletonTable />

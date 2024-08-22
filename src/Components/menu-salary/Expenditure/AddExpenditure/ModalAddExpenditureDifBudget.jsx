@@ -65,9 +65,7 @@ function ModalAddExpenditureDifBudget({
     }, 400);
   };
   useEffect(() => {
-    FetchBudget();
-    FetchTypeEmploy();
-    FetchYear();
+   
   }, []);
   const FetchBudget = () => {
     axios.get(API + "/index/showBudget").then((res) => {
@@ -98,7 +96,7 @@ function ModalAddExpenditureDifBudget({
   };
   const FetchYear = () => {
     // setLoadTable(true);
-    setTimeout(() => {
+
       axios.get(API + "/index/showyear").then((res) => {
         // console.log(res.data);
         const data = res.data;
@@ -110,7 +108,7 @@ function ModalAddExpenditureDifBudget({
           form.setValues({ DATAYEAR: select });
         }
       });
-    }, 400);
+
   };
   const FetchCustomers = (v) => {
     axios.get(API + "/index/showcustomer/" + v).then((res) => {
@@ -171,6 +169,9 @@ function ModalAddExpenditureDifBudget({
       <Button
         disabled={disable}
         onClick={() => {
+          FetchBudget();
+          FetchTypeEmploy();
+          FetchYear();
           form.setValues({
             year: years,
             month: month,

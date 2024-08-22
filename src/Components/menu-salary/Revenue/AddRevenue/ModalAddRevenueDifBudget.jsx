@@ -50,7 +50,6 @@ function ModalAddRevenueDifBudget({
     },
   });
   const FetchTypeEmploy = () => {
-    setTimeout(() => {
       axios.get(API + "/index/showcustomertype").then((res) => {
         //    console.log(res.data);
         const data = res.data;
@@ -62,12 +61,10 @@ function ModalAddRevenueDifBudget({
           form.setValues({ dateTYpe: select });
         }
       });
-    }, 400);
+
   };
   useEffect(() => {
-    FetchBudget();
-    FetchTypeEmploy();
-    FetchYear();
+   
   }, []);
   const FetchBudget = () => {
     axios.get(API + "/index/showBudget").then((res) => {
@@ -165,6 +162,9 @@ function ModalAddRevenueDifBudget({
       <Button
         disabled={disable}
         onClick={() => {
+          FetchBudget();
+          FetchTypeEmploy();
+          FetchYear();
           form.setValues({
             year: years,
             month: month,
