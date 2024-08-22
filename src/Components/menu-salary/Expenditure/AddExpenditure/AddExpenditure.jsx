@@ -247,7 +247,7 @@ function AddExpenditure() {
             0
           );
           let totals = Math.floor(total * 100) / 100;
-          setTotal(totals);
+          setTotal(total.toFixed(2));
         }
         setLoadTable(false);
       });
