@@ -196,16 +196,16 @@ function Reportexpenditure() {
     }, 400);
   };
 
-  const FetchTshowexpenditurelist = () => {
+  const FetchTshowexpenditurelist = (val) => {
     setLoadTable(true);
     setTimeout(() => {
-      axios.get(API + "/index/showexpenditurelist").then((res) => {
+      axios.get(API + "/index/showexpenditurelist/" + val).then((res) => {
         //    console.log(res.data);
         const data = res.data;
         if (data.length !== 0) {
           setLoadTable(false);
           const select = data.map((i) => ({
-            value: i.expenditure_name,
+            value: i.expenditure_id,
             label: i.expenditure_name,
           }));
           setDataexpenditurelist(select);
@@ -241,6 +241,7 @@ function Reportexpenditure() {
         year: value.year,
         type: value.type,
         idbudget: value.idbudget,
+        type_user: value.type_user,
       })
       .then((res) => {
         setLoadTable(false);
@@ -320,11 +321,28 @@ function Reportexpenditure() {
   //       console.log(res.data);
   //     });
   // };
-
+  const FetchTypeEmploy = () => {
+    setLoadTable(true);
+    setTimeout(() => {
+      axios.get(API + "/index/showcustomertype").then((res) => {
+        //    console.log(res.data);
+        const data = res.data;
+        if (data.length !== 0) {
+          setLoadTable(false);
+          const select = data.map((i) => ({
+            value: i.customer_type_id,
+            label: i.customer_type_name,
+          }));
+          formSearch.setValues({ datatypeuser: select });
+        }
+      });
+    }, 400);
+  };
   useEffect(() => {
     FetchTypeshowBudget();
-    FetchTshowexpenditurelist();
+    // FetchTshowexpenditurelist();
     FetchYear();
+    FetchTypeEmploy()
   }, []);
 
   const formSearch = useForm({
@@ -333,6 +351,8 @@ function Reportexpenditure() {
       month: (new Date().getMonth().toString().length === 1 ? "0" + new Date().getMonth() : new Date().getMonth()).toString(),
       year: new Date().getFullYear().toString(),
       type: "",
+      type_user:"",
+      datatypeuser:[]
       //  yearend: (new Date().getFullYear()).toString(),
     },
 
@@ -341,6 +361,7 @@ function Reportexpenditure() {
       month: isNotEmpty("กรุณาเลือกเดือน"),
       year: isNotEmpty("กรุณาเลือกปี"),
       type: isNotEmpty("กรุณาเลือกประเภทรายจ่าย"),
+      type_user: isNotEmpty("กรุณาเลือกประเภทพนักงาน"),
       //  yearend: isNotEmpty("กรุณาเลือกปี"),
     },
   });
@@ -358,7 +379,20 @@ function Reportexpenditure() {
             })}
           >
             <Grid>
-              <Grid.Col span={8}>
+            <Grid.Col span={4}>
+                <Select
+                  searchable
+                  data={formSearch.values.datatypeuser}
+                  // {...formSearch.getInputProps("type_user")}
+                  value={formSearch.values.type_user}
+                  onChange={(val) => {
+                    formSearch.setValues({ type_user: val });
+                    FetchTshowexpenditurelist(val);
+                  }}
+                  label="ประเภทพนักงาน"
+                />
+              </Grid.Col>
+              <Grid.Col span={4}>
                 <Select searchable data={DataBudget} {...formSearch.getInputProps("idbudget")} label="งบประมาณ" />
               </Grid.Col>
             </Grid>

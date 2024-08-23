@@ -202,16 +202,16 @@ function Reportrevenue() {
     }, 400);
   };
 
-  const FetchTshowexpenditurelist = () => {
+  const FetchTshowexpenditurelist = (val) => {
     setLoadTable(true);
     setTimeout(() => {
-      axios.get(API + "/index/showrevenuelist").then((res) => {
+      axios.get(API + "/index/showrevenuelist/" + val).then((res) => {
         //    console.log(res.data);
         const data = res.data;
         if (data.length !== 0) {
           setLoadTable(false);
           const select = data.map((i) => ({
-            value: i.revenue_name,
+            value: i.revenue_id,
             label: i.revenue_name,
           }));
           setDataexpenditurelist(select);
@@ -287,36 +287,6 @@ function Reportrevenue() {
       });
   };
 
-  const submitdata = (value) => {
-    // console.log(value.type_employ);
-    // console.log(value.month);
-    // console.log(value.year);
-    // console.log(value.monthend);
-    // console.log(value.yearend);
-
-    const form = Datasalarystart;
-    console.log(value.values);
-    console.log(form);
-    axios
-      .post(API + "/index/Addhistorysalarymonth", {
-        month: value.values.monthend,
-        year: value.values.yearend,
-        check: form,
-      })
-      .then((res) => {
-        Swal.fire({
-          title: "อัพเดทข้อมูลสำเร็จ",
-          icon: "success",
-          // showCancelButton: true,
-          confirmButtonText: "ตกลง",
-          // cancelButtonText: 'No, keep it'
-        }).then((result) => {
-          //  this.toggle();
-          // close();
-        });
-        console.log(res.data);
-      });
-  };
   const FetchTypeEmploy = () => {
     setLoadTable(true);
     setTimeout(() => {
@@ -383,7 +353,12 @@ function Reportrevenue() {
                 <Select
                   searchable
                   data={formSearch.values.datatypeuser}
-                  {...formSearch.getInputProps("type_user")}
+                  // {...formSearch.getInputProps("type_user")}
+                  value={formSearch.values.type_user}
+                  onChange={(val) => {
+                    formSearch.setValues({ type_user: val });
+                    FetchTshowexpenditurelist(val);
+                  }}
                   label="ประเภทพนักงาน"
                 />
               </Grid.Col>
