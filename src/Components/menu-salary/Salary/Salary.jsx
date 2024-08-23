@@ -343,7 +343,7 @@ function Salary() {
                         window.open(
                           API +
                             "/PDF/SalarySlip.php?id=" +
-                            (parseInt(i.customers_citizent) + 33) +
+                            i.customers_citizent +
                             "&year=" +
                             i.history_salary_year +
                             "&month=" +
