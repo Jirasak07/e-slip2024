@@ -52,7 +52,7 @@ function Login() {
             timer: 600,
             timerProgressBar: true,
           }).then((res) => {
-            localStorage.setItem("citizen", 33 + parseInt(v.username));
+            localStorage.setItem("citizen", v.username);
             localStorage.setItem("fname", data[0].frist_name);
             localStorage.setItem("pname", data[0].prefix_name);
             localStorage.setItem("lname", data[0].last_name);

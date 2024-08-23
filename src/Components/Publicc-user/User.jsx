@@ -104,13 +104,14 @@ function User() {
   };
 
   const [IMG, setIMG] = useState("");
-  const FetchData = (params) => {
+  const FetchData = async (params) => {
     const fm = new FormData();
     fm.append("customers_citizent", localStorage.getItem("citizen"));
     axios.post(API + "/index/findtypeemploy", fm).then((type) => {
+      console.log(type.data[0].customers_type_name)
       const types = type.data[0].customers_type;
       localStorage.setItem("type_name", type.data[0].customers_type_name);
-      axios.get(API + "/index/showhistorysalarywhereemp/" + CitiZent + "/" + types).then((res) => {
+      axios.get(API + "/index/showhistorysalarywhereemp/" + localStorage.getItem("citizen") + "/" + types).then((res) => {
         const data = res.data;
         if (data.length !== 0) {
           setIMG("https://mis.kpru.ac.th/images/pic_emp_50/" + localStorage.getItem("employee_id") + ".jpg");
@@ -134,7 +135,7 @@ function User() {
                             window.open(
                               API +
                                 "/PDF/SalarySlip.php?id=" +
-                                (parseInt(i.customers_citizent) + 33) +
+                                parseInt(i.customers_citizent)  +
                                 "&year=" +
                                 i.history_salary_year +
                                 "&month=" +
