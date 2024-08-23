@@ -173,7 +173,7 @@ function AddExpenditure() {
 
   const submitdata = (value) => {
     setLoadTable(true);
-    setAdded(true)
+    setAdded(true);
     axios
       .get(
         API +
@@ -187,7 +187,7 @@ function AddExpenditure() {
           value.month
       )
       .then((res) => {
-        setAdded(true)
+        setAdded(true);
         console.warn(res);
         const data = res.data;
         if (data.lenth !== 0) {
@@ -256,6 +256,7 @@ function AddExpenditure() {
   useEffect(() => {
     FetchTypeEmploy();
     FetchYear();
+    FetchBudget();
   }, []);
   const Serch = (data) => {
     submitdata(formSearch.values);
@@ -264,12 +265,14 @@ function AddExpenditure() {
   const formSearch = useForm({
     initialValues: {
       type_employ: "",
+      idbudget: "",
       month:
         (new Date().getMonth() + 1).toString().length === 1
           ? "0" + (new Date().getMonth() + 1).toString()
           : (new Date().getMonth() + 1).toString(),
       year: new Date().getFullYear().toString(),
       expenditure_id: "",
+      DATA_TYPE_BUDGET: [],
     },
 
     validate: {
@@ -277,9 +280,24 @@ function AddExpenditure() {
       month: (v) => (v !== "" ? null : "กรุณาเลือกเดือน"),
       year: (v) => (v !== "" ? null : "กรุณาเลือกปี"),
       expenditure_id: isNotEmpty("กรุณาเลือกประเภทรายจ่าย"),
+      idbudget: isNotEmpty("กรุณาเลือกประเภทงบประมาณ"),
     },
   });
   const [Added, setAdded] = useState(false);
+  const FetchBudget = () => {
+    axios.get(API + "/index/showBudget").then((res) => {
+      const data = res.data;
+      if (data.length !== 0) {
+        //   setLoadTable(false);
+        const select = data.map((i) => ({
+          value: i.idbudget,
+          label: i.namebudget + " ( " + i.idbudget + " ) ",
+        }));
+
+        formSearch.setValues({ DATA_TYPE_BUDGET: select });
+      }
+    });
+  };
   const FN = (params) => {
     submitdata(formSearch.values);
   };
@@ -296,7 +314,7 @@ function AddExpenditure() {
               // console.log(v);
             })}
           >
-            <SimpleGrid cols={{ base: 1, md: 4, sm: 2 }}>
+            <SimpleGrid cols={{ base: 1, md: 5, sm: 2 }}>
               <Select
                 searchable
                 allowDeselect={false}
@@ -319,6 +337,13 @@ function AddExpenditure() {
                 label="ประเภทรายจ่าย"
                 data={SelectDataExpend}
                 {...formSearch.getInputProps("expenditure_id")}
+              />
+              <Select
+                searchable
+                allowDeselect={false}
+                label="ประเภทงบประมาณ"
+                data={formSearch.values.DATA_TYPE_BUDGET}
+                {...formSearch.getInputProps("idbudget")}
               />
               <SimpleGrid cols={{ base: 1, md: 2, sm: 2 }}>
                 <Select
