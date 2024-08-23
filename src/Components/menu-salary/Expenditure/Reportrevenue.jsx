@@ -1,4 +1,14 @@
-import { Badge, Button, Container, Paper, Select, SimpleGrid, Flex, NumberFormatter, Grid } from "@mantine/core";
+import {
+  Badge,
+  Button,
+  Container,
+  Paper,
+  Select,
+  SimpleGrid,
+  Flex,
+  NumberFormatter,
+  Grid,
+} from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { IconSearch, IconPrinter } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
@@ -184,7 +194,7 @@ function Reportrevenue() {
           setLoadTable(false);
           const select = data.map((i) => ({
             value: i.idbudget,
-            label: i.namebudget+" ( "+i.idbudget+" ) ",
+            label: i.namebudget + " ( " + i.idbudget + " ) ",
           }));
           setDataBudget(select);
         }
@@ -237,6 +247,7 @@ function Reportrevenue() {
         year: value.year,
         type: value.type,
         idbudget: value.idbudget,
+        type_user: value.type_user,
       })
       .then((res) => {
         setLoadTable(false);
@@ -306,19 +317,41 @@ function Reportrevenue() {
         console.log(res.data);
       });
   };
-
+  const FetchTypeEmploy = () => {
+    setLoadTable(true);
+    setTimeout(() => {
+      axios.get(API + "/index/showcustomertype").then((res) => {
+        //    console.log(res.data);
+        const data = res.data;
+        if (data.length !== 0) {
+          setLoadTable(false);
+          const select = data.map((i) => ({
+            value: i.customer_type_id,
+            label: i.customer_type_name,
+          }));
+          formSearch.setValues({ datatypeuser: select });
+        }
+      });
+    }, 400);
+  };
   useEffect(() => {
     FetchTypeshowBudget();
     FetchTshowexpenditurelist();
+    FetchTypeEmploy();
     FetchYear();
   }, []);
 
   const formSearch = useForm({
     initialValues: {
       idbudget: "",
-      month: (new Date().getMonth().toString().length === 1 ? "0" + new Date().getMonth() : new Date().getMonth()).toString(),
+      month: (new Date().getMonth().toString().length === 1
+        ? "0" + new Date().getMonth()
+        : new Date().getMonth()
+      ).toString(),
       year: new Date().getFullYear().toString(),
       type: "",
+      type_user: "",
+      datatypeuser: [],
       //  yearend: (new Date().getFullYear()).toString(),
     },
 
@@ -327,6 +360,7 @@ function Reportrevenue() {
       month: isNotEmpty("กรุณาเลือกเดือน"),
       year: isNotEmpty("กรุณาเลือกปี"),
       type: isNotEmpty("กรุณาเลือกประเภทรายจ่าย"),
+      type_user: isNotEmpty("กรุณาเลือกประเภทบุคลากร"),
       //  yearend: isNotEmpty("กรุณาเลือกปี"),
     },
   });
@@ -345,21 +379,49 @@ function Reportrevenue() {
             })}
           >
             <Grid>
-              <Grid.Col span={8}>
-                <Select searchable data={DataBudget} {...formSearch.getInputProps("idbudget")} label="งบประมาณ" />
+              <Grid.Col span={4}>
+                <Select
+                  searchable
+                  data={formSearch.values.datatypeuser}
+                  {...formSearch.getInputProps("type_user")}
+                  label="ประเภทพนักงาน"
+                />
+              </Grid.Col>
+              <Grid.Col span={4}>
+                <Select
+                  searchable
+                  data={DataBudget}
+                  {...formSearch.getInputProps("idbudget")}
+                  label="งบประมาณ"
+                />
               </Grid.Col>
             </Grid>
             <Grid gutter={{ base: 5, xs: "md", md: "xl", xl: 50 }}>
               <Grid.Col span={2}>
-                <Select searchable label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
+                <Select
+                  searchable
+                  label="เดือน"
+                  data={selectmount}
+                  {...formSearch.getInputProps("month")}
+                />
               </Grid.Col>
               <Grid.Col span={2}>
-                <Select searchable label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
+                <Select
+                  searchable
+                  label="ปี"
+                  data={DataYear}
+                  {...formSearch.getInputProps("year")}
+                />
                 {/* <Select searchable label="เลือกเดือนที่จะนำข้อมูลเข้า " data={selectmount} {...formSearch.getInputProps("monthend")}  />
                                 <Select searchable label="ปี" data={DataYear} {...formSearch.getInputProps("yearend")} mt={10} /> */}
               </Grid.Col>
               <Grid.Col span={4}>
-                <Select searchable label="ประเภทรายจ่าย" data={Dataexpenditurelist} {...formSearch.getInputProps("type")} />
+                <Select
+                  searchable
+                  label="ประเภทรายรับ"
+                  data={Dataexpenditurelist}
+                  {...formSearch.getInputProps("type")}
+                />
                 {/* <Select searchable label="เลือกเดือนที่จะนำข้อมูลเข้า " data={selectmount} {...formSearch.getInputProps("monthend")}  />
                                 <Select searchable label="ปี" data={DataYear} {...formSearch.getInputProps("yearend")} mt={10} /> */}
               </Grid.Col>
@@ -410,7 +472,21 @@ function Reportrevenue() {
               </Text>
             </Flex>
           </Paper>
-          {LoadTable ? <SkeletonTable /> : <MDBDataTableV5 entries={100} data={Tablelist} responsive striped searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ" barReverse searchTop searchBottom={false} noRecordsFoundLabel="ไม่พบรายการ" />}
+          {LoadTable ? (
+            <SkeletonTable />
+          ) : (
+            <MDBDataTableV5
+              entries={100}
+              data={Tablelist}
+              responsive
+              striped
+              searchLabel="ค้นหาจากเลขบัตร หรือ ชื่อ"
+              barReverse
+              searchTop
+              searchBottom={false}
+              noRecordsFoundLabel="ไม่พบรายการ"
+            />
+          )}
         </Paper>
       </Container>
     </>
