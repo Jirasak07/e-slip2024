@@ -184,7 +184,7 @@ function AddExpenditure() {
           "/" +
           value.year +
           "/" +
-          value.month
+          value.month+"/"+value.idbudget
       )
       .then((res) => {
         setAdded(true);

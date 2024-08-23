@@ -184,7 +184,7 @@ function AddRevenue() {
           "/" +
           value.year +
           "/" +
-          value.month
+          value.month+"/"+value.idbudget
       )
       .then((res) => {
         console.warn(res);
@@ -275,7 +275,7 @@ function AddRevenue() {
   const [Total, setTotal] = useState(0);
   useEffect(() => {
     FetchTypeEmploy();
-
+    FetchBudget()
     FetchYear();
   }, []);
   const Serch = (data) => {
@@ -291,6 +291,8 @@ function AddRevenue() {
           : (new Date().getMonth() + 1).toString(),
       year: new Date().getFullYear().toString(),
       revenue_id: "",
+      DATA_TYPE_BUDGET: [],
+      idbudget:""
     },
 
     validate: {
@@ -298,6 +300,7 @@ function AddRevenue() {
       month: (v) => (v !== "" ? null : "กรุณาเลือกเดือน"),
       year: (v) => (v !== "" ? null : "กรุณาเลือกปี"),
       revenue_id: isNotEmpty("กรุณาเลือกประเภทรายรับ"),
+      idbudget: isNotEmpty("กรุณาเลือกประเภทงบประมาณ"),
     },
   });
   const [Added, setAdded] = useState(false);
@@ -305,6 +308,20 @@ function AddRevenue() {
     submitdata(formSearch.values);
   };
 
+  const FetchBudget = () => {
+    axios.get(API + "/index/showBudget").then((res) => {
+      const data = res.data;
+      if (data.length !== 0) {
+        //   setLoadTable(false);
+        const select = data.map((i) => ({
+          value: i.idbudget,
+          label: i.namebudget + " ( " + i.idbudget + " ) ",
+        }));
+
+        formSearch.setValues({ DATA_TYPE_BUDGET: select });
+      }
+    });
+  };
   return (
     <>
       <Container p={0} bg={"white"} fluid>
@@ -318,7 +335,7 @@ function AddRevenue() {
               // console.log(v);
             })}
           >
-            <SimpleGrid cols={{ base: 1, md: 4, sm: 2 }}>
+            <SimpleGrid cols={{ base: 1, md: 5, sm: 2 }}>
               <Select
                 searchable
                 allowDeselect={false}
@@ -342,7 +359,13 @@ function AddRevenue() {
                 data={SelectDatarevenue}
                 {...formSearch.getInputProps("revenue_id")}
               />
-
+   <Select
+                searchable
+                allowDeselect={false}
+                label="ประเภทงบประมาณ"
+                data={formSearch.values.DATA_TYPE_BUDGET}
+                {...formSearch.getInputProps("idbudget")}
+              />
               <SimpleGrid cols={{ base: 1, sm: 2 }}>
                 <Select
                   searchable
