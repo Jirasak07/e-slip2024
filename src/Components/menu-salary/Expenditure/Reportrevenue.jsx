@@ -283,6 +283,12 @@ function Reportrevenue() {
           setPayout(sumout);
           setTotal(total);
           setDataTotalsummary(res.data);
+        }else{
+          setTotal(0);
+          setPayin(0);
+          setPayout(0);
+          setDataTotalsummary([]);
+          setTablelist([])
         }
       });
   };
