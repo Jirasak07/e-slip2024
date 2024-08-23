@@ -106,7 +106,7 @@ function User() {
   const [IMG, setIMG] = useState("");
   const FetchData = (params) => {
     const fm = new FormData();
-    fm.append("customers_citizent", parseInt(localStorage.getItem("citizen")) - 33);
+    fm.append("customers_citizent", localStorage.getItem("citizen"));
     axios.post(API + "/index/findtypeemploy", fm).then((type) => {
       const types = type.data[0].customers_type;
       localStorage.setItem("type_name", type.data[0].customers_type_name);
