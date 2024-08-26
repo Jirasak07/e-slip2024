@@ -129,6 +129,8 @@ function Upload50() {
               }).then((ree) => {
                 setOver(false);
               });
+            }else{
+              console.log(ress)
             }
           });
       } else {
