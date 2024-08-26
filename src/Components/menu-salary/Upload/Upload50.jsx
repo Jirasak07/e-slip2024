@@ -1,7 +1,7 @@
 import { Button, Container, Group, LoadingOverlay, Select, Text, rem } from "@mantine/core";
 import { IconUpload, IconPhoto,  IconFileTypeXls } from "@tabler/icons-react";
 import { Dropzone } from "@mantine/dropzone";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { API } from "../../Config/ConfigApi";
 import Swal from "sweetalert2";
@@ -20,7 +20,8 @@ function Upload50() {
   };
   const form = useForm({
     initialValues: {
-      TYPE: "2",
+      TYPE: "6",
+      idbudget:"1"
     },
   });
   const [Load, setLoad] = useState(false);
@@ -117,6 +118,7 @@ function Upload50() {
           .post(API + "/index/InsertGovToSlip", {
             data: A,
             customer_type_id: form.values.TYPE,
+            idbudget:form.values.idbudget
           })
           .then((ress) => {
             if (ress.data === "success") {
@@ -138,7 +140,26 @@ function Upload50() {
       }
     });
   };
-
+  const [DataBudget, setDataBudget] = useState([]);
+  const FetchTypeshowBudget = () => {
+    
+    setTimeout(() => {
+      axios.get(API + "/index/showBudget").then((res) => {
+        //    console.log(res.data);
+        const data = res.data;
+        if (data.length !== 0) {
+          const select = data.map((i) => ({
+            value: i.idbudget,
+            label: i.namebudget + " ( " + i.idbudget + " ) ",
+          }));
+          setDataBudget(select);
+        }
+      });
+    }, 400);
+  };
+  useEffect(()=>{
+    FetchTypeshowBudget()
+  },[])
   return (
     <Container>
       <LoadingOverlay visible={Over} />
@@ -189,6 +210,12 @@ function Upload50() {
           },
         ]}
         {...form.getInputProps("TYPE")}
+      />
+      <Select searchable
+        label="เลือกงบประมาณ"
+        allowDeselect={false}
+        data={DataBudget}
+        {...form.getInputProps("idbudget")}
       />
       <Button
         mt={10}
