@@ -32,8 +32,9 @@ export function Layouts() {
   const Fetch = async () => {
     try {
       if (type === null || type === "" || type === undefined) {
-        // nav("/login");
+        nav("/login");
       }
+      console.log(type)
       const menu2 = await menus.findIndex((menu) => menu.type === type);
       const menuu = await menus[menu2];
       if(menuu === undefined ){
@@ -43,29 +44,24 @@ export function Layouts() {
       console.log(localStorage.getItem("type-user-epay"));
       if (menu.length !== 0) {
         const indexmenu = menu.findIndex(
-          (menu) => "/testslip" + menu.path === window.location.pathname
+          (menu) => menu.path === window.location.pathname
         );
-        console.log(
-          "/" +
-            window.location.pathname.split("/")[1] +
-            "/" +
-            window.location.pathname.split("/")[2]
-        );
+        console.log(menu)
+   
         if (indexmenu === -1) {
           const indexmenus = menu.findIndex(
             (menu) =>
-              "/testslip" + menu.path ===
-              "/" +
-                window.location.pathname.split("/")[1] +
-                "/" +
-                window.location.pathname.split("/")[2]
+              menu.path ===
+             "/"+ window.location.pathname.split("/")[1] 
           );
+ 
           if (indexmenus === -1) {
             nav("/login");
           } else {
             const indexsub = menu[indexmenus].sub.findIndex(
-              (sub) => "/testslip" + sub.path === window.location.pathname
+              (sub) =>  sub.path === window.location.pathname
             );
+            console.log( indexsub )
             setIndexMenu(indexmenus);
             setINdexSub(indexsub);
           }
@@ -171,12 +167,12 @@ export function Layouts() {
                             console.log(keymenu);
                           }}
                           active={
-                            "/" + window.location.pathname.split("/")[2] === menu.path
+                            "/" + window.location.pathname.split("/")[1] === menu.path
                               ? true
                               : false
                           }
                           defaultOpened={
-                            "/" + window.location.pathname.split("/")[2] === menu.path
+                            "/" + window.location.pathname.split("/")[1] === menu.path
                               ? true
                               : false
                           }
@@ -184,6 +180,7 @@ export function Layouts() {
                           key={keymenu}
                           leftSection={menu.icon}
                         >
+
                           {Array.isArray(menu.sub) &&
                             menu.sub.map((sub, keysub) => (
                               <NavLink
