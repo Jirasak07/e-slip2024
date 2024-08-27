@@ -112,9 +112,10 @@ function User() {
       const types = type.data[0].customers_type;
       localStorage.setItem("type_name", type.data[0].customers_type_name);
       axios.get(API + "/index/showhistorysalarywhereemp/" + localStorage.getItem("citizen") + "/" + types).then((res) => {
-        const data = res.data;
+        const data = res.data; 
+        setIMG("https://mis.kpru.ac.th/images/pic_emp_50/" + localStorage.getItem("employee_id") + ".jpg");
         if (data.length !== 0) {
-          setIMG("https://mis.kpru.ac.th/images/pic_emp_50/" + localStorage.getItem("employee_id") + ".jpg");
+         
           setTableSalary({
             columns: column,
             rows: [
@@ -188,7 +189,7 @@ function User() {
   }, [CitiZent]);
   return (
     <>
-      <div>
+      <div   >
         {" "}
         {/* <ScrollArea h={"calc(100dvh - 2rem)"}> */}
         <Container fluid p={0}>
@@ -261,7 +262,7 @@ function User() {
               )}
             </Paper>
           </Flex>
-          <Container fluid mt={20}>
+          <Container fluid p={0} mt={20}>
             <Paper shadow="sm" p={10}>
               <form
                 onSubmit={formtax.onSubmit((val) => {
@@ -276,6 +277,7 @@ function User() {
                     label="เลือกปี"
                   />
                   <Button
+                  w={300}
                     disabled={formtax.values.TAX_PAY_YEAR_DATA.length > 0 ? false : true}
                     type="submit"
                     mt={{ base: 10, sm: 33, md: 33 }}
@@ -291,7 +293,7 @@ function User() {
               </form>
             </Paper>
           </Container>
-          <Container fluid mt={20}>
+          <Container fluid p={0} mt={20}>
             {Load ? (
               <SkeletonTable />
             ) : (

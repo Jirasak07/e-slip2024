@@ -99,7 +99,7 @@ export function Layouts() {
   const [OverLay, setOverLay] = useState(false);
   return (
     <AppShell
-      padding={30}
+      padding={10}
       header={{ height: { base: 50, md: 0 } }}
       navbar={{ width: 350, breakpoint: "md",  collapsed: { mobile: !mobileOpened, desktop: !desktopOpened }, }}
     >
