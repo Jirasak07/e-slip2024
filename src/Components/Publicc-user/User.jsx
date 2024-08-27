@@ -108,64 +108,75 @@ function User() {
     const fm = new FormData();
     fm.append("customers_citizent", localStorage.getItem("citizen"));
     axios.post(API + "/index/findtypeemploy", fm).then((type) => {
-      console.log(type.data[0].customers_type_name)
+      console.log(type.data[0].customers_type_name);
       const types = type.data[0].customers_type;
       localStorage.setItem("type_name", type.data[0].customers_type_name);
-      axios.get(API + "/index/showhistorysalarywhereemp/" + localStorage.getItem("citizen") + "/" + types).then((res) => {
-        const data = res.data; 
-        setIMG("https://mis.kpru.ac.th/images/pic_emp_50/" + localStorage.getItem("employee_id") + ".jpg");
-        if (data.length !== 0) {
-         
-          setTableSalary({
-            columns: column,
-            rows: [
-              ...data.map((i, key) => ({
-                year: i.history_salary_year,
-                month: GetMonth(i.history_salary_month),
-                revenue: <NumberFormatter thousandSeparator suffix=" ฿" value={i.revenue} />,
-                expenditure: <NumberFormatter thousandSeparator suffix=" ฿" value={i.expenditure} />,
-                total: <NumberFormatter thousandSeparator suffix=" ฿" value={i.salary_true} />,
-                fileprint: (
-                  <>
-                    <Flex gap={10}>
-                      <Button
-                        onClick={() => {
-                          setLoadButton(true);
-                          setTimeout(() => {
-                            setLoadButton(false);
-                            window.open(
-                              API +
-                                "/PDF/SalarySlip.php?id=" +
-                                parseInt(i.customers_citizent)  +
-                                "&year=" +
-                                i.history_salary_year +
-                                "&month=" +
-                                i.history_salary_month +
-                                "&type=" +
-                                i.customers_type
-                            );
-                          }, 1200);
-                        }}
-                        leftSection={<IconPrinter />}
-                        color="var(--primary)"
-                      >
-                        พิมพ์สลิปเงินเดือน
-                      </Button>
-                      <Button leftSection={<IconFileDescription />} color="blue.8">
-                        ไฟล์เอกสารอื่นๆ
-                      </Button>
-                    </Flex>
-                  </>
-                ),
-              })),
-            ],
-          });
-        }
-      });
+      axios
+        .get(
+          API + "/index/showhistorysalarywhereemp/" + localStorage.getItem("citizen") + "/" + types
+        )
+        .then((res) => {
+          const data = res.data;
+          setIMG(
+            "https://mis.kpru.ac.th/images/pic_emp_50/" +
+              localStorage.getItem("employee_id") +
+              ".jpg"
+          );
+          if (data.length !== 0) {
+            setTableSalary({
+              columns: column,
+              rows: [
+                ...data.map((i, key) => ({
+                  year: i.history_salary_year,
+                  month: GetMonth(i.history_salary_month),
+                  revenue: <NumberFormatter thousandSeparator suffix=" ฿" value={i.revenue} />,
+                  expenditure: (
+                    <NumberFormatter thousandSeparator suffix=" ฿" value={i.expenditure} />
+                  ),
+                  total: <NumberFormatter thousandSeparator suffix=" ฿" value={i.salary_true} />,
+                  fileprint: (
+                    <>
+                      <Flex gap={10}>
+                        <Button
+                          onClick={() => {
+                            setLoadButton(true);
+                            setTimeout(() => {
+                              setLoadButton(false);
+                              window.open(
+                                API +
+                                  "/PDF/SalarySlip.php?id=" +
+                                  parseInt(i.customers_citizent) +
+                                  "&year=" +
+                                  i.history_salary_year +
+                                  "&month=" +
+                                  i.history_salary_month +
+                                  "&type=" +
+                                  i.customers_type
+                              );
+                            }, 1200);
+                          }}
+                          leftSection={<IconPrinter />}
+                          color="var(--primary)"
+                        >
+                          พิมพ์สลิปเงินเดือน
+                        </Button>
+                        <Button leftSection={<IconFileDescription />} color="blue.8">
+                          ไฟล์เอกสารอื่นๆ
+                        </Button>
+                      </Flex>
+                    </>
+                  ),
+                })),
+              ],
+            });
+          }
+        });
     });
   };
   const PrintTax50 = (val) => {
-    window.open(API + "/PDF/Tax50.php?id=" + localStorage.getItem("citizen") + "&year=" + val.TAX_PAY_YEAR);
+    window.open(
+      API + "/PDF/Tax50.php?id=" + localStorage.getItem("citizen") + "&year=" + val.TAX_PAY_YEAR
+    );
   };
 
   const nav = useNavigate();
@@ -189,7 +200,7 @@ function User() {
   }, [CitiZent]);
   return (
     <>
-      <div   >
+      <div>
         {" "}
         {/* <ScrollArea h={"calc(100dvh - 2rem)"}> */}
         <Container fluid p={0}>
@@ -197,7 +208,7 @@ function User() {
             รายการเงินเดือน
           </Badge>
           <Flex justify={"center"}>
-            <Paper withBorder shadow="lg" w={"clamp(300px,80vw,600px)"} mih={150} p={10}>
+            <Paper withBorder shadow="lg" w={"clamp(300px,80vw,600px)"} mih={160} p={10}>
               <LoadingOverlay transitionProps={{ transition: "pop" }} visible={LoadButton} />
               {Load ? (
                 <Flex h={"100%"} gap={10}>
@@ -258,6 +269,16 @@ function User() {
                       </Grid>
                     </Flex>
                   </Flex>
+                  <Button
+                    size="md"
+                    mt={25}
+                    variant="light"
+                    onClick={() => {
+                      window.open("https://e-payslip.kpru.ac.th/");
+                    }}
+                  >
+                    สำหรับผู้ที่ต้องการข้อมูลเงินเดือนย้อนหลังก่อนเดือน สิงหาคม 2567 คลิกที่นี่
+                  </Button>
                 </>
               )}
             </Paper>
@@ -270,14 +291,15 @@ function User() {
                 })}
               >
                 <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }}>
-                  <Select searchable
+                  <Select
+                    searchable
                     allowDeselect={false}
                     data={formtax.values.TAX_PAY_YEAR_DATA}
                     {...formtax.getInputProps("TAX_PAY_YEAR")}
                     label="เลือกปี"
                   />
                   <Button
-                  w={300}
+                    w={300}
                     disabled={formtax.values.TAX_PAY_YEAR_DATA.length > 0 ? false : true}
                     type="submit"
                     mt={{ base: 10, sm: 33, md: 33 }}
