@@ -60,17 +60,17 @@ export const menus = [
             path: "/manage-salary/salary",
             icon: <IconPigMoney />,
           },
-        
-          {
-            title: "อัพโหลดหนังสือรับรองภาษี ขรก/ลูกจ้างประจำ",
-            path: "/manage-salary/upload-tax",
-            icon: <IconReceiptTax />,
-          },
           {
             title: "อัพโหลดสลิป ขรก/ลูกจ้างประจำ",
             path: "/manage-salary/upload50",
             icon: <IconReceipt2 />,
           },
+          {
+            title: "อัพโหลดหนังสือรับรองภาษี ขรก/ลูกจ้างประจำ",
+            path: "/manage-salary/upload-tax",
+            icon: <IconReceiptTax />,
+          },
+     
           // {
           //   title: "จัดการใบภาษีของบุคลากร",
           //   path: "/manage-salary/customer-50",
