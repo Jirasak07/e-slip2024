@@ -1,4 +1,15 @@
-import { Button, Container, Divider, Flex, Image, LoadingOverlay, Paper, SimpleGrid, Text, TextInput } from "@mantine/core";
+import {
+  Button,
+  Container,
+  Divider,
+  Flex,
+  Image,
+  LoadingOverlay,
+  Paper,
+  SimpleGrid,
+  Text,
+  TextInput,
+} from "@mantine/core";
 import { useEffect, useState } from "react";
 import Logo from "../../assets/image/kpru.png";
 // import browser from "../../assets/image/browser.png";
@@ -125,8 +136,18 @@ function Login() {
 
   return (
     <Container fluid w={"100dvw"} h={"100dvh"} px={0}>
-      <LoadingOverlay visible={OverLay} loaderProps={{ color: "var(--primary)", type: "dots" }} overlayProps={{ blur: 1 }} />
-      <Flex bg={{base:"white",sm:"gray.3"}} align={"center"} direction={"column"} h={"100%"} justify={"center"}>
+      <LoadingOverlay
+        visible={OverLay}
+        loaderProps={{ color: "var(--primary)", type: "dots" }}
+        overlayProps={{ blur: 1 }}
+      />
+      <Flex
+        bg={{ base: "white", sm: "gray.3" }}
+        align={"center"}
+        direction={"column"}
+        h={"100%"}
+        justify={"center"}
+      >
         <Paper shadow={"lg"} withBorder h={550} w={"clamp(350px,95vw,500px)"}>
           <Flex pt={15} align={"center"} direction={"column"} justify={"center"}>
             <Image src={Logo} maw={80} />
@@ -145,12 +166,37 @@ function Login() {
           >
             <Flex pt={15} align={"center"} direction={"column"} justify={"center"}>
               <SimpleGrid w={"100%"} maw={300}>
-                <TextInput name="Username" label="ชื่อผู้ใช้/username" {...formlogin.getInputProps("username")} />
-                <TextInput name="Password" type="password" label="รหัสผ่าน/password" {...formlogin.getInputProps("password")} />
-                <Button loading={LoadingButton} loaderProps={{ type: "dots" }} type="submit" leftSection={<IconKey />} color="var(--primary)">
+                <TextInput
+                  name="Username"
+                  label="ชื่อผู้ใช้/username"
+                  {...formlogin.getInputProps("username")}
+                />
+                <TextInput
+                  name="Password"
+                  type="password"
+                  label="รหัสผ่าน/password"
+                  {...formlogin.getInputProps("password")}
+                />
+                <Button
+                  loading={LoadingButton}
+                  loaderProps={{ type: "dots" }}
+                  type="submit"
+                  leftSection={<IconKey />}
+                  color="var(--primary)"
+                >
                   เข้าสู่ระบบ
                 </Button>
               </SimpleGrid>
+              <Button
+                size="xs"
+                mt={5}
+                variant="light"
+                onClick={() => {
+                  window.open("https://e-payslip.kpru.ac.th/");
+                }}
+              >
+                สำหรับผู้ที่ต้องการข้อมูลเงินเดือนย้อนหลังก่อนเดือน สิงหาคม 2567
+              </Button>
             </Flex>{" "}
           </form>
         </Paper>
