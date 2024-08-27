@@ -12,7 +12,7 @@ import 'mdbreact/dist/css/mdb.css';
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <MantineProvider>
-      <BrowserRouter basename="testslip">
+      <BrowserRouter basename="/">
         <App />
       </BrowserRouter>
     </MantineProvider>
