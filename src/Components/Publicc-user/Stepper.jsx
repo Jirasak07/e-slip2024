@@ -164,7 +164,7 @@ function Steppers({ val }) {
     });
   };
   return (
-    <Paper w={"100%"} maw={800} shadow="none" p={10} mb={10}>
+    <Paper w={"100%"}  shadow="none" p={10} mb={10}>
       <LoadingOverlay visible={Load} />
       <label>สถานะการจัดทำ</label>
       <Stepper
