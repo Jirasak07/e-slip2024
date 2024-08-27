@@ -113,31 +113,32 @@ function Upload50() {
       confirmButtonText: "ยืนยันส่ง",
     }).then((res) => {
       setOver(true);
-      if (res.isConfirmed === true) {
-        axios
-          .post(API + "/index/InsertGovToSlip", {
-            data: A,
-            customer_type_id: form.values.TYPE,
-            idbudget:form.values.idbudget
-          })
-          .then((ress) => {
-            if (ress.data === "success") {
-              Swal.fire({
-                icon: "success",
-                title: "เพิ่มรายการสำเร็จ",
-                timer: 600,
-                timerProgressBar: true,
-                showConfirmButton: false,
-              }).then((ree) => {
-                setOver(false);
-              });
-            }else{
-              console.log(ress)
-            }
-          });
-      } else {
-        // setOver(false);
-      }
+      console.log(A)
+      // if (res.isConfirmed === true) {
+      //   axios
+      //     .post(API + "/index/InsertGovToSlip", {
+      //       data: A,
+      //       customer_type_id: form.values.TYPE,
+      //       idbudget:form.values.idbudget
+      //     })
+      //     .then((ress) => {
+      //       if (ress.data === "success") {
+      //         Swal.fire({
+      //           icon: "success",
+      //           title: "เพิ่มรายการสำเร็จ",
+      //           timer: 600,
+      //           timerProgressBar: true,
+      //           showConfirmButton: false,
+      //         }).then((ree) => {
+      //           setOver(false);
+      //         });
+      //       }else{
+      //         console.log(ress)
+      //       }
+      //     });
+      // } else {
+      //   // setOver(false);
+      // }
     });
   };
   const [DataBudget, setDataBudget] = useState([]);
