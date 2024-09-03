@@ -55,7 +55,7 @@ function FormKTB({ fetch }) {
       user_bank_name: isNotEmpty("กรุณากรอกข้อมูล"),
       user_bank_branch: isNotEmpty("กรุณากรอกข้อมูล"),
       user_bank_type: isNotEmpty("กรุณากรอกข้อมูล"),
-      user_bank_number: (value) => (/^\d{3}-\d{1,5}-\d{5}-\d{1,7}$/.test(value) ? null : "รูปแบบไม่ถูกต้อง"),
+      user_bank_number: isNotEmpty("กรุณากรอกข้อมูล"),
       user_phone_number: isNotEmpty("กรุณากรอกข้อมูล"),
       user_email: isNotEmpty("กรุณากรอกข้อมูล"),
       user_citizent: isNotEmpty("กรุณากรอกข้อมูล"),
