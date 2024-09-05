@@ -21,6 +21,7 @@ import {
   IconFolderUp,
   IconFile,
   IconQuestionMark,
+  IconFileSpreadsheet,
 } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
 import { useEffect, useState } from "react";
@@ -117,7 +118,6 @@ function Uploadsalary1715() {
       minimal: "lg",
     },
   ];
-
 
   const columns = [
     {
@@ -316,9 +316,7 @@ function Uploadsalary1715() {
         header: "จำนวนเดือนตกเบิก",
         key: "history_salary_salary3",
         width: 20,
-      }
-
-      
+      },
     ];
 
     Salarylist.map((i) =>
@@ -422,7 +420,7 @@ function Uploadsalary1715() {
           setLoadTable(false);
           const select = data.map((i) => ({
             value: i.idbudget,
-            label: i.namebudget+" ( "+i.idbudget+" ) ",
+            label: i.namebudget + " ( " + i.idbudget + " ) ",
           }));
           setDataBudget(select);
         }
@@ -547,12 +545,12 @@ function Uploadsalary1715() {
               : i.เงินตอบแทนพิเศษ,
           chao: i.ค่าเช่าบ้าน,
           compensation2:
-          i.เงินตอบแทนพิเศษ === 0 ||
-          i.เงินตอบแทนพิเศษ === "" ||
-          i.เงินตอบแทนพิเศษ === undefined ||
-          i.เงินตอบแทนพิเศษ === null
-            ? "0.00"
-            : i.เงินตอบแทนพิเศษ*i.จำนวนเดือนตกเบิก,
+            i.เงินตอบแทนพิเศษ === 0 ||
+            i.เงินตอบแทนพิเศษ === "" ||
+            i.เงินตอบแทนพิเศษ === undefined ||
+            i.เงินตอบแทนพิเศษ === null
+              ? "0.00"
+              : i.เงินตอบแทนพิเศษ * i.จำนวนเดือนตกเบิก,
         }));
 
         //Addhistorysalaryincrease  --logทั้งหมด
@@ -597,9 +595,8 @@ function Uploadsalary1715() {
 
         setDataTablelist(myArray);
 
-
-         //filter ตกเบิกค่าตอบแทนพิเศษ id = '44'
-         const compensation2 = myArray.filter(
+        //filter ตกเบิกค่าตอบแทนพิเศษ id = '44'
+        const compensation2 = myArray.filter(
           (salary) => salary.compensation2 > 0 || salary.compensation2 !== ""
         );
         // console.log(compensation)
@@ -725,7 +722,11 @@ function Uploadsalary1715() {
               ),
               chao: i.ค่าเช่าบ้าน,
               compensation2: (
-                <NumberFormatter thousandSeparator value={i.เงินตอบแทนพิเศษ*i.จำนวนเดือนตกเบิก} decimalScale={2} />
+                <NumberFormatter
+                  thousandSeparator
+                  value={i.เงินตอบแทนพิเศษ * i.จำนวนเดือนตกเบิก}
+                  decimalScale={2}
+                />
               ),
             })),
           ],
@@ -900,37 +901,31 @@ function Uploadsalary1715() {
                                           });
                                         });
                                     } else {
-
-                                                //ตกเบิกค่าตอบแทนพิเศษ
-                                                const form = Datacompensation2;
-                                                axios
-                                                  .post(API + "/index/Addrevenueforid", {
-                                                    month: initialValues.month,
-                                                    year: initialValues.year,
-                                                    idbudget: initialValues.idbudget,
-                                                    idpayslip_revenue: "44",
-                                                    check: form,
-                                                  })
-                                                  .then((res) => { 
-
-                                                          setLoadSubmit(false);
-                                                        Swal.fire({
-                                                          title: "อัพเดทข้อมูลสำเร็จ",
-                                                          icon: "success",
-                                                          confirmButtonText: "ตกลง",
-                                                        }).then((result) => {
-                                                          // setTablelist({
-                                                          //   columns: column,
-                                                          //   rows: [],
-                                                          // });
-                                                          setSalarylist([]);
-                                                          window.location.reload();
-                                                        });
-                                                  });
-
-
-
-                                                 
+                                      //ตกเบิกค่าตอบแทนพิเศษ
+                                      const form = Datacompensation2;
+                                      axios
+                                        .post(API + "/index/Addrevenueforid", {
+                                          month: initialValues.month,
+                                          year: initialValues.year,
+                                          idbudget: initialValues.idbudget,
+                                          idpayslip_revenue: "44",
+                                          check: form,
+                                        })
+                                        .then((res) => {
+                                          setLoadSubmit(false);
+                                          Swal.fire({
+                                            title: "อัพเดทข้อมูลสำเร็จ",
+                                            icon: "success",
+                                            confirmButtonText: "ตกลง",
+                                          }).then((result) => {
+                                            // setTablelist({
+                                            //   columns: column,
+                                            //   rows: [],
+                                            // });
+                                            setSalarylist([]);
+                                            window.location.reload();
+                                          });
+                                        });
                                     }
                                   });
                               });
@@ -1040,6 +1035,7 @@ function Uploadsalary1715() {
         : new Date().getMonth()
       ).toString(),
       year: new Date().getFullYear().toString(),
+      customertype: [],
       //    type: "",
       //  yearend: (new Date().getFullYear()).toString(),
     },
@@ -1052,6 +1048,239 @@ function Uploadsalary1715() {
       //  yearend: isNotEmpty("กรุณาเลือกปี"),
     },
   });
+  const fff = [
+    { value: "1", label: "ลูกจ้างชั่วคราว" },
+    { value: "2", label: "ลูกจ้างประจำ" },
+    { value: "3", label: "พนักงานราชการ" },
+    { value: "4", label: "พนักงานมหาวิทยาลัย" },
+    { value: "5", label: "อาจารย์ประจำตามสัญญาจ้าง" },
+    { value: "6", label: "ข้าราชการ/ข้าราชการพลเรือน" },
+    { value: "7", label: "อาจารย์ต่างชาติ" },
+    { value: "8", label: "บุคลากรภายนอก" },
+  ];
+  const staticArray = [
+    {
+      header: "เลขบัตร",
+      key: "customers_citizent",
+      width: 20,
+    },
+    {
+      header: "คำนำหน้า",
+      key: "customers_pname",
+      width: 20,
+    },
+    {
+      header: "ชื่อ",
+      key: "customers_name",
+      width: 20,
+    },
+    {
+      header: "นามสกุล",
+      key: "customers_lname",
+      width: 20,
+    },
+    {
+      header: "ประเภทงบประมาณ",
+      key: "namebudget",
+      width: 20,
+    },
+  ];
+  function getExcelColumnLetter(columnNumber) {
+    let columnLetter = "";
+    let temp;
+
+    while (columnNumber > 0) {
+      temp = (columnNumber - 1) % 26;
+      columnLetter = String.fromCharCode(65 + temp) + columnLetter;
+      columnNumber = Math.floor((columnNumber - temp) / 26);
+    }
+
+    return columnLetter;
+  }
+
+  const FetchDatas = (value) => {
+    setLoadSubmit(true);
+    let text = "";
+    let textz = "";
+    value.customertype.forEach((i, k) => {
+      if (k + 1 === value.customertype.length) {
+        text += "'" + i + "'";
+      } else {
+        text += "'" + i + "',";
+      }
+    });
+    value.customertype.forEach((i, k) => {
+      if (k + 1 === value.customertype.length) {
+        textz += "'" + i + "'";
+      } else {
+        textz += "'" + i + "'-";
+      }
+    });
+    axios
+      .post(API + "/index/getdataexpenditures", {
+        year: value.year,
+        month: value.month,
+        type: text,
+        budget: value.idbudget,
+      })
+      .then((res) => {
+        if (res.data.length !== 0) {
+          ExcelExports(res.data, textz);
+        } else {
+          setLoadSubmit(false);
+        }
+      });
+  };
+  const ExcelExports = (DataExcel, textz) => {
+    const workbook = new ExcelJs.Workbook();
+    const sheets = {};
+    if (DataExcel.length > 0) {
+      console.log(DataExcel);
+      DataExcel.forEach((value, key) => {
+        const head = value.header;
+        head.unshift(...staticArray);
+        sheets[key] = workbook.addWorksheet(`${value.label}`);
+        sheets[key].properties.defaultRowHeight = 20;
+        sheets[key].columns = head;
+        const columns = ["A", "B", "C", "D", "E"];
+        const columns2 = [];
+        const colors = ["e9ecef", "ffffff"];
+        const numNewColumns = head.length - columns.length;
+        const startCol = columns.length + 1;
+        if (numNewColumns > 0) {
+          for (let i = 0; i < numNewColumns; i++) {
+            columns2.push(getExcelColumnLetter(startCol + i));
+          }
+        }
+        console.log(columns2);
+        // Assuming Rws column is column 'I' (change 'I' to the actual column if different)
+        // const rwsColumn = 'I';
+
+        const customers = value.customers;
+
+        // Add customer rows
+        customers.forEach((customer) => {
+          const row = {};
+          head.forEach((col) => {
+            row[col.key] = customer[col.key]; // Assuming customer is an object with keys matching those in `head`
+          });
+          sheets[key].addRow(row);
+        });
+
+        // Apply colors to rows based on the Rws column
+        sheets[key].eachRow({ includeEmpty: true }, (row, rowNumber) => {
+          // Get the color from the Rws column
+          row.height = 25;
+          // Apply the color to cells in columns A to H
+
+          columns.forEach((column) => {
+            const cell = `${column}${rowNumber}`;
+            const cellRef = sheets[key].getCell(cell);
+            const cell2 = `${column}${1}`;
+            const cellRefs = sheets[key].getCell(cell2);
+            cellRef.fill = {
+              type: "pattern",
+              pattern: "solid",
+              fgColor: { argb: "6c757d" },
+              bgColor: { argb: "FFFFFF" }, // Set a default background color if needed
+            };
+            cellRefs.fill = {
+              type: "pattern",
+              pattern: "solid",
+              fgColor: { argb: "005f73" },
+              bgColor: { argb: "FFFFFF" }, // Set a default background color if needed
+            };
+            cellRefs.font = {
+              color: { argb: "FFFFFF" }, // เปลี่ยนสีข้อความเป็นสีขาว
+            };
+            cellRef.font = {
+              color: { argb: "FFFFFF" }, // เปลี่ยนสีข้อความเป็นสีขาว
+            };
+
+            cellRef.border = {
+              top: { style: "thin", color: { argb: "00000000" } }, // Set your desired border color
+              // left: { style: "thin", color: { argb: "00000000" } },
+              bottom: { style: "thin", color: { argb: "00000000" } },
+              right: { style: "thin", color: { argb: "00000000" } },
+            };
+          });
+
+          columns2.forEach((column) => {
+            const cell = `${column}${rowNumber}`;
+            const colorIndex = rowNumber % 2;
+            const cellRef = sheets[key].getCell(cell);
+            const cell2 = `${column}${1}`;
+            const cellRefs = sheets[key].getCell(cell2);
+            cellRef.fill = {
+              type: "pattern",
+              pattern: "solid",
+              fgColor: { argb: colors[colorIndex] },
+              bgColor: { argb: "FFFFFF" }, // Set a default background color if needed
+            };
+            cellRefs.fill = {
+              type: "pattern",
+              pattern: "solid",
+              fgColor: { argb: "ffb703" },
+              bgColor: { argb: "FFFFFF" }, // Set a default background color if needed
+            };
+            cellRefs.font = {
+              color: { argb: "000000" }, // เปลี่ยนสีข้อความเป็นสีขาว
+            };
+
+            cellRef.border = {
+              top: { style: "thin", color: { argb: "adb5bd" } }, // Set your desired border color
+              // left: { style: "thin", color: { argb: "00000000" } },
+              bottom: { style: "thin", color: { argb: "adb5bd" } },
+              // right: { style: "thin", color: { argb: "00000000" } },
+            };
+            cellRefs.border = {
+              // top: { style: "thin", color: { argb: "adb5bd" } }, // Set your desired border color
+              left: { style: "thin", color: { argb: "00000000" } },
+              // bottom: { style: "thin", color: { argb: "adb5bd" } },
+              right: { style: "thin", color: { argb: "00000000" } },
+            };
+          });
+
+          head.forEach((col, colIndex) => {
+            const column = getExcelColumnLetter(colIndex + 1);
+            let maxLength = column.length; // Start with the length of the column letter
+
+            sheets[key].eachRow({ includeEmpty: true }, (row) => {
+              const cell = row.getCell(colIndex + 1);
+              if (cell.value) {
+                maxLength = Math.max(maxLength, cell.value.toString().length);
+              }
+            });
+
+            sheets[key].getColumn(column).width = maxLength + 2; // Add extra space for padding
+          });
+        });
+      });
+    }
+    setLoadSubmit(false);
+    workbook.xlsx.writeBuffer().then((data) => {
+      const blob = new Blob([data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheet.sheet",
+      });
+      const url = window.URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+
+      anchor.href = url;
+      anchor.download =
+        "ข้อมูลนำเข้ารายจ่ายบุคลากร " +
+        formSearch.values.year +
+        "- " +
+        formSearch.values.month +
+        " งบ " +
+        formSearch.values.idbudget +
+        "ประเภท " +
+        textz +
+        ".xlsx";
+
+      anchor.click();
+      window.URL.revokeObjectURL(url);
+    });
+  };
   return (
     <>
       {" "}
@@ -1138,6 +1367,22 @@ function Uploadsalary1715() {
                 {" "}
                 ดาวน์โหลดข้อมูลเงินเดือน
               </Button>
+              <Button
+                disabled={
+                  formSearch.values.idbudget !== "" && formSearch.values.customertype.length !== 0
+                    ? false
+                    : true
+                }
+                ml={5}
+                mt={10}
+                leftSection={<IconFileSpreadsheet />}
+                onClick={() => {
+                  FetchDatas(formSearch.values);
+                }}
+                color="green"
+              >
+                ดาวน์โหลดการนำเข้า-ส่งออกรายจ่าย
+              </Button>
             </>
           ) : (
             <></>
@@ -1151,11 +1396,11 @@ function Uploadsalary1715() {
             <FileButton onChange={Readfile} accept="xlsx">
               {(props) => (
                 <Button
-                disabled={
-                  formSearch.values.idbudget === "" ||
-                  formSearch.values.month === "" ||
-                  formSearch.values.year === ""
-                }
+                  disabled={
+                    formSearch.values.idbudget === "" ||
+                    formSearch.values.month === "" ||
+                    formSearch.values.year === ""
+                  }
                   leftSection={<IconFile />}
                   color="violet"
                   {...props}
