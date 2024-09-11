@@ -84,7 +84,7 @@ function User() {
   const FetchYearTax = (params) => {
     axios
       .post(API + "/index/SelectYearTax", {
-        citizen: parseInt(localStorage.getItem("citizen")) - 33,
+        citizen: parseInt(localStorage.getItem("citizen")),
       })
       .then((res) => {
         if (res.data.length !== 0) {

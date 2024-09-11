@@ -77,7 +77,7 @@ function ShowDataKTB() {
 
   const FetchOldData = () => {
     const formdata = new FormData();
-    formdata.append("user_citizent", parseInt(localStorage.getItem("citizen")) - 33);
+    formdata.append("user_citizent", parseInt(localStorage.getItem("citizen")));
     axios.post(API + "/index/ShowEditCoperate", formdata).then((res) => {
       console.log(res.data);
       const data = res.data;
