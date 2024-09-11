@@ -188,7 +188,7 @@ function User() {
     ) {
       nav("/login");
     } else {
-      const id = parseInt(localStorage.getItem("citizen")) - 33;
+      const id = parseInt(localStorage.getItem("citizen"));
       setCitiZent(id);
     }
     setLoad(true);
