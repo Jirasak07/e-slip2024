@@ -239,7 +239,7 @@ function Updaterevenueexpenditure() {
           confirmButtonText: "ตกลง",
           // cancelButtonText: 'No, keep it'
         }).then((result) => {
-           this.toggle();
+          this.toggle();
           close();
         });
         console.log(res.data);
@@ -293,7 +293,8 @@ function Updaterevenueexpenditure() {
       da.forEach((i) => {
         dataaaaaaa.push(i.revenue_id);
       });
-      formSearch.setValues({ REVENUEDATA: menu, REVENUECON: dataaaaaaa });
+      // formSearch.setValues({ REVENUEDATA: menu, REVENUECON: dataaaaaaa });
+      formSearch.setValues({ REVENUEDATA: menu, REVENUECON: [] });
     });
   };
   const EXPEN = () => {
@@ -311,7 +312,8 @@ function Updaterevenueexpenditure() {
       da.forEach((i) => {
         dataaaaaaa.push(i.expenditure_id);
       });
-      formSearch.setValues({ EXPENDITUREDATA: menu, EXPENDCON: dataaaaaaa });
+      // formSearch.setValues({ EXPENDITUREDATA: menu, EXPENDCON: dataaaaaaa });
+      formSearch.setValues({ EXPENDITUREDATA: menu, EXPENDCON: [] });
     });
   };
 
@@ -457,30 +459,30 @@ function Updaterevenueexpenditure() {
           </Flex>
         </form>
         <Paper pt={20}>
-            <SimpleGrid cols={1}>
-              <Text fz="h1">
-                พบข้อมูลรายรับ/รายจ่าย จำนวน : <IconArrowDown />
-              </Text>
-              <Paper shadow="sm" p={10}>
-                <Flex justify={"center"} align={"center"} gap={10}>
-                  <Text fz={"150"} lh={1} c={"green"}>
-                    <NumberFormatter thousandSeparator value={Datarevenue.length} />
-                  </Text>
-                  <Text size="md">รายการ</Text>
-                </Flex>
-              </Paper>
-              <Button
-                disabled={Datarevenue.length != 0 ? false : true}
-                onClick={() => submitdata(formSearch)}
-                mt={33}
-                color="violet.8"
-                size="lg"
-                h={110}
-                fz={90}
-              >
-                อัพเดทรายรับ/รายจ่าย
-              </Button>
-            </SimpleGrid>
+          <SimpleGrid cols={1}>
+            <Text fz="h1">
+              พบข้อมูลรายรับ/รายจ่าย จำนวน : <IconArrowDown />
+            </Text>
+            <Paper shadow="sm" p={10}>
+              <Flex justify={"center"} align={"center"} gap={10}>
+                <Text fz={"150"} lh={1} c={"green"}>
+                  <NumberFormatter thousandSeparator value={Datarevenue.length} />
+                </Text>
+                <Text size="md">รายการ</Text>
+              </Flex>
+            </Paper>
+            <Button
+              disabled={Datarevenue.length != 0 ? false : true}
+              onClick={() => submitdata(formSearch)}
+              mt={33}
+              color="violet.8"
+              size="lg"
+              h={110}
+              fz={90}
+            >
+              อัพเดทรายรับ/รายจ่าย
+            </Button>
+          </SimpleGrid>
         </Paper>
         ไม่รวมเงินตอบแทนพิเศษ(20),ตกเบิกเงินเดือน(15),ตกเบิกเงินเดือน 1.7/1.5(99),ตกเบิกเงินเดือน
         0.1(100)
