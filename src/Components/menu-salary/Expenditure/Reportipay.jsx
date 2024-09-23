@@ -337,6 +337,8 @@ function Reportipay() {
           //  setLoadTable(false);
 
           setDataTotalsummary(res.data);
+        }else{
+          setDataTotalsummary([])
         }
       });
 
@@ -366,6 +368,8 @@ function Reportipay() {
             0
           );
           console.log(total);
+        }else{
+          setDataipay([])
         }
       });
 
@@ -388,6 +392,8 @@ function Reportipay() {
           //  setLoadTable(false);
 
           setDatarevenueipay(res.data);
+        }else{
+          setDatarevenueipay([])
         }
       });
   };
