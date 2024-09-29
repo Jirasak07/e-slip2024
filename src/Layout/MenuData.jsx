@@ -93,6 +93,11 @@ export const menus = [
             icon: <IconReportMoney />,
           },
           {
+            title: "นำเข้ารายจ่าย (พี่ฝน)",
+            path: "/manage-salary/import-ex-fon",
+            icon: <IconReportMoney />,
+          },
+          {
             title: "นำเข้ารายจ่ายบุคลากร",
             path: "/manage-salary/import-expend",
             icon: <IconExchange />,
