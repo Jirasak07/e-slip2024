@@ -532,7 +532,14 @@ function ImportExFon() {
           />
           <Button
             color="green.8"
-            disabled={file === null}
+            disabled={
+              (localStorage.getItem("fname") !== "วรรณภา" &&
+                localStorage.getItem("fname") !== "จิรศักดิ์" &&
+                file !== null) ||
+              file === null
+                ? true
+                : false
+            }
             mt={{ base: 0, sm: 33 }}
             onClick={() => {
               CheckingConfirmed();
