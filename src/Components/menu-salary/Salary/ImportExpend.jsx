@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
 import ExcelJs from "exceljs";
 //import { read, writeFileXLSX } from "xlsx";
-import * as xlsx from "xlsx";
+// import * as xlsx from "xlsx";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { IconFileSpreadsheet } from "@tabler/icons-react";
 import Swal from "sweetalert2";
