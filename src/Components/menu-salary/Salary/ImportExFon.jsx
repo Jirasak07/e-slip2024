@@ -520,13 +520,13 @@ function ImportExFon() {
           {/* </Flex> */}
           <Select
             data={formSearch.values.DATAYEAR}
-            {...formSearch.getInputProps("year")}
+            {...formsend.getInputProps("year")}
             allowDeselect={false}
             label="ปี"
           />
           <Select
             data={formSearch.values.DATAMONTH}
-            {...formSearch.getInputProps("month")}
+            {...formsend.getInputProps("month")}
             allowDeselect={false}
             label="เดือน"
           />
