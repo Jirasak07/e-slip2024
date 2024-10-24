@@ -374,14 +374,17 @@ function Salary() {
           (sum, current) => (sum = sum + Number(current.history_salary_salary)),
           0
         );
+        console.log(history_salary_salary)
         const salary_true = data.reduce(
           (sum, current) => (sum = sum + Number(current.salary_true)),
           0
         );
-        let formattedNumber = Math.floor(expenditure * 100) / 100;
-        let formattedrevenue = Math.floor(revenue * 100) / 100;
-        let formattedhistory_salary_salary = Math.floor(history_salary_salary * 100) / 100;
-        let formattedsalary_true = Math.floor(salary_true * 100) / 100;
+        let formattedNumber = Math.round(expenditure * 100) / 100;
+        // let formattedNumber = Math.floor(expenditure * 100) / 100;
+        let formattedrevenue = Math.round(revenue * 100) / 100;
+        // let formattedhistory_salary_salary = history_salary_salary;
+        let formattedhistory_salary_salary = Math.round(history_salary_salary * 100) / 100;
+        let formattedsalary_true = Math.round(salary_true * 100) / 100;
         setExpenditure_true(formattedNumber.toFixed(2));
         setRevenue_true(formattedrevenue.toFixed(2));
         setHistory_salary(formattedhistory_salary_salary.toFixed(2));
