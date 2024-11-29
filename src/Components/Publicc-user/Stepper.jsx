@@ -1,4 +1,4 @@
-import { Stepper, Paper, LoadingOverlay } from "@mantine/core";
+import { Stepper, Paper, LoadingOverlay, Text } from "@mantine/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { API } from "../Config/ConfigApi";
@@ -34,7 +34,7 @@ function Steppers({ val }) {
         setActive(hr + fn + plan + fsh);
       }
       setLoad(false);
-      setCurrDate(data);
+      setCurrDate("เดือน " + data[0].process_month + " / " + parseInt(data[0].process_year));
     } catch (error) {
       console.log(error);
     }
@@ -167,7 +167,10 @@ function Steppers({ val }) {
   return (
     <Paper w={"100%"} shadow="none" p={10} mb={10}>
       <LoadingOverlay visible={Load} />
-      <label>สถานะการจัดทำ </label>
+      <label>สถานะการจัดทำ {CurrDate}</label>
+      {/* <Paper p={20} withBorder mb={5} >
+        <Text>อย่าลืมอัพเดทสถานะ</Text>
+      </Paper> */}
       <Stepper
         color="var(--success)"
         iconSize={32}
