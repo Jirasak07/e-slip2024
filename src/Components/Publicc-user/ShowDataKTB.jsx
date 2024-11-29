@@ -116,7 +116,7 @@ function ShowDataKTB() {
   };
   useEffect(() => {
     FetchOldData();
-  });
+  }, []);
   const id = localStorage.getItem("citizen");
   return (
     <>
@@ -152,31 +152,81 @@ function ShowDataKTB() {
           <TextInput readOnly disabled label="นามสกุล" {...formEdit.getInputProps("user_lname")} />
         </SimpleGrid>
         <SimpleGrid cols={{ base: 1, sm: 3 }}>
-          <TextInput readOnly disabled label="เลขประจำตัวประชาชน" {...formEdit.getInputProps("user_citizent")} />
-          <TextInput readOnly disabled label="สำนัก/กอง/ศูนย์" {...formEdit.getInputProps("user_office")} />
+          <TextInput
+            readOnly
+            disabled
+            label="เลขประจำตัวประชาชน"
+            {...formEdit.getInputProps("user_citizent")}
+          />
+          <TextInput
+            readOnly
+            disabled
+            label="สำนัก/กอง/ศูนย์"
+            {...formEdit.getInputProps("user_office")}
+          />
           <TextInput readOnly disabled label="กระทรวง" {...formEdit.getInputProps("user_belong")} />
         </SimpleGrid>
         <SimpleGrid cols={{ base: 1, sm: 3 }}>
           {" "}
-          <TextInput readOnly disabled label="สังกัดกรม" {...formEdit.getInputProps("user_department")} />
-          <TextInput readOnly disabled label="ตำแหน่ง" {...formEdit.getInputProps("user_position")} />
+          <TextInput
+            readOnly
+            disabled
+            label="สังกัดกรม"
+            {...formEdit.getInputProps("user_department")}
+          />
+          <TextInput
+            readOnly
+            disabled
+            label="ตำแหน่ง"
+            {...formEdit.getInputProps("user_position")}
+          />
         </SimpleGrid>
       </Fieldset>
       <Divider my="md" variant="dashed" />
       <Fieldset legend="ข้อมูลที่อยู่">
         <SimpleGrid cols={{ base: 1, sm: 3 }}>
-          <TextInput readOnly disabled label="บ้านเลขที่" {...formEdit.getInputProps("user_add_no")} />
+          <TextInput
+            readOnly
+            disabled
+            label="บ้านเลขที่"
+            {...formEdit.getInputProps("user_add_no")}
+          />
           <TextInput readOnly disabled label="ซอย" {...formEdit.getInputProps("user_add_soi")} />
           <TextInput readOnly disabled label="ถนน" {...formEdit.getInputProps("user_add_road")} />
         </SimpleGrid>
         <SimpleGrid cols={{ base: 1, sm: 3 }}>
-          <TextInput readOnly disabled label="ตำบล" {...formEdit.getInputProps("user_add_tumbon")} />
-          <TextInput readOnly disabled label="อำเภอ" {...formEdit.getInputProps("user_add_amphoe")} />
-          <TextInput readOnly disabled label="จังหวัด" {...formEdit.getInputProps("user_add_province")} />
+          <TextInput
+            readOnly
+            disabled
+            label="ตำบล"
+            {...formEdit.getInputProps("user_add_tumbon")}
+          />
+          <TextInput
+            readOnly
+            disabled
+            label="อำเภอ"
+            {...formEdit.getInputProps("user_add_amphoe")}
+          />
+          <TextInput
+            readOnly
+            disabled
+            label="จังหวัด"
+            {...formEdit.getInputProps("user_add_province")}
+          />
         </SimpleGrid>
         <SimpleGrid cols={{ base: 1, sm: 3 }}>
-          <TextInput readOnly disabled label="รหัสไปรษณีย์" {...formEdit.getInputProps("user_add_code")} />
-          <TextInput readOnly disabled label="เบอร์โทรศัพท์" {...formEdit.getInputProps("user_add_phone")} />
+          <TextInput
+            readOnly
+            disabled
+            label="รหัสไปรษณีย์"
+            {...formEdit.getInputProps("user_add_code")}
+          />
+          <TextInput
+            readOnly
+            disabled
+            label="เบอร์โทรศัพท์"
+            {...formEdit.getInputProps("user_add_phone")}
+          />
         </SimpleGrid>
       </Fieldset>
       <Divider my="md" variant="dashed" />
@@ -208,9 +258,24 @@ function ShowDataKTB() {
           />
         </SimpleGrid>
         <SimpleGrid cols={{ base: 1, sm: 3 }}>
-          <TextInput readOnly disabled label="บัญชีเงินฝากธนาคาร" {...formEdit.getInputProps("user_bank_name")} />
-          <TextInput readOnly disabled label="สาขา" {...formEdit.getInputProps("user_bank_branch")} />
-          <TextInput readOnly disabled label="ประเภทธนาคาร" {...formEdit.getInputProps("user_bank_type")} />
+          <TextInput
+            readOnly
+            disabled
+            label="บัญชีเงินฝากธนาคาร"
+            {...formEdit.getInputProps("user_bank_name")}
+          />
+          <TextInput
+            readOnly
+            disabled
+            label="สาขา"
+            {...formEdit.getInputProps("user_bank_branch")}
+          />
+          <TextInput
+            readOnly
+            disabled
+            label="ประเภทธนาคาร"
+            {...formEdit.getInputProps("user_bank_type")}
+          />
         </SimpleGrid>
         <SimpleGrid cols={{ base: 1, sm: 3 }}>
           <TextInput
@@ -219,7 +284,10 @@ function ShowDataKTB() {
             label="เลขที่บัญชีเงินฝากธนาคาร"
             {...formEdit.getInputProps("user_bank_number")}
           />
-          <TextInput label="เบอร์โทรศัพท์ สำหรับแจ้งเตือนผ่านมือถือ" {...formEdit.getInputProps("user_phone_number")} />
+          <TextInput
+            label="เบอร์โทรศัพท์ สำหรับแจ้งเตือนผ่านมือถือ"
+            {...formEdit.getInputProps("user_phone_number")}
+          />
           <TextInput readOnly disabled label="E-mail" {...formEdit.getInputProps("user_email")} />
         </SimpleGrid>
       </Fieldset>
