@@ -147,11 +147,7 @@ function FormAddKTB() {
           user_email: data[0].user_email,
           user_citizent: data[0].user_citizent,
         });
-      } else {
-        formEdit.setValues({
-          user_citizent: user_citizent,
-        });
-      }
+      } 
     });
   };
 
