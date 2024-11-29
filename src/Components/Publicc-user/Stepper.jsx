@@ -8,6 +8,7 @@ function Steppers({ val }) {
   const [active, setActive] = useState(val);
   const [Load, setLoad] = useState(false);
   const fname = localStorage.getItem("fname");
+  const [CurrDate, setCurrDate] = useState();
   // console.log(active);
   const Fetch2 = async () => {
     try {
@@ -33,6 +34,7 @@ function Steppers({ val }) {
         setActive(hr + fn + plan + fsh);
       }
       setLoad(false);
+      setCurrDate(data);
     } catch (error) {
       console.log(error);
     }
@@ -62,9 +64,9 @@ function Steppers({ val }) {
       showCancelButton: true,
       confirmButtonText: "ยืนยัน",
     }).then((res) => {
-      console.log(active)
+      console.log(active);
       if (res.isConfirmed === true) {
-        console.log(active)
+        console.log(active);
         if (active === 3) {
           if (
             fname === "วรรณภา" ||
@@ -140,33 +142,32 @@ function Steppers({ val }) {
                 });
               }
             });
-          }else if(active === 1 &&  (
-            fname === "กองนโยบายและแผน")){
-              const fmdata = new FormData();
-              fmdata.append("process_year", year);
-              fmdata.append("process_month", months);
-              fmdata.append("process_status", "1");
-              axios.post(API + "/index/updateprocessplan", fmdata).then((res) => {
-                if (res.data === "200") {
-                  Swal.fire({
-                    icon: "success",
-                    title: "success",
-                    timer: 600,
-                    showConfirmButton: false,
-                  }).then((re) => {
-                    Fetch2();
-                  });
-                }
-              });
+          } else if (active === 1 && fname === "กองนโยบายและแผน") {
+            const fmdata = new FormData();
+            fmdata.append("process_year", year);
+            fmdata.append("process_month", months);
+            fmdata.append("process_status", "1");
+            axios.post(API + "/index/updateprocessplan", fmdata).then((res) => {
+              if (res.data === "200") {
+                Swal.fire({
+                  icon: "success",
+                  title: "success",
+                  timer: 600,
+                  showConfirmButton: false,
+                }).then((re) => {
+                  Fetch2();
+                });
+              }
+            });
           }
         }
       }
     });
   };
   return (
-    <Paper w={"100%"}  shadow="none" p={10} mb={10}>
+    <Paper w={"100%"} shadow="none" p={10} mb={10}>
       <LoadingOverlay visible={Load} />
-      <label>สถานะการจัดทำ</label>
+      <label>สถานะการจัดทำ </label>
       <Stepper
         color="var(--success)"
         iconSize={32}
