@@ -117,6 +117,13 @@ function Uploadsalary1715() {
       field: "compensation2",
       minimal: "lg",
     },
+    {
+      label: "ตกเบิกเงินตอบแทนพิเศษพยาบาล",
+      field: "compensation2nu",
+      minimal: "lg",
+    },
+
+    
   ];
 
   const columns = [
@@ -200,6 +207,7 @@ function Uploadsalary1715() {
       field: "chao",
       minimal: "lg",
     },
+   
   ];
 
   const [TableSalary, setTableSalary] = useState({
@@ -222,6 +230,7 @@ function Uploadsalary1715() {
   const [Databackpay01, setDataDatabackpay01] = useState([]); //ตกเบิก01
   const [Databackpay1715, setDataDatabackpay1715] = useState([]); //ตกเบิก1715
   const [DataChao, setDataDataChao] = useState([]); //ค่าเช้าบ้าน
+  const [Datacompensation2nu, setDatacompensation2nu] = useState([]); //ค่าตอบแทนพิเศษพยาบาล
 
   const [NameBudget, setNameBudget] = useState("");
   const [Namemount, setNamemount] = useState("");
@@ -551,6 +560,13 @@ function Uploadsalary1715() {
             i.เงินตอบแทนพิเศษ === null
               ? "0.00"
               : i.เงินตอบแทนพิเศษ * i.จำนวนเดือนตกเบิก,
+              compensation2nu:
+              i.ตกเบิกเงินตอบแทนพิเศษพยาบาล === 0 ||
+              i.ตกเบิกเงินตอบแทนพิเศษพยาบาล === "" ||
+              i.ตกเบิกเงินตอบแทนพิเศษพยาบาล === undefined ||
+              i.ตกเบิกเงินตอบแทนพิเศษพยาบาล === null
+                ? "0.00"
+                : i.ตกเบิกเงินตอบแทนพิเศษพยาบาล * i.จำนวนเดือนตกเบิก,
         }));
 
         //Addhistorysalaryincrease  --logทั้งหมด
@@ -601,6 +617,16 @@ function Uploadsalary1715() {
         );
         // console.log(compensation)
         setDatacompensation2(compensation2);
+
+
+           //filter ตกเบิกค่าตอบแทนพิเศษพยาบาล id = '110'
+           const compensation2nu = myArray.filter(
+            (salary) => salary.compensation2nu > 0 || salary.compensation2nu !== ""
+          );
+          // console.log(compensation)
+          setDatacompensation2nu(compensation2nu);
+
+
 
         //ใช้โชว์ข้อมูล
         setTablelist({
@@ -728,7 +754,15 @@ function Uploadsalary1715() {
                   decimalScale={2}
                 />
               ),
+              compensation2nu: (
+                <NumberFormatter
+                  thousandSeparator
+                  value={i.ตกเบิกเงินตอบแทนพิเศษพยาบาล * i.จำนวนเดือนตกเบิก}
+                  decimalScale={2}
+                />
+              ),
             })),
+            
           ],
         });
 
@@ -875,6 +909,9 @@ function Uploadsalary1715() {
                                     check: form,
                                   })
                                   .then((res) => {
+
+
+
                                     if (DataChao.length > 0) {
                                       const form = DataChao;
                                       axios
@@ -886,6 +923,7 @@ function Uploadsalary1715() {
                                           check: form,
                                         })
                                         .then((res) => {
+
                                           setLoadSubmit(false);
                                           Swal.fire({
                                             title: "อัพเดทข้อมูลสำเร็จ",
@@ -912,21 +950,39 @@ function Uploadsalary1715() {
                                           check: form,
                                         })
                                         .then((res) => {
-                                          setLoadSubmit(false);
-                                          Swal.fire({
-                                            title: "อัพเดทข้อมูลสำเร็จ",
-                                            icon: "success",
-                                            confirmButtonText: "ตกลง",
-                                          }).then((result) => {
-                                            // setTablelist({
-                                            //   columns: column,
-                                            //   rows: [],
-                                            // });
-                                            setSalarylist([]);
-                                            window.location.reload();
-                                          });
+                                          //ตกเบิกค่าตอบแทนพิเศษพยาบาล
+                                          const form = Datacompensation2nu;
+                                          axios
+                                            .post(API + "/index/Addrevenueforid", {
+                                              month: initialValues.month,
+                                              year: initialValues.year,
+                                              idbudget: initialValues.idbudget,
+                                              idpayslip_revenue: "110",
+                                              check: form,
+                                            })
+                                            .then((res) => {
+
+                                                setLoadSubmit(false);
+                                                Swal.fire({
+                                                  title: "อัพเดทข้อมูลสำเร็จ",
+                                                  icon: "success",
+                                                  confirmButtonText: "ตกลง",
+                                                }).then((result) => {
+                                                  // setTablelist({
+                                                  //   columns: column,
+                                                  //   rows: [],
+                                                  // });
+                                                  setSalarylist([]);
+                                                  window.location.reload();
+                                                });
+                                            });
+
+
+                                         
                                         });
                                     }
+
+                                    
                                   });
                               });
                           });
