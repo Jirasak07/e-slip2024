@@ -1,7 +1,8 @@
 import { Button, Container, Grid, NumberFormatter, Select, Text } from "@mantine/core";
-import { IconSearch, IconSettings } from "@tabler/icons-react";
+import { IconFileSpreadsheet, IconSearch, IconSettings } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import ExcelJs from "exceljs";
 import { API } from "../../Config/ConfigApi";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { MDBDataTableV5 } from "mdbreact";
@@ -76,6 +77,7 @@ function HistoryImport() {
       minimal: "sm",
     },
   ];
+  const [DataExport, setDataExport] = useState([]);
   const [Table, setTable] = useState({
     columns: column,
     rows: [],
@@ -133,7 +135,10 @@ function HistoryImport() {
   const formSearch = useForm({
     initialValues: {
       idbudget: "",
-      month: (new Date().getMonth().toString().length === 1 ? "0" + new Date().getMonth() : new Date().getMonth()).toString(),
+      month: (new Date().getMonth().toString().length === 1
+        ? "0" + new Date().getMonth()
+        : new Date().getMonth()
+      ).toString(),
       year: new Date().getFullYear().toString(),
       //    type: "",
       //  yearend: (new Date().getFullYear()).toString(),
@@ -173,7 +178,7 @@ function HistoryImport() {
       if (data.length !== 0) {
         const select = data.map((i) => ({
           value: i.idbudget,
-          label: i.namebudget+" ( "+i.idbudget+" ) ",
+          label: i.namebudget + " ( " + i.idbudget + " ) ",
         }));
         setDataBudget(select);
       }
@@ -187,10 +192,13 @@ function HistoryImport() {
   const Sub = (value) => {
     axios
       .post(API + "/index/historyuploadsalary1715", {
-        idbudget: value.idbudget, month: value.month, year: value.year
+        idbudget: value.idbudget,
+        month: value.month,
+        year: value.year,
       })
       .then((res) => {
         const data = res.data;
+        setDataExport(data);
         console.log(data);
         if (data.length > 0) {
           setTable({
@@ -199,11 +207,20 @@ function HistoryImport() {
               ...data.map((i) => ({
                 customers_citizent: i.customers_citizent,
                 customers_type: i.customers_type,
-                customers_line: i.customers_line ===  1 || i.customers_line ===  '1' ? <Text c="blue">สายวิชาการ</Text> : <Text c="red.9">สายสนับสนุน</Text>,
+                customers_line:
+                  i.customers_line === 1 || i.customers_line === "1" ? (
+                    <Text c="blue">สายวิชาการ</Text>
+                  ) : (
+                    <Text c="red.9">สายสนับสนุน</Text>
+                  ),
                 customers_name: i.customers_pname + "" + i.customers_name + " " + i.customers_lname,
                 history_salary_salary: (
                   <Text c="teal.8">
-                    <NumberFormatter thousandSeparator value={i.history_salary_salary} decimalScale={2} />
+                    <NumberFormatter
+                      thousandSeparator
+                      value={i.history_salary_salary}
+                      decimalScale={2}
+                    />
                   </Text>
                 ),
                 history_salary_salary1715: i.history_salary_salary1715,
@@ -214,29 +231,186 @@ function HistoryImport() {
                 backpay: i.backpay,
                 backpay1715: i.backpay1715, //ตกเบิก1715
                 backpay01: i.backpay01, //ตกเบิก1715
-                compensation: <NumberFormatter thousandSeparator value={i.compensation} decimalScale={2} />,
+                compensation: (
+                  <NumberFormatter thousandSeparator value={i.compensation} decimalScale={2} />
+                ),
                 manage: (
                   <>
-                    <EditIncrease Fetch={Fetch} data={i} name={i.customers_pname + "" + i.customers_name + " " + i.customers_lname} />
+                    <EditIncrease
+                      Fetch={Fetch}
+                      data={i}
+                      name={i.customers_pname + "" + i.customers_name + " " + i.customers_lname}
+                    />
                   </>
                 ),
               })),
             ],
           });
-        }else{
+        } else {
           setTable({
-            columns:column,
-            rows:[]
-          })
+            columns: column,
+            rows: [],
+          });
         }
       });
   };
-const Fetch  = (params) => {
-  Sub(formSearch.values)
-}
+  const Fetch = () => {
+    Sub(formSearch.values);
+  };
 
+  const ExcelExport = () => {
+    const workbook = new ExcelJs.Workbook();
+    const sheet = workbook.addWorksheet("Mysheet");
+    sheet.properties.defaultRowHeight = 20;
+    sheet.columns = [
+      {
+        header: "เลขบัตร",
+        key: "customers_citizent",
+        width: 20,
+      },
+      {
+        header: "สายงาน",
+        key: "customers_line",
+        width: 20,
+      },
+
+      {
+        header: "ชื่อ-นามสกุล",
+        key: "customers_name",
+        width: 20,
+      },
+      {
+        header: "เงินเดือนปัจจุบัน",
+        key: "history_salary_salary",
+        width: 20,
+      },
+
+      {
+        header: "เงินเดือน1.7/1.5",
+        key: "history_salary_salary1715",
+        width: 20,
+      },
+      {
+        header: "เงินเดือน 0.1",
+        key: "history_salary_salary01",
+        width: 20,
+      },
+      {
+        header: "เงินเดือนเลื่อนขั้น",
+        key: "promotionmoney",
+        width: 20,
+      },
+      {
+        header: "จำนวนเดือนตกเบิก",
+        key: "numberofmonths",
+        width: 20,
+      },
+      {
+        header: "เงินตกเบิก",
+        key: "backpay",
+        width: 20,
+      },
+      {
+        header: "เงินตกเบิก1.7/1.5",
+        key: "backpay1715",
+        width: 20,
+      },
+      {
+        header: "เงินตกเบิก01",
+        key: "backpay01",
+        width: 20,
+      },
+      {
+        header: "เงินตอบแทนพิเศษ",
+        key: "compensation",
+        width: 20,
+      },
+    ];
+    const data = DataExport;
+    console.log(data)
+    data.map((i, rowIndex) => {
+      const rowNumber = rowIndex + 2;
+      sheet.addRow({
+        customers_citizent: i.customers_citizent,
+        customers_line: i.customers_line === "1" ? "สายวิชาการ" : "สายสนับสนุน",
+        customers_name: i.customers_pname + i.customers_name + " " + i.customers_lname,
+        history_salary_salary: Number(i.history_salary_salary),
+        history_salary_salary1715: Number(i.history_salary_salary1715),
+        history_salary_salary01: Number(i.history_salary_salary01),
+        promotionmoney: i.promotionmoney,
+        numberofmonths: i.numberofmonths,
+        backpay: i.backpay,
+        backpay1715: i.backpay1715,
+        backpay01: i.backpay01,
+        compensation: i.compensation,
+      });
+      sheet.getCell(rowNumber, 1).fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "BC6C25" }, // เปลี่ยนเป็นสีที่ต้องการ เช่น สีเหลือง
+      };
+      sheet.getCell(rowNumber, 2).fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "BC6C25" },
+      };
+      for (let col = 1; col <= 3; col++) {
+        sheet.getCell(rowNumber, col).fill = {
+          type: "pattern",
+          pattern: "solid",
+          fgColor: { argb: "c7f9cc" },
+        };
+        sheet.getCell(1, col).fill = {
+          type: "pattern",
+          pattern: "solid",
+          fgColor: { argb: "38b000" },
+        };
+      }
+    });
+    // const sumsalary = data.reduce(
+    //   (sum, current) => (sum = sum + Number(current.history_salary_salary)),
+    //   0
+    // );
+    // const sumsalary1715 = data.reduce(
+    //   (sum, current) => (sum = sum + Number(current.history_salary_salary1715)),
+    //   0
+    // );
+    // const sumsalary01 = data.reduce(
+    //   (sum, current) => (sum = sum + Number(current.history_salary_salary01)),
+    //   0
+    // );
+    // let formattedsumsalary = Math.floor(sumsalary * 100) / 100;
+    // const formattedsumsalarytrue = formattedsumsalary.toFixed(2);
+    // let formattedsumsalary1715 = Math.floor(sumsalary1715 * 100) / 100;
+    // const formattedsumsalarytrue1715 = formattedsumsalary1715.toFixed(2);
+    // let formattedsumsalary01 = Math.floor(sumsalary01 * 100) / 100;
+    // const formattedsumsalarytrue01 = formattedsumsalary01.toFixed(2);
+    // sheet.addRow({
+    //   customers_citizent: "รวม",
+    //   customers_line: "",
+    //   customers_name: "",
+    //   history_salary_salary: formattedsumsalarytrue,
+    //   history_salary_salary1715: formattedsumsalarytrue1715,
+    //   history_salary_salary01: formattedsumsalarytrue01,
+    // });
+    workbook.xlsx.writeBuffer().then((datas) => {
+      const blob = new Blob([datas], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheet.sheet",
+      });
+      const url = window.URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = "รายงานประวัติการนำเข้าเงินเดือนเลื่อน"+data[0].history_salary_year+"-"+data[0].history_salary_month+".xlsx";
+      DataYear;
+      anchor.click();
+      window.URL.revokeObjectURL(url);
+    });
+  };
+  // "history_salary_year": "2025",
+  // "history_salary_month": "01",
+  // "customers_type": "4",
   return (
-    <Container  fluid p={0}>
+    <Container fluid p={0}>
       <form
         onSubmit={formSearch.onSubmit((v) => {
           Sub(v);
@@ -245,29 +419,45 @@ const Fetch  = (params) => {
       >
         <Grid gutter={{ base: 5, xs: "md", md: "xl", xl: 50 }}>
           <Grid.Col span={2}>
-            <Select searchable label="งบประมาณ" data={DataBudget} {...formSearch.getInputProps("idbudget")} />
+            <Select
+              searchable
+              label="งบประมาณ"
+              data={DataBudget}
+              {...formSearch.getInputProps("idbudget")}
+            />
           </Grid.Col>
           <Grid.Col span={2}>
-            <Select searchable label="เดือน" data={selectmount} {...formSearch.getInputProps("month")} />
+            <Select
+              searchable
+              label="เดือน"
+              data={selectmount}
+              {...formSearch.getInputProps("month")}
+            />
           </Grid.Col>
           <Grid.Col span={2}>
             <Select searchable label="ปี" data={DataYear} {...formSearch.getInputProps("year")} />
-            {/* <Select searchable label="เลือกเดือนที่จะนำข้อมูลเข้า " data={selectmount} {...formSearch.getInputProps("monthend")}  />
-                                <Select searchable label="ปี" data={DataYear} {...formSearch.getInputProps("yearend")} mt={10} /> */}
           </Grid.Col>
-          {/* <Grid.Col span={4}>
-                                 <Select searchable label="ประเภทรายจ่าย" data={Dataexpenditurelist} {...formSearch.getInputProps("type")}  />
-                               
-                            </Grid.Col> */}
+
           <Grid.Col span={4}>
             <Button type="submit" mt={33} leftSection={<IconSearch />}>
               ค้นหา
+            </Button>
+            <Button
+              disabled={DataExport.length === 0}
+              color="green.7"
+              mt={33}
+              leftSection={<IconFileSpreadsheet />}
+              onClick={() => {
+                ExcelExport();
+              }}
+            >
+              Export
             </Button>
           </Grid.Col>
         </Grid>
       </form>
 
-      <MDBDataTableV5 entries={100} responsive  data={Table} />
+      <MDBDataTableV5 entries={100} responsive data={Table} />
     </Container>
   );
 }

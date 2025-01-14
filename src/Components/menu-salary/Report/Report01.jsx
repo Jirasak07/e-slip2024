@@ -1,7 +1,6 @@
 import {
   Button,
   Container,
-  Flex,
   Grid,
   LoadingOverlay,
   NumberFormatter,
@@ -13,7 +12,7 @@ import {
 import { isNotEmpty, useForm } from "@mantine/form";
 import { IconFileSpreadsheet, IconSearch } from "@tabler/icons-react";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
 import ExcelJs from "exceljs";
 function Report01() {
@@ -261,9 +260,9 @@ function Report01() {
         let formattedsumsalary01 = Math.floor(sumsalary01 * 100) / 100;
         const formattedsumsalarytrue01 = formattedsumsalary01.toFixed(2);
         sheet.addRow({
-          customers_citizent: 'รวม',
-          customers_line: '',
-          customers_name: '',
+          customers_citizent: "รวม",
+          customers_line: "",
+          customers_name: "",
           history_salary_salary: formattedsumsalarytrue,
           history_salary_salary1715: formattedsumsalarytrue1715,
           history_salary_salary01: formattedsumsalarytrue01,
