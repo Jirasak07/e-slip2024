@@ -367,32 +367,6 @@ function HistoryImport() {
         };
       }
     });
-    // const sumsalary = data.reduce(
-    //   (sum, current) => (sum = sum + Number(current.history_salary_salary)),
-    //   0
-    // );
-    // const sumsalary1715 = data.reduce(
-    //   (sum, current) => (sum = sum + Number(current.history_salary_salary1715)),
-    //   0
-    // );
-    // const sumsalary01 = data.reduce(
-    //   (sum, current) => (sum = sum + Number(current.history_salary_salary01)),
-    //   0
-    // );
-    // let formattedsumsalary = Math.floor(sumsalary * 100) / 100;
-    // const formattedsumsalarytrue = formattedsumsalary.toFixed(2);
-    // let formattedsumsalary1715 = Math.floor(sumsalary1715 * 100) / 100;
-    // const formattedsumsalarytrue1715 = formattedsumsalary1715.toFixed(2);
-    // let formattedsumsalary01 = Math.floor(sumsalary01 * 100) / 100;
-    // const formattedsumsalarytrue01 = formattedsumsalary01.toFixed(2);
-    // sheet.addRow({
-    //   customers_citizent: "รวม",
-    //   customers_line: "",
-    //   customers_name: "",
-    //   history_salary_salary: formattedsumsalarytrue,
-    //   history_salary_salary1715: formattedsumsalarytrue1715,
-    //   history_salary_salary01: formattedsumsalarytrue01,
-    // });
     workbook.xlsx.writeBuffer().then((datas) => {
       const blob = new Blob([datas], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheet.sheet",
