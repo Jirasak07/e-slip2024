@@ -123,13 +123,17 @@ function Reportipay() {
     const sum = Dataipay.filter(
       (Dataipay) =>
         Dataipay.expenditure_name !== "ธนาคารกรุงไทย" &&
-        Dataipay.expenditure_name !== "ธนาคารกรุงเทพ"
+        Dataipay.expenditure_name !== "ธนาคารกรุงเทพ" &&
+        Dataipay.expenditure_name !== "ธนาคารกรุงเทพ (ต่างสาขา)" &&
+        Dataipay.expenditure_name !== "กรุงไทย (ต่างสาขา)"
     ).reduce((sum, currentItem) => (sum = sum + Number(currentItem.sum)), 0);
 
     const sumout = Dataipay.filter(
       (Dataipay) =>
         Dataipay.expenditure_name !== "ธนาคารกรุงไทย" &&
-        Dataipay.expenditure_name !== "ธนาคารกรุงเทพ"
+        Dataipay.expenditure_name !== "ธนาคารกรุงเทพ" &&
+        Dataipay.expenditure_name !== "ธนาคารกรุงเทพ (ต่างสาขา)" &&
+        Dataipay.expenditure_name !== "กรุงไทย (ต่างสาขา)"
     ).reduce((sumout, currentItem) => (sumout = sumout + Number(currentItem.sumout)), 0);
     const total = sum + sumout;
 
@@ -337,8 +341,8 @@ function Reportipay() {
           //  setLoadTable(false);
 
           setDataTotalsummary(res.data);
-        }else{
-          setDataTotalsummary([])
+        } else {
+          setDataTotalsummary([]);
         }
       });
 
@@ -368,8 +372,8 @@ function Reportipay() {
             0
           );
           console.log(total);
-        }else{
-          setDataipay([])
+        } else {
+          setDataipay([]);
         }
       });
 
@@ -392,8 +396,8 @@ function Reportipay() {
           //  setLoadTable(false);
 
           setDatarevenueipay(res.data);
-        }else{
-          setDatarevenueipay([])
+        } else {
+          setDatarevenueipay([]);
         }
       });
   };
