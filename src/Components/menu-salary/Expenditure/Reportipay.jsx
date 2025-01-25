@@ -120,17 +120,21 @@ function Reportipay() {
         namestotal: Number(i.totalfinal),
       })
     );
-    const sum = Dataipay.filter(
-      (Dataipay) =>
-        Dataipay.expenditure_name !== "ธนาคารกรุงไทย" &&
-        Dataipay.expenditure_name !== "ธนาคารกรุงเทพ"
-    ).reduce((sum, currentItem) => (sum = sum + Number(currentItem.sum)), 0);
+    const sum = Dataipay.
+    // filter(
+    //   (Dataipay) =>
+    //     Dataipay.expenditure_name !== "ธนาคารกรุงไทย" &&
+    //     Dataipay.expenditure_name !== "ธนาคารกรุงเทพ"
+    // ).
+    reduce((sum, currentItem) => (sum = sum + Number(currentItem.sum)), 0);
 
-    const sumout = Dataipay.filter(
-      (Dataipay) =>
-        Dataipay.expenditure_name !== "ธนาคารกรุงไทย" &&
-        Dataipay.expenditure_name !== "ธนาคารกรุงเทพ"
-    ).reduce((sumout, currentItem) => (sumout = sumout + Number(currentItem.sumout)), 0);
+    const sumout = Dataipay
+    // .filter(
+    //   (Dataipay) =>
+    //     Dataipay.expenditure_name !== "ธนาคารกรุงไทย" &&
+    //     Dataipay.expenditure_name !== "ธนาคารกรุงเทพ"
+    // )
+    .reduce((sumout, currentItem) => (sumout = sumout + Number(currentItem.sumout)), 0);
     const total = sum + sumout;
 
     sheet.addRow({
