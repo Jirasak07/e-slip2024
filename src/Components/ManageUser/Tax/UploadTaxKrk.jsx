@@ -1,11 +1,11 @@
-import { Button, Flex, Paper, Select, Table } from "@mantine/core";
+import { ActionIcon, Button, Flex, Paper, Select, Table, Text } from "@mantine/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
 import { isNotEmpty, useForm } from "@mantine/form";
 import UploadButton from "./Component/UploadButton";
-import Checkpdf from "./Component/CheckPdf";
 import { MDBDataTableV5 } from "mdbreact";
+import { IconEye, IconView360 } from "@tabler/icons-react";
 
 function UploadTaxKrk() {
   const FetchTypeEmploy = () => {
@@ -40,8 +40,6 @@ function UploadTaxKrk() {
     },
   });
   // https://admission.kpru.ac.th/admission2017/public/Files_All/6476447068test.pdf
-  const pdf1 = "https://admission.kpru.ac.th/admission2017/public/Files_All/6476447068test.pdf";
-  const pdf2 = "https://example.com/file2.pdf";
   const columns = [
     {
       label: "ลำดับ",
@@ -63,9 +61,9 @@ function UploadTaxKrk() {
       minimal: "lg",
     },
     {
-      label: "ตัวอย่าง",
+      label: "ตรวจสอบ",
       field: "chk",
-      minimal: "lg",
+      minimal: "sm",
     },
     {
       label: "จัดการ",
@@ -76,7 +74,7 @@ function UploadTaxKrk() {
   const FetchEmploy = async () => {
     try {
       const fetch = await axios.post(API + "/index/getlistemploy", {
-        type_emp: "6",
+        type_employ: formSearch.values.type_employ,
       });
       const data = await fetch.data;
       if (data.length !== 0) {
@@ -88,10 +86,29 @@ function UploadTaxKrk() {
               citizen: item.customers_citizent,
               name: item.customers_pname + item.customers_name + " " + item.customers_lname,
               type: item.customer_type_name,
-              chk: <Checkpdf pdfUrl={pdf1} />,
+              chk: (
+                <>
+                  <ActionIcon
+                    onClick={() => {
+                      window.open(
+                        API +
+                          "/public/uploads/tax/" +
+                          item.customers_citizent +
+                          "/" +
+                          item.customers_citizent +
+                          "-2567.pdf"
+                      );
+                    }}
+                    color="yellow"
+                  >
+                    <IconEye />
+                  </ActionIcon>
+                </>
+              ),
               manage: (
                 <>
                   <UploadButton
+                    FN={FN}
                     customers_citizent={item.customers_citizent}
                     name={item.customers_pname + item.customers_name + " " + item.customers_lname}
                     type={item.customer_type_name}
@@ -108,6 +125,10 @@ function UploadTaxKrk() {
       console.log(error);
     }
   };
+  const FN = (params) => {
+    FetchEmploy();
+  };
+
   return (
     <div>
       <Paper p={10}>
@@ -119,9 +140,6 @@ function UploadTaxKrk() {
             {...formSearch.getInputProps("type_employ")}
             label="ประเภทบุคลากร"
           />
-          {/* <Button onClick={(()=>{
-            checkFileExists(pdf1)
-          })} mt={33}> */}
           <Button onClick={FetchEmploy} mt={33}>
             ค้นหา
           </Button>

@@ -104,13 +104,14 @@ function User() {
   };
 
   const [IMG, setIMG] = useState("");
-  const FetchData = async (params) => {
+  const FetchData = async () => {
     const fm = new FormData();
     fm.append("customers_citizent", localStorage.getItem("citizen"));
     axios.post(API + "/index/findtypeemploy", fm).then((type) => {
       console.log(type.data[0].customers_type_name);
       const types = type.data[0].customers_type;
       localStorage.setItem("type_name", type.data[0].customers_type_name);
+      localStorage.setItem("type_ids", types);
       axios
         .get(
           API + "/index/showhistorysalarywhereemp/" + localStorage.getItem("citizen") + "/" + types
@@ -201,8 +202,6 @@ function User() {
   return (
     <>
       <div>
-        {" "}
-        {/* <ScrollArea h={"calc(100dvh - 2rem)"}> */}
         <Container fluid p={0}>
           <Badge size="xl" variant="subtle" color="var(--primary)">
             รายการเงินเดือน
@@ -269,21 +268,30 @@ function User() {
                       </Grid>
                     </Flex>
                   </Flex>
-                  <Button
-                    size="md"
-                    mt={25}
-                    variant="light"
-                    onClick={() => {
-                      window.open("https://e-payslip.kpru.ac.th/");
-                    }}
-                  >
-                    สำหรับผู้ที่ต้องการข้อมูลเงินเดือนย้อนหลังก่อนเดือน สิงหาคม 2567 คลิกที่นี่
-                  </Button>
                 </>
               )}
             </Paper>
           </Flex>
-          <Container fluid p={0} mt={20}>
+          <Paper>
+            <Button
+              size="md"
+              mt={25}
+              variant="light"
+              onClick={() => {
+                window.open("https://e-payslip.kpru.ac.th/");
+              }}
+            >
+              สำหรับผู้ที่ต้องการข้อมูลเงินเดือนย้อนหลังก่อนเดือน สิงหาคม 2567 คลิกที่นี่
+            </Button>
+          </Paper>
+          <Container
+            fluid
+            p={0}
+            mt={20}
+            hidden={
+              localStorage.getItem("type_ids") === "6" || localStorage.getItem("type_ids") === "2"
+            }
+          >
             <Paper shadow="sm" p={10}>
               <form
                 onSubmit={formtax.onSubmit((val) => {
@@ -315,6 +323,37 @@ function User() {
               </form>
             </Paper>
           </Container>
+          <Paper p={10}  hidden={
+              localStorage.getItem("type_ids")  !== "6" && localStorage.getItem("type_ids") !== "2"
+            } >
+            <Text>ดาวน์โหลดหนังสือรับรองการหักภาษี ณ ที่จ่าย ประจำปี 2567</Text>
+            <Button
+              // disabled={formtax.values.TAX_PAY_YEAR_DATA.length > 0 ? false : true}
+              // type="submit"
+              // mt={{ base: 10, sm: 33, md: 33 }}
+              onClick={() => {
+                // window.open(
+                //   API + "/PDF/Tax50.php?id=" + localStorage.getItem("citizen") + "&year=" + val.TAX_PAY_YEAR
+                // );
+                window.open(
+                  API +
+                    "/public/uploads/tax/" +
+                    localStorage.getItem("citizen") +
+                    "/" +
+                    localStorage.getItem("citizen") +
+                    "-2567.pdf"
+                );
+              }}
+              variant="filled"
+              color="green.8"
+              leftSection={<IconDownload />}
+            >
+              <Text fz={12} fw={500}>
+                {" "}
+                คลิกที่นี่
+              </Text>
+            </Button>
+          </Paper>
           <Container fluid p={0} mt={20}>
             {Load ? (
               <SkeletonTable />
