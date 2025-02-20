@@ -127,41 +127,11 @@ function UploadTaxKrk() {
           </Button>
         </Flex>
       </Paper>
+
       <Paper p={10} mt={10}>
-        <Table striped>
-          {/* <Table.Thead bg={"gray.7"} c={"white"}>
-            <Table.Th>ลำดับ</Table.Th>
-            <Table.Th>เลขบัตร</Table.Th>
-            <Table.Th>ชื่อ - นามสกุล</Table.Th>
-            <Table.Th>ประเภทพนักงาน</Table.Th>
-            <Table.Th>ตัวอย่าง</Table.Th>
-            <Table.Th>จัดการ</Table.Th>
-          </Table.Thead> */}
-          <Table.Tbody>
-            {/* {formSearch.values.DATAEMPLOY.length !== 0 &&
-              formSearch.values.DATAEMPLOY.map((item, key) => (
-                <Table.Tr key={key}>
-                  <Table.Td>{key + 1}</Table.Td>
-                  <Table.Td>{item.customers_citizent}</Table.Td>
-                  <Table.Td>
-                    {item.customers_pname + item.customers_name + " " + item.customers_lname}
-                  </Table.Td>
-                  <Table.Td>{item.customer_type_name}</Table.Td>
-                  <Checkpdf pdfUrl={pdf1} />
-                  <Table.Td>
-                    <UploadButton
-                      customers_citizent={item.customers_citizent}
-                      name={item.customers_pname + item.customers_name + " " + item.customers_lname}
-                      type={item.customer_type_name}
-                    />
-                  </Table.Td>
-                </Table.Tr>
-              ))} */}
-          </Table.Tbody>
-        </Table>
-      </Paper>
-      <Paper>
         <MDBDataTableV5
+          responsiveMd
+          theadColor="dark"
           searching
           searchBottom={false}
           searchTop={true}
