@@ -1,4 +1,4 @@
-import { Button, Flex, Paper, Select } from "@mantine/core";
+import { Button, Flex, Paper, Select, Table } from "@mantine/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { API } from "../../Config/ConfigApi";
@@ -17,7 +17,8 @@ function UploadTaxKrk() {
             value: i.customer_type_id,
             label: i.customer_type_name,
           }));
-          setDataTypeEmploy(select);
+          const sel = select.filter((val) => val.value === "2" || val.value === "6");
+          setDataTypeEmploy(sel);
         }
       });
     }, 400);
@@ -47,6 +48,28 @@ function UploadTaxKrk() {
           />
           <Button mt={33}>ค้นหา</Button>
         </Flex>
+      </Paper>
+      <Paper p={10} mt={10}>
+        <Table>
+          <Table.Thead>
+            <Table.Th>ลำดับ</Table.Th>
+            <Table.Th>เลขบัตร</Table.Th>
+            <Table.Th>ชื่อ - นามสกุล</Table.Th>
+            <Table.Th>ประเภทพนักงาน</Table.Th>
+            <Table.Th>จัดการ</Table.Th>
+          </Table.Thead>
+          <Table.Tbody>
+            <Table.Tr>
+              <Table.Td>sdjfhksjdhf</Table.Td>
+              <Table.Td>sdjfhksjdhf</Table.Td>
+              <Table.Td>sdjfhksjdhf</Table.Td>
+              <Table.Td>sdjfhksjdhf</Table.Td>
+              <Table.Td>
+                <Button>Upload</Button>
+              </Table.Td>
+            </Table.Tr>
+          </Table.Tbody>
+        </Table>
       </Paper>
     </div>
   );
