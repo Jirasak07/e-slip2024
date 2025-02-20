@@ -44,6 +44,11 @@ export const menus = [
             icon: <IconUser />,
           },
           {
+            title: "อัพ ทวิ 50 ขรก/ลูกจ้าง",
+            path: "/manage-user/tax",
+            icon: <IconUser />,
+          },
+          {
             title: "KTB Corporate Online",
             path: "/manage-user/ktb",
             icon: <IconBuildingBank />,

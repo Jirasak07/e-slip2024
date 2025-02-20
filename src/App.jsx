@@ -34,6 +34,7 @@ import Report01 from "./Components/menu-salary/Report/Report01";
 import ImportExpend from "./Components/menu-salary/Salary/ImportExpend";
 import Report1715 from "./Components/menu-salary/Report/Report1715";
 import ImportExFon from "./Components/menu-salary/Salary/ImportExFon";
+import UploadTaxKrk from "./Components/ManageUser/Tax/UploadTaxKrk";
 
 function App() {
   return (
@@ -61,6 +62,7 @@ function App() {
 
           {/* /////////////////////////////////////////////////////////////////// */}
           <Route path="/manage-user/user" element={<Officer />} />
+          <Route path="/manage-user/tax" element={<UploadTaxKrk />} />
           <Route path="/manage-user/ktb" element={<KtbCorporate />} />
           {/* ////////////////////////////////////////////////////////////////// */}
           <Route path="/report/revenue-type" element={<Reportrevenue />} />
