@@ -1,9 +1,13 @@
 import { Button, Divider, FileInput, Flex, Modal, SimpleGrid, Text } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { IconFile } from "@tabler/icons-react";
 
 function UploadButton({ customers_citizent, name, type }) {
   const [opened, { open, close }] = useDisclosure();
+  const formupload = useForm({
+    
+  })
   return (
     <div>
       <Button
