@@ -6,23 +6,33 @@ import { isNotEmpty, useForm } from "@mantine/form";
 
 function UploadTaxKrk() {
   const FetchTypeEmploy = () => {
-    setTimeout(() => {
-      axios.get(API + "/index/showcustomertype").then((res) => {
-        //    console.log(res.data);
+    axios.get(API + "/index/showcustomertype").then((res) => {
+      //    console.log(res.data);
 
-        const data = res.data;
+      const data = res.data;
 
-        if (data.length !== 0) {
-          const select = data.map((i) => ({
-            value: i.customer_type_id,
-            label: i.customer_type_name,
-          }));
-          const sel = select.filter((val) => val.value === "2" || val.value === "6");
-          setDataTypeEmploy(sel);
-        }
-      });
-    }, 400);
+      if (data.length !== 0) {
+        const select = data.map((i) => ({
+          value: i.customer_type_id,
+          label: i.customer_type_name,
+        }));
+        const sel = select.filter((val) => val.value === "2" || val.value === "6");
+        setDataTypeEmploy(sel);
+      }
+    });
   };
+  const FetchEmploy = async () => {
+    try {
+      const fetch = await axios.post(API + "/index/getlistemploy", {
+        type_emp: "6",
+      });
+      const data = await fetch.data;
+      console.log(data)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const [DataTypeEmploy, setDataTypeEmploy] = useState([]);
   useEffect(() => {
     FetchTypeEmploy();
@@ -46,7 +56,7 @@ function UploadTaxKrk() {
             {...formSearch.getInputProps("type_employ")}
             label="ประเภทบุคลากร"
           />
-          <Button mt={33}>ค้นหา</Button>
+          <Button onClick={FetchEmploy} mt={33}>ค้นหา</Button>
         </Flex>
       </Paper>
       <Paper p={10} mt={10}>
