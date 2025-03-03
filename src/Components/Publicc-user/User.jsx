@@ -14,7 +14,7 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SkeletonTable from "./SkeletonTable";
 import { MDBDataTableV5 } from "mdbreact";
 import axios from "axios";
@@ -173,7 +173,10 @@ function User() {
   };
   const PrintTax50 = (val) => {
     window.open(
-     "https://mua.kpru.ac.th/FrontEnd_Salary/chirasax/tavi50.php?citizen=" +localStorage.getItem("citizen")  + "&year=" + val.TAX_PAY_YEAR
+      "https://mua.kpru.ac.th/FrontEnd_Salary/chirasax/tavi50.php?citizen=" +
+        localStorage.getItem("citizen") +
+        "&year=" +
+        val.TAX_PAY_YEAR
     );
     // window.open(
     //   API + "/PDF/Tax50.php?id=" + localStorage.getItem("citizen") + "&year=" + val.TAX_PAY_YEAR
@@ -287,7 +290,7 @@ function User() {
           <Container
             fluid
             p={0}
-            mt={20}
+            mt={10}
             hidden={
               localStorage.getItem("type_ids") === "6" || localStorage.getItem("type_ids") === "2"
             }
@@ -307,16 +310,17 @@ function User() {
                     label="เลือกปี"
                   />
                   <Button
-                    w={300}
+                    fullWidth
                     disabled={formtax.values.TAX_PAY_YEAR_DATA.length > 0 ? false : true}
                     type="submit"
                     mt={{ base: 10, sm: 33, md: 33 }}
-                    variant="light"
+                    variant="filled"
+                    color="green.7"
                     leftSection={<IconDownload />}
                   >
                     <Text fz={12} fw={500}>
                       {" "}
-                      ดาวน์โหลดหนังสือรับรองการหักภาษี ณ ที่จ่าย
+                      ดาวน์โหลดหนังสือรับรองการหักภาษี ณ ที่จ่าย ประจำปี 2567
                     </Text>
                   </Button>
                 </SimpleGrid>
@@ -325,11 +329,13 @@ function User() {
           </Container>
           <Paper
             p={10}
+            my={5}
+            withBorder
             hidden={
               localStorage.getItem("type_ids") !== "6" && localStorage.getItem("type_ids") !== "2"
             }
           >
-            <Text>ดาวน์โหลดหนังสือรับรองการหักภาษี ณ ที่จ่าย ประจำปี 2567</Text>
+            <Text></Text>
             <Button
               // disabled={formtax.values.TAX_PAY_YEAR_DATA.length > 0 ? false : true}
               // type="submit"
@@ -352,11 +358,46 @@ function User() {
               leftSection={<IconDownload />}
             >
               <Text fz={12} fw={500}>
-                {" "}
-                คลิกที่นี่
+                ดาวน์โหลดหนังสือรับรองการหักภาษี ณ ที่จ่าย ประจำปี 2567 (ข้าราชการ)
               </Text>
             </Button>
           </Paper>
+          <Container fluid p={0} mt={10} hidden={formtax.values.TAX_PAY_YEAR_DATA.length === 0}>
+            <Paper shadow="sm" p={10} withBorder>
+              <form
+                onSubmit={formtax.onSubmit((val) => {
+                  PrintTax50(val);
+                })}
+              >
+                <Text my={5} c="blue">
+                  สำหรับค่าตอบแทนยานพาหนะ
+                </Text>
+                <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }}>
+                  <Select
+                    searchable
+                    allowDeselect={false}
+                    data={formtax.values.TAX_PAY_YEAR_DATA}
+                    {...formtax.getInputProps("TAX_PAY_YEAR")}
+                    label="เลือกปี"
+                  />
+                  <Button
+                    fullWidth
+                    disabled={formtax.values.TAX_PAY_YEAR_DATA.length > 0 ? false : true}
+                    type="submit"
+                    mt={{ base: 10, sm: 33, md: 33 }}
+                    variant="filled"
+                    color="green.7"
+                    leftSection={<IconDownload />}
+                  >
+                    <Text fz={12} fw={500}>
+                      {" "}
+                      ดาวน์โหลดหนังสือรับรองการหักภาษี ณ ที่จ่าย ประจำปี 2567
+                    </Text>
+                  </Button>
+                </SimpleGrid>
+              </form>
+            </Paper>
+          </Container>
           <Container fluid p={0} mt={20}>
             {Load ? (
               <SkeletonTable />

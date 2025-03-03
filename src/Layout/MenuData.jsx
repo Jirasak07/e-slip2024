@@ -6,6 +6,8 @@ import {
   IconExchange,
   IconFileTypeXls,
   IconHistoryToggle,
+  IconHome,
+  IconPdf,
   IconPigMoney,
   IconPlaylistAdd,
   IconPrinter,
@@ -42,6 +44,11 @@ export const menus = [
             title: "ข้อมูลบุคลากร",
             path: "/manage-user/user",
             icon: <IconUser />,
+          },
+          {
+            title: "ดาวน์โหลดหนังสือรับรองภาษี",
+            path: "/manage-user/downloadtax",
+            icon: <IconPdf />,
           },
           {
             title: "อัพ ทวิ 50 ขรก/ลูกจ้าง",
