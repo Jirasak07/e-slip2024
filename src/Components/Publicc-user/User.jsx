@@ -359,7 +359,7 @@ function User() {
               </Text>
             </Button>
           </Paper>
-          <Container fluid p={0} mt={10} hidden={formtax.values.TAX_PAY_YEAR_DATA.length === 0}>
+          <Container fluid p={0} mt={10} hidden={formtax.values.TAX_PAY_YEAR_DATA.length === 0&&localStorage.getItem("type_ids") !== "6"}>
             <Paper shadow="sm" p={10} withBorder>
               <form
                 onSubmit={formtax.onSubmit((val) => {
