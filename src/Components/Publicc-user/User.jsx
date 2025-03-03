@@ -1,29 +1,26 @@
 import {
   Badge,
   Button,
-  Card,
   Container,
   Divider,
   Flex,
   Grid,
-  Image,
   LoadingOverlay,
   NumberFormatter,
   Paper,
-  ScrollArea,
   Select,
   SimpleGrid,
   Skeleton,
   Stack,
   Text,
 } from "@mantine/core";
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import SkeletonTable from "./SkeletonTable";
 import { MDBDataTableV5 } from "mdbreact";
 import axios from "axios";
 import { monthh } from "./Month";
 import { API } from "../Config/ConfigApi";
-import { IconDownload, IconFileDescription, IconPdf, IconPrinter } from "@tabler/icons-react";
+import { IconDownload, IconFileDescription, IconPrinter } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import { isNotEmpty, useForm } from "@mantine/form";
 function User() {
@@ -90,8 +87,8 @@ function User() {
         if (res.data.length !== 0) {
           const data = res.data;
           const select = data.map((i) => ({
-            value: i.TAX_PAY_YEAR,
-            label: i.TAX_PAY_YEAR,
+            value: i.TAVI_YEAR,
+            label: (parseInt(i.TAVI_YEAR) + 543).toString(),
           }));
           formtax.setValues({
             TAX_PAY_YEAR_DATA: select,
@@ -176,8 +173,11 @@ function User() {
   };
   const PrintTax50 = (val) => {
     window.open(
-      API + "/PDF/Tax50.php?id=" + localStorage.getItem("citizen") + "&year=" + val.TAX_PAY_YEAR
+     "https://mua.kpru.ac.th/FrontEnd_Salary/chirasax/tavi50.php?citizen=" +localStorage.getItem("citizen")  + "&year=" + val.TAX_PAY_YEAR
     );
+    // window.open(
+    //   API + "/PDF/Tax50.php?id=" + localStorage.getItem("citizen") + "&year=" + val.TAX_PAY_YEAR
+    // );
   };
 
   const nav = useNavigate();
@@ -323,9 +323,12 @@ function User() {
               </form>
             </Paper>
           </Container>
-          <Paper p={10}  hidden={
-              localStorage.getItem("type_ids")  !== "6" && localStorage.getItem("type_ids") !== "2"
-            } >
+          <Paper
+            p={10}
+            hidden={
+              localStorage.getItem("type_ids") !== "6" && localStorage.getItem("type_ids") !== "2"
+            }
+          >
             <Text>ดาวน์โหลดหนังสือรับรองการหักภาษี ณ ที่จ่าย ประจำปี 2567</Text>
             <Button
               // disabled={formtax.values.TAX_PAY_YEAR_DATA.length > 0 ? false : true}
