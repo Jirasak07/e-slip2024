@@ -178,9 +178,6 @@ function User() {
         "&year=" +
         val.TAX_PAY_YEAR
     );
-    // window.open(
-    //   API + "/PDF/Tax50.php?id=" + localStorage.getItem("citizen") + "&year=" + val.TAX_PAY_YEAR
-    // );
   };
 
   const nav = useNavigate();
