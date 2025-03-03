@@ -334,6 +334,7 @@ function User() {
           >
             <Text></Text>
             <Button
+            fullWidth
               // disabled={formtax.values.TAX_PAY_YEAR_DATA.length > 0 ? false : true}
               // type="submit"
               // mt={{ base: 10, sm: 33, md: 33 }}
