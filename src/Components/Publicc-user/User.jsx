@@ -176,7 +176,7 @@ function User() {
       "https://mua.kpru.ac.th/FrontEnd_Salary/chirasax/tavi50.php?citizen=" +
         localStorage.getItem("citizen") +
         "&year=" +
-        val.TAX_PAY_YEAR
+        val.TAX_PAY_YEAR+"&type="+localStorage.getItem("type_ids")
     );
   };
 
@@ -360,8 +360,8 @@ function User() {
               </Text>
             </Button>
           </Paper>
-          {formtax.values.TAX_PAY_YEAR_DATA.length === 0 &&
-            localStorage.getItem("type_ids") !== "6" && (
+          {formtax.values.TAX_PAY_YEAR_DATA.length !== 0 &&
+            localStorage.getItem("type_ids") === "6" && (
               <Container fluid p={0} mt={10}>
                 <Paper shadow="sm" p={10} withBorder>
                   <form
