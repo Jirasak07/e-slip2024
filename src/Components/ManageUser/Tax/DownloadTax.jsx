@@ -75,7 +75,7 @@ function DownloadTax() {
                           "https://mua.kpru.ac.th/FrontEnd_Salary/chirasax/tavi50.php?citizen=" +
                             i.customers_citizent +
                             "&year=" +
-                            form.values.YEAR
+                            form.values.YEAR+"&type="+form.values.TYPE
                         );
                       }}
                       color="green.8"
