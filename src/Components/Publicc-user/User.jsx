@@ -181,6 +181,16 @@ function User() {
         localStorage.getItem("type_ids")
     );
   };
+  const PrintTax50s = (val) => {
+    window.open(
+      "https://mua.kpru.ac.th/FrontEnd_Salary/chirasax/tavi50s.php?citizen=" +
+        localStorage.getItem("citizen") +
+        "&year=" +
+        val.TAX_PAY_YEAR +
+        "&type=" +
+        localStorage.getItem("type_ids")
+    );
+  };
 
   const nav = useNavigate();
   useEffect(() => {
@@ -363,20 +373,9 @@ function User() {
               </Text>
             </Button>
           </Paper>
-          <Paper px={10}>
-            <Text c={"red"}>
-              *สำหรับผู้ที่ไม่สามารถดาวน์โหลดได้ สามารถติดต่อขอรับได้ที่งานคลังและบัญชี
-            </Text>
-            <Text c={"red"}>
-              *หนังสือรับรองการหักภาษี ณ ที่จ่ายนี้ เป็นยอดรวมเฉพาะประเภทพนักงานปัจจุบันเท่านั้น
-            </Text>
-            <Text c={"red"}>
-              *ผู้ที่มีการโยกย้ายหรือได้รับแต่งตั้งใหม่ ให้ติดต่อขอรับหนังสือรับรองการหักภาษี ณ
-              ที่จ่ายนี้ที่งานคลังและบัญชี
-            </Text>
-          </Paper>
+         
           {formtax.values.TAX_PAY_YEAR_DATA.length !== 0 &&
-            localStorage.getItem("type_ids") === "6" && (
+            localStorage.getItem("type_ids") === "6" &&  (
               <Container fluid p={0} mt={10}>
                 <Paper shadow="sm" p={10} withBorder>
                   <form
@@ -385,7 +384,7 @@ function User() {
                     })}
                   >
                     <Text my={5} c="blue">
-                      สำหรับค่าตอบแทนยานพาหนะ
+                      สำหรับค่าตอบแทนยานพาหนะและเงินประจำตำแหน่ง
                     </Text>
                     <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }}>
                       <Select
@@ -414,6 +413,57 @@ function User() {
                 </Paper>
               </Container>
             )}
+          {formtax.values.TAX_PAY_YEAR_DATA.length !== 0 &&
+            localStorage.getItem("citizen") === "3160500216715" &&  (
+              <Container fluid p={0} mt={10}>
+                <Paper shadow="sm" p={10} withBorder>
+                  <form
+                    onSubmit={formtax.onSubmit((val) => {
+                      PrintTax50s(val);
+                    })}
+                  >
+                    <Text my={5} c="blue">
+                      สำหรับค่าตอบแทนยานพาหนะและเงินประจำตำแหน่ง
+                    </Text>
+                    <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }}>
+                      <Select
+                        searchable
+                        allowDeselect={false}
+                        data={formtax.values.TAX_PAY_YEAR_DATA}
+                        {...formtax.getInputProps("TAX_PAY_YEAR")}
+                        label="เลือกปี"
+                      />
+                      <Button
+                        fullWidth
+                        disabled={formtax.values.TAX_PAY_YEAR_DATA.length > 0 ? false : true}
+                        type="submit"
+                        mt={{ base: 10, sm: 33, md: 33 }}
+                        variant="filled"
+                        color="green.7"
+                        leftSection={<IconDownload />}
+                      >
+                        <Text fz={12} fw={500}>
+                          {" "}
+                          ดาวน์โหลดหนังสือรับรองการหักภาษี ณ ที่จ่าย ประจำปี 2567
+                        </Text>
+                      </Button>
+                    </SimpleGrid>
+                  </form>
+                </Paper>
+              </Container>
+            )}
+             <Paper px={10}>
+            <Text c={"red"}>
+              *สำหรับผู้ที่ไม่สามารถดาวน์โหลดได้ สามารถติดต่อขอรับได้ที่งานคลังและบัญชี
+            </Text>
+            <Text c={"red"}>
+              *หนังสือรับรองการหักภาษี ณ ที่จ่ายนี้ เป็นยอดรวมเฉพาะประเภทพนักงานปัจจุบันเท่านั้น
+            </Text>
+            <Text c={"red"}>
+              *ผู้ที่มีการโยกย้ายหรือได้รับแต่งตั้งใหม่ ให้ติดต่อขอรับหนังสือรับรองการหักภาษี ณ
+              ที่จ่ายนี้ที่งานคลังและบัญชี
+            </Text>
+          </Paper>
           <Container fluid p={0} mt={20}>
             {Load ? (
               <SkeletonTable />
