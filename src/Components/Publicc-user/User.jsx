@@ -373,9 +373,9 @@ function User() {
               </Text>
             </Button>
           </Paper>
-         
+
           {formtax.values.TAX_PAY_YEAR_DATA.length !== 0 &&
-            localStorage.getItem("type_ids") === "6" &&  (
+            localStorage.getItem("type_ids") === "6" && (
               <Container fluid p={0} mt={10}>
                 <Paper shadow="sm" p={10} withBorder>
                   <form
@@ -414,7 +414,8 @@ function User() {
               </Container>
             )}
           {formtax.values.TAX_PAY_YEAR_DATA.length !== 0 &&
-            localStorage.getItem("citizen") === "3160500216715" &&  (
+            (localStorage.getItem("citizen") === "3160500216715" ||
+              localStorage.getItem("citizen") === "3630400026987") && (
               <Container fluid p={0} mt={10}>
                 <Paper shadow="sm" p={10} withBorder>
                   <form
@@ -452,7 +453,7 @@ function User() {
                 </Paper>
               </Container>
             )}
-             <Paper px={10}>
+          <Paper px={10}>
             <Text c={"red"}>
               *สำหรับผู้ที่ไม่สามารถดาวน์โหลดได้ สามารถติดต่อขอรับได้ที่งานคลังและบัญชี
             </Text>
