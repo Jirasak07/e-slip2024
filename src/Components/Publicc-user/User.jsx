@@ -176,7 +176,9 @@ function User() {
       "https://mua.kpru.ac.th/FrontEnd_Salary/chirasax/tavi50.php?citizen=" +
         localStorage.getItem("citizen") +
         "&year=" +
-        val.TAX_PAY_YEAR+"&type="+localStorage.getItem("type_ids")
+        val.TAX_PAY_YEAR +
+        "&type=" +
+        localStorage.getItem("type_ids")
     );
   };
 
@@ -324,6 +326,7 @@ function User() {
               </form>
             </Paper>
           </Container>
+
           <Paper
             p={10}
             my={5}
@@ -334,7 +337,7 @@ function User() {
           >
             <Text></Text>
             <Button
-            fullWidth
+              fullWidth
               // disabled={formtax.values.TAX_PAY_YEAR_DATA.length > 0 ? false : true}
               // type="submit"
               // mt={{ base: 10, sm: 33, md: 33 }}
@@ -359,6 +362,18 @@ function User() {
                 ดาวน์โหลดหนังสือรับรองการหักภาษี ณ ที่จ่าย ประจำปี 2567 (ข้าราชการ)
               </Text>
             </Button>
+          </Paper>
+          <Paper px={10}>
+            <Text c={"red"}>
+              *สำหรับผู้ที่ไม่สามารถดาวน์โหลดได้ สามารถติดต่อขอรับได้ที่งานคลังและบัญชี
+            </Text>
+            <Text c={"red"}>
+              *หนังสือรับรองการหักภาษี ณ ที่จ่ายนี้ เป็นยอดรวมเฉพาะประเภทพนักงานปัจจุบันเท่านั้น
+            </Text>
+            <Text c={"red"}>
+              *ผู้ที่มีการโยกย้ายหรือได้รับแต่งตั้งใหม่ ให้ติดต่อขอรับหนังสือรับรองการหักภาษี ณ
+              ที่จ่ายนี้ที่งานคลังและบัญชี
+            </Text>
           </Paper>
           {formtax.values.TAX_PAY_YEAR_DATA.length !== 0 &&
             localStorage.getItem("type_ids") === "6" && (
