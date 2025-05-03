@@ -154,7 +154,8 @@ export function Layouts() {
                         label={menu.title}
                         to={menu.path}
                         onClick={() => {
-                          toggle();
+                          // toggleDesktop()
+                          toggleMobile()
                           setIndexMenu(keymenu);
                         }}
                       />
@@ -191,7 +192,8 @@ export function Layouts() {
                                 leftSection={sub.icon}
                                 to={sub.path}
                                 onClick={() => {
-                                  toggle();
+                            // toggleDesktop()
+                            toggleMobile()
                                   setIndexMenu(keymenu);
                                   setINdexSub(keysub);
                                 }}
