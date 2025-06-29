@@ -6,7 +6,6 @@ import {
   IconExchange,
   IconFileTypeXls,
   IconHistoryToggle,
-  IconHome,
   IconPdf,
   IconPigMoney,
   IconPlaylistAdd,

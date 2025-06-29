@@ -14,7 +14,7 @@ import {
 } from "@mantine/core";
 import { useDisclosure, useViewportSize } from "@mantine/hooks";
 import { IconLogout2, IconWallet } from "@tabler/icons-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink as Nl, Outlet, useNavigate } from "react-router-dom";
 import { menus } from "./MenuData";
 import Steppers from "../Components/Publicc-user/Stepper";
@@ -23,7 +23,7 @@ import { API } from "../Components/Config/ConfigApi";
 export function Layouts() {
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
-  const [opened, { toggle }] = useDisclosure();
+  // const [opened, { toggle }] = useDisclosure();
   const [IndexMenu, setIndexMenu] = useState(0);
   const [INdexSub, setINdexSub] = useState(0);
   const [menu, setmenu] = useState([]);

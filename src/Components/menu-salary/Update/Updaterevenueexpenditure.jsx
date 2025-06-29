@@ -167,6 +167,18 @@ function Updaterevenueexpenditure() {
       });
     }, 400);
   };
+  const [DataBudget, setDataBudget] = useState([]);
+  const FetchBudget = async () => {
+    const fetch = await axios.get(API + "/index/showBudget");
+    const data = fetch.data;
+    if (data.length !== 0) {
+      const select = data.map((i) => ({
+        value: i.idbudget,
+        label: i.namebudget + " ( " + i.idbudget + " ) ",
+      }));
+      setDataBudget(select);
+    }
+  };
   const [OverLay, setOverLay] = useState(false);
   const searchdata = (value) => {
     setOverLay(true);
@@ -199,6 +211,7 @@ function Updaterevenueexpenditure() {
           year: value.year,
           month: value.month,
           type_employ: value.type_employ,
+          idbudget:value.idbudget
         })
         .then((res) => {
           setOverLay(false);
@@ -248,12 +261,14 @@ function Updaterevenueexpenditure() {
 
   useEffect(() => {
     FetchTypeEmploy();
+    FetchBudget();
     FetchYear();
   }, []);
 
   const formSearch = useForm({
     initialValues: {
       type_employ: "",
+      idbudget: "",
       month: (new Date().getMonth().toString().length === 1
         ? "0" + new Date().getMonth()
         : new Date().getMonth()
@@ -276,45 +291,58 @@ function Updaterevenueexpenditure() {
       year: isNotEmpty("กรุณาเลือกปี"),
       monthend: isNotEmpty("กรุณาเลือกเดือน"),
       yearend: isNotEmpty("กรุณาเลือกปี"),
+      idbudget: isNotEmpty("กรุณาให้ข้อมูล"),
     },
   });
   const REVE = () => {
     // formSearch.setValues({ EXPENDITUREDATA: [] });
     formSearch.setValues({ REVENUEDATA: [] });
     formSearch.setValues({ REVENUECON: [] });
-    axios.get(API + "/index/showrevenues/" + formSearch.values.type_employ).then((res) => {
-      const da = res.data;
-      const menu = da.map((i) => ({
-        label: i.revenue_name,
-        value: i.revenue_id,
-      }));
+    axios
+      .get(
+        API +
+          "/index/showrevenues/" +
+          formSearch.values.type_employ
+      )
+      .then((res) => {
+        const da = res.data;
+        const menu = da.map((i) => ({
+          label: i.revenue_name,
+          value: i.revenue_id,
+        }));
 
-      const dataaaaaaa = [];
-      da.forEach((i) => {
-        dataaaaaaa.push(i.revenue_id);
+        const dataaaaaaa = [];
+        da.forEach((i) => {
+          dataaaaaaa.push(i.revenue_id);
+        });
+        // formSearch.setValues({ REVENUEDATA: menu, REVENUECON: dataaaaaaa });
+        formSearch.setValues({ REVENUEDATA: menu, REVENUECON: [] });
       });
-      // formSearch.setValues({ REVENUEDATA: menu, REVENUECON: dataaaaaaa });
-      formSearch.setValues({ REVENUEDATA: menu, REVENUECON: [] });
-    });
   };
   const EXPEN = () => {
     formSearch.setValues({ EXPENDITUREDATA: [] });
     formSearch.setValues({ EXPENDCON: [] });
     // formSearch.setValues({ REVENUEDATA: [] });
-    axios.get(API + "/index/showexpenditure/" + formSearch.values.type_employ).then((res) => {
-      console.log(res.data);
-      const da = res.data;
-      const menu = da.map((i) => ({
-        label: i.expenditure_name,
-        value: i.expenditure_id,
-      }));
-      const dataaaaaaa = [];
-      da.forEach((i) => {
-        dataaaaaaa.push(i.expenditure_id);
+    axios
+      .get(
+        API +
+          "/index/showexpenditure/" +
+          formSearch.values.type_employ
+      )
+      .then((res) => {
+        console.log(res.data);
+        const da = res.data;
+        const menu = da.map((i) => ({
+          label: i.expenditure_name,
+          value: i.expenditure_id,
+        }));
+        const dataaaaaaa = [];
+        da.forEach((i) => {
+          dataaaaaaa.push(i.expenditure_id);
+        });
+        // formSearch.setValues({ EXPENDITUREDATA: menu, EXPENDCON: dataaaaaaa });
+        formSearch.setValues({ EXPENDITUREDATA: menu, EXPENDCON: [] });
       });
-      // formSearch.setValues({ EXPENDITUREDATA: menu, EXPENDCON: dataaaaaaa });
-      formSearch.setValues({ EXPENDITUREDATA: menu, EXPENDCON: [] });
-    });
   };
 
   const ChangConre = (id) => {
@@ -377,13 +405,20 @@ function Updaterevenueexpenditure() {
         >
           <Flex justify={"center"}>
             <Paper mt={20} mb={20} w={"100%"}>
-              <SimpleGrid>
+              <SimpleGrid cols={2}>
                 <Select
                   searchable
                   allowDeselect={false}
                   data={DataTypeEmploy}
                   {...formSearch.getInputProps("type_employ")}
                   label="ประเภทบุคลากร"
+                />
+                <Select
+                  searchable
+                  allowDeselect={false}
+                  data={DataBudget}
+                  {...formSearch.getInputProps("idbudget")}
+                  label="ประเภทงบประมาณ"
                 />
               </SimpleGrid>
 
