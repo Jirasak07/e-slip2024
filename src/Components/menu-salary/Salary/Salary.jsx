@@ -321,24 +321,55 @@ function Salary() {
                 ),
                 manage: (
                   <Flex direction={"row"} gap={5}>
-                    <ModalAddrevenue
-                      cname={i.customers_pname + i.customers_name + " " + i.customers_lname}
-                      fn={See}
-                      idbudget={i.idbudget}
-                      year={i.history_salary_year}
-                      month={i.history_salary_month}
-                      citizent={i.customers_citizent}
-                      type={i.customers_type}
-                    />
-                    <ModalExpenditure
-                      cname={i.customers_pname + i.customers_name + " " + i.customers_lname}
-                      fn={See}
-                      idbudget={i.idbudget}
-                      year={i.history_salary_year}
-                      month={i.history_salary_month}
-                      citizent={i.customers_citizent}
-                      type={i.customers_type}
-                    />
+                    {Chk() === true ? (
+                      <>
+                        <Button
+                          disabled
+                          color="var(--secondary)"
+                          leftSection={<IconPlaylistAdd />}
+                          size="xs"
+                        >
+                          เพิ่มรายรับ
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <ModalAddrevenue
+                          cname={i.customers_pname + i.customers_name + " " + i.customers_lname}
+                          fn={See}
+                          idbudget={i.idbudget}
+                          year={i.history_salary_year}
+                          month={i.history_salary_month}
+                          citizent={i.customers_citizent}
+                          type={i.customers_type}
+                        />
+                      </>
+                    )}
+                    {Chk() === true ? (
+                      <>
+                        <Button
+                          disabled
+                          color="var(--purpel)"
+                          leftSection={<IconPlaylistAdd />}
+                          size="xs"
+                        >
+                          เพิ่มรายจ่าย
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <ModalExpenditure
+                          cname={i.customers_pname + i.customers_name + " " + i.customers_lname}
+                          fn={See}
+                          idbudget={i.idbudget}
+                          year={i.history_salary_year}
+                          month={i.history_salary_month}
+                          citizent={i.customers_citizent}
+                          type={i.customers_type}
+                        />
+                      </>
+                    )}
+
                     <Button
                       onClick={() => {
                         window.open(
@@ -450,6 +481,10 @@ function Salary() {
     }
   };
   useEffect(() => {
+    setTableSalary({
+      columns: column,
+      rows: [],
+    });
     Chk();
   }, [formSearch.values.month, formSearch.values.year]);
   return (
