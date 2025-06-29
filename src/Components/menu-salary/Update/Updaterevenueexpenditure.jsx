@@ -472,6 +472,7 @@ function Updaterevenueexpenditure() {
               <SimpleGrid cols={2}>
                 <Select
                   searchable
+                  readOnly
                   allowDeselect={false}
                   label="เลือกเดือนที่จะนำข้อมูลเข้า "
                   data={selectmount}
@@ -479,6 +480,7 @@ function Updaterevenueexpenditure() {
                 />
                 <Select
                   searchable
+                  readOnly
                   allowDeselect={false}
                   label="ปี"
                   data={DataYear}

@@ -414,8 +414,11 @@ function ImportExpend() {
   };
   const formsend = useForm({
     initialValues: {
-      year: "",
-      month: "",
+      year: new Date().getFullYear().toString(),
+      month:
+        (new Date().getMonth() + 1).toString().length === 1
+          ? "0" + (new Date().getMonth() + 1)
+          : (new Date().getMonth() + 1).toString(),
       DATAYEAR: [],
       DATAMONTH: form.values.DATAMONTH,
     },
@@ -471,11 +474,13 @@ function ImportExpend() {
             <Select
               data={formsend.values.DATAYEAR}
               label="ปี"
+              readOnly
               {...formsend.getInputProps("year")}
             />
             <Select
               data={formsend.values.DATAMONTH}
               label="เดือน"
+              readOnly
               {...formsend.getInputProps("month")}
             />
             <Button disabled={sheetsData.length === 0} mt={32} loading={LLLLLL} type="submit">

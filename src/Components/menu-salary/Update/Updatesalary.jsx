@@ -307,12 +307,14 @@ function Updatesalary() {
                   allowDeselect={false}
                   label="เลือกเดือนที่จะนำข้อมูลเข้า "
                   data={selectmount}
+                  readOnly
                   {...formSearch.getInputProps("monthend")}
                 />
                 <Select
                   searchable
                   allowDeselect={false}
                   label="ปี"
+                  readOnly
                   data={DataYear}
                   {...formSearch.getInputProps("yearend")}
                 />

@@ -1348,6 +1348,7 @@ function Uploadsalary1715() {
               <Grid.Col span={2}>
                 <Select
                   searchable
+                  readOnly
                   label="เดือน"
                   data={selectmount}
                   {...formSearch.getInputProps("month")}

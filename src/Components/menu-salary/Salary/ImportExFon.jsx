@@ -13,9 +13,10 @@ function ImportExFon() {
     initialValues: {
       type_employ: "",
       idbudget: "",
-      month: ((new Date().getMonth() + 1).toString().length === 1
-  ? "0" + (new Date().getMonth() + 1)
-  : (new Date().getMonth() + 1).toString()),
+      month:
+        (new Date().getMonth() + 1).toString().length === 1
+          ? "0" + (new Date().getMonth() + 1)
+          : (new Date().getMonth() + 1).toString(),
       year: new Date().getFullYear().toString(),
       DATABUDGET: [],
       DATAEMPLOY: [],
@@ -299,8 +300,11 @@ function ImportExFon() {
   };
   const formsend = useForm({
     initialValues: {
-      year: "",
-      month: "",
+      year: new Date().getFullYear().toString(),
+      month:
+        (new Date().getMonth() + 1).toString().length === 1
+          ? "0" + (new Date().getMonth() + 1)
+          : (new Date().getMonth() + 1).toString(),
       DATAYEAR: formSearch.values.DATAYEAR,
       DATAMONTH: formSearch.values.DATAMONTH,
     },
@@ -499,6 +503,7 @@ function ImportExFon() {
             data={formSearch.values.DATAMONTH}
             {...formSearch.getInputProps("month")}
             allowDeselect={false}
+            // readOnly
             label="เดือน"
           />
           <Button type="submit" leftSection={<IconSearch />} mt={{ base: 0, sm: 33 }}>
@@ -521,12 +526,14 @@ function ImportExFon() {
             data={formSearch.values.DATAYEAR}
             {...formsend.getInputProps("year")}
             allowDeselect={false}
+            readOnly
             label="ปี"
           />
           <Select
             data={formSearch.values.DATAMONTH}
             {...formsend.getInputProps("month")}
             allowDeselect={false}
+            readOnly
             label="เดือน"
           />
           <Button

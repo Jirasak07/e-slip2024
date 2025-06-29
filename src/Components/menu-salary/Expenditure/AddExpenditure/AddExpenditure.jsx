@@ -9,7 +9,7 @@ import {
   SimpleGrid,
 } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
-import { IconSearch } from "@tabler/icons-react";
+import { IconEdit, IconSearch } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -421,7 +421,7 @@ function AddExpenditure() {
             DATEMONTH={selectmount}
             DATAYEAR={DataYear}
             DATAEMP={DataTypeEmploy}
-            disable={!Added}
+            disable={!Added || Chk()}
             FN={FN}
           />
         </Paper>
