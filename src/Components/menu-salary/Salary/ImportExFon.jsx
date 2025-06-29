@@ -13,10 +13,9 @@ function ImportExFon() {
     initialValues: {
       type_employ: "",
       idbudget: "",
-      month: (new Date().getMonth().toString().length === 1
-        ? "0" + new Date().getMonth()
-        : new Date().getMonth()
-      ).toString(),
+      month: ((new Date().getMonth() + 1).toString().length === 1
+  ? "0" + (new Date().getMonth() + 1)
+  : (new Date().getMonth() + 1).toString()),
       year: new Date().getFullYear().toString(),
       DATABUDGET: [],
       DATAEMPLOY: [],

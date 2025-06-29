@@ -9,7 +9,7 @@ import {
   SimpleGrid,
 } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
-import { IconSearch } from "@tabler/icons-react";
+import { IconEdit, IconSearch } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -19,6 +19,7 @@ import { API } from "../../../Config/ConfigApi";
 import SkeletonTable from "../../../Publicc-user/SkeletonTable";
 import ModalAddRevenue from "./ModalAddRevenue";
 import ModalAddRevenueDifBudget from "./ModalAddRevenueDifBudget";
+import { mb, yb } from "../../../Config/AllowDate";
 
 function AddRevenue() {
   const column = [
@@ -184,7 +185,9 @@ function AddRevenue() {
           "/" +
           value.year +
           "/" +
-          value.month+"/"+value.idbudget
+          value.month +
+          "/" +
+          value.idbudget
       )
       .then((res) => {
         console.warn(res);
@@ -211,34 +214,41 @@ function AddRevenue() {
                   </Text>
                 ),
                 total: (
-                  <Text fz={14} c="dark.9">
+                  <Text fz={14} c="dark.9">   
                     {" "}
                     <NumberFormatter suffix=" ฿" value={i.payslip_total} thousandSeparator />{" "}
                   </Text>
                 ),
-                manage: (
-                  <>
-                    <ModalAddRevenue
-                      revenue_id={i.revenue_id}
-                      budget_id={i.idbudget}
-                      citiid={i.customers_citizent}
-                      payslip_total={i.payslip_total}
-                      month={i.payslip_month}
-                      payslip_status_out={i.payslip_status_out}
-                      revenue_name={i.revenue_name}
-                      revenue_name_title={
-                        i.revenue_name +
-                        "  " +
-                        i.customers_pname +
-                        i.customers_name +
-                        " " +
-                        i.customers_lname
-                      }
-                      Serch={Serch}
-                      payslip_year={i.payslip_year}
-                    />
-                  </>
-                ),
+                manage:
+                  Chk() === true ? (
+                    <>
+                      <Button size="xs" color="var(--warning)" disabled leftSection={<IconEdit />}>
+                        แก้ไขรายรับ
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <ModalAddRevenue
+                        revenue_id={i.revenue_id}
+                        budget_id={i.idbudget}
+                        citiid={i.customers_citizent}
+                        payslip_total={i.payslip_total}
+                        month={i.payslip_month}
+                        payslip_status_out={i.payslip_status_out}
+                        revenue_name={i.revenue_name}
+                        revenue_name_title={
+                          i.revenue_name +
+                          "  " +
+                          i.customers_pname +
+                          i.customers_name +
+                          " " +
+                          i.customers_lname
+                        }
+                        Serch={Serch}
+                        payslip_year={i.payslip_year}
+                      />
+                    </>
+                  ),
               })),
             ],
           });
@@ -248,8 +258,7 @@ function AddRevenue() {
           );
           let totals = Math.floor(total * 100) / 100;
           setTotal(total.toFixed(2));
-        }else{
-
+        } else {
           setLoadTable(false);
         }
 
@@ -275,7 +284,7 @@ function AddRevenue() {
   const [Total, setTotal] = useState(0);
   useEffect(() => {
     FetchTypeEmploy();
-    FetchBudget()
+    FetchBudget();
     FetchYear();
   }, []);
   const Serch = (data) => {
@@ -292,7 +301,7 @@ function AddRevenue() {
       year: new Date().getFullYear().toString(),
       revenue_id: "",
       DATA_TYPE_BUDGET: [],
-      idbudget:""
+      idbudget: "",
     },
 
     validate: {
@@ -322,6 +331,30 @@ function AddRevenue() {
       }
     });
   };
+
+  const Chk = () => {
+    const mc = mb;
+    const yc = yb;
+    const ma = formSearch.values.month;
+    const ya = formSearch.values.year;
+    console.log(ya);
+    console.log(yc);
+    console.log(ma);
+    console.log(mc);
+    if (ya === yc && mc === ma) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+  useEffect(() => {
+    Chk();
+    setTableSalary({
+      columns: column,
+      rows: [],
+    });
+  }, [formSearch.values.month, formSearch.values.year]);
+
   return (
     <>
       <Container p={0} bg={"white"} fluid>
@@ -359,7 +392,7 @@ function AddRevenue() {
                 data={SelectDatarevenue}
                 {...formSearch.getInputProps("revenue_id")}
               />
-   <Select
+              <Select
                 searchable
                 allowDeselect={false}
                 label="ประเภทงบประมาณ"
@@ -409,7 +442,7 @@ function AddRevenue() {
             DATEMONTH={selectmount}
             DATAYEAR={DataYear}
             DATAEMP={DataTypeEmploy}
-            disable={!Added}
+            disable={!Added || Chk()}
             FN={FN}
           />
         </Paper>

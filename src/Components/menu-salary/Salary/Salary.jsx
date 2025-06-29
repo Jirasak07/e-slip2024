@@ -28,6 +28,7 @@ import {
   IconEdit,
   IconPlaylistAdd,
 } from "@tabler/icons-react";
+import { mb, yb } from "../../Config/AllowDate";
 function Salary() {
   const [Expenditure_true, setExpenditure_true] = useState(0);
   const [Revenue_true, setRevenue_true] = useState(0);
@@ -374,7 +375,7 @@ function Salary() {
           (sum, current) => (sum = sum + Number(current.history_salary_salary)),
           0
         );
-        console.log(history_salary_salary)
+        console.log(history_salary_salary);
         const salary_true = data.reduce(
           (sum, current) => (sum = sum + Number(current.salary_true)),
           0
@@ -419,10 +420,10 @@ function Salary() {
     initialValues: {
       type_employ: "",
       idbudget: "",
-      month: (new Date().getMonth().toString().length === 1
-        ? "0" + new Date().getMonth()
-        : new Date().getMonth()
-      ).toString(),
+      month:
+        (new Date().getMonth() + 1).toString().length === 1
+          ? "0" + (new Date().getMonth() + 1)
+          : (new Date().getMonth() + 1).toString(),
       year: new Date().getFullYear().toString(),
       DATABUDGET: [],
     },
@@ -433,6 +434,24 @@ function Salary() {
       year: isNotEmpty("กรุณาเลือกปี"),
     },
   });
+  const Chk = () => {
+    const mc = mb;
+    const yc = yb;
+    const ma = formSearch.values.month;
+    const ya = formSearch.values.year;
+    console.log(ya);
+    console.log(yc);
+    console.log(ma);
+    console.log(mc);
+    if (ya === yc && mc === ma) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+  useEffect(() => {
+    Chk();
+  }, [formSearch.values.month, formSearch.values.year]);
   return (
     <>
       <Container p={0} bg={"white"} fluid>
@@ -472,6 +491,7 @@ function Salary() {
             </SimpleGrid>
           </form>
         </Paper>
+
         <Paper p={10} shadow="none">
           {}
 
@@ -486,7 +506,12 @@ function Salary() {
                       // console.log(v);
                     })}
                   >
-                    <Button leftSection={<IconDeviceFloppy />} color="var(--success)" type="submit">
+                    <Button
+                      leftSection={<IconDeviceFloppy />}
+                      color="var(--success)"
+                      type="submit"
+                      disabled={Chk()}
+                    >
                       อัพเดทประกันสังคม
                     </Button>
                   </form>
@@ -513,7 +538,12 @@ function Salary() {
                       // console.log(v);
                     })}
                   >
-                    <Button leftSection={<IconDeviceFloppy />} color="var(--purpel)" type="submit">
+                    <Button
+                      leftSection={<IconDeviceFloppy />}
+                      disabled={Chk()}
+                      color="var(--purpel)"
+                      type="submit"
+                    >
                       อัพเดท ก.ส.จ
                     </Button>
                   </form>
@@ -556,13 +586,12 @@ function Salary() {
           <Paper p={20}>
             <Text>รายการติดลบ</Text>
             <SimpleGrid>
-                    {Data.map((i,key)=>(
-                      <Text c={"red"} key={key} >
-                        {i.customers_pname + i.customers_name +"  "+i.customers_lname} { i.salary_true}
-                      </Text>
-                    ))}
+              {Data.map((i, key) => (
+                <Text c={"red"} key={key}>
+                  {i.customers_pname + i.customers_name + "  " + i.customers_lname} {i.salary_true}
+                </Text>
+              ))}
             </SimpleGrid>
-      
           </Paper>
         )}
 

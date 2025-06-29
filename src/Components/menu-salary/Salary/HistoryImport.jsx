@@ -135,10 +135,10 @@ function HistoryImport() {
   const formSearch = useForm({
     initialValues: {
       idbudget: "",
-      month: (new Date().getMonth().toString().length === 1
-        ? "0" + new Date().getMonth()
-        : new Date().getMonth()
-      ).toString(),
+      month:
+        (new Date().getMonth() + 1).toString().length === 1
+          ? "0" + (new Date().getMonth() + 1)
+          : (new Date().getMonth() + 1).toString(),
       year: new Date().getFullYear().toString(),
       //    type: "",
       //  yearend: (new Date().getFullYear()).toString(),
@@ -327,7 +327,7 @@ function HistoryImport() {
       },
     ];
     const data = DataExport;
-    console.log(data)
+    console.log(data);
     data.map((i, rowIndex) => {
       const rowNumber = rowIndex + 2;
       sheet.addRow({
@@ -374,7 +374,12 @@ function HistoryImport() {
       const url = window.URL.createObjectURL(blob);
       const anchor = document.createElement("a");
       anchor.href = url;
-      anchor.download = "รายงานประวัติการนำเข้าเงินเดือนเลื่อน"+data[0].history_salary_year+"-"+data[0].history_salary_month+".xlsx";
+      anchor.download =
+        "รายงานประวัติการนำเข้าเงินเดือนเลื่อน" +
+        data[0].history_salary_year +
+        "-" +
+        data[0].history_salary_month +
+        ".xlsx";
       DataYear;
       anchor.click();
       window.URL.revokeObjectURL(url);

@@ -122,8 +122,6 @@ function Uploadsalary1715() {
       field: "compensation2nu",
       minimal: "lg",
     },
-
-    
   ];
 
   const columns = [
@@ -207,7 +205,6 @@ function Uploadsalary1715() {
       field: "chao",
       minimal: "lg",
     },
-   
   ];
 
   const [TableSalary, setTableSalary] = useState({
@@ -560,13 +557,13 @@ function Uploadsalary1715() {
             i.เงินตอบแทนพิเศษ === null
               ? "0.00"
               : i.เงินตอบแทนพิเศษ * i.จำนวนเดือนตกเบิก,
-              compensation2nu:
-              i.ตกเบิกเงินตอบแทนพิเศษพยาบาล === 0 ||
-              i.ตกเบิกเงินตอบแทนพิเศษพยาบาล === "" ||
-              i.ตกเบิกเงินตอบแทนพิเศษพยาบาล === undefined ||
-              i.ตกเบิกเงินตอบแทนพิเศษพยาบาล === null
-                ? "0.00"
-                : i.ตกเบิกเงินตอบแทนพิเศษพยาบาล * i.จำนวนเดือนตกเบิก,
+          compensation2nu:
+            i.ตกเบิกเงินตอบแทนพิเศษพยาบาล === 0 ||
+            i.ตกเบิกเงินตอบแทนพิเศษพยาบาล === "" ||
+            i.ตกเบิกเงินตอบแทนพิเศษพยาบาล === undefined ||
+            i.ตกเบิกเงินตอบแทนพิเศษพยาบาล === null
+              ? "0.00"
+              : i.ตกเบิกเงินตอบแทนพิเศษพยาบาล * i.จำนวนเดือนตกเบิก,
         }));
 
         //Addhistorysalaryincrease  --logทั้งหมด
@@ -618,15 +615,12 @@ function Uploadsalary1715() {
         // console.log(compensation)
         setDatacompensation2(compensation2);
 
-
-           //filter ตกเบิกค่าตอบแทนพิเศษพยาบาล id = '110'
-           const compensation2nu = myArray.filter(
-            (salary) => salary.compensation2nu > 0 || salary.compensation2nu !== ""
-          );
-          // console.log(compensation)
-          setDatacompensation2nu(compensation2nu);
-
-
+        //filter ตกเบิกค่าตอบแทนพิเศษพยาบาล id = '110'
+        const compensation2nu = myArray.filter(
+          (salary) => salary.compensation2nu > 0 || salary.compensation2nu !== ""
+        );
+        // console.log(compensation)
+        setDatacompensation2nu(compensation2nu);
 
         //ใช้โชว์ข้อมูล
         setTablelist({
@@ -762,7 +756,6 @@ function Uploadsalary1715() {
                 />
               ),
             })),
-            
           ],
         });
 
@@ -909,9 +902,6 @@ function Uploadsalary1715() {
                                     check: form,
                                   })
                                   .then((res) => {
-
-
-
                                     if (DataChao.length > 0) {
                                       const form = DataChao;
                                       axios
@@ -923,7 +913,6 @@ function Uploadsalary1715() {
                                           check: form,
                                         })
                                         .then((res) => {
-
                                           setLoadSubmit(false);
                                           Swal.fire({
                                             title: "อัพเดทข้อมูลสำเร็จ",
@@ -961,28 +950,22 @@ function Uploadsalary1715() {
                                               check: form,
                                             })
                                             .then((res) => {
-
-                                                setLoadSubmit(false);
-                                                Swal.fire({
-                                                  title: "อัพเดทข้อมูลสำเร็จ",
-                                                  icon: "success",
-                                                  confirmButtonText: "ตกลง",
-                                                }).then((result) => {
-                                                  // setTablelist({
-                                                  //   columns: column,
-                                                  //   rows: [],
-                                                  // });
-                                                  setSalarylist([]);
-                                                  window.location.reload();
-                                                });
+                                              setLoadSubmit(false);
+                                              Swal.fire({
+                                                title: "อัพเดทข้อมูลสำเร็จ",
+                                                icon: "success",
+                                                confirmButtonText: "ตกลง",
+                                              }).then((result) => {
+                                                // setTablelist({
+                                                //   columns: column,
+                                                //   rows: [],
+                                                // });
+                                                setSalarylist([]);
+                                                window.location.reload();
+                                              });
                                             });
-
-
-                                         
                                         });
                                     }
-
-                                    
                                   });
                               });
                           });
@@ -1086,10 +1069,10 @@ function Uploadsalary1715() {
     initialValues: {
       idbudget: "",
       // customertype:"",
-      month: (new Date().getMonth().toString().length === 1
-        ? "0" + new Date().getMonth()
-        : new Date().getMonth()
-      ).toString(),
+      month:
+        (new Date().getMonth() + 1).toString().length === 1
+          ? "0" + (new Date().getMonth() + 1)
+          : (new Date().getMonth() + 1).toString(),
       year: new Date().getFullYear().toString(),
       customertype: [],
       //    type: "",

@@ -88,6 +88,7 @@ function App() {
           <Route path="/manage-salary/import-history" element={<HistoryImport />} />
           <Route path="/manage-salary/import-ex-fon" element={<ImportExFon />} />
         </Route>
+        
       </Routes>
     </>
   );

@@ -19,6 +19,7 @@ import { API } from "../../../Config/ConfigApi";
 import SkeletonTable from "../../../Publicc-user/SkeletonTable";
 import ModalAddExpenditure from "./ModalAddExpenditure";
 import ModalAddExpenditureDifBudget from "./ModalAddExpenditureDifBudget";
+import { mb, yb } from "../../../Config/AllowDate";
 
 function AddExpenditure() {
   const column = [
@@ -184,7 +185,9 @@ function AddExpenditure() {
           "/" +
           value.year +
           "/" +
-          value.month+"/"+value.idbudget
+          value.month +
+          "/" +
+          value.idbudget
       )
       .then((res) => {
         setAdded(true);
@@ -216,29 +219,37 @@ function AddExpenditure() {
                     <NumberFormatter suffix=" ฿" value={i.payslip_total} thousandSeparator />{" "}
                   </Text>
                 ),
-                manage: (
-                  <>
-                    <ModalAddExpenditure
-                      expend_id={i.expenditure_id}
-                      budget_id={i.idbudget}
-                      citiid={i.customers_citizent}
-                      payslip_total={i.payslip_total}
-                      expend_name={i.expenditure_name}
-                      payslip_month={i.payslip_month}
-                      payslip_status_out={i.payslip_status_out}
-                      payslip_year={i.payslip_year}
-                      expend_name_title={
-                        i.expenditure_name +
-                        "  " +
-                        i.customers_pname +
-                        i.customers_name +
-                        " " +
-                        i.customers_lname
-                      }
-                      Serch={Serch}
-                    />
-                  </>
-                ),
+                manage:
+                  Chk() === true ? (
+                    <>
+                      {" "}
+                      <Button size="xs" color="var(--warning)" disabled leftSection={<IconEdit />}>
+                        แก้ไขรายจ่าย
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <ModalAddExpenditure
+                        expend_id={i.expenditure_id}
+                        budget_id={i.idbudget}
+                        citiid={i.customers_citizent}
+                        payslip_total={i.payslip_total}
+                        expend_name={i.expenditure_name}
+                        payslip_month={i.payslip_month}
+                        payslip_status_out={i.payslip_status_out}
+                        payslip_year={i.payslip_year}
+                        expend_name_title={
+                          i.expenditure_name +
+                          "  " +
+                          i.customers_pname +
+                          i.customers_name +
+                          " " +
+                          i.customers_lname
+                        }
+                        Serch={Serch}
+                      />
+                    </>
+                  ),
               })),
             ],
           });
@@ -301,6 +312,28 @@ function AddExpenditure() {
   const FN = (params) => {
     submitdata(formSearch.values);
   };
+  const Chk = () => {
+    const mc = mb;
+    const yc = yb;
+    const ma = formSearch.values.month;
+    const ya = formSearch.values.year;
+    console.log(ya);
+    console.log(yc);
+    console.log(ma);
+    console.log(mc);
+    if (ya === yc && mc === ma) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+  useEffect(() => {
+    setTableSalary({
+      columns: column,
+      rows: [],
+    });
+    Chk();
+  }, [formSearch.values.month, formSearch.values.year]);
   return (
     <>
       <Container p={0} bg={"white"} fluid>
