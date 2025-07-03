@@ -33,6 +33,7 @@ import SkeletonTable from "../../Publicc-user/SkeletonTable";
 import ExcelJs from "exceljs";
 //import { read, writeFileXLSX } from "xlsx";
 import * as xlsx from "xlsx";
+import { mb, yb } from "../../Config/AllowDate";
 
 function Uploadsalary1715() {
   const [files, setFiles] = useState(null);
@@ -1320,6 +1321,21 @@ function Uploadsalary1715() {
       window.URL.revokeObjectURL(url);
     });
   };
+   const Chk = () => {
+      const mc = mb;
+      const yc = yb;
+      const ma = formSearch.values.month;
+      const ya = formSearch.values.year;
+      console.log(ya);
+      console.log(yc);
+      console.log(ma);
+      console.log(mc);
+      if (ya === yc && mc === ma) {
+        return false;
+      } else {
+        return true;
+      }
+    };
   return (
     <>
       {" "}
@@ -1348,7 +1364,7 @@ function Uploadsalary1715() {
               <Grid.Col span={2}>
                 <Select
                   searchable
-                  readOnly
+                  // readOnly
                   label="เดือน"
                   data={selectmount}
                   {...formSearch.getInputProps("month")}
@@ -1439,7 +1455,7 @@ function Uploadsalary1715() {
                   disabled={
                     formSearch.values.idbudget === "" ||
                     formSearch.values.month === "" ||
-                    formSearch.values.year === ""
+                    formSearch.values.year === "" || Chk()
                   }
                   leftSection={<IconFile />}
                   color="violet"
@@ -1454,7 +1470,7 @@ function Uploadsalary1715() {
                 disabled={
                   formSearch.values.idbudget === "" ||
                   formSearch.values.month === "" ||
-                  formSearch.values.year === ""
+                  formSearch.values.year === "" || Chk()
                 }
                 type="submit"
                 leftSection={<IconFolderUp />}
