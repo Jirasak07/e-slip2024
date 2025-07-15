@@ -7,6 +7,7 @@ import {
   SimpleGrid,
   Flex,
   NumberFormatter,
+  LoadingOverlay,
 } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { IconSearch, IconPrinter } from "@tabler/icons-react";
@@ -223,9 +224,10 @@ function Salary() {
         console.log(res.data);
       });
   };
-
+  const [Loadjk, setLoadjk] = useState(false);
   const Updatetypesavejk = (value) => {
     // setBtnLoad(true);
+    setLoadjk(true);
     const form = Datatype;
     axios
       .post(API + "/index/Addrevenuefortypekj", {
@@ -236,6 +238,7 @@ function Salary() {
         check: form,
       })
       .then((res) => {
+        setLoadjk(false);
         // setBtnLoad(false);
         if (res.data === "200") {
           Swal.fire({
@@ -489,6 +492,7 @@ function Salary() {
   }, [formSearch.values.month, formSearch.values.year]);
   return (
     <>
+      <LoadingOverlay pos={"fixed"} h={"100vh"} visible={Loadjk} />
       <Container p={0} bg={"white"} fluid>
         <Badge color="var(--primary)" variant="light" size="md" radius={8}>
           จัดการข้อมูลเงินเดือน
