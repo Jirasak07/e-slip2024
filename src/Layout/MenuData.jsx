@@ -21,6 +21,7 @@ import {
   IconTrendingDown,
   IconTrendingUp,
   IconUser,
+  IconUserBolt,
   IconUserCog,
 } from "@tabler/icons-react";
 
@@ -215,7 +216,12 @@ export const menus = [
           //   icon: <IconFileTypePdf />,
           // },
         ],
-      },
+      },{
+         title: "รายงานลูกหนี้เงินยืมนอกงบประมาณ",
+        path: "/debtor",
+        icon: <IconUserBolt/>,
+        sub: []
+      }
     ],
   },
   {

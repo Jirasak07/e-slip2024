@@ -36,6 +36,7 @@ import Report1715 from "./Components/menu-salary/Report/Report1715";
 import ImportExFon from "./Components/menu-salary/Salary/ImportExFon";
 import UploadTaxKrk from "./Components/ManageUser/Tax/UploadTaxKrk";
 import DownloadTax from "./Components/ManageUser/Tax/DownloadTax";
+import Debtor from "./Components/Debtor/Debtor";
 
 function App() {
   return (
@@ -87,8 +88,8 @@ function App() {
           <Route path="/manage-salary/import-export1715" element={<Uploadsalary1715 />} />
           <Route path="/manage-salary/import-history" element={<HistoryImport />} />
           <Route path="/manage-salary/import-ex-fon" element={<ImportExFon />} />
+          <Route path="/debtor" element={<Debtor />} />
         </Route>
-        
       </Routes>
     </>
   );
