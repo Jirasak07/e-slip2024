@@ -8,20 +8,49 @@ import {
   Textarea,
   TextInput,
 } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
+import axios from "axios";
 
 function AddDebtor() {
   const [opened, { open, close }] = useDisclosure();
+  const form = useForm({
+    initialValues: {
+      DATAEMPLOY: [],
+    },
+  });
+  const FindEmploy = async () => {
+    try {
+      // const "/room/findemploy"
+      const fetch = await axios.get("https://mua.kpru.ac.th/apiexamcheck/room/findemploy");
+      const data = fetch.data;
+      if (data.length !== 0) {
+        form.setValues({ DATAEMPLOY: data });
+      } else {
+        form.setValues({ DATAEMPLOY: [] });
+      }
+      open();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
-      <Button onClick={open}>เพิ่มข้อมูลลูกหนี้</Button>
+      <Button
+        onClick={() => {
+          FindEmploy();
+        }}
+      >
+        เพิ่มข้อมูลลูกหนี้
+      </Button>
       <Modal size={"lg"} title="เพิ่มข้อมูลลูกหนี้" opened={opened} onClose={close}>
         <SimpleGrid cols={2}>
           <TextInput type="date" label="วัน เดือน ปี" />
           <TextInput type="date" label="วันครบกำหนด" />
         </SimpleGrid>
 
-        <Select searchable={true} mt={5} label="ผู้ยืม" />
+        <Select searchable={true} data={form.values.DATAEMPLOY} mt={5} label="ผู้ยืม" />
         <Textarea autosize minRows={2} resize="vertical" label="วัตถุประสงค์การยืม" />
         <SimpleGrid cols={2}>
           <NumberInput thousandSeparator decimalScale={2} fixedDecimalScale label="จำนวนเงินค้าง" />
