@@ -2,6 +2,7 @@ import { Button, Flex, Paper } from "@mantine/core";
 import { IconSettings } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
 import { useState } from "react";
+import AddDebtor from "./Components/AddDebtor";
 
 function Debtor() {
   const columns = [
@@ -53,7 +54,7 @@ function Debtor() {
   return (
     <>
       <Flex px={30} justify={"flex-end"}>
-        <Button>เพิ่มข้อมูลลูกหนี้</Button>
+        <AddDebtor />
       </Flex>
       <Paper p={10} shadow="sm">
         <MDBDataTableV5 data={Data} />
