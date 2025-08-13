@@ -539,7 +539,8 @@ function ImportExFon() {
           <Button
             color="green.8"
             disabled={
-              (localStorage.getItem("fname") !== "วรรณภา" &&
+              // (localStorage.getItem("fname") !== "วรรณภา" &&
+              (localStorage.getItem("fname") !== "กิ่งกาญจน์" &&
                 localStorage.getItem("fname") !== "จิรศักดิ์" &&
                 file !== null) ||
               file === null

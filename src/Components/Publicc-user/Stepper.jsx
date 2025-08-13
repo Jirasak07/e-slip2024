@@ -69,7 +69,8 @@ function Steppers({ val }) {
         console.log(active);
         if (active === 3) {
           if (
-            fname === "วรรณภา" ||
+            fname === "กิ่งกาญจน์" ||
+            // fname === "วรรณภา" ||
             fname === "นฤมล" ||
             fname === "ปราจิน" ||
             fname === "วราภรณ์" ||
@@ -119,7 +120,8 @@ function Steppers({ val }) {
             });
           } else if (
             active === 2 &&
-            (fname === "วรรณภา" ||
+            // (fname === "วรรณภา" ||
+            (fname === "กิ่งกาญจน์" ||
               fname === "นฤมล" ||
               fname === "ปราจิน" ||
               fname === "วราภรณ์" ||
