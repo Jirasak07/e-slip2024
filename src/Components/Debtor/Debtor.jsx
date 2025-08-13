@@ -1,8 +1,9 @@
 import { Button, Flex, Paper } from "@mantine/core";
 import { IconSettings } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddDebtor from "./Components/AddDebtor";
+import EditDebtor from "./Components/EditDebtor";
 
 function Debtor() {
   const columns = [
@@ -39,7 +40,7 @@ function Debtor() {
       field: "note",
     },
     {
-      label: "จำนวนเงินค้าง",
+      label: "จำนวนเงินค้างคงเหลือ",
       field: "total",
     },
     {
@@ -51,6 +52,49 @@ function Debtor() {
     columns: columns,
     rows: [],
   });
+  useEffect(() => {
+    FetchData();
+  }, []);
+  const FetchData = async () => {
+    try {
+      const d = [
+        {
+          id: "1",
+          names: "12",
+        },
+        {
+          id: "1s",
+          names: "12s",
+        },
+        {
+          id: "1a",
+          names: "12a",
+        },
+        {
+          id: "1d",
+          names: "12d",
+        },
+      ];
+      const rowwwww = d.map((i, key) => ({
+        no: key + 1,
+        date: i.names,
+        manage: (
+          <>
+            <Flex>
+             <EditDebtor/>
+            </Flex>
+          </>
+        ),
+      }));
+      setData({
+        columns: columns,
+        rows: rowwwww,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Flex px={30} justify={"flex-end"}>

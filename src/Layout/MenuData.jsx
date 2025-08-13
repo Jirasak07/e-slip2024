@@ -217,12 +217,12 @@ export const menus = [
           // },
         ],
       },
-      // {
-      //    title: "รายงานลูกหนี้เงินยืมนอกงบประมาณ",
-      //   path: "/debtor",
-      //   icon: <IconUserBolt/>,
-      //   sub: []
-      // }
+      {
+         title: "รายงานลูกหนี้เงินยืมนอกงบประมาณ",
+        path: "/debtor",
+        icon: <IconUserBolt/>,
+        sub: []
+      }
     ],
   },
   {

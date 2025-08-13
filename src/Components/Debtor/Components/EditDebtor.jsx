@@ -10,50 +10,20 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
-import axios from "axios";
 
-function AddDebtor() {
+function EditDebtor() {
   const [opened, { open, close }] = useDisclosure();
   const form = useForm({
     initialValues: {
       DATAEMPLOY: [],
-      DEBTOR_CITIZEN: "", //เลขบัตรผู้ยืม
-      DEBTOR_DATE: "", //วัน เดือน ปี ยืม
-      DEBTOR_DATEEND: "", //วัน เดือน ปี ครบกำหนด
-      DEBTOR_PURPOSE: "", //วัตถุประสงค์การยืม
-      DEBTOR_AMOUNT: "", //จำนวนเงินค้าง
-      DEBTOR_TOTAL: "", //จำนวนเงินค้างคงเหลือ
-      DEBTOR_BILL: "", //ใบยืมที่
-      DEBTOR_NOTE: "", //หมายเหตุ
-      DEBTOR_TYPENOTIFY: "", //ประเภทระยะเวลาการแจ้งเตือน
     },
   });
-  const FindEmploy = async () => {
-    try {
-      // const "/room/findemploy"
-      const fetch = await axios.get("https://mua.kpru.ac.th/apiexamcheck/room/findemploy");
-      const data = fetch.data;
-      if (data.length !== 0) {
-        form.setValues({ DATAEMPLOY: data });
-      } else {
-        form.setValues({ DATAEMPLOY: [] });
-      }
-      open();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <>
-      <Button
-        onClick={() => {
-          FindEmploy();
-        }}
-      >
-        เพิ่มข้อมูลลูกหนี้
+      <Button onClick={open} color="orange.5" size="xs">
+        แก้ไข
       </Button>
-      <Modal size={"lg"} title="เพิ่มข้อมูลลูกหนี้" opened={opened} onClose={close}>
+      <Modal title="แก้ไขข้อมูลลูกหนี้" opened={opened} onClose={close}>
         <SimpleGrid cols={2}>
           <TextInput type="date" label="วัน เดือน ปี" />
           <TextInput type="date" label="วันครบกำหนด" />
@@ -72,9 +42,8 @@ function AddDebtor() {
         </SimpleGrid>
         <TextInput mt={5} label="ใบยืมที่" />
         <Textarea autosize minRows={2} resize="vertical" label="หมายเหตุ" />
-        <SimpleGrid cols={2}>
+        <SimpleGrid cols={2} mt={5}>
           <Select
-            mt={5}
             data={[
               {
                 label: "ทุกๆ 1 วัน",
@@ -95,6 +64,19 @@ function AddDebtor() {
             ]}
             label="ระยะเวลาการแจ้งเตือน"
           />
+          <Select
+            label="สถานะการแจ้งเตือน"
+            data={[
+              {
+                label: "เปิดใช้งาน",
+                value: "1",
+              },
+              {
+                label: "ปิดใช้งาน",
+                value: "0",
+              },
+            ]}
+          />
         </SimpleGrid>
         <Divider size={"md"} variant="dashed" my={15} />
         <Button fullWidth mt={5}>
@@ -105,4 +87,4 @@ function AddDebtor() {
   );
 }
 
-export default AddDebtor;
+export default EditDebtor;
