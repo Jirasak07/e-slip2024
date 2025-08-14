@@ -1,26 +1,18 @@
 import {
   ActionIcon,
   Badge,
-  Box,
   Button,
   Container,
   Flex,
   LoadingOverlay,
-  Menu,
   Paper,
   Select,
-  SimpleGrid,
   Text,
   Tooltip,
-  VisuallyHidden,
-  rem,
 } from "@mantine/core";
 import {
-  IconHeart,
-  IconMenu,
   IconRefresh,
   IconSearch,
-  IconSettings,
   IconUserCancel,
 } from "@tabler/icons-react";
 import axios from "axios";
@@ -32,10 +24,8 @@ import { isNotEmpty, useForm } from "@mantine/form";
 import SkeletonTable from "../../Publicc-user/SkeletonTable";
 import ModalEditOfficer from "./ModalEditOfficer";
 import ModalManageSalaryOfficer from "./ModalManageSalaryOfficer";
-import ModalDeleteOfficer from "./ModalDeleteOfficer";
 import ModalManageBankOfficer from "./ManageBank/ModalManageBankOfficer";
 import ManageOfficer from "./ManageOfficer/ManageOfficer";
-import { useViewportSize } from "@mantine/hooks";
 function Officer() {
   const [OverLayLoad, setOverLayLoad] = useState(false);
   const [DataSelectTypeCustomer, setDataSelectTypeCustomer] = useState([]);
@@ -72,7 +62,7 @@ function Officer() {
     rows: [],
   });
 
-  const FetchTypeCustomer = (params) => {
+  const FetchTypeCustomer = () => {
     axios.get(API + "/index/showcustomertype").then((res) => {
       const data = res.data;
       if (data.length !== 0) {

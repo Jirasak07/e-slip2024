@@ -4,7 +4,8 @@ import { MDBDataTableV5 } from "mdbreact";
 import { useEffect, useState } from "react";
 import AddDebtor from "./Components/AddDebtor";
 import EditDebtor from "./Components/EditDebtor";
-
+import axios from "axios";
+import { API } from "../Config/ConfigApi";
 function Debtor() {
   const columns = [
     {
@@ -57,24 +58,7 @@ function Debtor() {
   }, []);
   const FetchData = async () => {
     try {
-      const d = [
-        {
-          id: "1",
-          names: "12",
-        },
-        {
-          id: "1s",
-          names: "12s",
-        },
-        {
-          id: "1a",
-          names: "12a",
-        },
-        {
-          id: "1d",
-          names: "12d",
-        },
-      ];
+     const fetch = await axios.get(API+'/Debtor');
       const rowwwww = d.map((i, key) => ({
         no: key + 1,
         date: i.names,
