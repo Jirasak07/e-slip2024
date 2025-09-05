@@ -47,6 +47,7 @@ function AddDebtor() {
   return (
     <>
       <Button
+        color="var(--primary)"
         onClick={() => {
           FindEmploy();
         }}
@@ -62,9 +63,20 @@ function AddDebtor() {
         <Select searchable={true} data={form.values.DATAEMPLOY} mt={5} label="ผู้ยืม" />
         <Textarea autosize minRows={2} resize="vertical" label="วัตถุประสงค์การยืม" />
         <SimpleGrid cols={2}>
-          <NumberInput thousandSeparator decimalScale={2} fixedDecimalScale label="จำนวนเงินค้าง" />
           <NumberInput
+            suffix=" ฿"
             thousandSeparator
+            defaultValue={0.00}
+            decimalScale={2}
+            fixedDecimalScale
+            label="จำนวนเงินค้าง"
+            hideControls
+          />
+          <NumberInput
+          defaultValue={0.00}
+            thousandSeparator
+            suffix=" ฿"
+            hideControls
             decimalScale={2}
             fixedDecimalScale
             label="จำนวนเงินค้างคงเหลือ"
@@ -93,11 +105,11 @@ function AddDebtor() {
                 value: "4",
               },
             ]}
-            label="ระยะเวลาการแจ้งเตือน"
+            label="รอบการแจ้งเตือน"
           />
         </SimpleGrid>
         <Divider size={"md"} variant="dashed" my={15} />
-        <Button fullWidth mt={5}>
+        <Button color="var(--primary)" fullWidth mt={5}>
           บันทึก
         </Button>
       </Modal>
