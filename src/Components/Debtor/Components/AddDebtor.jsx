@@ -8,10 +8,10 @@ import {
   Textarea,
   TextInput,
 } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { isNotEmpty, useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import axios from "axios";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 
 function AddDebtor() {
   const [opened, { open, close }] = useDisclosure();
@@ -27,6 +27,16 @@ function AddDebtor() {
       DEBTOR_BILL: "", //ใบยืมที่
       DEBTOR_NOTE: "", //หมายเหตุ
       DEBTOR_TYPENOTIFY: "", //ประเภทระยะเวลาการแจ้งเตือน
+    },
+    validate: {
+      DEBTOR_DATE: isNotEmpty("กรุณากรอกข้อมูล"),
+      DEBTOR_DATEEND: isNotEmpty("กรุณากรอกข้อมูล"),
+      DEBTOR_PURPOSE: isNotEmpty("กรุณากรอกข้อมูล"),
+      DEBTOR_AMOUNT: isNotEmpty("กรุณากรอกข้อมูล"),
+      DEBTOR_TOTAL: isNotEmpty("กรุณากรอกข้อมูล"),
+      DEBTOR_BILL: isNotEmpty("กรุณากรอกข้อมูล"),
+      DEBTOR_NOTE: isNotEmpty("กรุณากรอกข้อมูล"),
+      DEBTOR_TYPENOTIFY: isNotEmpty("กรุณากรอกข้อมูล"),
     },
   });
   const FindEmploy = async () => {
@@ -48,18 +58,17 @@ function AddDebtor() {
   const Submit = async (data) => {
     try {
       console.log(data);
-      Swal.fire({
-        icon: "success",
-        title: "เพิ่มข้อมูลสำเร็จ",
-        timer: 1500,
-        timerProgressBar: true,
-        showConfirmButton: false,
-      });
+      // Swal.fire({
+      //   icon: "success",
+      //   title: "เพิ่มข้อมูลสำเร็จ",
+      //   timer: 1500,
+      //   timerProgressBar: true,
+      //   showConfirmButton: false,
+      // });
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
     <>
       <Button
@@ -73,12 +82,23 @@ function AddDebtor() {
       <Modal size={"lg"} title="เพิ่มข้อมูลลูกหนี้" opened={opened} onClose={close}>
         <form onSubmit={form.onSubmit((val) => Submit(val))}>
           <SimpleGrid cols={2}>
-            <TextInput type="date" label="วัน เดือน ปี" />
-            <TextInput type="date" label="วันครบกำหนด" />
+            <TextInput type="date" label="วัน เดือน ปี" {...form.getInputProps("DEBTOR_DATE")} />
+            <TextInput type="date" label="วันครบกำหนด" {...form.getInputProps("DEBTOR_DATEEND")} />
           </SimpleGrid>
-
-          <Select searchable={true} data={form.values.DATAEMPLOY} mt={5} label="ผู้ยืม" />
-          <Textarea autosize minRows={2} resize="vertical" label="วัตถุประสงค์การยืม" />
+          <Select
+            searchable={true}
+            data={form.values.DATAEMPLOY}
+            mt={5}
+            label="ผู้ยืม"
+            {...form.getInputProps("DEBTOR_CITIZEN")}
+          />
+          <Textarea
+            autosize
+            minRows={2}
+            resize="vertical"
+            label="วัตถุประสงค์การยืม"
+            {...form.getInputProps("DEBTOR_PURPOSE")}
+          />
           <SimpleGrid cols={2}>
             <NumberInput
               suffix=" ฿"
@@ -87,6 +107,7 @@ function AddDebtor() {
               decimalScale={2}
               fixedDecimalScale
               label="จำนวนเงินค้าง"
+              {...form.getInputProps("DEBTOR_AMOUNT")}
               hideControls
             />
             <NumberInput
@@ -96,13 +117,19 @@ function AddDebtor() {
               hideControls
               decimalScale={2}
               fixedDecimalScale
+              {...form.getInputProps("DEBTOR_TOTAL")}
               label="จำนวนเงินค้างคงเหลือ"
             />
           </SimpleGrid>
-          <TextInput mt={5} label="ใบยืมที่" />
-          <Textarea autosize minRows={2} resize="vertical" label="หมายเหตุ" />
           <SimpleGrid cols={2}>
+            <NumberInput
+              mt={5}
+              label="ใบยืมที่"
+              hideControls
+              {...form.getInputProps("DEBTOR_BILL")}
+            />
             <Select
+              {...form.getInputProps("DEBTOR_TYPENOTIFY")}
               mt={5}
               data={[
                 {
@@ -124,7 +151,14 @@ function AddDebtor() {
               ]}
               label="รอบการแจ้งเตือน"
             />
-          </SimpleGrid>
+          </SimpleGrid>{" "}
+          <Textarea
+            autosize
+            minRows={2}
+            resize="vertical"
+            label="หมายเหตุ"
+            {...form.getInputProps("DEBTOR_NOTE")}
+          />
           <Divider size={"md"} variant="dashed" my={15} />
           <Button type="submit" color="var(--primary)" fullWidth mt={5}>
             บันทึก

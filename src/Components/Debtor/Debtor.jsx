@@ -1,4 +1,4 @@
-import {  Flex, Paper } from "@mantine/core";
+import { Flex, Paper } from "@mantine/core";
 import { IconSettings } from "@tabler/icons-react";
 import { MDBDataTableV5 } from "mdbreact";
 import { useEffect, useState } from "react";
@@ -58,22 +58,25 @@ function Debtor() {
   }, []);
   const FetchData = async () => {
     try {
-     const fetch = await axios.get(API+'/Debtor');
-      const rowwwww = d.map((i, key) => ({
-        no: key + 1,
-        date: i.names,
-        manage: (
-          <>
-            <Flex>
-             <EditDebtor/>
-            </Flex>
-          </>
-        ),
-      }));
-      setData({
-        columns: columns,
-        rows: rowwwww,
-      });
+      const fetch = await axios.get(API + "/Debtor");
+      const da = await fetch.data;
+      if (da.length !== 0) {
+        const rowwwww = da.map((i, key) => ({
+          no: key + 1,
+          date: i.names,
+          manage: (
+            <>
+              <Flex>
+                <EditDebtor />
+              </Flex>
+            </>
+          ),
+        }));
+        setData({
+          columns: columns,
+          rows: rowwwww,
+        });
+      }
     } catch (error) {
       console.log(error);
     }
