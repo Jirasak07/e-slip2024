@@ -11,6 +11,7 @@ import {
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function AddDebtor() {
   const [opened, { open, close }] = useDisclosure();
@@ -44,6 +45,21 @@ function AddDebtor() {
       console.log(error);
     }
   };
+  const Submit = async (data) => {
+    try {
+      console.log(data);
+      Swal.fire({
+        icon: "success",
+        title: "เพิ่มข้อมูลสำเร็จ",
+        timer: 1500,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Button
@@ -55,63 +71,65 @@ function AddDebtor() {
         เพิ่มข้อมูลลูกหนี้
       </Button>
       <Modal size={"lg"} title="เพิ่มข้อมูลลูกหนี้" opened={opened} onClose={close}>
-        <SimpleGrid cols={2}>
-          <TextInput type="date" label="วัน เดือน ปี" />
-          <TextInput type="date" label="วันครบกำหนด" />
-        </SimpleGrid>
+        <form onSubmit={form.onSubmit((val) => Submit(val))}>
+          <SimpleGrid cols={2}>
+            <TextInput type="date" label="วัน เดือน ปี" />
+            <TextInput type="date" label="วันครบกำหนด" />
+          </SimpleGrid>
 
-        <Select searchable={true} data={form.values.DATAEMPLOY} mt={5} label="ผู้ยืม" />
-        <Textarea autosize minRows={2} resize="vertical" label="วัตถุประสงค์การยืม" />
-        <SimpleGrid cols={2}>
-          <NumberInput
-            suffix=" ฿"
-            thousandSeparator
-            defaultValue={0.00}
-            decimalScale={2}
-            fixedDecimalScale
-            label="จำนวนเงินค้าง"
-            hideControls
-          />
-          <NumberInput
-          defaultValue={0.00}
-            thousandSeparator
-            suffix=" ฿"
-            hideControls
-            decimalScale={2}
-            fixedDecimalScale
-            label="จำนวนเงินค้างคงเหลือ"
-          />
-        </SimpleGrid>
-        <TextInput mt={5} label="ใบยืมที่" />
-        <Textarea autosize minRows={2} resize="vertical" label="หมายเหตุ" />
-        <SimpleGrid cols={2}>
-          <Select
-            mt={5}
-            data={[
-              {
-                label: "ทุกๆ 1 วัน",
-                value: "1",
-              },
-              {
-                label: "ทุกๆ 7 วัน",
-                value: "2",
-              },
-              {
-                label: "ทุกๆ 15 วัน",
-                value: "3",
-              },
-              {
-                label: "ทุกๆ 30 วัน",
-                value: "4",
-              },
-            ]}
-            label="รอบการแจ้งเตือน"
-          />
-        </SimpleGrid>
-        <Divider size={"md"} variant="dashed" my={15} />
-        <Button color="var(--primary)" fullWidth mt={5}>
-          บันทึก
-        </Button>
+          <Select searchable={true} data={form.values.DATAEMPLOY} mt={5} label="ผู้ยืม" />
+          <Textarea autosize minRows={2} resize="vertical" label="วัตถุประสงค์การยืม" />
+          <SimpleGrid cols={2}>
+            <NumberInput
+              suffix=" ฿"
+              thousandSeparator
+              defaultValue={0.0}
+              decimalScale={2}
+              fixedDecimalScale
+              label="จำนวนเงินค้าง"
+              hideControls
+            />
+            <NumberInput
+              defaultValue={0.0}
+              thousandSeparator
+              suffix=" ฿"
+              hideControls
+              decimalScale={2}
+              fixedDecimalScale
+              label="จำนวนเงินค้างคงเหลือ"
+            />
+          </SimpleGrid>
+          <TextInput mt={5} label="ใบยืมที่" />
+          <Textarea autosize minRows={2} resize="vertical" label="หมายเหตุ" />
+          <SimpleGrid cols={2}>
+            <Select
+              mt={5}
+              data={[
+                {
+                  label: "ทุกๆ 1 วัน",
+                  value: "1",
+                },
+                {
+                  label: "ทุกๆ 7 วัน",
+                  value: "2",
+                },
+                {
+                  label: "ทุกๆ 15 วัน",
+                  value: "3",
+                },
+                {
+                  label: "ทุกๆ 30 วัน",
+                  value: "4",
+                },
+              ]}
+              label="รอบการแจ้งเตือน"
+            />
+          </SimpleGrid>
+          <Divider size={"md"} variant="dashed" my={15} />
+          <Button type="submit" color="var(--primary)" fullWidth mt={5}>
+            บันทึก
+          </Button>
+        </form>
       </Modal>
     </>
   );
