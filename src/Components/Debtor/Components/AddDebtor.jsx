@@ -11,6 +11,7 @@ import {
 import { isNotEmpty, useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import axios from "axios";
+import { API } from "../../Config/ConfigApi";
 // import Swal from "sweetalert2";
 
 function AddDebtor() {
@@ -29,6 +30,7 @@ function AddDebtor() {
       DEBTOR_TYPENOTIFY: "", //ประเภทระยะเวลาการแจ้งเตือน
     },
     validate: {
+      DEBTOR_CITIZEN: isNotEmpty("กรุณากรอกข้อมูล"),
       DEBTOR_DATE: isNotEmpty("กรุณากรอกข้อมูล"),
       DEBTOR_DATEEND: isNotEmpty("กรุณากรอกข้อมูล"),
       DEBTOR_PURPOSE: isNotEmpty("กรุณากรอกข้อมูล"),
@@ -58,6 +60,20 @@ function AddDebtor() {
   const Submit = async (data) => {
     try {
       console.log(data);
+      const fetch = await axios.post(API + "/Debtor/AddDebtor", {
+        DEBTOR_CITIZEN: data.DEBTOR_CITIZEN,
+        DEBTOR_DATE: data.DEBTOR_DATE,
+        DEBTOR_DATEEND: data.DEBTOR_DATEEND,
+        DEBTOR_PURPOSE: data.DEBTOR_PURPOSE,
+        DEBTOR_AMOUNT: data.DEBTOR_AMOUNT,
+        DEBTOR_TOTAL: data.DEBTOR_TOTAL,
+        DEBTOR_BILL: data.DEBTOR_BILL,
+        DEBTOR_NOTE: data.DEBTOR_NOTE,
+        DEBTOR_NEXTNOTIFY: data.DEBTOR_NEXTNOTIFY,
+        DEBTOR_STATUS_NOTIFY: data.DEBTOR_STATUS_NOTIFY,
+        DEBTOR_TYPENOTIFY: data.DEBTOR_TYPENOTIFY,
+      });
+      const response = await fetch.data;
       // Swal.fire({
       //   icon: "success",
       //   title: "เพิ่มข้อมูลสำเร็จ",
