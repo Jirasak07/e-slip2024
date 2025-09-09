@@ -1,6 +1,7 @@
 import {
   Button,
   Divider,
+  LoadingOverlay,
   Modal,
   NumberInput,
   Select,
@@ -12,14 +13,16 @@ import { isNotEmpty, useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import axios from "axios";
 import { API } from "../../Config/ConfigApi";
-// import Swal from "sweetalert2";
+import Swal from "sweetalert2";
+import { useState } from "react";
 
-function AddDebtor() {
+function AddDebtor({FN}) {
   const [opened, { open, close }] = useDisclosure();
   const form = useForm({
     initialValues: {
       DATAEMPLOY: [],
       DEBTOR_CITIZEN: "", //เลขบัตรผู้ยืม
+      DEBTOR_FISICALYEAR: "", //ปีงบประมาณ
       DEBTOR_DATE: "", //วัน เดือน ปี ยืม
       DEBTOR_DATEEND: "", //วัน เดือน ปี ครบกำหนด
       DEBTOR_PURPOSE: "", //วัตถุประสงค์การยืม
@@ -31,6 +34,7 @@ function AddDebtor() {
     },
     validate: {
       DEBTOR_CITIZEN: isNotEmpty("กรุณากรอกข้อมูล"),
+      DEBTOR_FISICALYEAR: isNotEmpty("กรุณากรอกข้อมูล"),
       DEBTOR_DATE: isNotEmpty("กรุณากรอกข้อมูล"),
       DEBTOR_DATEEND: isNotEmpty("กรุณากรอกข้อมูล"),
       DEBTOR_PURPOSE: isNotEmpty("กรุณากรอกข้อมูล"),
@@ -62,6 +66,7 @@ function AddDebtor() {
       console.log(data);
       const fetch = await axios.post(API + "/Debtor/AddDebtor", {
         DEBTOR_CITIZEN: data.DEBTOR_CITIZEN,
+        DEBTOR_FISICALYEAR: data.DEBTOR_FISICALYEAR,
         DEBTOR_DATE: data.DEBTOR_DATE,
         DEBTOR_DATEEND: data.DEBTOR_DATEEND,
         DEBTOR_PURPOSE: data.DEBTOR_PURPOSE,
@@ -69,22 +74,41 @@ function AddDebtor() {
         DEBTOR_TOTAL: data.DEBTOR_TOTAL,
         DEBTOR_BILL: data.DEBTOR_BILL,
         DEBTOR_NOTE: data.DEBTOR_NOTE,
-        DEBTOR_NEXTNOTIFY: data.DEBTOR_NEXTNOTIFY,
-        DEBTOR_STATUS_NOTIFY: data.DEBTOR_STATUS_NOTIFY,
+        // DEBTOR_NEXTNOTIFY: data.DEBTOR_NEXTNOTIFY,
+        // DEBTOR_STATUS_NOTIFY: data.DEBTOR_STATUS_NOTIFY,
         DEBTOR_TYPENOTIFY: data.DEBTOR_TYPENOTIFY,
       });
       const response = await fetch.data;
-      // Swal.fire({
-      //   icon: "success",
-      //   title: "เพิ่มข้อมูลสำเร็จ",
-      //   timer: 1500,
-      //   timerProgressBar: true,
-      //   showConfirmButton: false,
-      // });
+      if (response === "success") {
+        Swal.fire({
+          icon: "success",
+          title: "เพิ่มข้อมูลสำเร็จ",
+          timer: 1500,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        }).then((res)=>{
+
+          setLoadingSubmit(false);
+          close();
+          console.log(res)
+          FN()
+
+        })
+      } else if (response === "copy") {
+        Swal.fire({
+          icon: "info",
+          title: "เพิ่มข้อมูลไม่สำเร็จ",
+          text: "มีข้อมูลรายการนี้ในระบบแล้ว",
+          timer: 1500,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      }
     } catch (error) {
       console.log(error);
     }
   };
+  const [LoadingSubmit, setLoadingSubmit] = useState(false);
   return (
     <>
       <Button
@@ -96,7 +120,18 @@ function AddDebtor() {
         เพิ่มข้อมูลลูกหนี้
       </Button>
       <Modal size={"lg"} title="เพิ่มข้อมูลลูกหนี้" opened={opened} onClose={close}>
-        <form onSubmit={form.onSubmit((val) => Submit(val))}>
+        <LoadingOverlay
+          visible={LoadingSubmit}
+          pos={"fixed"}
+          h={"100vh"}
+          loaderProps={{ type: "dots" }}
+        />
+        <form
+          onSubmit={form.onSubmit((val) => {
+            setLoadingSubmit(true);
+            Submit(val);
+          })}
+        >
           <SimpleGrid cols={2}>
             <TextInput type="date" label="วัน เดือน ปี" {...form.getInputProps("DEBTOR_DATE")} />
             <TextInput type="date" label="วันครบกำหนด" {...form.getInputProps("DEBTOR_DATEEND")} />
@@ -138,12 +173,22 @@ function AddDebtor() {
             />
           </SimpleGrid>
           <SimpleGrid cols={2}>
-            <NumberInput
-              mt={5}
-              label="ใบยืมที่"
-              hideControls
-              {...form.getInputProps("DEBTOR_BILL")}
-            />
+            <SimpleGrid cols={2}>
+              <NumberInput
+                mt={5}
+                hideControls
+                label="ปีงบประมาณ"
+                maxLength={4}
+                {...form.getInputProps("DEBTOR_FISICALYEAR")}
+              />
+              <NumberInput
+                mt={5}
+                label="ใบยืมที่"
+                hideControls
+                {...form.getInputProps("DEBTOR_BILL")}
+              />
+            </SimpleGrid>
+
             <Select
               {...form.getInputProps("DEBTOR_TYPENOTIFY")}
               mt={5}

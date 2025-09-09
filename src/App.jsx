@@ -17,7 +17,6 @@ import Reportexpenditure from "./Components/menu-salary/Expenditure/Reportexpend
 import Reportrevenue from "./Components/menu-salary/Expenditure/Reportrevenue";
 import Reportipay from "./Components/menu-salary/Expenditure/Reportipay";
 import Uploadsalary from "./Components/menu-salary/Salary/Uploadsalary";
-import FormKTB from "./Components/ManageUser/KtbCoperate/FormKTB";
 
 import User from "./Components/Publicc-user/User";
 import Reporthistoryprint from "./Components/menu-salary/Expenditure/Reporthistoryprint";
