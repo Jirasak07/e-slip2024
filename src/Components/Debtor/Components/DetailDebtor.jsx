@@ -1,6 +1,8 @@
 import { ActionIcon, Divider, Flex, Modal, Paper, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconEye } from "@tabler/icons-react";
+import axios from "axios";
+import { API } from "../../Config/ConfigApi";
 
 function DetailDebtor({ DEBTOR_ID }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -8,6 +10,9 @@ function DetailDebtor({ DEBTOR_ID }) {
     try {
       open();
       // console.log(object)
+      const fetch = await axios.post(API + "/Debtor", {
+        DEBTOR_ID: DEBTOR_ID,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -36,11 +41,19 @@ function DetailDebtor({ DEBTOR_ID }) {
           <Text>วันครบกำหนด : 20/01/2025</Text>
           <Text>จำนวนเงินค้าง : 32,210.00</Text>
           <Text>จำนวนเงินค้างคงเหลือ : 32,210.00</Text>
-         <Divider variant="dashed" my={5} size={"sm"} />
+          <Divider variant="dashed" my={5} size={"sm"} />
           <Flex>
             <Text mx={"auto"}>วัตถุประสงค์การยืม</Text>
           </Flex>
-          <Text>วัตถุประสงค์การยืม</Text>
+          <Text>-</Text>
+          <Flex>
+            <Text mx={"auto"}>หมายเหตุ</Text>
+          </Flex>
+          <Text>-</Text>
+          <Divider variant="dashed" my={5} size={"sm"} />
+          <Text>รอบการแจ้งเตือน : ทุก ๆ 1 วัน</Text>
+          <Text>การแจ้งเตือนครั้งถัดไป : 11/01/2025</Text>
+          <Text>สถานะการแจ้งเตือน : ปิดใช้งาน</Text>
         </Paper>
       </Modal>
     </>
