@@ -1,18 +1,53 @@
-import { ActionIcon, Divider, Flex, Modal, Paper, Text } from "@mantine/core";
+import {
+  ActionIcon,
+  Divider,
+  Flex,
+  Modal,
+  NumberFormatter,
+  Paper,
+  Text,
+  Textarea,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconEye } from "@tabler/icons-react";
 import axios from "axios";
 import { API } from "../../Config/ConfigApi";
+import { useState } from "react";
 
 function DetailDebtor({ DEBTOR_ID }) {
+  const typenotice = [
+    {
+      label: "ทุกๆ 1 วัน",
+      value: "1",
+    },
+    {
+      label: "ทุกๆ 7 วัน",
+      value: "2",
+    },
+    {
+      label: "ทุกๆ 15 วัน",
+      value: "3",
+    },
+    {
+      label: "ทุกๆ 30 วัน",
+      value: "4",
+    },
+  ];
   const [opened, { open, close }] = useDisclosure(false);
+  const [DataDebtor, setDataDebtor] = useState(null);
   const OpenDetail = async () => {
     try {
       open();
-      // console.log(object)
-      const fetch = await axios.post(API + "/Debtor", {
+      const fetch = await axios.post(API + "/Debtor/DetailDebtor", {
         DEBTOR_ID: DEBTOR_ID,
       });
+      const response = await fetch.data;
+      console.log(response);
+      if (response.length !== 0) {
+        setDataDebtor(response);
+      } else {
+        setDataDebtor(null);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -29,32 +64,62 @@ function DetailDebtor({ DEBTOR_ID }) {
         <IconEye />
       </ActionIcon>
       <Modal title="ข้อมูลลูกหนี้เงินยืมนอกงบประมาณ" opened={opened} onClose={close}>
-        <Paper>
-          <Text fw={600}>ผู้ยืม</Text>
-          <Text>นายจิรศักดิ์ สิงหบุตร</Text>
-        </Paper>
-        <Divider variant="dashed" my={5} size={"sm"} />
-        <Paper>
-          <Text fw={600}>รายละเอียด</Text>
-          <Text>ใบยืมเลขที่ : 12</Text>
-          <Text>วันที่ยืม : 11/01/2025 </Text>
-          <Text>วันครบกำหนด : 20/01/2025</Text>
-          <Text>จำนวนเงินค้าง : 32,210.00</Text>
-          <Text>จำนวนเงินค้างคงเหลือ : 32,210.00</Text>
-          <Divider variant="dashed" my={5} size={"sm"} />
-          <Flex>
-            <Text mx={"auto"}>วัตถุประสงค์การยืม</Text>
-          </Flex>
-          <Text>-</Text>
-          <Flex>
-            <Text mx={"auto"}>หมายเหตุ</Text>
-          </Flex>
-          <Text>-</Text>
-          <Divider variant="dashed" my={5} size={"sm"} />
-          <Text>รอบการแจ้งเตือน : ทุก ๆ 1 วัน</Text>
-          <Text>การแจ้งเตือนครั้งถัดไป : 11/01/2025</Text>
-          <Text>สถานะการแจ้งเตือน : ปิดใช้งาน</Text>
-        </Paper>
+        {DataDebtor !== null && (
+          <>
+            <Paper>
+              <Text fw={600}>ผู้ยืม</Text>
+              <Text>
+                {DataDebtor[0].PRES !== null ? DataDebtor[0].PRES : DataDebtor[0].PRE}
+                {DataDebtor[0].DEBTOR_NAME}
+              </Text>
+            </Paper>
+            <Divider variant="dashed" my={5} size={"sm"} />
+            <Paper>
+              <Text fw={600}>รายละเอียด</Text>
+              <Text>ใบยืมเลขที่ : {DataDebtor[0].DEBTOR_BILL}</Text>
+              <Text>วันที่ยืม : {DataDebtor[0].DEBTOR_DATE} </Text>
+              <Text>วันครบกำหนด : {DataDebtor[0].DEBTOR_DATEEND}</Text>
+              <Text>
+                จำนวนเงินค้าง :
+                <NumberFormatter
+                  value={DataDebtor[0].DEBTOR_AMOUNT}
+                  thousandSeparator
+                  decimalScale={2}
+                  fixedDecimalScale
+                />
+              </Text>
+              <Text>
+                จำนวนเงินค้างคงเหลือ :
+                <NumberFormatter
+                  value={DataDebtor[0].DEBTOR_TOTAL}
+                  thousandSeparator
+                  decimalScale={2}
+                  fixedDecimalScale
+                />
+              </Text>
+              <Divider variant="dashed" my={5} size={"sm"} />
+              <Flex>
+                <Text mx={"auto"}>วัตถุประสงค์การยืม</Text>
+              </Flex>
+              <Textarea readOnly value={DataDebtor[0].DEBTOR_PURPOSE} />
+              <Flex>
+                <Text mx={"auto"}>หมายเหตุ</Text>
+              </Flex>
+              <Textarea readOnly value={DataDebtor[0].DEBTOR_NOTE} />
+              <Divider variant="dashed" my={5} size={"sm"} />
+              <Text>
+                รอบการแจ้งเตือน :
+                {typenotice.find((val) => val.value === DataDebtor[0].DEBTOR_TYPENOTIFY).label}
+              </Text>
+              <Text>การแจ้งเตือนครั้งถัดไป : {DataDebtor[0].DEBTOR_NEXTNOTIFY}</Text>
+              <Text>
+                สถานะการแจ้งเตือน :
+                {DataDebtor[0].DEBTOR_STATUS_NOTIFY === "1" ? "เปิดใช้งาน" : "ปิดใช้งาน"}
+                
+              </Text>
+            </Paper>
+          </>
+        )}
       </Modal>
     </>
   );

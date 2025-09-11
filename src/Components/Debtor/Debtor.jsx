@@ -90,7 +90,7 @@ function Debtor() {
             <>
               <Flex gap={5}>
                 <DetailDebtor DEBTOR_ID={i.DEBTOR_ID} />
-                <EditDebtor />
+                <EditDebtor FN={FN} DEBTOR_ID={i.DEBTOR_ID} />
                 <ActionIcon
                   onClick={() => {
                     Swal.fire({
